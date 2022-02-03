@@ -1,0 +1,1776 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/Appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/gradient"
+            android:elevation="10dp">
+
+            <TextView
+                android:id="@+id/lblheader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="BE Survey"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold"
+
+                />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/Appbar"
+        android:fillViewport="true"
+        android:fadeScrollbars="false">
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:elevation="10dp"
+                app:cardCornerRadius="5dp"
+                app:cardUseCompatPadding="true"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etFarmerName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="FARMER'S NAME *"
+                            android:inputType="text"
+                            android:maxLength="50" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etMobileNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="MOBILE NUMBER *"
+                            android:inputType="number"
+                            android:maxLength="10" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="STATE *"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month5"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+
+                            android:id="@+id/spState"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="DISTRICT *"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month6"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+
+
+                            android:id="@+id/spDist"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="TALUKA*"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spTaluka"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <!--                    <TextView-->
+                    <!--                        android:layout_width="wrap_content"-->
+
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_gravity="center_vertical"-->
+                    <!--                        android:layout_marginTop="2dp"-->
+                    <!--                        android:text="VILLAGE *"-->
+                    <!--                        android:textColor="@color/QRCodeBlackColor"-->
+                    <!--                        android:textStyle="bold" />-->
+
+                    <!--                    <android.support.v7.widget.CardView-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="40dp"-->
+
+                    <!--                        android:layout_marginLeft="1dp"-->
+                    <!--                        android:layout_marginTop="5dp"-->
+                    <!--                        android:layout_marginRight="1dp"-->
+                    <!--                        android:layout_marginBottom="5dp"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:elevation="1dp"-->
+                    <!--                        android:innerRadius="0dp"-->
+                    <!--                        android:shape="ring"-->
+                    <!--                        android:thicknessRatio="1.9"-->
+                    <!--                        app:cardCornerRadius="20dp"-->
+
+                    <!--                        >-->
+
+                    <!--                        <geotagging.mahyco.helper.SearchableSpinner-->
+                    <!--                            android:id="@+id/spVillage"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="40dp"-->
+
+                    <!--                            />-->
+                    <!--                    </android.support.v7.widget.CardView>-->
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/etVillage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:ems="10"
+                            android:hint="VILLAGE *"
+                            android:maxLength="20"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+
+                        <TextView
+                            android:id="@+id/txtMobileConfirmation"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="2.5"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:text="1.Do you see Mahyco products on retail shelf?" />
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="2dp"
+                            android:layout_weight="0.5"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="10dp">
+                            app:cardCornerRadius="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.5"
+                                    android:text="NO"
+                                    android:textColor="@color/QRCodeBlackColor" />
+
+                                <Switch
+                                    android:id="@+id/switchYNchoice"
+                                    android:layout_width="2dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:checked="false"
+                                    android:textColor="@color/QRCodeBlackColor"
+                                    android:textOff="NO"
+                                    android:textOn="YES" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="0.5"
+                                    android:text="YES"
+
+                                    android:textColor="@color/QRCodeBlackColor" />
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/titilliumwebbold"
+                        android:text="2.Rate the factors for seed purchase decision in the order of preference? *"
+                        android:textColor="@color/QRCodeBlackColor" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="end"
+                        android:layout_marginRight="5dp"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/titilliumwebsemibold"
+                        android:text="(Please swipe ☆ to rate)"
+                        android:textColor="@color/DarkGrey" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+
+                            <!--                    <RadioGroup-->
+                            <!--                        android:id="@+id/radGroupFactors"-->
+                            <!--                        android:layout_width="match_parent"-->
+                            <!--                        android:layout_height="35dp"-->
+                            <!--                        android:layout_marginTop="10dp"-->
+                            <!--                        android:orientation="horizontal"-->
+                            <!--                        android:weightSum="4">-->
+
+
+                            <!--                        <RadioButton-->
+                            <!--                            android:id="@+id/radYield"-->
+                            <!--                            android:layout_width="0dp"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:layout_weight="1"-->
+                            <!--                            android:text="Yield"-->
+
+                            <!--                            />-->
+
+                            <!--                        <RadioButton-->
+                            <!--                            android:id="@+id/radPrice"-->
+                            <!--                            android:layout_width="0dp"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:layout_weight="1"-->
+                            <!--                            android:text="Price"-->
+
+                            <!--                            />-->
+
+                            <!--                        <RadioButton-->
+                            <!--                            android:id="@+id/radQuality"-->
+                            <!--                            android:layout_width="0dp"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:layout_weight="1"-->
+                            <!--                            android:text="Quality"-->
+
+                            <!--                            />-->
+
+
+                            <!--                        <RadioButton-->
+                            <!--                            android:id="@+id/radOther"-->
+                            <!--                            android:layout_width="0dp"-->
+                            <!--                            android:layout_height="wrap_content"-->
+                            <!--                            android:layout_weight="1"-->
+                            <!--                            android:text="Others" />-->
+
+
+                            <!--                    </RadioGroup>-->
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:weightSum="2"
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:layout_marginTop="5dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_weight="1"
+                                    android:weightSum="1">
+
+                                    <TextView
+                                        android:id="@+id/lblYield"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Yield"
+                                        android:layout_marginRight="8dp"
+                                        android:fontFamily="@font/titilliumwebbold"
+                                        android:layout_marginTop="3dp"
+                                        android:textColor="@color/QRCodeBlackColor" />
+
+
+                                    <RatingBar
+                                        android:id="@+id/ratingYield"
+                                        android:layout_width="240dp"
+                                        android:layout_height="wrap_content"
+                                        android:scaleX=".5"
+                                        android:stepSize="1"
+                                        android:scaleY=".5"
+                                        android:max="5"
+                                        android:numStars="5"
+                                        android:transformPivotX="-10dp"
+                                        android:transformPivotY="0dp" />
+
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_marginTop="5dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_weight="1"
+                                    android:weightSum="1">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Quality"
+                                        android:layout_marginLeft="3dp"
+                                        android:layout_marginRight="5dp"
+                                        android:fontFamily="@font/titilliumwebbold"
+                                        android:layout_marginTop="3dp"
+                                        android:textColor="@color/QRCodeBlackColor" />
+
+
+                                    <RatingBar
+                                        android:id="@+id/ratingQuality"
+                                        android:layout_width="240dp"
+                                        android:layout_height="wrap_content"
+                                        android:scaleX=".5"
+                                        android:stepSize="1"
+                                        android:scaleY=".5"
+                                        android:max="5"
+                                        android:numStars="5"
+                                        android:transformPivotX="-10dp"
+                                        android:transformPivotY="0dp" />
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:weightSum="2"
+                                android:orientation="horizontal">
+
+
+                                <LinearLayout
+                                    android:layout_marginTop="5dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_weight="1"
+                                    android:weightSum="1">
+
+                                    <TextView
+                                        android:id="@+id/lblPrice"
+                                        android:layout_toRightOf="@+id/ratingYield"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Price"
+                                        android:layout_marginRight="8dp"
+                                        android:fontFamily="@font/titilliumwebbold"
+                                        android:layout_marginTop="3dp"
+                                        android:textColor="@color/QRCodeBlackColor" />
+
+
+                                    <RatingBar
+                                        android:id="@+id/ratingPrice"
+                                        android:layout_width="240dp"
+                                        android:layout_height="wrap_content"
+                                        android:scaleX=".5"
+                                        android:stepSize="1"
+                                        android:scaleY=".5"
+                                        android:max="5"
+                                        android:numStars="5"
+                                        android:transformPivotX="-10dp"
+                                        android:transformPivotY="0dp" />
+
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:layout_marginTop="5dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:layout_weight="1"
+                                    android:weightSum="1">
+
+                                    <TextView
+                                        android:layout_toRightOf="@+id/ratingQuality"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="Others"
+                                        android:layout_marginLeft="3dp"
+                                        android:layout_marginRight="5dp"
+                                        android:fontFamily="@font/titilliumwebbold"
+                                        android:layout_marginTop="3dp"
+                                        android:textColor="@color/QRCodeBlackColor" />
+
+
+                                    <RatingBar
+                                        android:id="@+id/ratingOthers"
+                                        android:layout_width="240dp"
+                                        android:layout_height="wrap_content"
+                                        android:scaleX=".5"
+                                        android:stepSize="1"
+                                        android:scaleY=".5"
+                                        android:max="5"
+                                        android:numStars="5"
+                                        android:transformPivotX="-10dp"
+                                        android:transformPivotY="0dp" />
+
+                                </LinearLayout>
+                            </LinearLayout>
+
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/titilliumwebbold"
+                        android:text="3.From where do you procure/buy the following products? * "
+                        android:textColor="@color/QRCodeBlackColor" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spFromWhere"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/tiotherSpecifyProcure"
+                        android:visibility="gone"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/etotherSpecifyProcure"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Specify Other*"
+                            android:inputType="textCapWords"
+                            android:maxLength="50"
+                            android:textAllCaps="true" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/titilliumwebbold"
+                        android:text="4.How could we improve (product or company name) to better meet your needs?  *"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etImprovements"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint=""
+                            android:inputType="textCapWords"
+                            android:maxLength="50"
+                            android:textAllCaps="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="5.Which 3 features are most important to you?  *"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/titilliumwebbold"
+
+                        android:textColor="@color/QRCodeBlackColor" />
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp">
+
+                            <EditText
+                                android:id="@+id/etfeatures"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint=""
+                                android:inputType="textCapWords"
+                                android:maxLength="50"
+                                android:textAllCaps="true" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--                        <EditText-->
+                        <!--                            android:id="@+id/etfeature12"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:ems="10"-->
+                        <!--                            android:hint="Feature 2 *"-->
+                        <!--                            android:inputType="textCapWords"-->
+                        <!--                            android:maxLength="50"-->
+                        <!--                            android:textAllCaps="true" />-->
+
+                        <!--                        <EditText-->
+                        <!--                            android:id="@+id/etfeature3"-->
+                        <!--                            android:layout_width="match_parent"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:ems="10"-->
+                        <!--                            android:hint="Feature 3 *"-->
+                        <!--                            android:inputType="textCapWords"-->
+                        <!--                            android:maxLength="50"-->
+                        <!--                            android:textAllCaps="true" />-->
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/titilliumwebbold"
+
+                        android:text="6.How likely are you to buy again from us? *"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/splikelyTobuy"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp" />
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:weightSum="3">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="2.5"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textAllCaps="true"
+                            android:text="7.Have you recommended (product or company name) to anyone? If so, how did you describe it? *"
+                            android:textColor="@color/QRCodeBlackColor" />
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="0.5"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="5dp"
+                                    android:layout_weight="0.5"
+                                    android:text="NO"
+                                    android:textColor="@color/QRCodeBlackColor" />
+
+                                <Switch
+                                    android:id="@+id/switchYNRecommandation"
+                                    android:layout_width="2dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:checked="false"
+                                    android:textColor="@color/QRCodeBlackColor"
+                                    android:textOff="NO"
+                                    android:textOn="YES" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="0.5"
+                                    android:text="YES"
+
+                                    android:textColor="@color/QRCodeBlackColor" />
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:id="@+id/tiRecommandDiscription"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        android:layout_marginTop="10dp">
+
+                        <EditText
+                            android:id="@+id/etRecommendDescription"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="Recommend Description"
+                            android:maxLength="100" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="3dp"
+                        android:fontFamily="@font/titilliumwebbold"
+                        android:textAllCaps="true"
+                        android:text="8.How responsive have we been to your questions and concerns about our products? *"
+                        android:textColor="@color/QRCodeBlackColor" />
+
+
+<!--                    <RadioGroup-->
+<!--                        android:layout_marginTop="5dp"-->
+<!--                        android:id="@+id/radGroupResponsive"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_below="@+id/line"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:weightSum="5">-->
+
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radResponsive1"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="1"-->
+
+<!--                            />-->
+
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radResponsive2"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="2"-->
+
+<!--                            />-->
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radResponsive3"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="3"-->
+
+<!--                            />-->
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radResponsive4"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="4"-->
+
+<!--                            />-->
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radResponsive5"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="5"-->
+
+<!--                            />-->
+<!--                    </RadioGroup>-->
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spResponsive"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp" />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/titilliumwebbold"
+                        android:text="9.The TBM/MDO always makes sure that promises and commitments are met  *"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor" />
+
+
+<!--                    <RadioGroup-->
+<!--                        android:id="@+id/radGroupTBMMDO"-->
+<!--                        android:layout_marginTop="5dp"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_below="@+id/line"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:weightSum="5">-->
+
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radCommitments1"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="1"-->
+
+<!--                            />-->
+
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radCommitments2"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="2"-->
+
+<!--                            />-->
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radCommitments3"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="3"-->
+
+<!--                            />-->
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radCommitments4"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="4"-->
+
+<!--                            />-->
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radCommitments5"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="5"-->
+
+<!--                            />-->
+<!--                    </RadioGroup>-->
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spCommitments"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="15dp"
+                        android:text="10.Do you find the meetings organized by the company satisfactory?  *"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/titilliumwebbold"
+                        android:textColor="@color/QRCodeBlackColor" />
+
+
+<!--                    <RadioGroup-->
+<!--                        android:id="@+id/radGroupMeetings"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_below="@+id/line"-->
+<!--                        android:layout_marginTop="5dp"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:weightSum="5">-->
+
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radMeetings1"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="1"-->
+
+<!--                            />-->
+
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radMeetings2"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="2"-->
+
+<!--                            />-->
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radMeetings3"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="3"-->
+
+<!--                            />-->
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radMeetings4"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="4"-->
+
+<!--                            />-->
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radMeetings5"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="5"-->
+
+<!--                            />-->
+<!--                    </RadioGroup>-->
+
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spMeetings"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp" />
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_weight="2.5"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textAllCaps="true"
+                            android:text="11.Did the company staff visit you for promotion of product before the season?* " />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="2dp"
+                            android:layout_weight=".5"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.5"
+                                    android:paddingLeft="5dp"
+                                    android:text="NO"
+                                    android:textColor="@color/QRCodeBlackColor" />
+
+                                <Switch
+                                    android:id="@+id/switchCompanyVisit"
+                                    android:layout_width="2dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:checked="false"
+                                    android:textColor="@color/QRCodeBlackColor"
+                                    android:textOff="NO"
+                                    android:textOn="YES" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="0.5"
+                                    android:text="YES"
+
+                                    android:textColor="@color/QRCodeBlackColor" />
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="18dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="2.5"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textAllCaps="true"
+                            android:text="12.Are you satisfied with the last season Mahyco product yield?*" />
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="2dp"
+                            android:layout_weight="0.5"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.5"
+                                    android:paddingLeft="5dp"
+                                    android:text="NO"
+                                    android:textColor="@color/QRCodeBlackColor" />
+
+                                <Switch
+                                    android:id="@+id/switchSatisfied"
+                                    android:layout_width="2dp"
+                                    android:layout_height="25dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:checked="false"
+                                    android:textColor="@color/QRCodeBlackColor"
+                                    android:textOff="NO"
+                                    android:textOn="YES" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="0.5"
+                                    android:text="YES"
+
+                                    android:textColor="@color/QRCodeBlackColor" />
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="18dp"
+                        android:text="13.What is the primary benefit that you have received from our products? *"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etPrimeryBenifits"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint=""
+                            android:inputType="textCapWords"
+                            android:maxLength="50" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+<!--                    <android.support.v7.widget.CardView-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="40dp"-->
+<!--                        android:layout_marginLeft="1dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:layout_marginRight="1dp"-->
+<!--                        android:layout_marginBottom="5dp"-->
+<!--                        android:layout_weight="1"-->
+<!--                        android:elevation="1dp"-->
+<!--                        android:innerRadius="0dp"-->
+<!--                        android:shape="ring"-->
+<!--                        android:thicknessRatio="1.9"-->
+<!--                        app:cardCornerRadius="20dp">-->
+
+<!--                        <geotagging.mahyco.app.MultiSelectionSpinner-->
+<!--                            android:id="@+id/spPrimaryBenefit"-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="40dp" />-->
+<!--                    </android.support.v7.widget.CardView>-->
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="15dp"
+                        android:text="14.Any suggestion for betterment of Mahyco products? *"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etSuggestions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint=""
+                            android:inputType="textCapWords"
+                            android:maxLength="50" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="15.How did you come to know about our products? *"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month7"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spKnowAboutUs"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <!--                    <RadioGroup-->
+                    <!--                        android:id="@+id/radGroupKnowAbout"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_below="@+id/line"-->
+                    <!--                        android:layout_marginLeft="20dp"-->
+                    <!--                        android:layout_marginTop="10dp"-->
+                    <!--                        android:layout_marginRight="20dp"-->
+                    <!--                        android:layout_marginBottom="10dp"-->
+                    <!--                        android:orientation="vertical"-->
+                    <!--                        android:weightSum="6">-->
+
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radCMSKnow"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Co-operative Marketing societies (CMS)"-->
+
+                    <!--                            />-->
+
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radPACSKnow"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Primary Agricultural Cooperative Societies (PACS)"-->
+
+                    <!--                            />-->
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radadvertisements"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Radio/newspaper/advertisement"-->
+
+                    <!--                            />-->
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radRelatives"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Relatives/friends/neighbors"-->
+
+                    <!--                            />-->
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radCommissionAgents"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Commission agents"-->
+
+                    <!--                            />-->
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radEmployees"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Employees of the fed"-->
+
+                    <!--                            />-->
+                    <!--                    </RadioGroup>-->
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="16.Which of the below factors affects your purchase decision? *"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month7"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spPurchaseDescision"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <!--                    <RadioGroup-->
+                    <!--                        android:id="@+id/radGroupPurchaseDecision"-->
+                    <!--                        android:layout_width="match_parent"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginLeft="20dp"-->
+                    <!--                        android:layout_marginTop="10dp"-->
+                    <!--                        android:layout_marginRight="20dp"-->
+                    <!--                        android:layout_marginBottom="10dp"-->
+                    <!--                        android:orientation="vertical"-->
+                    <!--                        android:weightSum="7">-->
+
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radFarmDemos"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Farm Demos"-->
+
+                    <!--                            />-->
+
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radReference"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Reference from friends"-->
+
+                    <!--                            />-->
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radProgressiveFarmer"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Reference from progressive farmer in the area"-->
+
+                    <!--                            />-->
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radRetailer"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Dealer or Retailer"-->
+
+                    <!--                            />-->
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radMarketing"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Marketing campaigns by Company"-->
+
+                    <!--                            />-->
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radFarmer"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Farmer meet"-->
+
+                    <!--                            />-->
+
+                    <!--                        <RadioButton-->
+                    <!--                            android:id="@+id/radNeighbour"-->
+                    <!--                            android:layout_width="wrap_content"-->
+                    <!--                            android:layout_height="0dp"-->
+                    <!--                            android:layout_weight="1"-->
+                    <!--                            android:text="Neighbour"-->
+
+                    <!--                            />-->
+                    <!--                    </RadioGroup>-->
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="17.Which other brands do you sow in field ? *"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etOtherBrandSow"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint=""
+                            android:inputType="textCapWords"
+                            android:maxLength="50" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="18.What do you like about other brands that you use? *"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etLikeAboutOtherBrands"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint=""
+                            android:inputType="textCapWords"
+                            android:maxLength="50" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="19.Compared to our competitors, how is our product quality? *"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+
+
+<!--                    <RadioGroup-->
+<!--                        android:id="@+id/radGroupComparedCompetitors"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_below="@+id/line"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        android:weightSum="5">-->
+
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radCompared1"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="1"-->
+
+<!--                            />-->
+
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radCompared2"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="2"-->
+
+<!--                            />-->
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radCompared3"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="3"-->
+
+<!--                            />-->
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radCompared4"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="4"-->
+
+<!--                            />-->
+
+<!--                        <RadioButton-->
+<!--                            android:id="@+id/radCompared5"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:text="5"-->
+
+<!--                            />-->
+<!--                    </RadioGroup>-->
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month7"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spCompared"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="20.Why did you choose our product rather than a competitor's? *"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etOurThanOthers"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint=""
+                            android:inputType="textCapWords"
+                            android:maxLength="50" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_shape"
+                        android:text="Submit"
+                        android:textColor="#fff"
+
+                        />
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/relPRogress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:visibility="gone">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMdo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:layout_centerHorizontal="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/myProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/headerAction"
+                    android:indeterminateTintMode="src_atop"
+
+                    />
+
+                <TextView
+                    android:id="@+id/myTextProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="15sp"
+                    android:layout_toRightOf="@+id/myProgress"
+                    android:background="@android:color/transparent"
+                    android:text="Uploading Data"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

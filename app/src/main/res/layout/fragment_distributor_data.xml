@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+    <!-- Scrollable Content below header and above footer -->
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/footer"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/header" >
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card_personal_info"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="15dp"
+            android:visibility="visible">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical" >
+                <TextView
+                    android:layout_marginTop="2dp"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lblgeoststus"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:textStyle="bold"
+
+                    android:text="STATE" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_month5"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:elevation="1dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9"
+                    app:cardCornerRadius="20dp">
+
+                    <myactvity.mahyco.helper.SearchableSpinner
+                        android:id="@+id/spState"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+
+                        />
+                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:textStyle="bold"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:text="DISTRICT" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_month2"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:elevation="1dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9"
+                    app:cardCornerRadius="20dp">
+
+                    <myactvity.mahyco.helper.SearchableSpinner
+                        android:id="@+id/spDist"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+
+                        />
+                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:textStyle="bold"
+
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:text="TALUKA" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_month7"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:elevation="1dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9"
+                    app:cardCornerRadius="20dp">
+
+                    <myactvity.mahyco.helper.SearchableSpinner
+                        android:id="@+id/spTaluka"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+
+                        />
+                </androidx.cardview.widget.CardView>
+                <TextView
+                    android:textStyle="bold"
+                    android:id="@+id/lblmakt"
+
+                    android:layout_marginTop="2dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:text="MARKET PLACE" />
+
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+
+                    android:id="@+id/txtmarketplace"
+                    android:maxLength="100"
+                    android:hint="TYPE HERE"
+
+                    />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_month3"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:elevation="1dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9"
+                    app:cardCornerRadius="20dp">
+
+                    <myactvity.mahyco.helper.SearchableSpinner
+                        android:id="@+id/spdistributor"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+
+                        />
+                </androidx.cardview.widget.CardView>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+
+                        android:id="@+id/txtfirmname"
+                        android:maxLength="100"
+                        android:hint="NEW DISTRIBUTOR FIRM NAME"
+                        /></com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+
+                        android:id="@+id/txtrtname"
+                        android:maxLength="100"
+                        android:hint="DISTRIBUTOR NAME"
+                        /></com.google.android.material.textfield.TextInputLayout>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal" >
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        >
+
+                        <EditText
+                            android:id="@+id/txtBirthdate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="DOB - DD/MM/YYYY"
+                            android:digits="0123456789/"
+                            android:layout_marginRight="6dp"
+                            android:focusableInTouchMode="true"
+
+
+                            />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+
+                        >
+
+                        <EditText
+                            android:id="@+id/txtAge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:inputType="number"
+                            android:hint="AGE"
+                            android:layout_marginRight="6dp"
+
+                            android:maxLength="2"
+
+                            />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        >
+
+                        <EditText
+                            android:id="@+id/txtmobile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:inputType="number"
+                            android:hint="MOBILE NUMBER"
+                            android:layout_marginLeft="6dp"
+                            android:layout_marginRight="6dp"
+
+                            android:maxLength="10"
+
+                            />
+
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="horizontal" >
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:id="@+id/txtComments"
+                        android:inputType="text"
+                        android:maxLength="50"
+                        android:hint="COMMENTS"
+                        android:layout_marginBottom="15dp"
+                        />
+                    <CheckBox
+                        android:text="GEO TAG"
+                        android:id="@+id/chktag"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/Username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"  >
+                    </CheckBox>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:layout_marginBottom="15dp"
+
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:textStyle="bold"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:text="IS HE A RETAILER AS WELL?" />
+
+                    <RadioGroup
+                        android:layout_width="wrap_content" android:orientation="horizontal"
+                        android:id="@+id/radGrp2"
+                        android:layout_height="wrap_content">
+                        <RadioButton
+                            android:id="@+id/rndYes2"
+                            android:text="YES"
+                            android:textColor="@color/Username"
+                            android:layout_marginLeft="2dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <RadioButton
+                            android:textColor="@color/Username"
+                            android:id="@+id/rndNo2"
+                            android:text="NO"
+                            android:layout_marginLeft="2dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                    </RadioGroup>
+                </LinearLayout>
+
+
+
+
+            </LinearLayout></androidx.cardview.widget.CardView>
+
+    </ScrollView>
+    <!-- Footer aligned to bottom -->
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        android:gravity="center">
+        <LinearLayout android:id="@+id/footer1" android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:orientation="horizontal"
+            android:focusable="true"  android:background="#ffffff"
+            android:focusableInTouchMode="true"
+            style="@android:style/ButtonBar">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:id="@+id/btnsave"
+                android:layout_margin="5dp"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_shape"
+                android:text="Submit"
+                android:textStyle="bold"
+                android:textSize="21sp"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</RelativeLayout>

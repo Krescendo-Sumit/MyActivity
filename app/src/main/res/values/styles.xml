@@ -1,0 +1,223 @@
+
+<resources>
+    <!-- Base application theme. -->
+    <!--  <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">   -->
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+           <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/headerlightgreen</item>
+        <item name="colorPrimaryDark">@color/headerdarkgreen</item>
+        <item name="colorAccent">@color/headerlightgreen</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="Theme.MaterialComponents.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/headerdarkgreen</item>
+        <item name="colorAccent">@color/headerlightgreen</item>
+        <item name="android:windowBackground">@color/colorPrimary</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+
+ <!--  old  -->
+    <!-- <style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">  old  -->
+    <style name="AppThemeodl" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/headerlightgreen</item>
+        <item name="colorPrimaryDark">@color/headerdarkgreen</item>
+        <item name="colorAccent">@color/headerlightgreen</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+
+    </style>
+    <style name="TextAppearance.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/QRCodeBlackColor</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColorHint">@color/QRCodeBlackColor</item>
+    </style>
+
+    <style name="TrollyTheme"  parent="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColorHint">@color/grey</item>
+    </style>
+
+    <style name="SpinnerDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:background">#38ef7d</item>
+    </style>
+
+    <style name="EditTextHint" parent="TextAppearance.AppCompat">
+        <item name="colorAccent">@android:color/black</item>
+        <item name="android:textColorHint">@color/QRCodeBlackColor</item>
+        <item name="colorControlNormal">@color/QRCodeBlackColor</item>
+        <item name="android:textSize">12sp</item>
+        <item name="colorControlActivated">@color/QRCodeBlackColor</item>
+        <item name="colorControlHighlight">@color/QRCodeBlackColor</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" >
+        <item name="android:textSize">12sp</item>
+
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" >
+        <item name="android:textSize">12sp</item>
+
+    </style>
+    <style name="error_appearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/errorColor</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+    <style name="TextAppearance.Widget.ActionBar.Title"
+        parent="@android:style/TextAppearance">
+        <item name="android:textSize">14sp</item>
+
+    </style>
+
+    <style name="AppTheme1" parent="@style/Theme.AppCompat.Light">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+        <item name="actionBarStyle">@style/MyActionBar</item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+
+        <!-- other activity and action bar styles here -->
+    </style>
+    <!-- style for the action bar backgrounds -->
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.Light.ActionBar">
+        <item name="android:titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
+        <item name="android:subtitleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
+        <item name="titleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
+        <item name="subtitleTextStyle">@style/MyTheme.ActionBar.TitleTextStyle</item>
+    </style>
+    <style name="MyTheme.ActionBar.TitleTextStyle" parent="@android:style/TextAppearance">
+        <item name="android:textSize">12sp</item>
+
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
+
+    <style name="Dialog1" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:textColorHint">@color/QRCodeBlackColor</item>
+    </style>
+
+    <style name="customRatingBar"
+        parent="android:style/Widget.Material.RatingBar">
+    </style>
+
+    <style name="Button">
+    <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="ImgButton">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!---->
+    <style name="Spinner" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
+        <item name="android:paddingStart">0dp</item>
+        <item name="android:paddingEnd">0dp</item>
+        <item name="android:textColor">@color/QRCodeBlackColor</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:textColorPrimaryInverse">@color/grey</item>
+        <item name="android:textColorSecondaryInverse">@color/grey</item>
+        <item name="android:colorControlHighlight">@color/DarkGreen</item>
+        <item name="android:colorControlActivated">@color/DarkGreen</item>
+    </style>
+
+    <style name="MyTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/colorPrimary</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="boxStrokeColor">@color/edit_text_box_border</item>
+    </style>
+
+    <style name="MyTextInputEditText" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="RatingBar1" parent="AppTheme">
+        <item name="colorControlActivated">@android:color/holo_red_dark</item>
+
+    </style>
+    <style name="RatingBar2" parent="AppTheme">
+        <item name="colorControlActivated">@android:color/holo_blue_light</item>
+
+    </style>
+    <style name="RatingBar3" parent="AppTheme">
+        <item name="colorControlActivated">@android:color/holo_green_light</item>
+
+    </style>
+    <style name="RatingBar4" parent="AppTheme">
+        <item name="colorControlActivated">@android:color/holo_orange_dark</item>
+
+    </style>
+    <style name="RatingBar5" parent="AppTheme">
+        <item name="colorControlActivated">@android:color/holo_orange_light</item>
+
+    </style>
+    <style name="RatingBar6" parent="AppTheme">
+        <item name="colorControlActivated">@android:color/holo_orange_light</item>
+        <item name="colorControlNormal">@android:color/holo_green_light</item>
+    </style>
+<!---->
+</resources>
+
+    <!--
+    <resources>
+
+
+        <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+            <item name="colorPrimary">@color/colorPrimary</item>
+            <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+            <item name="colorAccent">@color/colorAccent</item>
+
+            <item name="android:windowNoTitle">true</item>
+            <item name="android:windowFullscreen">true</item>
+
+        </style>
+
+        <style name="AppTheme.NoActionBar">
+            <item name="windowActionBar">false</item>
+            <item name="windowNoTitle">true</item>
+        </style>
+
+        <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+        <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    </resources>
+    -->

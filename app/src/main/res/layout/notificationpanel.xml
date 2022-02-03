@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_marginTop="1dp"
+    android:layout_height="match_parent" >
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:layout_marginTop="1dp"
+        android:stretchColumns="2">
+
+        <TableRow android:id="@+id/tableRow1">
+
+            <ImageView
+                android:id="@+id/imgprofile"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@drawable/appicon"
+                />
+
+            <TextView
+                android:id="@+id/txtTitle"
+                android:layout_width="120dip"
+                android:layout_height="40dp"
+                android:layout_marginBottom="2dp"
+                android:layout_span="2"
+                android:layout_marginLeft="2dp"
+                android:textSize="16sp"
+                android:textColor="@color/Lowgreen"
+                android:text="Farmer name" />
+            <TextView
+                android:id="@+id/txtdate"
+                android:layout_width="150dip"
+                android:layout_height="30dp"
+                android:layout_marginBottom="2dp"
+                android:textSize="9sp"
+                android:textColor="@color/QRCodeBlackColor"
+                android:text="date" />
+
+        </TableRow>
+
+
+
+        <TableRow android:id="@+id/tableRow4">
+
+            <TextView
+                android:id="@+id/txtMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_span="4"
+                android:text="Issue Description "
+                android:textSize="12sp" />
+
+
+
+        </TableRow>
+
+
+
+
+    </TableLayout>
+
+
+</LinearLayout>

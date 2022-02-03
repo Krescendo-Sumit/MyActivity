@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="horizontal"
+    android:id="@+id/rt1"
+    android:padding="2dip" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_margin="2dp"
+        android:layout_height="wrap_content"
+          android:weightSum="4"
+        >
+
+
+        <TextView
+
+            android:id="@+id/txtprdname"
+            android:layout_width="70dp"
+
+            android:layout_height="wrap_content"
+            android:ems="10"
+
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:hint="PRODUCT NAME "
+            android:textColor="@color/QRCodeBlackColor"
+            android:lines="4"
+            android:textSize="9sp"
+            android:textStyle="bold"
+
+            />
+        <TextView
+
+            android:id="@+id/txtprdcode"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:hint="PRODUCT NAME"
+            android:textColor="@color/QRCodeBlackColor"
+            android:textSize="9sp"
+            android:textStyle="bold"
+            android:lines="4"
+            android:visibility="invisible"
+
+            />
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:background="@color/QRCodeBlackColor" />
+        <EditText
+
+            android:id="@+id/lblreceived"
+            android:layout_width="70dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="wrap_content"
+            android:ems="10"
+
+            android:hint="PKT"
+            android:background="@drawable/mystyles"
+            android:inputType="numberDecimal"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:maxLength="6"
+            android:textSize="10sp"
+            android:lines="4"
+            />
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:background="@color/QRCodeBlackColor" />
+        <EditText
+
+            android:id="@+id/lblbal"
+            android:layout_width="70dp"
+            android:lines="4"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="PKT"
+            android:background="@drawable/mystyles"
+            android:inputType="numberDecimal"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:textSize="10sp"
+            android:gravity="center"
+            android:maxLength="6"
+            />
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:background="@color/QRCodeBlackColor" />
+        <EditText
+
+            android:id="@+id/lblsoldtofarmer"
+            android:layout_width="70dp"
+
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="PKT"
+            android:background="@drawable/mystyles"
+            android:inputType="numberDecimal"
+            android:maxLength="6"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:textSize="10sp"
+            android:lines="4"
+
+            />
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:background="@color/QRCodeBlackColor" />
+        <Button
+            android:id="@+id/btnnext"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:text="NEXT"
+            android:textSize="10sp"
+            android:textColor="#fff"
+            android:background="@color/Username"
+            />
+
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

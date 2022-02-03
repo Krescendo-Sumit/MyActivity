@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="horizontal"
+    android:id="@+id/rt1"
+    android:padding="2dip" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_margin="2dp"
+        android:layout_height="wrap_content"
+
+        >
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/txtcompname"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:hint="COMP NAME"
+            android:text=""
+            android:background="@drawable/mystyles"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            />
+
+        <TextView
+
+            android:id="@+id/lblcrop"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:hint="CROP"
+            />
+
+
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/lblproduct"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="textMultiLine"
+
+
+            android:scrollbars="vertical"
+            android:hint="PRODUCT NAME"
+            android:text=""
+            android:background="@drawable/mystyles"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            />
+
+
+        <EditText
+
+            android:id="@+id/lblVillage"
+            android:layout_width="40sp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="QTY"
+            android:background="@drawable/mystyles"
+            android:inputType="numberSigned"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:maxLength="5"
+            />
+
+
+        <EditText
+
+            android:id="@+id/lblunit"
+            android:layout_width="30sp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="UNIT"
+            android:background="@drawable/mystyles"
+            android:inputType="text"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+
+            />
+
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

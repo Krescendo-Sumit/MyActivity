@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:id="@+id/Rl1"
+    android:background="@color/lightgray"
+    android:layout_height="wrap_content" >
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+
+        android:layout_alignParentBottom="true"
+
+        android:layout_gravity="center">
+        <Button
+            android:id="@+id/dialogButtonOK"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" SUBMIT "
+            android:textColor="@color/QRCodeBlackColor"
+            android:background="@drawable/rbutton"
+            android:layout_margin="5dp"
+            />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/footer"
+        android:layout_below="@+id/header"
+        android:background="@color/lightgray"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/gradient"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/lblbook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFF"
+                    android:gravity="center"
+                    android:textSize="16sp"
+                    android:text="Product Order Details"
+                    android:textAllCaps="true"
+                    android:textStyle="bold"
+
+                    android:layout_weight="1"
+
+                    />
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/imgclose"
+                    android:gravity="center"
+                    android:src="@drawable/close"
+                    android:scaleType="fitCenter" />
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#FFF"
+                />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:id="@+id/lineartime"
+                android:layout_marginBottom="3dp"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_height="wrap_content"
+                    >
+                    <TextView
+                        android:id="@+id/lblprd"
+                        android:layout_width="140dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:text="Product Name"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        />
+                    <TextView
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:id="@+id/lblorderqty"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:text="Order Qty "
+                        android:layout_gravity="right"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+
+                        />
+                    <TextView
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:id="@+id/lbleditqty"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="#000"
+                        android:text="Edit Qty"
+                        android:layout_gravity="right"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/my_linear_layout1"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:orientation="vertical">
+                </LinearLayout>
+
+                <Spinner
+                    android:visibility="gone"
+                    android:layout_margin="5dp"
+                    android:id="@+id/spproduct"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:ems="10"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="@drawable/spinner"/>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    >
+                    <EditText
+
+                        android:layout_margin="5dp"
+                        android:id="@+id/txtStock"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:hint="Stock(In Bags)"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:background="@drawable/mystyles"/>
+                </com.google.android.material.textfield.TextInputLayout>
+                <Button
+                    android:layout_margin="5dp"
+                    android:id="@+id/btnaddmore"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:text=" Save"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:background="@drawable/rbutton"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+
+
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

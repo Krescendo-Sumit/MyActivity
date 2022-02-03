@@ -1,0 +1,372 @@
+<resources>
+    <string name="file_provider_name" translatable="false">.fileProvider</string>
+    <string name="permission_not_granted">Permissions not grated</string>
+    <string name="select_capture_image">Please select or capture image</string>
+    <string name="some_err">Some error occurred, please try again later.</string>
+
+    <string name="google_maps_key">AIzaSyAs8zWrhqs3CII8ZplyFRyX5VJPZPM0fHM</string>
+    <string name="app_name">My Activity</string>
+    <string name="title_activity_my_chat">myChat</string>
+
+    //Capture sowing and harvesting page
+    <string name="Htitle">Enter crop sowing and harvesting date</string>
+    <string name="sowing">sowing date</string>
+    <string name="Harvesting">Harvesting date</string>
+    <string name="crop">select crop</string>
+    <string name="submit">Submit</string>
+
+
+    <string name="title_activity_home">My Activity </string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="RowCrop">Row Crop </string>
+    <string name="CottonCrop">Cotton Crop </string>
+    <string name="Vegetable">Vegetable Crop </string>
+    <string name="title_activity_login">Login</string>
+    <string name="forgetpassword">Forget Password</string>
+    <string name="newRegister">New Register</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Grower Code</string>
+    <string name="prompt_password">Password </string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="spinner_Lang">Select Langauge</string>
+
+
+    <string name="title_activity_user_home">UserHome</string>
+    <string name="Headername">MAHYCO</string>
+    <string name="setpassward">Set Password</string>
+    <string name="smscode">SMS Code</string>
+    <string name="growerid">Grower ID</string>
+    <string name="name">User name</string>
+    <string name="location">Location</string>
+
+    <string name="mobile">Mobile No</string>
+    <string name="title_activity_product_category">ProductCategory</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="Choicelang">Select Langauage</string>
+    <string name="English">English</string>
+    <string name="Marathi">मराठी</string>
+    <string name="Hindi">हिंदी</string>
+    <string name="Gujrathi">ગુજરાતી</string>
+    <string name="Kannada">ಕನ್ನಡ</string>
+    <string name="Telugu">తెలుగు</string>
+    <string name="langsave">OK</string>
+    <string name="EnterMobileNo">Please Enter Mobile Number</string>
+    <string name="next">Next</string>
+    <string name="OTPverification">OTP code sended on your mobile number</string>
+    <string name="Welcome">Wel come in Mahyco Group</string>
+    <string name="openapp">Open App</string>
+
+    //Dashboard Strting
+    <string name="Seedplot">Seed Plot visit Request</string>
+    <string name="unprocessseed">Unprocessed Seed Weight</string>
+    <string name="mybank">My Bank Account Details</string>
+    <string name="mycoupon">My Coupon</string>
+    <string name="quality">Quality</string>
+    <string name="forum">Forum</string>
+    <string name="sowingandharvest">Sowing and Harvesting</string>
+
+
+    // MENU String
+    <string name="MahycoProduct">Mahyco Product</string>
+    <string name="weather">Weather</string>
+    <string name="cropguideline">Crop Guideline</string>
+    <string name="marketrate">Market Rate</string>
+    <string name="retailer">Retailer</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="aboutapp">About App</string>
+    <string name="selectedCrop">SELECT CROP</string>
+    <string name="selectedMobNumber">SELECT MOBILE NUMBER</string>
+    <string name="selectedProduct">SELECT PRODUCT</string>
+    <string name="pending_updated_visit_data">Pending updated visit data</string>
+    <string name="pending_registered_visit_data">Pending registered visit data</string>
+    <string name="pending_coupon_data" translatable="false">Pending coupon data</string>
+    <string name="retailer_survey" translatable="false">RETAILER SURVEY</string>
+    <string name="kisan_club" translatable="false">KISAN CLUB</string>
+    <!-- <string name="rzp_key" translatable="false">rzp_test_p597kBgIab0CKz</string>
+     <string name="rzp_key_secret" translatable="false">FXzfVgF5cLfjYRgJZkXA4NBd</string>  -->
+
+    <string name="rzp_key" translatable="false">rzp_live_IOOb8jGwOwlpbG</string>
+    <string name="rzp_key_secret" translatable="false">LzIIGL87fSBP0DhZZVcYWHFO</string>
+
+    <string name="selectMDO" translatable="false">SELECT MDO</string>
+    <string name="rndFieldPurchaseList" translatable="false">rndFieldPurchaseList</string>
+    <string name="rndfieldVisit" translatable="false">rndfieldVisit</string>
+    <string name="rndRetailerVisitToField" translatable="false">rndRetailerVisitToField</string>
+    <string name="rndCropShow" translatable="false">rndCropShow</string>
+    <string name="rndHarvestDay" translatable="false">rndHarvestDay</string>
+    <string name="rndFieldDay" translatable="false">rndFieldDay</string>
+    <string name="rndLivePlantDataVillage" translatable="false">rndLivePlantDataVillage</string>
+    <string name="rndLivePlantDataRetailer" translatable="false">rndLivePlantDataRetailer</string>
+
+    <string name="rndTestimonialCollection" translatable="false">rndTestimonialCollection</string>
+    <string name="rndSanmanMela" translatable="false">rndSanmanMela</string>
+    <string name="rndVillageMeeting" translatable="false">rndVillageMeeting</string>
+    <string name="rndPromotionThroughEntertainment" translatable="false">rndPromotionThroughEntertainment</string>
+    <string name="rndCropSeminar" translatable="false">rndCropSeminar</string>
+    <string name="rndJeepCampaigning" translatable="false">rndJeepCampaigning</string>
+
+    <string name="type_here">Type here</string>
+    <string name="no_of_posters">NO OF POSTERS : </string>
+    <string name="no_of_leaflet">NO OF LEAFLET : </string>
+    <string name="no_of_bunting">NO OF BUNTING : </string>
+    <string name="number">NUMBER : </string>
+    <string name="save_village">SAVE (CONTINUE IN SAME VILLAGE)</string>
+    <string name="save_mandi">SAVE (CONTINUE IN SAME MANDI/ MARKET)</string>
+    <string name="save_road">SAVE (CONTINUE ON SAME ROAD)</string>
+    <string name="submit_village">SUBMIT (IF VILLAGE COMPLETED)</string>
+    <string name="submit_mandi">SUBMIT (IF MANDI/MARKET COMPLETED)</string>
+    <string name="submit_road">SUBMIT (IF ROAD COMPLETED)</string>
+    <string name="rndPostering">rndPostering</string>
+    <string name="rndFieldBoard">rndFieldBoard</string>
+    <string name="rndFieldBanner">rndFieldBanner</string>
+    <string name="rndWallPainting">rndWallPainting</string>
+    <string name="rndTrolleyPainting">rndTrolleyPainting</string>
+    <string name="rndExhibition">rndExhibition</string>
+    <string name="rndMarketDay">rndMarketDay</string>
+    <string name="rndDistributorVisit">rndDistributorVisit</string>
+    <string name="rndRetailerVisit">rndRetailerVisit</string>
+    <string name="rndFarmerVisit">rndFarmerVisit</string>
+    <string name="rndSamruddhaKisanVist">rndSamruddhaKisanVist</string>
+    <string name="rndAddressing">rndAddressing</string>
+    <string name="rndPopDisplay">rndPopDisplay</string>
+    <string name="_1_how_long_have_you_been_selling_mahyco_products">1.How long have you been selling Mahyco products ? *</string>
+    <string name="_2_are_you_satisfied_with_the_consistancy_of_our_product_performance">2.Are you satisfied with the consistancy of our Product Performance ? *</string>
+    <string name="_4_are_you_satisfied_with_the_range_of_products_in_the_given_segment_market">4.Are you Satisfied with the Range of products in the given segment/ Market ? *</string>
+    <string name="_3_do_you_consider_mahyco_product_quality_satisfactory">3.Do you consider Mahyco Product quality satisfactory ? *</string>
+    <string name="_5_compared_to_the_our_major_competitors_how_is_our_product_quality">5.Compared to the our major competitors, how is our product quality ? *</string>
+    <string name="rndReviewMeeting">rndReviewMeeting</string>
+    <string name="auth">Test@123</string>
+    // Crop List Cotton
+    <string name="activity_camera_intent_start_camera_button">Take a picture!</string>
+    // Crop List Vegetable
+    <string name="activity_camera_intent_image_view_desc">Photo</string>
+    // Crop List Row Crop
+    <string name="activity_camera_intent_photo_uri_found">Photo uri found: </string>
+
+
+    // Dashboard
+
+    <string name="activity_camera_intent_photo_uri_not_found">Photo uri not found!</string>
+    <string name="warning_camera_intent_canceled">Camera Intent was canceled by user.</string>
+
+    <string name="error_sd_card_not_mounted">External storage is required. Your SD card is most likely not mounted.</string>
+
+    <string name="error_could_not_take_photo">There was an issue with your camera. We are very sorry for the inconvenience!</string>
+
+    <string name="error_sth_went_wrong">Something went wrong. Please try again.</string>
+
+    <string-array name="cottonlist">
+        <item>Cotton</item>
+    </string-array>
+
+    <string-array name="Vegetablelist">
+        <item>Bhendi</item>
+        <item>bitter gourd</item>
+        <item>Cauliflower</item>
+        <item>Ridge gourd</item>
+        <item>Watermelon</item>
+        <item>Bottlegoud</item>
+        <item>Brinjal</item>
+        <item>Cabbage</item>
+        <item>Chilli</item>
+        <item>Tomato</item>
+    </string-array>
+
+
+    <string-array name="Rowcroplist">
+        <item>Maize</item>
+        <item>Bajra Hybrid</item>
+        <item>Black Mustard</item>
+        <item>Mustard</item>
+        <item>Castor Hybrid</item>
+        <item>Jawar Hybrid</item>
+    </string-array>
+
+    Always Sometimes Mostly Never
+
+
+    <string-array name="dashboard">
+        <item>Mahyco Product</item>
+        <item>Production Grower Login</item>
+        <item>Weather</item>
+        <item>Discount Coupon</item>
+        <item>Field Area</item>
+        <item>Crop Guideline</item>
+        <item>MarketRate</item>
+        <item>Retailer</item>
+        <item>App Information</item>
+    </string-array>
+
+    <string-array name="status">
+        <item>CATEGORY</item>
+        <item>ALL</item>
+        <item>PENDING</item>
+        <item>APPROVE</item>
+        <item>REJECT</item>
+    </string-array>
+
+    <string-array name="approval_reasons">
+        <item>SELECT REASONS</item>
+        <item>HAS ADOPTED LATEST TECHNOLOGIES IN AGRICULTURE</item>
+        <item>HAS SIGNIFICANT FOLLOWING IN THE VILLAGE &amp; SURROUNDING</item>
+        <item>HAS POSITIVE ATTITUDE TOWARDS NEW INITIATIVES</item>
+        <item>ACTIVELY PARTICIPATES IN AGRI RELATED PROGRAMS </item>
+        <item>OWNS A TRACTOR &amp; NECESSARY AGRI EQUIPMENTS </item>
+    </string-array>
+
+
+    <string-array name="rejection_reasons">
+        <item>SELECT REASON</item>
+        <item>NOT RECOGNIZED AS A PROGRESIVE FARMER IN THE VILLAGE</item>
+       <!-- <item>IS NOT A GRADUATE</item>-->
+        <item>DOESNOT PARTICIPATES IN AGRI RELATED PROGRAMS </item>
+       <!-- <item>NOT AWARDED BY REPUTED INSTITUTIONS</item>-->
+        <item>NOT RECOMMENDED BY RETAILER/ DISTRIBUTOR</item>
+        <item>OTHER</item>
+    </string-array>
+    <string-array name="farmer_category">
+        <item>SELECT</item>
+        <item>Small (1.0- 5.0 Acres)</item>
+        <item>Semi- Medium (5.0- 10.0 Acres)</item>
+        <item>Medium (10.0- 25.0 Acres)</item>
+        <item>Large (>25.0 Acres)</item>
+    </string-array>
+
+    <string-array name="option">
+        <item>SELECT</item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="company_name">
+        <item>SELECT COMPANY</item>
+        <item>Rasi seeds</item>
+        <item>Bayer</item>
+        <item>Syngenta</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="rating">
+        <item>SELECT</item>
+        <item>Very Dissatisfied</item>
+        <item>Dissatisfied</item>
+        <item>Netural</item>
+        <item>Satisfied</item>
+        <item>Very Satisfied</item>
+    </string-array>
+    <string-array name="rating1">
+        <item>SELECT</item>
+        <item>Always</item>
+        <item>Sometimes</item>
+        <item>Mostly</item>
+        <item>Never</item>
+    </string-array>
+
+    <string-array name="rating2">
+        <item>SELECT</item>
+        <item>Always</item>
+        <item>Sometimes</item>
+        <item>Mostly</item>
+        <item>Never</item>
+        <item>No</item>
+    </string-array>
+    <string-array name="rating3">
+        <item>SELECT RETAILER RESPONSE</item>
+        <item>VERY GOOD</item>
+        <item>GOOD</item>
+        <item>AVERAGE</item>
+        <item>POOR</item>
+    </string-array>
+
+    <!--  VOCP RCBU -->
+    <string-array name="rating4">
+        <item>SELECT DISTRIBUTOR RESPONSE</item>
+        <item>VERY GOOD</item>
+        <item>GOOD</item>
+        <item>AVERAGE</item>
+        <item>POOR</item>
+    </string-array>
+
+    <string-array name="rating5">
+        <item>SELECT FARMER RESPONSE</item>
+        <item>VERY GOOD</item>
+        <item>GOOD</item>
+        <item>AVERAGE</item>
+        <item>POOR</item>
+    </string-array>
+    <string-array name="sharedContent">
+        <item>SELECT SHARED CONTENT</item>
+        <item>TESTIMONIAL</item>
+        <item>PRODUCT VIDEO</item>
+        <item>GREETING</item>
+        <item>CREATIVE POSTER</item>
+        <item>POSTCARDS</item>
+        <item>OTHERS</item>
+    </string-array>
+    <string-array name="status1">
+        <item>CATEGORY</item>
+        <item>PENDING</item>
+        <item>APPROVE</item>
+        <item>REJECT</item>
+    </string-array>
+    <string-array name="farmerType">
+        <item>SELECT FARMER TYPE</item>
+        <item>GENERAL FARMER</item>
+        <item>MFDC FARMER</item>
+        <item>INNOVATION DAY FARMER</item>
+        <item>DEMO PLOT FARMER</item>
+        <item>MODEL PLOT FARMER</item>
+        <item>JUMBO PLOT FARMER</item>
+        <item>OTHER FIELD/ PLOT FARMER</item>
+        <item>SAMRUDDHA KISAN</item>
+    </string-array>
+
+    <string-array name="validationType">
+        <item>SELECT VALIDATION TYPE</item>
+        <item>FARMER CALL VALIDATION</item>
+        <item>RETAILER CALL VALIDATION</item>
+        <item>DISTRIBUTOR CALL VALIDATION</item>
+    </string-array>
+
+    <string-array name="grpCategory">
+        <item>SELECT WHATSAPP GROUP CATEGORY</item>
+        <item>SKF GROUP</item>
+        <item>MFDC GROUP</item>
+        <item>DGA FARMER GROUP</item>
+        <item>FOCUS RETAILER GROUP</item>
+        <item>OTHER FARMER GROUP</item>
+    </string-array>
+    <string-array name="modeSharing">
+        <item>SELECT MODE OF SHARING</item>
+        <item>SKF GROUP</item>
+        <item>MFDC GROUP</item>
+        <item>DGA FARMER GROUP</item>
+        <item>FOCUS RETAILER GROUP</item>
+        <item>OTHER FARMER GROUP</item>
+    </string-array>
+    <string-array name="Improvment">
+        <item>PRODUCT PORTFOLIO</item>
+        <item>MARKET DEVELOPMENT ACTIVITIES</item>
+        <item>COMPLAINT HANDLING</item>
+        <item>STAFF RESPONSIVENESS</item>
+        <item>OTHER</item>
+    </string-array>
+
+</resources>

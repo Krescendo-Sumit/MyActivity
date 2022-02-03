@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:id="@+id/rt1"
+    android:padding="2dip" >
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_margin="2dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/lichild1"
+        android:background="@drawable/border"
+        >
+
+    <LinearLayout
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_margin="2dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/lichild"
+
+        >
+        <CheckBox
+            android:id="@+id/chktag"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Approved"
+            android:textColor="@color/QRCodeBlackColor"></CheckBox>
+        <EditText
+            android:layout_weight="1"
+            android:id="@+id/lblListItem"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:inputType="textMultiLine"
+            android:clickable="false"
+            android:focusable="false"
+            android:scrollbars="vertical"
+            android:hint="Product"
+            android:text=""
+            android:textColor="@color/QRCodeBlackColor"
+            android:background="@android:color/transparent"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            />
+
+
+
+
+        <EditText
+            android:visibility="gone"
+            android:id="@+id/txtqtypkt"
+            android:layout_width="60dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:hint="Qty(pkt)"
+            android:textSize="10sp"
+            android:inputType="number"
+            android:background="@drawable/mystyles"
+            />
+        <TextView
+
+            android:id="@+id/txtproducthide"
+            android:layout_width="1sp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Product"
+            android:inputType="text"
+            android:visibility="invisible"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            />
+
+
+
+    </LinearLayout>
+     <LinearLayout
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_margin="2dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/lichild2"
+             android:weightSum="3"
+            >
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:ems="10"
+             android:text="Actual Billing Dt"
+             android:layout_marginLeft="2dp"
+             android:layout_marginRight="2dp"
+             android:layout_weight="1"
+             android:textStyle="bold"
+             />
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:ems="10"
+             android:text="Open Quantity"
+             android:layout_marginLeft="2dp"
+             android:layout_marginRight="2dp"
+             android:layout_weight="1"
+             android:textStyle="bold"
+             />
+          <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:ems="10"
+             android:text="Return Quantity"
+             android:layout_marginLeft="2dp"
+             android:layout_marginRight="2dp"
+             android:layout_weight="1"
+              android:textStyle="bold"
+              />
+
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal" android:layout_width="match_parent"
+            android:layout_margin="2dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/lichild4"
+            android:weightSum="3"
+            >
+            <TextView
+                android:id="@+id/txtbillingDt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="Actual Billing Dt"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+                />
+            <TextView
+                android:id="@+id/txtopenqty"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:text="Open Quantity"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="1"
+
+                />
+            <TextView
+
+                android:id="@+id/txtqty"
+                android:layout_width="50dp"
+                android:layout_height="35dp"
+                android:ems="10"
+                android:maxLength="4"
+                android:gravity="center"
+                android:hint="Order Qty(pk)"
+                android:inputType="numberDecimal"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:textColor="@color/QRCodeBlackColor"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_margin="2dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/lichild3"
+
+        >
+    <EditText
+        android:visibility="gone"
+        android:id="@+id/txtReason"
+        android:layout_width="match_parent"
+        android:layout_height="35dp"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        android:hint="Reject  reason"
+        android:textSize="10sp"
+        android:inputType="text"
+        android:background="@drawable/mystyles"
+        />
+    </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

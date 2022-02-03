@@ -1,0 +1,460 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"    android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="JUMBO FIELD / INNOVATION DAY (Registration)"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+
+
+
+
+    <!-- Scrollable Content below header and above footer -->
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/footer"
+        android:layout_below="@id/header" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical" >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+                <TextView
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:id="@+id/text"
+
+                    android:text="REG.COUNT" />
+
+                <Spinner
+                    android:id="@+id/spType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@drawable/spinner"
+                    android:layout_marginBottom="2dp"
+                    android:spinnerMode="dialog"
+                    android:layout_weight="1"
+
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    >
+                    <EditText
+                        android:id="@+id/txtFarmername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/mystyles"
+                        android:hint="FIRST NAME"
+
+                        android:imeOptions="actionUnspecified"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    >
+                    <EditText
+                        android:id="@+id/txtname2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/mystyles"
+                        android:hint="MIDDLE NAME"
+
+                        android:imeOptions="actionUnspecified"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    >
+                    <EditText
+                        android:id="@+id/txtname3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/mystyles"
+                        android:hint="LAST NAME"
+
+                        android:imeOptions="actionUnspecified"
+                        android:maxLength="50"
+                        android:maxLines="1"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:singleLine="true"
+                        />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:id="@+id/txtfarmnameP"
+                >
+                <EditText
+                    android:id="@+id/txtfarmname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/mystyles"
+
+                    android:inputType="text"
+                    android:hint="FIRM NAME"
+
+                    android:imeOptions="actionUnspecified"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+                <EditText
+                    android:id="@+id/txtMobileNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/mystyles"
+                    android:digits="0123456789"
+                    android:inputType="number"
+                    android:hint="MOBILE NUMBER "
+
+                    android:imeOptions="actionUnspecified"
+                    android:maxLength="10"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            <Spinner
+                android:id="@+id/spDist"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner"
+                android:layout_marginTop="6dp"
+                android:spinnerMode="dialog"
+
+                />
+            <Spinner
+                android:id="@+id/spTaluka"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="6dp"
+                android:spinnerMode="dialog"
+                android:background="@drawable/spinner"
+
+
+                />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+                <EditText
+                    android:id="@+id/txtVillage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/mystyles"
+                    android:hint="VILLAGE/PLACE"
+
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="text"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/lblTotalPkt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+
+                android:text="TOT.COTTON PKT SOWN K-18"
+                android:textColor="@color/QRCodeBlackColor"
+                android:imeOptions="actionUnspecified"
+                android:inputType="number"
+
+                android:textAllCaps="true"
+                android:textSize="8dp"
+                android:maxLines="1"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:singleLine="true"
+                />
+            <TextView
+                android:id="@+id/lblTotalMahycoPkt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+
+                android:text="TOT.MAHYCO PKT SOWN K-18"
+                android:textColor="@color/QRCodeBlackColor"
+                android:imeOptions="actionUnspecified"
+                android:inputType="number"
+
+                android:textAllCaps="true"
+                android:textSize="8dp"
+                android:maxLines="1"
+                android:layout_marginLeft="5dp"
+                android:singleLine="true"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                    <EditText
+                        android:id="@+id/txtTotalPkt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/mystyles"
+
+                        android:imeOptions="actionUnspecified"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        android:maxLines="1"
+                        android:layout_marginRight="5dp"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        />
+
+
+                    <EditText
+                        android:id="@+id/txtTotalMahycoPkt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/mystyles"
+
+                        android:imeOptions="actionUnspecified"
+                        android:inputType="number"
+                        android:maxLength="5"
+                        android:maxLines="1"
+                        android:layout_marginLeft="5dp"
+                        android:singleLine="true"
+                        android:layout_weight="1"
+                        />
+
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/lbllocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+
+                android:text="JUMBO FIELD / INNOVATION DAY LOCATION"
+                android:textColor="@color/QRCodeBlackColor"
+                android:imeOptions="actionUnspecified"
+                android:inputType="number"
+
+                android:textAllCaps="true"
+                android:textSize="10dp"
+                android:maxLines="1"
+                android:layout_weight="1"
+                android:layout_marginRight="5dp"
+                android:singleLine="true"
+                />
+            <Spinner
+                android:id="@+id/spLocation"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner"
+                android:layout_marginTop="6dp"
+                android:spinnerMode="dialog"
+                />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                >
+                <EditText
+                    android:id="@+id/txtVehicle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/mystyles"
+                    android:hint="VEHICLE CODE "
+
+                    android:imeOptions="actionUnspecified"
+                    android:maxLength="16"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:layout_marginRight="5dp"
+
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_weight="1"
+                >
+                <EditText
+                    android:id="@+id/txtRemark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/mystyles"
+                    android:hint="REMARKS"
+
+                    android:imeOptions="actionUnspecified"
+                    android:maxLength="50"
+                    android:maxLines="1"
+                    android:layout_marginLeft="5dp"
+                    android:singleLine="true"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/btnTakephoto"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:text="Take Photo(80 % face required)"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:drawablePadding="5dp"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:background="@drawable/rbutton"></Button>
+
+               <!-- <Button
+                    android:id="@+id/btnSelectPhotoGallery"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:text="Select Photo from Gallery"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:drawablePadding="5dp"
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:background="@drawable/rbutton"></Button>-->
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:id="@+id/liimagelayout"
+
+                android:orientation="horizontal" >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ivImage"
+                    android:layout_weight="1"
+                    >
+
+                </ImageView>
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+    <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:orientation="horizontal"
+        android:focusable="true"  android:background="#ffffff"
+        android:focusableInTouchMode="true"
+        android:layout_alignParentBottom="true" style="@android:style/ButtonBar">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:id="@+id/btnsave"
+            android:textColor="@color/QRCodeBlackColor"
+            android:background="@drawable/rbutton"
+            android:text="Submit" />
+
+    </LinearLayout>
+
+</RelativeLayout>

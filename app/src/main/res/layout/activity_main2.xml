@@ -1,0 +1,84 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="2dip"
+    android:paddingRight="2dip"
+    tools:context=".MainActivity2"
+    android:id="@+id/main">
+    <!-- Header aligned to top -->
+
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#178A5B"
+        android:layout_alignParentTop="true"
+
+        android:gravity="center" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="MAHYCO"
+            android:textColor="#000"
+            android:textSize="20sp" />
+   </RelativeLayout>
+
+
+
+
+    <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:orientation="horizontal"  android:background="#ffffff"
+        android:layout_alignParentBottom="true" style="@android:style/ButtonBar">
+
+        <Button android:id="@+id/btnAllChat" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_weight="1"
+            android:padding="5dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/mybutton"
+            android:visibility="invisible"
+             android:layout_margin="5dp"
+
+            android:text="Public Forum" />
+        <Button android:id="@+id/btnMyChat" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_weight="1"
+            android:padding="5dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/mybutton"
+            android:visibility="invisible"
+            android:layout_margin="5dp"
+            android:text="My Forum" />
+
+        <Button android:id="@+id/btnNewChat" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_weight="1"
+            android:padding="5dp"
+            android:textColor="#ffffff"
+            android:background="@drawable/mybutton"
+            android:layout_margin="5dp"
+            android:text="New upload" />
+    </LinearLayout>
+    <!-- Scrollable Content below header and above footer -->
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/footer"
+
+        android:layout_below="@id/header" >
+
+        <LinearLayout
+            android:id="@+id/my_linear_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</RelativeLayout>

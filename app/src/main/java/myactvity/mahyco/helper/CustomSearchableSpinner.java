@@ -1,0 +1,177 @@
+package myactvity.mahyco.helper;
+
+/**
+ * Created by 97260828 on 3/26/2019.
+ */
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.res.TypedArray;
+import android.text.TextUtils;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.SpinnerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import myactvity.mahyco.R;
+import myactvity.mahyco.app.GeneralMaster;
+
+public class CustomSearchableSpinner extends androidx.appcompat.widget.AppCompatSpinner implements View.OnTouchListener,
+        CustomSearchableListDialog.SearchableItem {
+
+    String selectedItem;
+    //this string above will store the value of selected item.
+
+    public static final int NO_ITEM_SELECTED = -1;
+    private Context _context;
+    private List _items;
+    ArrayList<GeneralMaster> masterArrayList;
+    private CustomSearchableListDialog _searchableListDialog;
+
+    private boolean _isDirty;
+    private CustomMySpinnerAdapter _arrayAdapter;
+    private String _strHintText;
+    private boolean _isFromInit;
+
+    public CustomSearchableSpinner(Context context) {
+        super(context);
+        this._context = context;
+        init();
+    }
+
+    public CustomSearchableSpinner(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        this._context = context;
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SearchableSpinner);
+        final int N = a.getIndexCount();
+        for (int i = 0; i < N; ++i) {
+            int attr = a.getIndex(i);
+            if (attr == R.styleable.SearchableSpinner_hintText) {
+                _strHintText = a.getString(attr);
+
+                masterArrayList.add(new GeneralMaster("code", _strHintText));
+            }
+        }
+        a.recycle();
+        init();
+    }
+
+    public CustomSearchableSpinner(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        this._context = context;
+        init();
+    }
+
+    private void init() {
+        _items = new ArrayList();
+        _searchableListDialog = CustomSearchableListDialog.newInstance
+                (_items);
+        _searchableListDialog.setOnSearchableItemClickListener(this);
+        setOnTouchListener(this);
+        masterArrayList = new ArrayList<GeneralMaster>();
+        _arrayAdapter = (CustomMySpinnerAdapter) getAdapter();
+        if (!TextUtils.isEmpty(_strHintText)) {
+
+            CustomMySpinnerAdapter<GeneralMaster> arrayAdapter = new CustomMySpinnerAdapter<GeneralMaster>(_context, android.R.layout
+                    .simple_list_item_1, masterArrayList);
+            _isFromInit = true;
+            setAdapter(arrayAdapter);
+        }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+
+            if (null != _arrayAdapter) {
+
+                // Refresh content #6
+                // Change Start
+                // Description: The items were only set initially, not reloading the data in the
+                // spinner every time it is loaded with items in the adapter.
+                _items.clear();
+                for (int i = 0; i < _arrayAdapter.getCount(); i++) {
+                    _items.add(_arrayAdapter.getItem(i));
+                }
+                // Change end.
+
+                if (!_searchableListDialog.isAdded()) {
+                    _searchableListDialog.show(scanForActivity(_context).getFragmentManager(), "TAG");
+                } else {
+                    _searchableListDialog.dismiss();
+                    _searchableListDialog.show(scanForActivity(_context).getFragmentManager(), "TAG");
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void setAdapter(SpinnerAdapter adapter) {
+
+        if (!_isFromInit) {
+            _arrayAdapter = (CustomMySpinnerAdapter) adapter;
+            if (!TextUtils.isEmpty(_strHintText) && !_isDirty) {
+                CustomMySpinnerAdapter arrayAdapter = new CustomMySpinnerAdapter(_context, android.R.layout
+                        .simple_list_item_1, masterArrayList);
+                super.setAdapter(arrayAdapter);
+            } else {
+                super.setAdapter(adapter);
+            }
+
+        } else {
+            _isFromInit = false;
+            super.setAdapter(adapter);
+        }
+    }
+
+    //The method just below is executed  when an item in the searchlist is tapped.This is where we store the value int string called selectedItem.
+    @Override
+    public void onSearchableItemClicked(Object item, int position) {
+        setSelection(_items.indexOf(item));
+
+        if (!_isDirty) {
+            _isDirty = true;
+            setAdapter(_arrayAdapter);
+            setSelection(_items.indexOf(item));
+        }
+        selectedItem = getItemAtPosition(position).toString();
+
+        // Toast.makeText(getContext(),"You selected "+selectedItem,Toast.LENGTH_LONG).show();
+    }
+
+
+    private Activity scanForActivity(Context cont) {
+        if (cont == null)
+            return null;
+        else if (cont instanceof Activity)
+            return (Activity) cont;
+        else if (cont instanceof ContextWrapper)
+            return scanForActivity(((ContextWrapper) cont).getBaseContext());
+
+        return null;
+    }
+
+    @Override
+    public int getSelectedItemPosition() {
+        if (!TextUtils.isEmpty(_strHintText) && !_isDirty) {
+            return NO_ITEM_SELECTED;
+        } else {
+            return super.getSelectedItemPosition();
+        }
+    }
+
+    @Override
+    public Object getSelectedItem() {
+        if (!TextUtils.isEmpty(_strHintText) && !_isDirty) {
+            return null;
+        } else {
+
+            return super.getSelectedItem();
+        }
+    }
+}

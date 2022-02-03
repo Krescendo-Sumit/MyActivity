@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"    android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="My Activity Recording"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:textSize="16sp"/>
+    </RelativeLayout>
+
+
+
+
+    <!-- Scrollable Content below header and above footer -->
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/footer"
+        android:layout_below="@id/header" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/text"
+
+                android:text="VISIT NO." />
+
+
+
+
+            <Spinner
+                android:id="@+id/spMyactvity"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner"
+                android:layout_marginTop="6dp"
+                android:spinnerMode="dialog"
+                />
+
+
+            <Spinner
+                android:id="@+id/spState"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner"
+                android:layout_marginTop="6dp"
+                android:spinnerMode="dialog"
+
+                />
+            <Spinner
+                android:id="@+id/spDist"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner"
+                android:layout_marginTop="6dp"
+                android:spinnerMode="dialog"
+
+                />
+            <Spinner
+                android:id="@+id/spTaluka"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="6dp"
+                android:spinnerMode="dialog"
+                android:background="@drawable/spinner"
+
+
+                />
+            <Spinner
+                android:id="@+id/spVillage"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="6dp"
+                android:spinnerMode="dialog"
+                android:background="@drawable/spinner"
+
+                />
+
+            <RadioGroup
+                android:layout_width="wrap_content" android:orientation="horizontal"
+                android:id="@+id/radGrp"
+                android:visibility="gone"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/rndRC"
+                    android:text="Row Crop"
+                    android:layout_marginLeft="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:id="@+id/rndVC"
+                    android:text="Vegetable Crop"
+                    android:layout_marginLeft="40dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:id="@+id/rndFC"
+                    android:text="FC"
+                    android:layout_marginLeft="40dp"
+                    android:visibility="gone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RadioGroup>
+            <Spinner
+                android:id="@+id/spCropType"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner"
+                android:layout_marginTop="6dp"
+                android:spinnerMode="dialog"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal" >
+                <Spinner
+                    android:id="@+id/spProductName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:background="@drawable/spinner"
+                    android:dropDownSelector="@color/colorPrimary2"
+                    android:spinnerMode="dialog"
+                    android:layout_marginRight="1sp"
+                    android:layout_weight="1"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/lblgeoststus"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.5"
+                    android:gravity="right"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:text="Location Tag-No" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+
+
+                    android:src="@drawable/nogeo"
+                    android:id="@+id/imggeo"
+
+                    ></ImageView>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+                    android:id="@+id/listock"
+
+                    android:orientation="horizontal" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/maroon"
+                        android:id="@+id/lblStockDetail"
+                        android:layout_weight="1"
+
+                        />
+
+
+
+
+                    <Button
+                        android:id="@+id/btnaddstock"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right"
+                        android:text="Add Stock"
+                        android:layout_margin="5dp"
+                        android:textColor="#FFFFFF"
+                        android:layout_weight=".5"
+                        android:visibility="gone"
+                        android:background="@color/Lowgreen"></Button></LinearLayout>
+
+
+
+            </LinearLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+                <EditText
+                    android:id="@+id/txtFarmerCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/mystyles"
+                    android:digits="0123456789"
+                    android:hint="Total Number Of Farmer's Met"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+            <Spinner
+                android:id="@+id/spComment"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="6dp"
+                android:spinnerMode="dialog"
+                android:background="@drawable/spinner"
+
+                />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+
+                >
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/mystyles"
+
+                    android:id="@+id/txtComments"
+                    android:hint="Comment Description"
+                    />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="4dp"
+
+                android:orientation="horizontal" >
+
+                <Button
+                    android:id="@+id/btnTakephoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:text="Activity Photo"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+
+                    android:background="@drawable/rbutton"></Button>
+                <Button
+                    android:id="@+id/btnTakephoto2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:text="Farmer list Photo"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:layout_weight="1"
+                    android:drawablePadding="5dp"
+                    android:background="@drawable/rbutton"
+
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:id="@+id/liimagelayout"
+
+                android:orientation="horizontal" >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ivImage"
+                    android:layout_weight="1"
+                    >
+
+                </ImageView>
+                <ImageView
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/ivImage2"
+                    android:layout_weight="1"
+                    >
+
+                </ImageView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+
+                    android:id="@+id/text2" />
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+    <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:orientation="horizontal"
+        android:focusable="true"  android:background="#ffffff"
+        android:focusableInTouchMode="true"
+        android:layout_alignParentBottom="true" style="@android:style/ButtonBar">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:id="@+id/btnsave"
+            android:textColor="@color/QRCodeBlackColor"
+            android:background="@drawable/rbutton"
+            android:text="Submit" />
+
+    </LinearLayout>
+
+</RelativeLayout>

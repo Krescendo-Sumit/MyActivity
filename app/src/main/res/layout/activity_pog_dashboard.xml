@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/gradient"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:titleTextColor="@color/Whitecl"
+        app:title="POG STATUS"/>
+
+    <!-- Scrollable Content below header and above footer -->
+
+    <!-- Content below header and above footer -->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/footer"
+        android:layout_below="@id/toolbar"
+        android:gravity="center">
+        <ScrollView
+
+            android:id="@+id/container2"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="11dp"
+            android:layout_marginStart="11dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_margin="10dp"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+
+                    android:orientation="vertical">
+
+
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:background="@drawable/border"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical">
+                        <Button
+                            android:layout_weight="1"
+                            android:id="@+id/btndistributorPOG"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/btn_shape"
+                            android:text="DISTRIBUTOR TO RETAILER \n PLACEMENT STATUS"
+                            android:layout_margin="5dp"
+
+                            android:textSize="12sp"
+                            android:textColor="@color/QRCodeBlackColor" />
+
+
+
+
+                        <Button
+                            android:layout_weight="1"
+                            android:id="@+id/btndistributorasRetailerPOG"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/btn_shape"
+                            android:text="DISTRIBUTOR AS RETAILER \n POG STATUS "
+                            android:layout_margin="5dp"
+
+                            android:textSize="12sp"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <Button
+                            android:layout_weight="1"
+                            android:id="@+id/btnretailerPOG"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/btn_shape"
+                            android:text="RETAILER POG \n STATUS "
+                            android:layout_margin="5dp"
+
+                            android:textSize="12sp"
+                            android:textColor="@color/QRCodeBlackColor" />
+                    </LinearLayout>
+
+
+
+
+
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        >
+
+                        <EditText
+                            android:id="@+id/txtComments"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginTop="10dp"
+                            android:hint="COMMENTS (ANY KEY INFORMATION ABOUT RETAILER)"
+                            android:inputType="text"
+                            android:maxLength="50" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+        </ScrollView>
+    </RelativeLayout>
+
+
+    <!-- Footer aligned to bottom -->
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        android:gravity="center">
+        <LinearLayout
+            android:id="@+id/footer1"
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+
+            android:background="#ffffff"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

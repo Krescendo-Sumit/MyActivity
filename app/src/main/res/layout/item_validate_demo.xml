@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardMdo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:elevation="10dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="10dp"
+        app:cardUseCompatPadding="true">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp">
+
+            <TextView
+                android:id="@+id/lblSNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:text="PLOT NO.:"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtSNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@+id/lblSNo"
+                android:text="4584144"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/lblMobileNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblSNo"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:text="Mobile Number :"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtMobileNo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtSNo"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@+id/lblMobileNo"
+                android:text="4584144"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lblFarmerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblMobileNo"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:gravity="center"
+                android:text="Farmer name :"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtFarmerName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtMobileNo"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@+id/lblFarmerName"
+                android:text=" name"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lblPlotType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblFarmerName"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:gravity="center"
+                android:text="Plot Type :"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtPlotType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtFarmerName"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@+id/lblPlotType"
+                android:text="Demo"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lblTaluka"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblPlotType"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:text="Taluka :"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtTaluka"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtPlotType"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@+id/lblTaluka"
+                android:text=""
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lblVillage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblTaluka"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:text="Village :"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtVillage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtTaluka"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@+id/lblVillage"
+                android:text="village"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/btn_shape"
+                android:padding="5dp"
+                android:text="UPDATE VISIT DETAILS"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:visibility="visible" />
+
+
+            <ImageView
+                android:id="@+id/imgArrow"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_below="@+id/btnAdd"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="40dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/ic_arrow_point_to_right"
+                android:tint="@color/colorPrimary"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/lblCrop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtVillage"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:gravity="center"
+                android:text="Crop :"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtCrop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtVillage"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@+id/lblCrop"
+                android:text=" "
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/lblProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblCrop"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:text="Product :"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtProduct"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtCrop"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@+id/lblProduct"
+                android:text="Productname "
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/lblSowingDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblProduct"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:gravity="center"
+                android:text="DATE OF SOWING :"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtSowingDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtProduct"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@+id/lblSowingDate"
+                android:text="1st "
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lblVisitingDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblSowingDate"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:gravity="center"
+                android:text="DATE OF Last VISIT :"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtVisitingDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtSowingDate"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@+id/lblVisitingDate"
+                android:text="1st "
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/lblMdo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/lblVisitingDate"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:gravity="center"
+                android:text="MDO Code :"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtMdo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/txtVisitingDate"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="2dp"
+                android:layout_toRightOf="@+id/lblMdo"
+                android:text="1st "
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <TextView
+
+                android:id="@+id/lblNoOfVisits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="42dp"
+                android:layout_below="@+id/btnAdd"
+
+                android:layout_marginBottom="2dp"
+                android:layout_toLeftOf="@+id/txtNoOfVisits"
+                android:gravity="center"
+                android:text="Number Of Visits:"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+
+            <TextView
+                android:id="@+id/txtNoOfVisits"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/imgArrow"
+                android:layout_marginTop="42dp"
+                android:layout_below="@+id/btnAdd"
+
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="2dp"
+                android:text=""
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imgBtn"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/txtProduct"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="30dp"
+                android:src="@drawable/ic_picture"
+                android:tint="@color/colorPrimary"
+                android:visibility="gone" />
+
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>
+
+
+
+
+
+
+

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+
+    android:orientation="horizontal"
+    android:id="@+id/rt1"
+    android:padding="2dip" >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_margin="2dp"
+        android:layout_height="wrap_content"
+       android:weightSum="4"
+        >
+
+        <TextView
+
+            android:id="@+id/lblLotno"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Lot No"
+            android:text="LOT No"
+            android:textStyle="bold"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            />
+        <TextView
+
+            android:id="@+id/lblIRno"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:hint="IR No"
+            android:text="IR No"
+            android:textStyle="bold"
+            />
+
+
+        <TextView
+
+            android:id="@+id/lblOpenQty"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:hint="Open Qty"
+            android:text=""
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:textStyle="bold"
+            />
+
+
+        <EditText
+
+            android:id="@+id/lblReturnQty"
+            android:layout_weight="1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:hint="R QTY"
+            android:background="@drawable/mystyles"
+            android:inputType="numberDecimal"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:maxLength="5"
+            android:textStyle="bold"
+            />
+
+
+        <EditText
+            android:id="@+id/lblunit"
+            android:layout_width="1dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="UNIT"
+            android:background="@drawable/mystyles"
+            android:inputType="text"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+              android:visibility="gone"
+            />
+        <Button
+             android:layout_gravity="right"
+            android:layout_marginRight="5dp"
+            android:id="@+id/btndelete"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:text="Delete"
+            android:textSize="10sp"
+            android:textColor="#fff"
+            android:background="@color/Username"
+            />
+
+
+    </LinearLayout>
+    <TextView
+
+        android:id="@+id/txtproducthide"
+        android:layout_width="1sp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Product"
+        android:inputType="text"
+        android:visibility="invisible"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
+        />
+
+
+</RelativeLayout>

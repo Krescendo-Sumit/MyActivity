@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="Upload Data"
+            android:textAllCaps="true"
+            android:textColor="#fff"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+    <!-- Scrollable Content below header and above footer -->
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_below="@id/header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginRight="20dp"
+
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/lblmyactvityrecord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="My Activity Data"
+
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/lblfarmer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Farmer Data"
+                android:visibility="gone"/>
+
+
+            <RadioGroup
+                android:id="@+id/radGrp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rndmyactvity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="My Activity Data" />
+
+                <RadioButton
+                    android:id="@+id/rndfarmer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="Farmer registration data" />
+
+                <RadioButton
+                    android:id="@+id/rndimages"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="Pending Images data" />
+
+            </RadioGroup>
+
+
+            <Button
+                android:id="@+id/btnUpload"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rbutton"
+                android:text="Upload data"
+                android:textColor="@color/QRCodeBlackColor" />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="UPLOAD MY TRAVEL AND RETAILER/DISTRIBUTOR
+             TAGGING MAPPING DATA"
+
+                android:textStyle="bold"></TextView>
+
+            <RadioGroup
+                android:id="@+id/radGrp2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rnd1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="pending my travel data" />
+
+                <RadioButton
+                    android:id="@+id/rnd2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="Pending retailer and distributor data" />
+
+                <RadioButton
+                    android:id="@+id/rnd3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="My travel start and end reading images" />
+
+                <RadioButton
+                    android:id="@+id/rnd4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="Demand  Assessment Survey Data" />
+
+
+            </RadioGroup>
+
+
+            <Button
+                android:id="@+id/btnUpload2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rbutton"
+                android:text="Upload data"
+                android:textColor="@color/QRCodeBlackColor" />
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="UPLOAD REGISTERED DEMO/MODEL PLOT VIST AND
+                 UPDATED FIELD VISIT DATA"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radGrp3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rndVisit1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="@string/pending_registered_visit_data" />
+
+                <RadioButton
+                    android:id="@+id/rndVisit2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="@string/pending_updated_visit_data" />
+
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnUpload3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rbutton"
+                android:text="Upload data"
+                android:textColor="@color/QRCodeBlackColor" />
+
+            <TextView
+                android:id="@+id/lblretailerandkisanClub"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="UPLOAD retailer Survey and kisan club Data"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <RadioGroup
+                android:id="@+id/radGrpRetailer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <RadioButton
+                    android:id="@+id/rndRetailerSurvey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="@string/retailer_survey" />
+
+                <RadioButton
+                    android:id="@+id/rndKisanClub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="@string/kisan_club" />
+
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnUploadRetailerdata"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/rbutton"
+                android:text="Upload Retailer and Kisan Club data"
+                android:textColor="@color/QRCodeBlackColor"
+                android:visibility="gone" />
+
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="UPLOAD COUPON DATA"
+
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radGrp4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rndCoupon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="@string/pending_coupon_data" />
+
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnUpload4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rbutton"
+                android:text="UPLOAD MFDC COUPON DATA"
+                android:textColor="@color/QRCodeBlackColor" />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+
+                android:text="UPLOAD INNOVATION DATA" />
+
+            <RadioGroup
+                android:layout_width="wrap_content" android:orientation="vertical"
+                android:id="@+id/radGrp55"
+                android:layout_height="wrap_content">
+
+                <RadioButton
+                    android:id="@+id/rndinnovation"
+                    android:text="Pending Innovation Daata"
+                    android:enabled="false"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+            </RadioGroup>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:id="@+id/btnUpload5"
+                android:layout_marginBottom="20dp"
+                android:textColor="@color/QRCodeBlackColor"
+                android:background="@drawable/rbutton"
+                android:text="UPLOAD INNOVATION DATA" />
+
+
+
+
+            <!--Upload postseason-->
+            <TextView
+                android:id="@+id/lblPostSeason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="UPLOAD POSTSEASON"
+
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radGrp5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rndFieldPurchaseList"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndFieldPurchaseList"
+                    android:text="FARMER LIST || PURCHASE LIST" />
+
+                <RadioButton
+                    android:id="@+id/rndfieldVisit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndfieldVisit"
+                    android:text="PLOT MANAGEMENT"
+                    android:visibility="gone" />
+
+                <RadioButton
+                    android:id="@+id/rndRetailerVisitToField"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndRetailerVisitToField"
+                    android:text="RETAILER VISIT TO FIELD" />
+
+                <RadioButton
+                    android:id="@+id/rndCropShow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndCropShow"
+                    android:text="CROP SHOW" />
+
+                <RadioButton
+                    android:id="@+id/rndHarvestDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndHarvestDay"
+                    android:text="HARVEST DAY" />
+
+                <RadioButton
+                    android:id="@+id/rndFieldDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndFieldDay"
+                    android:text="FIELD DAY" />
+
+                <RadioButton
+                    android:id="@+id/rndLivePlantDataVillage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndLivePlantDataVillage"
+                    android:text="LIVE PLANT DISPLAY (VILLAGE)" />
+
+                <RadioButton
+                    android:id="@+id/rndLivePlantDataRetailer"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndLivePlantDataRetailer"
+                    android:text="LIVE PLANT DISPLAY (RETAIL COUNTER)" />
+
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnUploadPostSeason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rbutton"
+                android:text="Upload data"
+                android:textColor="@color/QRCodeBlackColor" />
+
+            <!--Upload preseason-->
+            <TextView
+                android:id="@+id/lblPreSeason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="UPLOAD PRESEASON"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radGrp6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rndTestimonialCollection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndTestimonialCollection"
+                    android:text="TESTIMONIAL COLLECTION" />
+
+                <RadioButton
+                    android:id="@+id/rndSanmanMela"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndSanmanMela"
+                    android:text="SANMAN MELA"
+                    android:visibility="visible" />
+
+                <RadioButton
+                    android:id="@+id/rndVillageMeeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndVillageMeeting"
+                    android:text="VILLAGE MEETING (DAY / NIGHT)" />
+
+                <RadioButton
+                    android:id="@+id/rndPromotionThroughEntertainment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndPromotionThroughEntertainment"
+
+                    android:text="PROMOTION THROUGH ENTERTAINMENT" />
+
+                <RadioButton
+                    android:id="@+id/rndCropSeminar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndCropSeminar"
+                    android:text="CROP SEMINAR" />
+
+                <RadioButton
+                    android:id="@+id/rndJeepCampaigning"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndJeepCampaigning"
+                    android:text="JEEP CAMPAIGNING" />
+
+                <RadioButton
+                    android:id="@+id/rndPopDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndPopDisplay"
+                    android:text="POP DISPLAY" />
+
+
+            </RadioGroup>
+            <Button
+                android:id="@+id/btnUploadPreSeason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rbutton"
+                android:text="Upload data"
+                android:textColor="@color/QRCodeBlackColor" />
+            <!--Upload ATL -->
+
+            <TextView
+                android:id="@+id/lblATL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="UPLOAD ATL"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radGrp7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rndPostering"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndPostering"
+                    android:text="POSTERING" />
+
+                <RadioButton
+                    android:id="@+id/rndFieldBoard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndFieldBoard"
+                    android:text="FIELD BOARD" />
+
+
+                <RadioButton
+                    android:id="@+id/rndFieldBanner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndFieldBanner"
+                    android:text="FIELD BANNER" />
+
+                <RadioButton
+                    android:id="@+id/rndWallPainting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndWallPainting"
+                    android:text="WALL PAINTING" />
+
+                <RadioButton
+                    android:id="@+id/rndTrolleyPainting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndTrolleyPainting"
+                    android:text="TROLLEY PAINTING" />
+
+                <RadioButton
+                    android:id="@+id/rndExhibition"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndExhibition"
+                    android:text="EXHIBITION" />
+                <RadioButton
+                    android:id="@+id/rndMarketDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndMarketDay"
+                    android:text="MARKET DAY ACTIVITIES" />
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnUploadATL"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rbutton"
+                android:text="Upload data"
+                android:textColor="@color/QRCodeBlackColor" />
+
+            <!--Upload general activities-->
+
+            <TextView
+                android:id="@+id/lblGeneral"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="UPLOAD GENERAL"
+                android:textStyle="bold" />
+            <RadioGroup
+                android:id="@+id/radGrp8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rndDistributorVisit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndDistributorVisit"
+                    android:text="DISTRIBUTOR VISIT" />
+
+                <RadioButton
+                    android:id="@+id/rndRetailerVisit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndRetailerVisit"
+                    android:text="RETAILER VISIT" />
+
+                <RadioButton
+                    android:id="@+id/rndFarmerVisit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndFarmerVisit"
+                    android:text="FARMER VISITS (GENERAL)" />
+
+
+                <RadioButton
+                    android:id="@+id/rndSamruddhaKisanVist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:visibility="gone"
+                    android:tag="@string/rndSamruddhaKisanVist"
+                    android:text="SAMRUDDHA KISAN VISITS" />
+
+                <RadioButton
+                    android:id="@+id/rndAddressing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndAddressing"
+                    android:text="ADDRESSING COMPLAINTS" />
+                <RadioButton
+                    android:id="@+id/rndReviewMeeting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndReviewMeeting"
+                    android:visibility="visible"
+                    android:text="REVIEW MEETING" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnUploadGen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rbutton"
+                android:text="Upload data"
+                android:textColor="@color/QRCodeBlackColor" />
+        </LinearLayout>
+
+
+    </ScrollView>
+    <RelativeLayout
+        android:id="@+id/relPRogress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:visibility="gone">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMdo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:elevation="10dp"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/myProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/headerAction"
+                    android:indeterminateTintMode="src_atop"
+                    android:visibility="visible"
+
+                    />
+
+                <TextView
+                    android:id="@+id/myTextProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/myProgress"
+                    android:background="@android:color/transparent"
+                    android:text="Uploading Data"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</RelativeLayout>
