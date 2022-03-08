@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SearchableSpinner">
+        <attr name="hintText" format="string"/>
+    </declare-styleable>
+    <declare-styleable name="CheckBoxAnimated">
+        <attr name="duration" format="integer"/>
+        <attr name="stroke_width" format="dimension"/>
+        <attr name="color_tick" format="color"/>
+        <attr name="color_checked" format="color"/>
+        <attr name="color_unchecked" format="color"/>
+        <attr name="color_unchecked_stroke" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="ScannerOverlay">
+        <attr name="square_width" format="integer" />
+        <attr name="square_height" format="integer" />
+        <attr name="line_color" format="color" />
+        <attr name="line_width" format="integer" />
+        <attr name="line_speed" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="BarcodeReader">
+        <attr name="auto_focus" format="boolean" />
+        <attr name="use_flash" format="boolean" />
+    </declare-styleable>
+
+</resources>

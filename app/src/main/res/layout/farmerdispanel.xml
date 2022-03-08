@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_marginTop="3dp"
+    android:layout_height="match_parent" >
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:stretchColumns="2">
+
+        <TableRow android:id="@+id/tableRow1">
+
+            <ImageView
+                android:id="@+id/imgprofile"
+                android:layout_width="65dp"
+                android:layout_height="60dp"
+ />
+
+            <TextView
+                android:id="@+id/txtname"
+                android:layout_width="120dip"
+                android:layout_height="40dp"
+                android:layout_marginBottom="2dp"
+                android:layout_span="2"
+                android:textSize="16sp"
+                android:textColor="#A89415"
+                android:text="Farmer name" />
+            <TextView
+                android:id="@+id/txtdate"
+                android:layout_width="70dip"
+                android:layout_height="30dp"
+                android:layout_marginBottom="2dp"
+                android:textSize="9sp"
+                android:text="date" />
+
+        </TableRow>
+
+        <TableRow android:id="@+id/tableRow2">
+
+            <TextView
+                android:id="@+id/txtCroptype"
+                android:layout_width="wrap_content"
+                android:layout_height="21dp"
+                android:layout_weight="1"
+                android:textColor="#178A5B"
+                 android:visibility="gone"
+                android:textSize="12sp"
+                android:text="Crop Type" />
+        </TableRow>
+
+        <TableRow android:id="@+id/tableRow3">
+
+            <ImageView
+                android:id="@+id/imgIssue"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_span="4"
+                android:background="@drawable/mystyles" />
+
+
+        </TableRow>
+        <TableRow android:id="@+id/tableRow4">
+
+            <TextView
+                android:id="@+id/txtIssueDesc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:layout_marginLeft="1dp"
+                android:layout_span="4"
+                android:text="Issue Description "
+                android:textSize="12sp" />
+
+
+
+        </TableRow>
+
+
+
+        <TableRow android:id="@+id/tableRow5">
+
+
+            <Button android:id="@+id/txtview" android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:padding="1dp"
+                android:textColor="#ffffff"
+                android:background="#178A5B"
+                android:layout_margin="5dp"
+                android:focusable="true"
+                android:textSize="8sp"
+                android:layout_marginTop="10dp"
+                android:layout_span="4"
+                android:layout_gravity="right"
+                android:text="View All Comments" />
+
+
+        </TableRow>
+    </TableLayout>
+
+
+</LinearLayout>

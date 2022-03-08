@@ -1,0 +1,183 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        >
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/logo"
+           android:visibility="gone"
+            android:layout_marginTop="5dp"
+            ></ImageView>
+        <TextView
+            android:id="@+id/lblheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:text="MDO Visit Weekly Plan"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        >
+        <TextView
+            android:id="@+id/lblMonth"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginLeft="10dp"
+
+            android:text="Month"
+            android:layout_weight="1"
+            />
+        <TextView
+            android:id="@+id/lblweek"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Week"
+            android:layout_weight="1"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+    >
+        <Spinner
+            android:id="@+id/spMonth"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/spinner"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:dropDownSelector="@color/colorPrimary2"
+            android:spinnerMode="dialog"
+            android:layout_weight="1"
+            />
+    <Spinner
+        android:id="@+id/spweek"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/spinner"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:dropDownSelector="@color/colorPrimary2"
+        android:spinnerMode="dialog"
+        android:layout_weight="1"
+        />
+
+</LinearLayout>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        >
+
+        <Spinner
+            android:id="@+id/spmdo"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/spinner"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:dropDownSelector="@color/colorPrimary2"
+            android:spinnerMode="dialog"
+            android:layout_weight="1"
+            />
+
+        <Button
+
+            android:id="@+id/btnReport"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/rbutton"
+            android:text="Show Report"
+            android:textColor="#000" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/lbl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:textColor="@color/QRCodeBlackColor"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/mdoName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+
+        android:textStyle="normal"
+        android:typeface="serif"
+        android:textColor="@color/QRCodeBlackColor"
+        android:textSize="11sp" />
+
+    <WebView
+        android:layout_marginTop="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/wb1"
+        >
+    </WebView>
+
+    <ScrollView
+        android:visibility="invisible"
+        android:id="@+id/layout1"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dip"
+        android:scrollbarStyle="outsideInset"
+        android:fillViewport="true">
+
+
+    </ScrollView>
+
+    <LinearLayout android:id="@+id/footer" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:orientation="horizontal"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layout_alignParentBottom="true" >
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,0 +1,408 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/Appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/gradient"
+            android:elevation="10dp">
+
+            <TextView
+                android:id="@+id/lblheader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:text="PARTICIPANT FARMER DETAILS"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+
+                />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/Appbar">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/relCount"
+            android:layout_gravity="center"
+            android:elevation="10dp"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true">
+
+
+            <RelativeLayout
+                android:id="@+id/relSearch"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relCount">
+
+
+
+
+                <LinearLayout
+                    android:id="@+id/llFocused"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/lblSearch"
+                    android:layout_marginTop="6dp"
+                    android:orientation="vertical">
+
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardTaluka"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:elevation="1dp"
+                        android:visibility="gone"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp"
+
+                        >
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spTaluka"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp" />
+                    </androidx.cardview.widget.CardView>
+
+
+
+
+                    <androidx.cardview.widget.CardView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:layout_margin="5dp"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp"
+
+                        >
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spVillage"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp" />
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:layout_below="@+id/llFocused"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="3"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/lblFarmers"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:text="No of Farmers :"
+                        android:layout_gravity="center_vertical"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textAllCaps="true"
+                        android:textSize="12sp"
+                        android:layout_margin="3dp"
+                        android:layout_weight="1"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_margin="5dp"
+                        android:weightSum="1"
+                        android:orientation="horizontal">
+
+
+<!--                        <Button-->
+<!--                            android:id="@+id/decrementFarmers"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_height="40dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:background="@drawable/minus"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textStyle="bold" />-->
+
+                        <EditText
+                            android:id="@+id/etFarmerNo"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_weight="1"
+                            android:background="#EFEFF7"
+                            android:gravity="center"
+                            android:maxLength="2"
+                            android:inputType="phone"
+                            android:textColor="@android:color/black"
+                            android:hint="@string/type_here"
+
+                            />
+
+<!--                        <Button-->
+<!--                            android:id="@+id/incrementFarmers"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:layout_weight="1"-->
+<!--                            android:layout_height="40dp"-->
+<!--                            android:background="@drawable/plus"-->
+<!--                            android:textColor="@android:color/black"-->
+<!--                            android:textStyle="bold" />-->
+                    </LinearLayout>
+
+
+                    <Button
+                        android:id="@+id/btnAdd"
+                        android:layout_margin="5dp"
+                        android:background="@drawable/gradient_button_bg"
+                        android:layout_width="0dp"
+                        android:text="ADD"
+                        android:layout_weight=".75"
+                        android:layout_height="40dp"
+                        android:textColor="@android:color/white"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+
+
+            </RelativeLayout>
+
+
+        </androidx.cardview.widget.CardView>
+
+
+        <RelativeLayout
+            android:id="@+id/relCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp">
+
+            <RadioGroup
+                android:id="@+id/radGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/line"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:orientation="vertical"
+                android:weightSum="2">
+
+
+                <RadioButton
+                    android:id="@+id/radFocused"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:checked="true"
+                    android:text="FOCUSED VILLAGES"
+
+                    />
+
+
+                <RadioButton
+                    android:id="@+id/radOther"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="OTHER VILLAGES (Not in Focus Village List)"
+
+                    />
+            </RadioGroup>
+        </RelativeLayout>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recDemoList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/cardSearch"
+           android:layout_above="@id/llFarmerCount"
+            android:visibility="visible" />
+        <LinearLayout
+            android:id="@+id/llFarmerCount"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="50dp"
+            android:background="#E3DFDE"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="2">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Total Farmers:"
+                    android:textColor="#000000"
+                    android:textSize="14dp"
+                    ></TextView>
+
+                <TextView
+                    android:id="@+id/txtFarmerCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    android:textStyle="bold">
+
+                </TextView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:text="Total Villages:"
+                    android:textColor="#000000"
+                    android:textSize="14dp"
+                    ></TextView>
+
+                <TextView
+                    android:id="@+id/txtVillageCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="0"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    android:textStyle="bold">
+
+                </TextView>
+            </LinearLayout>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/noDataText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textAllCaps="true"
+            android:text="No Records Found"
+            android:visibility="gone" />
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/relPRogress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:visibility="gone">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMdo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:layout_centerHorizontal="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/myProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/headerAction"
+                    android:indeterminateTintMode="src_atop"
+
+                    />
+
+                <TextView
+                    android:id="@+id/myTextProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="15sp"
+                    android:layout_toRightOf="@+id/myProgress"
+                    android:background="@android:color/transparent"
+                    android:text="Syncing data..."
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnSaveClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/gradient"
+        android:text="CLOSE"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        />
+
+</RelativeLayout>

@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="3dp"
+        android:orientation="vertical">
+        <!-- android:background="@drawable/border"> -->
+        <TextView
+            android:id="@+id/lblusername"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"
+            android:textAllCaps="true"
+            android:textColor="@color/Username"
+            android:textStyle="bold" />
+
+
+        <myactvity.mahyco.utils.GridRecyclerView
+            android:id="@+id/gridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:numColumns="2">
+
+        </myactvity.mahyco.utils.GridRecyclerView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:visibility="gone"
+            android:textAllCaps="true"
+            android:textColor="@color/Username"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/gradient"
+        android:gravity="center_vertical"
+        android:textAlignment="center"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:titleTextColor="@color/Whitecl">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=" HDPS/New Product Details "
+            android:textAllCaps="true"
+            android:textColor="@color/Whitecl"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <!-- Scrollable Content below header and above footer -->
+
+    <!-- Content below header and above footer -->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/footer"
+        android:layout_below="@id/toolbar"
+        android:gravity="center">
+
+        <ScrollView
+
+            android:id="@+id/container2"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginLeft="11dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_margin="10dp"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/border"
+                        android:orientation="vertical">
+
+
+                        <Button
+                            android:id="@+id/btndAdvanceBooking_hdps"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:visibility="visible"
+                            android:background="@drawable/btn_shape"
+                            android:text="HDPS\\NEW PRODUCT BOOKING"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textSize="12sp" />
+
+
+                        <Button
+                            android:visibility="gone"
+                            android:id="@+id/btndistribution"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/btn_shape"
+                            android:text="Booking Details"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btncouponpayment_hdps"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/btn_shape"
+                            android:text="ONLINE PAYMENT TRANSFER"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textSize="12sp" />
+
+                        <Button
+                            android:id="@+id/btncouponpaymentHistory_hdps"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/btn_shape"
+                            android:text="VIEW PAYMENT HISTORY"
+
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone">
+
+                        <EditText
+                            android:id="@+id/txtComments"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
+                            android:hint="COMMENTS (ANY KEY INFORMATION ABOUT RETAILER)"
+                            android:inputType="text"
+                            android:maxLength="50" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+        </ScrollView>
+    </RelativeLayout>
+
+
+    <!-- Footer aligned to bottom -->
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/footer1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

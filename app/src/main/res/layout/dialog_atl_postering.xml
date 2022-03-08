@@ -1,0 +1,373 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/Appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/gradient"
+            android:elevation="10dp">
+
+            <TextView
+                android:id="@+id/lblheader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="ADD POSTERING SPOTS"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold"
+
+                />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btnSaveClose"
+        android:layout_below="@+id/Appbar">
+
+        <RelativeLayout
+            android:id="@+id/footer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/Appbar">
+
+
+            <RelativeLayout
+                android:id="@+id/relCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp">
+
+                <!--TAG SPOT LOCATION-->
+                <TextView
+                    android:id="@+id/txtLocationTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="2dp"
+                    android:text="TAG SPOT LOCATION"
+                    android:textAllCaps="true"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:id="@+id/llTagField"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtLocationTitle"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="2dp"
+                    android:orientation="horizontal"
+                    android:weightSum="2">
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_margin="2dp"
+                        android:layout_weight="1.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvCordinatesPopup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="5dp"
+                            android:visibility="gone"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/tvAddressPopup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="5dp"
+                            android:text="" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/imgBtnGps"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_weight=".5"
+                        android:src="@drawable/ic_location_on" />
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/llTagField"
+                    android:layout_marginTop="6dp"
+                    android:orientation="vertical"
+                    android:weightSum="2">
+
+                <!-- CROP-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:text="CROP *"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp"
+
+                            >
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spCropType"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                <!--PRODUCT NAME -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:text="PRODUCT NAME *"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spProductName"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+                                />
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardSearch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relCount"
+                android:layout_gravity="center"
+                android:elevation="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true">
+
+
+                <RelativeLayout
+                    android:id="@+id/relSearch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relCount"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="10dp">
+
+                      <!--NO OF POSTERS-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tiTotalPOSTERS"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+
+                        <EditText
+                            android:id="@+id/etTotalPosters"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="NO. OF POSTERS"
+                            android:inputType="number"
+                            android:maxLength="50"
+                            android:textAllCaps="true" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- PHOTO OF THE SPOT/POSTER  -->
+                    <LinearLayout
+                        android:id="@+id/llPhotoButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tiTotalPOSTERS"
+                        android:layout_margin="10dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/btnSpotPhoto"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/btn_shape"
+                            android:text="PHOTO OF THE SPOT/POSTER"
+                            android:textColor="#fff" />
+
+                        <ImageView
+                            android:id="@+id/ivImage"
+                            android:layout_width="match_parent"
+                            android:layout_height="100dp"
+                            android:layout_gravity="center"
+                            android:visibility="visible"
+                            />
+
+                    </LinearLayout>
+
+                    <!--TOTAL SPOTS ADDED-->
+                    <TextView
+                        android:id="@+id/tiTotalspots"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="TOTAL SPOTS ADDED"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold"
+                        android:layout_below="@id/llPhotoButton"
+                        />
+                        <TextView
+                            android:layout_below="@id/tiTotalspots"
+                            android:id="@+id/etTotalSpots"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:maxLength="50"
+                            android:textAllCaps="true"
+
+                            />
+
+
+
+                </RelativeLayout>
+
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <!--PROGRESS LOADING -->
+    <RelativeLayout
+        android:id="@+id/relPRogress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:visibility="gone">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMdo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:elevation="10dp"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/myProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/headerAction"
+                    android:indeterminateTintMode="src_atop"
+
+                    />
+
+                <TextView
+                    android:id="@+id/myTextProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/myProgress"
+                    android:background="@android:color/transparent"
+                    android:text="Syncing data..."
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+    <!--SAVE AND CLOSE-->
+    <Button
+        android:id="@+id/btnSaveClose"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/gradient"
+        android:text="SAVE (CONTINUE IN SAME VILLAGE)"
+        android:textColor="@color/white"
+        android:textSize="16dp" />
+
+</RelativeLayout>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/gradient"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/lblbook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="ADD NEW RETAILER FOR VCP"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+
+            android:layout_weight="1"
+
+            />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:id="@+id/imgclose"
+            android:gravity="center"
+            android:src="@drawable/close"
+            android:scaleType="fitCenter" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/layout"
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal|vertical"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dip"
+        android:scrollbarStyle="outsideInset"
+        android:fillViewport="true">
+        <LinearLayout
+            android:id="@+id/li1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/lblretailername"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="2dp"
+                android:text="RETAILER NAME "
+                android:textColor="@color/QRCodeBlackColor"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtretailername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:hint="RETAILER NAME(TYPE HERE)"
+                android:maxLength="100"
+
+                />
+
+            <TextView
+                android:id="@+id/lblretailerfirmname"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="2dp"
+                android:text="RETAILER FIRM NAME "
+                android:textColor="@color/QRCodeBlackColor"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtretailerfirmname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:hint="RETAILER FIRM NAME(TYPE HERE)"
+                android:maxLength="100"
+
+                />
+            <TextView
+                android:id="@+id/lblretailermobileno"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="2dp"
+                android:text="RETAILER MOBILE NUMBER "
+                android:textColor="@color/QRCodeBlackColor"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtretailermobileno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:hint="RETAILER MOBILE NO(TYPE HERE)"
+                android:maxLength="10"
+                android:inputType="number"
+
+                />
+            <TextView
+                android:id="@+id/lblmarketplace"
+                android:layout_width="wrap_content"
+
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="2dp"
+                android:text="MARKET PLACE "
+                android:textColor="@color/QRCodeBlackColor"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtMarketPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:hint="MARKET PLACE(TYPE HERE)"
+                android:maxLength="100"
+                android:inputType="text"
+
+                />
+        </LinearLayout>
+
+
+
+
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="50dp"
+
+
+        android:layout_gravity="center">
+        <Button
+
+            android:id="@+id/btnaddmore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" SAVE"
+
+            android:textColor="@color/QRCodeBlackColor"
+            android:background="@drawable/rbutton"
+
+            />
+    </LinearLayout>
+</LinearLayout>

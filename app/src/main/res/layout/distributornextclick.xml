@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/Rl1"
+
+    android:layout_height="wrap_content">
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:layout_gravity="center">
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+
+        android:layout_alignParentBottom="true"
+
+        android:layout_gravity="center">
+        <Button
+
+            android:id="@+id/btnaddmore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" SAVE"
+
+            android:textColor="@color/QRCodeBlackColor"
+            android:background="@drawable/rbutton"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            />
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/footer"
+        android:layout_below="@+id/header"
+
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card_personal_info"
+            android:layout_margin="10dp"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical" >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/gradient"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/lblbook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#FFF"
+                        android:gravity="center"
+                        android:textSize="16sp"
+                        android:text="PRODUCT PLACEMENT DETAIL"
+                        android:textAllCaps="true"
+                        android:textStyle="bold"
+
+                        android:layout_weight="1"
+
+                        />
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:id="@+id/imgclose"
+                        android:gravity="center"
+                        android:src="@drawable/close"
+                        android:scaleType="fitCenter" />
+
+                </LinearLayout>
+
+
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#FFF"
+                    />
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="1dp"
+                    android:id="@+id/lineartime"
+                    android:layout_marginBottom="3dp"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_margin="5dp"
+                        android:layout_height="wrap_content"
+                        >
+
+
+
+
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/inputLayoutcompname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/inputLayout_firm_name"
+                            android:layout_marginTop="5dp"
+                            android:visibility="visible">
+
+                            <EditText
+                                android:id="@+id/txtprdname"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+
+                                android:hint="PRODUCT NAME"
+                                android:inputType="text"
+                                android:maxLength="100"
+                                android:textSize="@dimen/regularsize" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            android:id="@+id/inputLayout1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/inputLayout_firm_name"
+
+                            android:layout_marginTop="5dp"
+
+                            android:visibility="visible">
+
+                            <EditText
+                                android:id="@+id/txtreceivedstock"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:digits="0123456789"
+                                android:hint="CUMMULATIVE RECEIVED STOCK"
+                                android:inputType="numberSigned"
+                                android:maxLength="10"
+                                android:textSize="@dimen/regularsize" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            android:id="@+id/inputLayout4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/inputLayout_firm_name"
+
+                            android:layout_marginTop="5dp"
+
+                            android:visibility="visible">
+
+                            <EditText
+                                android:id="@+id/txtbalance"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:digits="0123456789"
+                                android:hint="BALANCE STOCK IN GODOWN"
+                                android:inputType="numberSigned"
+                                android:maxLength="10"
+                                android:textSize="@dimen/regularsize" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            android:id="@+id/inputLayout3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/inputLayout_firm_name"
+
+                            android:layout_marginTop="5dp"
+
+                            android:visibility="visible">
+
+                            <EditText
+                                android:id="@+id/txtqty"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:digits="0123456789"
+                                android:hint="QTY"
+                                android:inputType="numberSigned"
+                                android:maxLength="10"
+                                android:textSize="@dimen/regularsize" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+
+                            android:id="@+id/inputLayout"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/inputLayout_firm_name"
+
+                            android:layout_marginTop="5dp"
+
+                            android:visibility="visible">
+
+                            <EditText
+                                android:id="@+id/txtplacement"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:digits="0123456789"
+                                android:hint="PLACEMENT"
+                                android:inputType="numberSigned"
+                                android:maxLength="10"
+                                android:textSize="@dimen/regularsize" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                    </LinearLayout>
+
+
+
+
+
+                    <WebView
+                        android:visibility="gone"
+                        android:id="@+id/web1"
+                        android:layout_margin="4dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                    </WebView>
+                    <LinearLayout
+                        android:id="@+id/my_linear_layout1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+
+                        android:orientation="vertical">
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout></androidx.cardview.widget.CardView>
+    </ScrollView>
+
+</RelativeLayout>

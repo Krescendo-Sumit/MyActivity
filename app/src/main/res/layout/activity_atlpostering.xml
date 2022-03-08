@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="myactvity.mahyco.myActivityRecording.atlActivity.ATLPosteringActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/Appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/gradient"
+            android:elevation="10dp">
+
+            <TextView
+                android:id="@+id/lblheader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="ATL POSTERING"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold"
+
+                />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Appbar"
+        android:clickable="true"
+        android:fadeScrollbars="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:elevation="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:id="@+id/txt_posteringTypeTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:fontFamily="@font/titilliumwebbold"
+                        android:text="Select Postering Type*"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor" />
+
+                    <RadioGroup
+                        android:id="@+id/radGroupPosteringType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/line"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical"
+                        android:weightSum="3">
+
+                        <RadioButton
+                            android:id="@+id/radVillagePostering"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:text="VILLAGE POSTERING" />
+
+                        <RadioButton
+                            android:id="@+id/radMandiPostering"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="MANDI / MARKET POSTERING" />
+
+                        <RadioButton
+                            android:id="@+id/radRoadsidePostering"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="ROADSIDE POSTERING" />
+                    </RadioGroup>
+
+                    <!--RadioGroup Focused village/other village-->
+                    <RelativeLayout
+                        android:id="@+id/relVillageTYpeActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/txt_villageTypeTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:text="Select Village Type*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor" />
+
+
+                        <RadioGroup
+                            android:id="@+id/radGroupActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/txt_villageTypeTitle"
+                            android:layout_marginBottom="10dp"
+                            android:orientation="vertical"
+                            android:weightSum="2">
+
+                            <RadioButton
+                                android:id="@+id/radFocusedActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:checked="true"
+                                android:text="FOCUSED VILLAGES" />
+
+                            <RadioButton
+                                android:id="@+id/radOtherActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:text="OTHER VILLAGES (Not in Focus Village List)"
+
+                                />
+                        </RadioGroup>
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llFocussedVillages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txt_focussedVillageTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:text="Focused Villages *"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/cardFocussedVillage"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.CustomSearchableSpinner
+                                android:id="@+id/spFocusedVillages"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+                                />
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llOtherVillages"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="STATE *"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spState"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/tiotherSpecifyProcure"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="gone">
+
+                            <EditText
+                                android:id="@+id/etotherSpecifyProcure"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:hint="Specify Other*"
+                                android:inputType="textCapWords"
+                                android:maxLength="50"
+                                android:textAllCaps="true" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:text="DISTRICT *"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_month5"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+
+                                android:id="@+id/spDist"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:text="TALUKA *"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spTaluka"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                        <LinearLayout
+                            android:id="@+id/llVillage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="2dp"
+                                android:text="VILLAGE *"
+                                android:textColor="@color/QRCodeBlackColor"
+                                android:textStyle="bold" />
+
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardVillage"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1"
+                                android:elevation="1dp"
+                                android:innerRadius="0dp"
+                                android:shape="ring"
+                                android:thicknessRatio="1.9"
+                                app:cardCornerRadius="20dp">
+
+                                <myactvity.mahyco.helper.SearchableSpinner
+                                    android:id="@+id/spVillage"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp" />
+                            </androidx.cardview.widget.CardView>
+                        </LinearLayout>
+                    </LinearLayout>
+<LinearLayout
+    android:id="@+id/llMandi"
+    android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etMandiName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:focusableInTouchMode="true"
+                            android:hint="MANDI / MARKET NAME (TYPE HERE) *"
+                            android:inputType="textCapWords"
+                            android:maxLength="50"
+                            android:visibility="gone"
+                            android:textAllCaps="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/llTagStartLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:text="TAG START LOCATION *"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="2dp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1.5"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvCordinatesStartLocation"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_margin="5dp"
+                                    android:visibility="gone"
+                                    android:text="" />
+
+                                <TextView
+                                    android:id="@+id/tvAddressStartLocation"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_margin="5dp"
+                                    android:text="" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/imgBtnGpsStartLocation"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_weight=".5"
+                                android:src="@drawable/ic_location_on" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnAddPosteringSpots"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_shape"
+                        android:text="ADD POSTERING SPOTS"
+                        android:textColor="#fff" />
+
+                    <LinearLayout
+                        android:id="@+id/llTagEndLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:text="TAG END LOCATION *"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="2dp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1.5"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvCordinatesEndLocation"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_margin="5dp"
+                                    android:visibility="gone"
+                                    android:text="" />
+
+                                <TextView
+                                    android:id="@+id/tvAddressEndLocation"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_margin="5dp"
+                                    android:text="" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/imgBtnGpsEndLocation"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_weight=".5"
+                                android:src="@drawable/ic_location_on" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llSpot"
+                        android:visibility="gone"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp">
+
+                            <EditText
+                                android:id="@+id/etNumberOfSpots"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:focusableInTouchMode="true"
+                                android:hint="NUMBER OF SPOTS *"
+                                android:inputType="phone"
+                                android:maxLength="3"
+                                android:textAllCaps="true" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/llTagField"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="4dp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:text="Tag the Location *"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:layout_marginBottom="2dp"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="2dp"
+                                android:layout_weight="1.5"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvCordinates"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_margin="5dp"
+                                    android:visibility="gone"
+                                    android:text="" />
+
+                                <TextView
+                                    android:id="@+id/tvAddress"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_margin="5dp"
+                                    android:text="" />
+                            </LinearLayout>
+
+                            <ImageView
+                                android:id="@+id/imgBtnGps"
+                                android:layout_width="0dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_weight=".5"
+                                android:src="@drawable/ic_location_on" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+                    <Button
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_shape"
+                        android:text="SUBMIT (IF VILLAGE COMPLETED)"
+                        android:textColor="#fff"
+                        style="@style/Button"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+        </LinearLayout>
+    </ScrollView>
+    <RelativeLayout
+        android:id="@+id/relPRogress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:visibility="gone">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMdo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:elevation="10dp"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/myProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/headerAction"
+                    android:indeterminateTintMode="src_atop"
+                    android:visibility="visible"
+
+                    />
+
+                <TextView
+                    android:id="@+id/myTextProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toRightOf="@+id/myProgress"
+                    android:background="@android:color/transparent"
+                    android:text="Uploading Data"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+</RelativeLayout>

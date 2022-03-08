@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "335889981723",
+    "firebase_url": "https://activity-15476.firebaseio.com",
+    "project_id": "activity-15476",
+    "storage_bucket": "activity-15476.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335889981723:android:2978f7e746aa48f5",
+        "android_client_info": {
+          "package_name": "myactvity.mahyco"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "335889981723-q7er06e1q4neqkg5uqvlbignvr13t0bm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1VCWnU2nD1RJCCJuDNO98hBdPin8TNEg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "335889981723-q7er06e1q4neqkg5uqvlbignvr13t0bm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

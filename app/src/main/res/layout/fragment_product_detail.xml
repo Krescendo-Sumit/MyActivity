@@ -1,0 +1,78 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        android:textColor="@color/Whitecl"
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/colorPrimary2"
+        android:text="@string/CottonCrop" /> />
+
+     <myactvity.mahyco.MyGridView
+        android:id="@+id/gridView"
+        android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+        android:columnWidth="100dp"
+        android:gravity="center"
+        android:horizontalSpacing="5dp"
+        android:numColumns="2"
+        android:stretchMode="columnWidth"
+
+        android:verticalSpacing="5dp"></myactvity.mahyco.MyGridView>
+
+     <TextView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:textSize="16sp"
+         android:textStyle="normal"
+         android:textColor="@color/Whitecl"
+         android:background="@color/colorPrimary2"
+         android:text="@string/Vegetable" />
+     <myactvity.mahyco.MyGridView
+         android:id="@+id/gridViewVegeteble"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:columnWidth="100dp"
+         android:gravity="center"
+         android:horizontalSpacing="5dp"
+         android:numColumns="2"
+         android:stretchMode="columnWidth"
+
+         android:verticalSpacing="5dp"></myactvity.mahyco.MyGridView>
+
+     <TextView
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:textSize="16sp"
+         android:textStyle="normal"
+         android:textColor="@color/Whitecl"
+         android:background="@color/colorPrimary2"
+         android:text="@string/RowCrop" />
+     <myactvity.mahyco.MyGridView
+         android:id="@+id/gridViewRowCrop"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:columnWidth="100dp"
+         android:gravity="center"
+         android:horizontalSpacing="5dp"
+         android:numColumns="2"
+         android:stretchMode="columnWidth"
+         android:verticalSpacing="5dp"></myactvity.mahyco.MyGridView>
+
+
+</LinearLayout></ScrollView>
+
+
+

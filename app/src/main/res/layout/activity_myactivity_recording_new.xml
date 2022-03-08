@@ -1,0 +1,478 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="beforeDescendants"
+    android:focusableInTouchMode="true">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/Appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/gradient"
+            android:elevation="10dp">
+
+            <TextView
+                android:id="@+id/lblheader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="MY ACTIVITY RECORDING"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold"
+
+                />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ScrollView
+        android:id="@+id/container"
+        android:clickable="true"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Appbar"
+        android:fadeScrollbars="false">
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:elevation="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="ACTIVITY TYPE* "
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <RadioGroup
+                        android:id="@+id/radGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/line"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical"
+                        android:weightSum="5">
+
+
+                        <RadioButton
+                            android:id="@+id/radPost"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:text="POST SEASON ACTIVITIES"
+
+                            />
+
+
+                        <RadioButton
+                            android:id="@+id/radPre"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="PRE SEASON ACTIVITIES"
+
+                            />
+
+                        <RadioButton
+                            android:id="@+id/radAlt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="ATL ACTIVITIES"
+
+                            />
+
+                        <RadioButton
+                            android:id="@+id/radGeneral"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="GENERAL ACTIVITIES"
+
+                            />
+                        <RadioButton
+                            android:id="@+id/radDigital"
+                            android:layout_width="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="1"
+                            android:text="DIGITAL MARKETING"
+
+                            />
+                    </RadioGroup>
+
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="SELECT ACTIVITY *"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+
+                            android:id="@+id/spActivity"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                </LinearLayout>
+
+
+
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ATL"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp">
+
+                    <Button
+                        android:id="@+id/openActivity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="ATL POSTER"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="ATL"
+                            android:textColor="#000000"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:orientation="horizontal">
+
+                            <Button
+                                android:id="@+id/openActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="bottom"
+                                android:text="ATL POSTER"
+                                android:visibility="visible" />
+
+                            <Button
+                                android:id="@+id/openActivityWallPainting"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="bottom"
+                                android:text="ATL WALL PAINTING"
+                                android:visibility="visible" />
+
+                            <Button
+                                android:id="@+id/openFieldActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="bottom"
+                                android:text="FIELD BOARD"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:orientation="horizontal">
+                            <Button
+                                android:id="@+id/openFieldActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="bottom"
+                                android:text="FIELD BOARD"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginLeft="10dp">
+
+                            <Button
+                                android:id="@+id/openFieldBannerActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="bottom"
+                                android:text="FIELD BANNER"
+                                android:visibility="visible" />
+
+
+                            <Button
+                                android:id="@+id/openFieldTrollyActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="bottom"
+                                android:text="Trolly"
+                                android:visibility="visible" />
+
+                            <Button
+                                android:id="@+id/openExhibitionActivity"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:gravity="bottom"
+                                android:text="EXHIBITION"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Pre Season"
+                            android:textColor="#000000"
+                            android:textSize="16dp"
+                            android:textStyle="bold" />
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <Button
+                                android:id="@+id/openPreTestimonial"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="bottom"
+                                android:text="Testimonial Collection"
+                                android:visibility="visible" />
+
+                            <Button
+                                android:id="@+id/openPreSanmanMela"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="bottom"
+                                android:text="Sanman Mela"
+                                android:visibility="visible" />
+
+                            <Button
+                                android:id="@+id/openPreVillageMeeting"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="bottom"
+                                android:text="Village Meeting (Day / Night)"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:orientation="horizontal"
+                            android:weightSum="3">
+
+                            <Button
+                                android:id="@+id/openPrePromotion"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="bottom"
+                                android:text="PROMOTION THROUGH ENTERTAINMENT (Nukad, Bharud, etc.)"
+                                android:visibility="visible" />
+
+                            <Button
+                                android:id="@+id/openPreCropSeminar"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="bottom"
+                                android:text="CROP SEMINAR"
+                                android:visibility="visible" />
+
+                            <Button
+                                android:id="@+id/openPreJeepCampaigning"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="bottom"
+                                android:text="JEEP CAMPAIGNING"
+                                android:visibility="visible" />
+                        </LinearLayout>
+                    </LinearLayout>
+                    <Button
+                        android:id="@+id/openExhibitionActivity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="EXHIBITION"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Pre Season"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp">
+
+                    <Button
+                        android:id="@+id/openPreTestimonial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="Testimonial Collection"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="GENERAL ACTIVITY"
+                    android:textColor="#000000"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_margin="10dp">
+
+                    <Button
+                        android:id="@+id/openRetailerVisits"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="Retailer Visits"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/openDistVisits"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="Dist Visits"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/openFarmerVisits"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="Farmer Visits"
+                        android:visibility="visible" />
+
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="2"
+                    android:layout_margin="5dp">
+                    <Button
+                        android:id="@+id/openSamruddhaKisanVisits"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="Samruddha Kisan Visits"
+                        android:visibility="visible" />
+
+                    <Button
+                        android:id="@+id/openAddressComplaint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:text="Addressing Complaint"
+                        android:textSize="14dp"
+                        android:visibility="visible" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

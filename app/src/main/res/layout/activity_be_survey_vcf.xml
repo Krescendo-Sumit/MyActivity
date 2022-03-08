@@ -1,0 +1,2316 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/Appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/gradient"
+            android:elevation="10dp">
+
+            <TextView
+                android:id="@+id/lblheader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="BE Survey(VCF)"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold"
+
+                />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/Appbar"
+        android:fillViewport="true"
+        android:fadeScrollbars="false">
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:elevation="10dp"
+                app:cardCornerRadius="5dp"
+                app:cardUseCompatPadding="true"
+                >
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                <!--Radio group distributor/retailer-->
+                <RadioGroup
+                    android:id="@+id/radGroupActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:weightSum="2">
+
+                    <RadioButton
+                        android:id="@+id/radDistributorActivity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:checked="true"
+                        android:text="DISTRIBUTORS" />
+
+                    <RadioButton
+                        android:id="@+id/radRetailerActivity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:text="RETAILERS"
+
+                        />
+                </RadioGroup>
+
+                <LinearLayout
+                    android:id="@+id/llDistributors"
+                    android:layout_below="@id/radGroupActivity"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:visibility="visible"
+                    android:orientation="vertical">
+
+
+                <!-- Distributor Name-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtLyName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="DISTRIBUTOR'S NAME *"
+                        android:focusable="false"
+                        android:focusableInTouchMode="true"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/error_appearance"
+                       >
+
+                        <EditText
+                            android:id="@+id/etDistributorName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:inputType="text"
+                            android:maxLength="50"
+                            />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Distributor Mobile num-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/txtLyNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="MOBILE NUMBER *"
+                        app:errorEnabled="true"
+                        app:errorTextAppearance="@style/error_appearance"
+                        android:focusable="false"
+                        android:focusableInTouchMode="true"
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etMobileNumberdistributor"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:inputType="number"
+                            android:maxLength="10" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+            <!--State/dis/taluka/village options -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    >
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="STATE *"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month5"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+
+                            android:id="@+id/spState"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="DISTRICT *"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month6"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+
+
+                            android:id="@+id/spDist"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="TALUKA*"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spTaluka"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/etVillage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:ems="10"
+                            android:hint="VILLAGE *"
+                            android:maxLength="20"
+                            android:inputType="text" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>
+
+
+                    <!--HowLongSellingProduct-->
+                    <TextView
+                        android:id="@+id/txtDistQues1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:textAllCaps="true"
+                        android:fontFamily="@font/titilliumwebbold"
+                        android:text="@string/_1_how_long_have_you_been_selling_mahyco_products"
+                        android:textColor="@color/QRCodeBlackColor" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spHowLong"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <!--ProductPerformance-->
+                        <TextView
+                            android:id="@+id/txtDistQues2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:text="@string/_2_are_you_satisfied_with_the_consistancy_of_our_product_performance"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spProductPerformance"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                    <!--QtySatisfactory-->
+                        <TextView
+                            android:id="@+id/txtDistQues3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="3dp"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textAllCaps="true"
+                            android:text="@string/_3_do_you_consider_mahyco_product_quality_satisfactory"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spQtySatisfactory"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                        <!--ProductRange-->
+                        <TextView
+                            android:id="@+id/txtDistQues4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="15dp"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:text="@string/_4_are_you_satisfied_with_the_range_of_products_in_the_given_segment_market"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spProductRange"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                        <!--Compared with competitors Qty-->
+                        <TextView
+                            android:id="@+id/txtDistQues5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="15dp"
+                            android:text="@string/_5_compared_to_the_our_major_competitors_how_is_our_product_quality"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spComparedQty"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                        <!--RatePricing of product-->
+                            <TextView
+                                android:id="@+id/txtDistQues6"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="10dp"
+                                android:text="6.How would you rate pricing of Mahyco Products with key competitors in the respective segment ? *"
+                                android:textAllCaps="true"
+                                android:textColor="@color/QRCodeBlackColor"
+                                android:fontFamily="@font/titilliumwebbold" />
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1"
+                                android:elevation="1dp"
+                                android:innerRadius="0dp"
+                                android:shape="ring"
+                                android:thicknessRatio="1.9"
+                                app:cardCornerRadius="20dp">
+
+                                <myactvity.mahyco.helper.SearchableSpinner
+                                    android:id="@+id/spRatePrice"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+
+
+                                    />
+                            </androidx.cardview.widget.CardView>
+
+                        <!--OrderProcessSatisfactory-->
+                                <TextView
+                                    android:id="@+id/txtDistQues7"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginTop="10dp"
+                                    android:text="7.Did you find the order and delivery process satisfactory ? *"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/QRCodeBlackColor"
+                                    android:fontFamily="@font/titilliumwebbold" />
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/card_month1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginRight="1dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:elevation="1dp"
+                                    android:innerRadius="0dp"
+                                    android:shape="ring"
+                                    android:thicknessRatio="1.9"
+                                    app:cardCornerRadius="20dp">
+
+                                    <myactvity.mahyco.helper.SearchableSpinner
+                                        android:id="@+id/spOrderProcess"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp"
+
+
+                                        />
+                                </androidx.cardview.widget.CardView>
+
+                        <!--Received the ordered products on time-->
+                                <TextView
+                                    android:id="@+id/txtDistQues8"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginTop="10dp"
+                                    android:text="8.Do you recieve the ordered products on right time and in right quantity ? *"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/QRCodeBlackColor"
+                                    android:fontFamily="@font/titilliumwebbold" />
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/card_month7"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginRight="1dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:elevation="1dp"
+                                    android:innerRadius="0dp"
+                                    android:shape="ring"
+                                    android:thicknessRatio="1.9"
+                                    app:cardCornerRadius="20dp">
+
+                                    <myactvity.mahyco.helper.SearchableSpinner
+                                        android:id="@+id/spReceivedOrderTime"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp"
+
+
+                                        />
+                                </androidx.cardview.widget.CardView>
+
+
+                    <!--rate field promotional activities-->
+                        <TextView
+                            android:id="@+id/txtDistQues9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="9.How do you rate our field promotional activities ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_month9"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spPromoAct"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                    <!--invited for Mahycos -->
+                        <TextView
+                            android:id="@+id/txtDistQues10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="10.Are you invited for Mahycos one to many farmer actvities ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_month10"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spInvite"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                    <!--rate our responsiveness-->
+                        <TextView
+                            android:id="@+id/txtDistQues11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="11.How do you rate our responsiveness in Dealing with you ? *"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_month11"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spResponsive"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                        <!-- opinion of Mahyco's customer service -->
+                        <TextView
+                            android:id="@+id/txtDistQues12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="12.What is your opinion of Mahyco's customer service when compared to Key competitors ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_month12"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spOpinionCustService"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                        <!--sales return policy-->
+                        <TextView
+                            android:id="@+id/txtDistQues13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="13.Are you satisfied with the sales return policy of Mahyco ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_month13"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spReturnPolicy"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+                        <!--resolve your complaints-->
+                        <TextView
+                            android:id="@+id/txtDistQues14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="14.How much efforts did you personally have to put to resolve your complaints ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_month14"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spResolveComplaint"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                        <!--recieve prompt response-->
+                        <TextView
+                            android:id="@+id/txtDistQues15"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="15.Do you recieve prompt response to customer complaints ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:id="@+id/card_month15"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spPromptResponse"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                     <!--communication of the incentive schemes -->
+                    <TextView
+                        android:id="@+id/txtDistQues16"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="16.Are you getting the timely communication of the incentive schemes and other company policies ?*"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month16"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spIncentiveScheme"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <!--completing sales return process -->
+                    <TextView
+                        android:id="@+id/txtDistQues17"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="17.Are you satisfied with the time taken for completing sales return process after the season ?*"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month17"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spCompletionTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <!--difficulty in reaching out sales staff -->
+                    <TextView
+                        android:id="@+id/txtDistQues18"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="18.Did you find difficulty in reaching out to the sales staff post sales ?*"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month18"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spSalesStaff"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <!--information provided -->
+                    <TextView
+                        android:id="@+id/txtDistQues19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="19.Rate the accuracy of the information provided by Mahyco sales staff ?*"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month19"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spInfoProvided"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <!--promises and commitments are honoured-->
+                    <TextView
+                        android:id="@+id/txtDistQues20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="20.How often TBM/MDO's make sure that promises and commitments are honoured?*"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month20"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spPromiseHonoured"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <!--number of  Manpower (MDO) -->
+                    <TextView
+                        android:id="@+id/txtDistQues21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="21.Are you happy with number of  Manpower (MDO) provided for your area ?*"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month21"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spManPowerNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <!--taken for resolving the complaint -->
+                    <TextView
+                        android:id="@+id/txtDistQues22"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="22.What is the time taken for resolving the complaints by Mahyco staff ?*"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month22"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spComplaintTime"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+
+                    <!--rate overall services -->
+                    <TextView
+                        android:id="@+id/txtDistQues23"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="23.How do you rate overall services of Mahyco staff Vs Key competitors staff ?*"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month23"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spRateService"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <!--rate the transparency  -->
+                    <TextView
+                        android:id="@+id/txtDistQues24"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="24.How Do you rate the transparency of the incentive and other schemes of Mahyco ?*"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month24"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spTransprency"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <!--response time to problems-->
+                    <TextView
+                        android:id="@+id/txtDistQues25"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="25.What is the response time to problems or issues related to accounting ?*"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:fontFamily="@font/titilliumwebbold" />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month25"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spRestimeAccount"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+
+                </LinearLayout>
+
+                 <LinearLayout
+                        android:orientation="vertical"
+                        android:id="@+id/llRetailers"
+                        android:layout_below="@id/radGroupActivity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:visibility="gone">
+                        <!--Retailer Name-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/txtLyRetailerName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="RETAILER'S NAME *"
+                            app:errorEnabled="true"
+                            android:focusable="false"
+                            android:focusableInTouchMode="true"
+                            app:errorTextAppearance="@style/error_appearance"
+                            android:layout_marginTop="5dp">
+
+                            <EditText
+                                android:id="@+id/etRetailerName"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+                                android:inputType="text"
+                                android:maxLength="50" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Retailer Mobile num-->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/txtLyRetailerNumber"
+                            app:errorEnabled="true"
+                            app:errorTextAppearance="@style/error_appearance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            android:focusableInTouchMode="true"
+                            android:hint="MOBILE NUMBER *"
+                            android:layout_marginTop="5dp">
+
+                            <EditText
+                                android:id="@+id/etMobileNumberRetailer"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ems="10"
+
+                                android:inputType="number"
+                                android:maxLength="10" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!--State/dis/taluka/village options -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            >
+                            <TextView
+
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="10dp"
+                                android:text="STATE *"
+                                android:textColor="@color/QRCodeBlackColor"
+                                android:textStyle="bold" />
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1"
+                                android:elevation="1dp"
+                                android:innerRadius="0dp"
+                                android:shape="ring"
+                                android:thicknessRatio="1.9"
+                                app:cardCornerRadius="20dp">
+
+                                <myactvity.mahyco.helper.SearchableSpinner
+
+                                    android:id="@+id/spState1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+
+
+                                    />
+                            </androidx.cardview.widget.CardView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="2dp"
+                                android:text="DISTRICT *"
+                                android:textColor="@color/QRCodeBlackColor"
+                                android:textStyle="bold" />
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1"
+                                android:elevation="1dp"
+                                android:innerRadius="0dp"
+                                android:shape="ring"
+                                android:thicknessRatio="1.9"
+                                app:cardCornerRadius="20dp">
+
+                                <myactvity.mahyco.helper.SearchableSpinner
+
+
+                                    android:id="@+id/spDist1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+
+
+                                    />
+                            </androidx.cardview.widget.CardView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="2dp"
+                                android:text="TALUKA*"
+                                android:textColor="@color/QRCodeBlackColor"
+                                android:textStyle="bold" />
+
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+                                android:layout_marginLeft="1dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="1dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1"
+                                android:elevation="1dp"
+                                android:innerRadius="0dp"
+                                android:shape="ring"
+                                android:thicknessRatio="1.9"
+                                app:cardCornerRadius="20dp">
+
+                                <myactvity.mahyco.helper.SearchableSpinner
+                                    android:id="@+id/spTaluka1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+
+
+                                    />
+                            </androidx.cardview.widget.CardView>
+
+                            <com.google.android.material.textfield.TextInputLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <EditText
+                                    android:id="@+id/etVillage1"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:ems="10"
+                                    android:hint="VILLAGE *"
+                                    android:maxLength="20"
+                                    android:inputType="text" />
+                            </com.google.android.material.textfield.TextInputLayout>
+
+                        </LinearLayout>
+
+                        <!--HowLongSellingProduct-->
+                        <TextView
+                            android:id="@+id/txtReQues1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:text="@string/_1_how_long_have_you_been_selling_mahyco_products"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spHowLong1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                        <!--ProductPerformance-->
+                        <TextView
+                            android:id="@+id/txtReQues2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:text="@string/_2_are_you_satisfied_with_the_consistancy_of_our_product_performance"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spProductPerformance1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                        <!--QtySatisfactory-->
+                        <TextView
+                            android:id="@+id/txtReQues3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginRight="3dp"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textAllCaps="true"
+                            android:text="@string/_3_do_you_consider_mahyco_product_quality_satisfactory"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spQtySatisfactory1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                        <!--ProductRange-->
+                        <TextView
+                            android:id="@+id/txtReQues4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="15dp"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:text="@string/_4_are_you_satisfied_with_the_range_of_products_in_the_given_segment_market"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spProductRange1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                        <!--Compared with competitors Qty-->
+                        <TextView
+                            android:id="@+id/txtReQues5"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="15dp"
+                            android:text="@string/_5_compared_to_the_our_major_competitors_how_is_our_product_quality"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spComparedQty1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+
+                     <!--satisfied with the Quality and other -->
+                        <TextView
+                            android:id="@+id/txtReQues6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="15dp"
+                            android:text="6.Are you satisfied with the Quality of packing , design &amp; size, legibility of the contents ? *"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spQuality"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                     <!--product meet the requirements -->
+                        <TextView
+                            android:id="@+id/txtReQues7"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="15dp"
+                            android:text="7.How well does our product meet the requirements of your geography ?*"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spRequirement"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                     <!--rate Mahyco products  -->
+                        <TextView
+                            android:id="@+id/txtReQues8"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="15dp"
+                            android:text="8.How do you rate Mahyco products compared with key competitors ?*"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spRateMahycoPro"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                     <!-- staff visit you for promotion -->
+                        <TextView
+                            android:id="@+id/txtReQues9"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="15dp"
+                            android:text="9.Did the company staff visit you for promotion of the product before the season ?*"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spStaffVisit"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                     <!--information provided -->
+                        <TextView
+                            android:id="@+id/txtReQues10"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="15dp"
+                            android:text="10.Rate the accuracy of the information provided by Mahyco sales staff ? *"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spInfoProvided1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                     <!--rate the keenness  of Mahyco staff -->
+                        <TextView
+                            android:id="@+id/txtReQues11"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="15dp"
+                            android:text="11.How do you rate the keenness  of Mahyco staff to meet your needs /expectations ? *"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spStaffKeenness"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+                     <!--frequency of visit by Mahyco Sales person -->
+                        <TextView
+                            android:id="@+id/txtReQues12"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="15dp"
+                            android:text="12.What is the frequency of visit by Mahyco Sales person to your outlet ? *"
+                            android:textAllCaps="true"
+                            android:fontFamily="@font/titilliumwebbold"
+                            android:textColor="@color/QRCodeBlackColor" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spSalesPersonVisit"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+
+
+                        <!-- opinion of Mahyco's customer service -->
+                        <TextView
+                            android:id="@+id/txtReQues13"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="13.What is your opinion of Mahyco's customer service when compared to Key competitors ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spOpinionCustService1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                        <!--sales return policy-->
+                        <TextView
+                            android:id="@+id/txtReQues14"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="14.Are you satisfied with the sales return policy of Mahyco ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spReturnPolicy1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                        <!--difficulty in reaching out sales staff -->
+                        <TextView
+                            android:id="@+id/txtReQues15"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="15.Did you find difficulty in reaching out to the sales staff post sales ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spSalesStaff1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+                     <!--resolve your complaints-->
+                     <TextView
+                         android:id="@+id/txtReQues16"
+                         android:layout_width="wrap_content"
+                         android:layout_height="wrap_content"
+                         android:layout_gravity="center_vertical"
+                         android:layout_marginTop="10dp"
+                         android:text="16.How much efforts did you personally have to put to resolve your complaints ?*"
+                         android:textAllCaps="true"
+                         android:textColor="@color/QRCodeBlackColor"
+                         android:fontFamily="@font/titilliumwebbold" />
+                     <androidx.cardview.widget.CardView
+                         android:layout_width="match_parent"
+                         android:layout_height="40dp"
+                         android:layout_marginLeft="1dp"
+                         android:layout_marginTop="5dp"
+                         android:layout_marginRight="1dp"
+                         android:layout_marginBottom="5dp"
+                         android:layout_weight="1"
+                         android:elevation="1dp"
+                         android:innerRadius="0dp"
+                         android:shape="ring"
+                         android:thicknessRatio="1.9"
+                         app:cardCornerRadius="20dp">
+
+                         <myactvity.mahyco.helper.SearchableSpinner
+                             android:id="@+id/spResolveComplaint1"
+                             android:layout_width="match_parent"
+                             android:layout_height="40dp"
+
+
+                             />
+                     </androidx.cardview.widget.CardView>
+
+
+                        <!--recieve prompt response-->
+                        <TextView
+                            android:id="@+id/txtReQues17"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="17.Do you recieve prompt response to customer complaints ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spPromptResponse1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                        <!--promises and commitments are honoured-->
+                        <TextView
+                            android:id="@+id/txtReQues18"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="18.How often TBM/MDO's make sure that promises and commitments are honoured?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spPromiseHonoured1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+                        <!--taken for resolving the complaint -->
+                        <TextView
+                            android:id="@+id/txtReQues19"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="19.What is the time taken for resolving the complaints by Mahyco staff ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spComplaintTime1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+                        <!--rate overall services -->
+                        <TextView
+                            android:id="@+id/txtReQues20"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="20.How do you rate overall services of Mahyco staff Vs Key competitors staff ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spRateService1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+                     <!--invited for Mahycos Cropshows/field -->
+                        <TextView
+                            android:id="@+id/txtReQues21"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="21.Are you invited for Mahycos Cropshows/field days ? *"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spInvitedForField"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+
+                        <!--rate field promotional activities-->
+                        <TextView
+                            android:id="@+id/txtReQues22"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="22.How do you rate our field promotional activities ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spPromoAct1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+                     <!--information provided by Mahyco sales person regarding products-->
+                        <TextView
+                            android:id="@+id/txtReQues23"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="23.Are you satisfied with the information provided by Mahyco sales person regarding products, schemes and discounts ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spInfoProvided2"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+                        <!--communication of the incentive schemes -->
+                        <TextView
+                            android:id="@+id/txtReQues24"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="24.Are you getting the timely communication of the incentive schemes and other company policies ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spIncentiveScheme1"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+                     <!--sales conversion based on promotional Activity -->
+                        <TextView
+                            android:id="@+id/txtReQues25"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="25.How is the sales conversion based on promotional activities done in your area ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spSalesConversion"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+                     <!--satisfied by loyality program -->
+                        <TextView
+                            android:id="@+id/txtReQues26"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="26.Are you satisfied by loyality program run by the companies ?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spLoyalityProgram"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+                     <!--best loyality program -->
+                        <TextView
+                            android:id="@+id/txtReQues27"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="10dp"
+                            android:text="27.Which company has best loyality program?*"
+                            android:textAllCaps="true"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:fontFamily="@font/titilliumwebbold" />
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.helper.SearchableSpinner
+                                android:id="@+id/spBstLoyalityProgram"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+
+
+                     <Button
+                         android:layout_below="@id/llRetailers"
+                         android:id="@+id/btnSubmitRetailer"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_margin="10dp"
+                         android:background="@drawable/btn_shape"
+                         android:text="Submit"
+                         android:textColor="#fff"
+                         android:visibility="gone"
+                         />
+                    </LinearLayout>
+
+                    <Button
+                       android:layout_below="@id/llDistributors"
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_shape"
+                        android:text="Submit"
+                        android:textColor="#fff"
+
+                        />
+                </RelativeLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/relPRogress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:visibility="gone">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMdo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:layout_centerHorizontal="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/myProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/headerAction"
+                    android:indeterminateTintMode="src_atop"
+
+                    />
+
+                <TextView
+                    android:id="@+id/myTextProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="15sp"
+                    android:layout_toRightOf="@+id/myProgress"
+                    android:background="@android:color/transparent"
+                    android:text="Uploading Data"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

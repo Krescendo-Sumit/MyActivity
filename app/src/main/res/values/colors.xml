@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#4CAF50</color>
+    <color name="colorPrimary2">#ED8404</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="Whitecl">#FFFFFF</color>
+    <color name="DarkGrey">#858585</color>
+    <color name="lightgreen">#6AB344</color>
+    <color name="DarkGreen">#008A00</color>
+    <color name="Lowgreen">#178A5B</color>
+    <color name="Username">#771200</color>
+    <color name="draklightgreen">#475A01</color>
+    <color name="headerAction">#008A00</color>
+    <color name="headerlightgreen">#38ef7d</color>
+    <color name="headerdarkgreen">#11998e</color>
+    <color name="QRCodeWhiteColor">#ffffff</color>
+    <color name="splashheader">#008080</color>
+
+
+    <color name="QRCodeBlackColor">#000000</color>
+    <color name="lightgray">#ECECEC</color>
+    <color name="lightgrey">#F0F0F0</color>
+    <color name="grey">#C9C9C9</color>
+
+    <color name="Dashboard">#F6BC1C</color>
+    <color name="redbus2">#D84F57</color>
+    <color name="background">#F1F6E2</color>
+    <color name="maroon">#800000</color>
+    <color name="white">#ffffff</color>
+    <color name="heback">#2b3a56</color>
+    <color name="transparent">#00ffffff</color>
+    <color name="issyncedcolor">#EEF3E9</color>
+    <color name="isnotsyncedcolor">#F9E9EC</color>
+    <color name="redbus">#562B3A</color>
+    <color name="hintColor">#787878</color>
+    <color name="errorColor">#FF0000</color>
+    <color name="wallet_bright_foreground_disabled_holo_light">#ffb2b2b2</color>
+    <color name="wallet_bright_foreground_holo_dark">#fff3f3f3</color>
+    <color name="wallet_bright_foreground_holo_light">#ff000000</color>
+    <color name="wallet_dim_foreground_disabled_holo_dark">#80bebebe</color>
+    <color name="wallet_dim_foreground_holo_dark">#bebebe</color>
+    <color name="wallet_highlighted_text_holo_dark">#6633b5e5</color>
+    <color name="wallet_highlighted_text_holo_light">#6633b5e5</color>
+    <color name="wallet_hint_foreground_holo_dark">#808080</color>
+    <color name="wallet_hint_foreground_holo_light">#808080</color>
+    <color name="wallet_holo_blue_light">#ff33b5e5</color>
+    <color name="wallet_link_text_light">#0000ee</color>
+
+</resources>

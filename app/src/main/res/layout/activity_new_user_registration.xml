@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/gradient"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:id="@+id/backbtn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:id="@+id/lblheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@+id/backbtn"
+            android:text="Samruddha Kisan Registration "
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+    <!-- Scrollable Content below header and above footer -->
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="80dp"
+        android:layout_below="@id/header">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/card_personal_info"
+            android:layout_margin="10dp"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/EnterMobileNo"
+                    android:visibility="gone" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:id="@+id/inputLayout_phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/inputLayout_firm_name"
+                    android:layout_marginTop="5dp"
+                    android:textColorHint="@color/DarkGrey"
+                    android:visibility="visible">
+
+
+                    <EditText
+                        android:id="@+id/txtname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                        android:hint="Samruddha Kisan Name"
+                        android:imeOptions="actionUnspecified"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:singleLine="true"
+
+                        android:textColorHint="@color/DarkGrey"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_month0"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:elevation="1dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9"
+                    app:cardCornerRadius="20dp">
+
+                    <myactvity.mahyco.helper.SearchableSpinner
+                        android:id="@+id/spState"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="3dp"
+                        android:textSize="15sp"
+
+                        />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_month"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:elevation="1dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9"
+                    app:cardCornerRadius="20dp">
+
+                    <myactvity.mahyco.helper.SearchableSpinner
+                        android:id="@+id/spDist"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_margin="3dp"
+                        android:textSize="15sp"
+
+                        />
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_week"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:elevation="1dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9"
+
+                    app:cardCornerRadius="20dp">
+
+                    <myactvity.mahyco.helper.SearchableSpinner
+                        android:id="@+id/spTaluka"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:textSize="15sp"
+
+                        />
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_user"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:elevation="1dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9"
+
+                    app:cardCornerRadius="20dp">
+
+                    <myactvity.mahyco.helper.SearchableSpinner
+
+                        android:id="@+id/spVillage"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:textSize="15sp" />
+                </androidx.cardview.widget.CardView>
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:id="@+id/inputLayout_phone2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/inputLayout_firm_name"
+
+                    android:layout_marginTop="5dp"
+
+                    android:visibility="visible">
+
+                    <EditText
+                        android:id="@+id/txtAadhar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789"
+                        android:hint="Aadhar Number"
+                        android:imeOptions="actionUnspecified"
+                        android:inputType="number"
+                        android:maxLength="12"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textSize="15sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:id="@+id/inputLayout_phone3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/inputLayout_firm_name"
+
+                    android:layout_marginTop="5dp"
+
+                    android:visibility="visible">
+
+                    <EditText
+                        android:id="@+id/txtmobileno"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:digits="0123456789"
+                        android:hint="@string/mobile"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:textSize="@dimen/regularsize" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:id="@+id/inputLayout_phone4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/inputLayout_firm_name"
+
+                    android:layout_marginTop="5dp"
+
+                    android:visibility="visible">
+
+                    <EditText
+                        android:id="@+id/txtemail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Email"
+                        android:maxLength="100"
+                        android:textSize="@dimen/regularsize" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+
+                    android:id="@+id/inputLayout_ph"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/inputLayout_phone4"
+
+                    android:layout_marginTop="5dp"
+
+                    android:visibility="visible">
+
+                    <EditText
+                        android:id="@+id/txtTotalLand"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Total Land (acres)"
+                        android:maxLength="100"
+                        android:inputType="numberDecimal"
+                        android:textSize="@dimen/regularsize" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnnext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:background="@drawable/btn_shape"
+        android:text="Submit"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+</RelativeLayout>

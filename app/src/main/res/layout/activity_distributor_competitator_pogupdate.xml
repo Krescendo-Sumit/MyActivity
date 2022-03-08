@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/gradient"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp">
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:weightSum="2"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/lblheader"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="COMPETITOR'S RETAILER LEVEL PLACEMENT INFORMATION(Distributor)"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textAllCaps="true"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                />
+            <ImageView
+                android:layout_alignParentRight="true"
+                android:layout_toRightOf="@+id/lblheader"
+                android:id="@+id/backbtn"
+                android:layout_marginRight="30dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/close" />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/gradient"
+        android:textAlignment="center"
+        android:gravity="center_vertical"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:titleTextColor="@color/Whitecl"
+        android:visibility="gone"
+        >
+    <TextView
+        android:id="@+id/toolbar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="COMPETITOR'S RETAILER PLACEMENT INFORMATION(Distributor)"
+        android:textColor="@color/Whitecl"
+        android:textStyle="bold"
+        android:textSize="16sp"/>
+</androidx.appcompat.widget.Toolbar>
+
+    <!-- Scrollable Content below header and above footer -->
+
+    <!-- Content below header and above footer -->
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/footer"
+        android:layout_below="@id/header"
+        android:gravity="center">
+        <ScrollView
+
+            android:id="@+id/container2"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            >
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_margin="5dp"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/lblgeoststus"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="CROP"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month5"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spCropType"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+                            />
+
+                    </androidx.cardview.widget.CardView>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/inputLayoutcompname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/inputLayout_firm_name"
+                        android:layout_marginTop="5dp"
+                        android:visibility="gone">
+
+                        <EditText
+                            android:id="@+id/txtcompname"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:hint="COMPANY NAME"
+                            android:inputType="text"
+                            android:maxLength="50"
+                            android:textSize="@dimen/regularsize" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:id="@+id/inputLayout2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/inputLayout_firm_name"
+
+                        android:layout_marginTop="5dp"
+
+                        android:visibility="gone">
+
+                        <EditText
+                            android:id="@+id/txtrecstock"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="0123456789"
+                            android:hint="CUMMULATIVE RECEIVED STOCK"
+                            android:inputType="number"
+                            android:maxLength="6"
+                            android:textSize="@dimen/regularsize" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:id="@+id/inputLayout4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/inputLayout_firm_name"
+
+                        android:layout_marginTop="5dp"
+
+                        android:visibility="gone">
+
+                        <EditText
+                            android:id="@+id/txtbalance"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="0123456789"
+                            android:hint="BALANCE STOCK IN GODOWN"
+                            android:inputType="number"
+                            android:maxLength="6"
+                            android:textSize="@dimen/regularsize" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+
+                        android:id="@+id/inputLayout3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/inputLayout_firm_name"
+
+                        android:layout_marginTop="5dp"
+
+                        android:visibility="gone">
+
+                        <EditText
+                            android:id="@+id/txtpalcement"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="0123456789"
+                            android:hint="PLACEMENT"
+                            android:inputType="number"
+                            android:maxLength="6"
+                            android:textSize="@dimen/regularsize" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:id="@+id/lbldate"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="PREVIOUS POG RECORD DATE : DD/MM/YY"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+                    <EditText
+                        android:visibility="gone"
+                        android:id="@+id/txtpridate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="6dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="4dp"
+                        android:ems="10"
+                        android:focusableInTouchMode="true"
+                        android:hint="DATE"
+                        android:digits="0123456789/"
+                        android:inputType="date|text"
+                        android:background="@drawable/mystyles"
+
+
+                        />
+
+                    <LinearLayout
+                        android:id="@+id/my_linear_layout1"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="2dp"
+
+                        android:orientation="vertical">
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnsave"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/btn_shape"
+                        android:layout_margin="5dp"
+                        android:textStyle="bold"
+                        android:textSize="12sp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="right"
+                        android:text="SUBMIT"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+
+        </ScrollView>
+    </RelativeLayout>
+
+
+
+
+    <!-- Footer aligned to bottom -->
+    <RelativeLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        >
+        <LinearLayout
+            android:id="@+id/footer1"
+
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</RelativeLayout>

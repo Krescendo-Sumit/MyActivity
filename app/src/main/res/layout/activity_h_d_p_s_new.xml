@@ -1,0 +1,1169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/gradient"
+        android:gravity="center_vertical"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:titleTextColor="@color/Whitecl">
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HDPS\\NEW PRODUCT"
+            android:textAllCaps="true"
+            android:textColor="@color/Whitecl"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:gravity="center">
+
+        <ScrollView
+
+            android:id="@+id/container2"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="3dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/lblgeoststus"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="STATE"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month5"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spState"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+                            />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="DISTRICT"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month2"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spDist"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+                            />
+
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/lbltaluka"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="5dp"
+                        android:text="TALUKA"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_Taluka"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spTaluka"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp" />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/lblvillage"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="VILLAGE"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp"
+
+                        >
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spVillage"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/lblfarmername"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="FARMER NAME"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etFarmername"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:enabled="true"
+                        android:hint="TYPE HERE"
+                        android:maxLength="100" />
+
+                    <TextView
+                        android:id="@+id/lblMobileNo"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="MOBILE NUMBER"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etMobileNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:digits="0123456789"
+                        android:enabled="true"
+                        android:hint="TYPE HERE"
+                        android:inputType="number"
+                        android:maxLength="10" />
+
+
+                    <TextView
+                        android:id="@+id/lblWhatsappNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="WHATSAPP NUMBER"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etWhatsappNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:hint="TYPE HERE"
+                        android:inputType="number"
+                        android:maxLength="10"
+                        android:textAllCaps="true" />
+
+
+                    <!--Added for instant email notification-->
+                    <LinearLayout
+                        android:id="@+id/llEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/lblEmail"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginTop="2dp"
+                            android:text="EMAIL"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+                        <EditText
+                            android:id="@+id/edEmailID"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="TYPE HERE"
+                            android:inputType="textEmailAddress"
+                            android:maxLength="100"
+                            android:textAllCaps="true" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/lblFarmerPhoto"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="FARMER PHOTO"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/crdImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_margin="5dp"
+                        android:elevation="10dp"
+                        android:visibility="gone"
+                        app:cardCornerRadius="10dp">
+
+                        <ImageView
+                            android:id="@+id/roundedImageView"
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:background="@color/white"
+                            android:scaleType="centerCrop"
+                            android:visibility="gone" />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <Button
+                        android:id="@+id/btnTakeFarmerPhoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/btn_shape"
+                        android:text="FARMER PHOTO"
+                        android:textColor="#fff"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/lbladdress"
+                        android:layout_width="wrap_content"
+
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="ADDRESS"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <EditText
+                        android:id="@+id/txtAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:enabled="true"
+                        android:hint="TYPE HERE"
+                        android:maxLength="100"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="CROP"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spCropType"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+                            />
+
+
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="PRODUCT"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_monthproduct"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spProductName"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp" />
+                    </androidx.cardview.widget.CardView>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+
+                        <TextView
+                            android:id="@+id/lblQty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="QUANTITY PER PACKET :"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+
+                        <TextView
+                            android:id="@+id/txtQty"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/lblQty"
+                            android:text="450 OR 475 GM"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="" />
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="15dp"
+                        android:text="NO. OF PACKET PURCHASED "
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardUnits"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <Spinner
+                            android:id="@+id/spUnits"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+                            />
+
+                    </androidx.cardview.widget.CardView>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+
+                        <TextView
+                            android:id="@+id/lblCoupon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="NO. OF COUPONS TO BE ISSUED :"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+
+                        <myactvity.mahyco.helper.UnderLineTextView
+                            android:id="@+id/tvNoCouponIssued"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/lblCoupon"
+                            android:text=" "
+                            android:textColor="@color/colorPrimary"
+                            android:textStyle="bold" />
+
+
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+
+                        <TextView
+                            android:id="@+id/lblAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:text="AMOUNT (PRE-POPULATED) :"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+
+                        <myactvity.mahyco.helper.UnderLineTextView
+                            android:id="@+id/txtAmount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/lblAmount"
+                            android:textColor="@color/QRCodeBlackColor"
+                            android:textStyle="bold" />
+
+
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/lblQrCoupon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1"
+                        android:text="SCAN QR CODE OR TYPE THE BAR CODE"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/cardScans"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:thicknessRatio="1.9"
+                        android:visibility="visible"
+                        app:cardCornerRadius="10dp">
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center"
+                            android:orientation="vertical"
+                            android:weightSum="5">
+
+
+                            <LinearLayout
+                                android:id="@+id/product1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="1"
+
+                                android:orientation="horizontal">
+
+
+                                <EditText
+                                    android:id="@+id/txtCouponcode"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_weight="1"
+                                    android:hint="TYPE HERE"
+                                    android:maxLength="13"
+
+                                    />
+
+                                <Button
+                                    android:id="@+id/btnPOG"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/btn_shape"
+                                    android:text="SCAN"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    android:visibility="visible" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/product2"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="1"
+
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+
+                                <EditText
+                                    android:id="@+id/txtCouponcode2"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_weight="1"
+                                    android:hint="TYPE HERE"
+                                    android:maxLength="13"
+
+                                    />
+
+                                <Button
+                                    android:id="@+id/btnPOG2"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/btn_shape"
+                                    android:text="SCAN"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    android:visibility="visible" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/product3"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_weight="1"
+
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+
+                                <EditText
+                                    android:id="@+id/txtCouponcode3"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_weight="1"
+                                    android:hint="TYPE HERE"
+                                    android:maxLength="13"
+
+                                    />
+
+                                <Button
+                                    android:id="@+id/btnPOG3"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/btn_shape"
+                                    android:text="SCAN"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    android:visibility="visible" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/product4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="2dp"
+
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+
+                                <EditText
+                                    android:id="@+id/txtCouponcode4"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_weight="1"
+                                    android:hint="TYPE HERE"
+                                    android:maxLength="13"
+
+                                    />
+
+                                <Button
+                                    android:id="@+id/btnPOG4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/btn_shape"
+                                    android:text="SCAN"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    android:visibility="visible" />
+
+
+                            </LinearLayout>
+
+
+                            <LinearLayout
+                                android:id="@+id/product5"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+
+                                <EditText
+                                    android:id="@+id/txtCouponcode5"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_weight="1"
+                                    android:hint="TYPE HERE"
+                                    android:maxLength="13"
+
+                                    />
+
+                                <Button
+                                    android:id="@+id/btnPOG5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/btn_shape"
+                                    android:text="SCAN"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    android:visibility="visible" />
+
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/product6"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="2dp"
+                                android:layout_marginTop="5dp"
+                                android:layout_marginRight="2dp"
+                                android:layout_marginBottom="5dp"
+                                android:layout_weight="1"
+                                android:orientation="horizontal"
+                                android:visibility="gone">
+
+
+                                <EditText
+                                    android:id="@+id/txtCouponcode6"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="6dp"
+                                    android:layout_marginRight="3dp"
+                                    android:layout_weight="1"
+                                    android:hint="TYPE HERE"
+                                    android:maxLength="13"
+
+                                    />
+
+                                <Button
+                                    android:id="@+id/btnPOG6"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:background="@drawable/btn_shape"
+                                    android:text="SCAN"
+                                    android:textColor="@color/white"
+                                    android:textSize="12sp"
+                                    android:visibility="visible" />
+
+
+                            </LinearLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:id="@+id/lldta"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:weightSum="3">
+
+
+                        <TextView
+                            android:id="@+id/txtCouponDeclaration"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="6dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="2.5"
+                            android:text="ARE YOU SURE YOU HAVE HANDED OVER___COUPONS TO THE FARMER?"
+                            android:textColor="@color/QRCodeBlackColor" />
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight=".5"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.5"
+                                    android:paddingLeft="5dp"
+
+                                    android:text="NO"
+                                    android:textColor="@color/QRCodeBlackColor" />
+
+                                <Switch
+                                    android:id="@+id/switchYNCoupon"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:checked="false"
+                                    android:textColor="@color/QRCodeBlackColor"
+
+                                    android:textOff="NO"
+                                    android:textOn="YES" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="0.5"
+                                    android:text="YES"
+
+                                    android:textColor="@color/QRCodeBlackColor" />
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/lt_pref_service_ctr"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:id="@+id/layout_pref_retailer"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/lblPrefServiceCtr"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1"
+                                android:text="PREFERRED SERVICE CENTER"
+                                android:textColor="@color/QRCodeBlackColor"
+                                android:textStyle="bold" />
+
+                            <RadioButton
+                                android:id="@+id/dlr_detail"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="DELIVERY AT NEAREST RETAIL COUNTER"
+                                android:textColor="@color/QRCodeBlackColor"
+                                android:textSize="10sp"
+                                android:textStyle="" />
+
+                            <LinearLayout
+                                android:id="@+id/lt_talukadl"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/lbltalukadl"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:text="SELECT TALUKA"
+                                    android:textColor="@color/QRCodeBlackColor"
+                                    android:textStyle="bold" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/card_Talukadl"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginRight="1dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:elevation="1dp"
+                                    android:innerRadius="0dp"
+                                    android:shape="ring"
+                                    android:thicknessRatio="1.9"
+                                    app:cardCornerRadius="20dp">
+
+                                    <myactvity.mahyco.helper.SearchableSpinner
+                                        android:id="@+id/spTalukaDL"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp" />
+                                </androidx.cardview.widget.CardView>
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/lt_retailerdl"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/lblretailerdl"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:text="SELECT RETAILER"
+                                    android:textColor="@color/QRCodeBlackColor"
+                                    android:textStyle="bold" />
+
+                                <androidx.cardview.widget.CardView
+                                    android:id="@+id/card_Retailerdl"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="40dp"
+                                    android:layout_marginLeft="1dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_marginRight="1dp"
+                                    android:layout_marginBottom="5dp"
+                                    android:layout_weight="1"
+                                    android:elevation="1dp"
+                                    android:innerRadius="0dp"
+                                    android:shape="ring"
+                                    android:thicknessRatio="1.9"
+                                    app:cardCornerRadius="20dp">
+
+                                    <myactvity.mahyco.helper.SearchableSpinner
+                                        android:id="@+id/spRetailerDL"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="40dp" />
+                                </androidx.cardview.widget.CardView>
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/lt_payment"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/lblPaymentMode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginTop="10dp"
+                                android:layout_weight="1"
+                                android:text="PAYMENT MODE"
+                                android:textColor="@color/QRCodeBlackColor"
+                                android:textStyle="bold" />
+
+                            <RadioGroup
+                                android:id="@+id/rg_payment"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <RadioButton
+                                    android:id="@+id/rd_online_payment"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+
+                                    android:text="ONLINE PAYMENT"
+                                    android:textColor="@color/QRCodeBlackColor"
+                                    android:textStyle="" />
+
+                                <RadioButton
+                                    android:id="@+id/rd_payment_by_cash"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="PAYMENT BY CASH"
+                                    android:textColor="@color/QRCodeBlackColor"
+                                    android:textStyle="" />
+
+                            </RadioGroup>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:weightSum="3">
+
+
+                        <TextView
+                            android:id="@+id/txtAmountDeclaration"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginRight="3dp"
+                            android:layout_weight="2.5"
+                            android:text="ARE YOU SURE YOU HAVE COLLECTED___RUPEES FROM THE FARMER ?"
+                            android:textColor="@color/QRCodeBlackColor" />
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="0.5"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="10dp">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:weightSum="2">
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="0.5"
+                                    android:paddingLeft="5dp"
+                                    android:text="NO"
+                                    android:textColor="@color/QRCodeBlackColor" />
+
+                                <Switch
+                                    android:id="@+id/switchYN"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="1"
+                                    android:checked="false"
+                                    android:textColor="@color/QRCodeBlackColor"
+                                    android:textOff="NO"
+                                    android:textOn="YES" />
+
+                                <TextView
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="2dp"
+                                    android:layout_weight="0.5"
+                                    android:text="YES"
+
+                                    android:textColor="@color/QRCodeBlackColor" />
+                            </LinearLayout>
+
+                        </androidx.cardview.widget.CardView>
+                    </LinearLayout>
+
+
+                    <ImageView
+                        android:id="@+id/ivImage"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="10dp"
+                        android:visibility="gone"
+
+                        />
+
+
+                    <Button
+                        android:id="@+id/btnTakePhoto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_shape"
+                        android:text="COUPON PHOTO"
+                        android:textColor="#fff"
+                        android:visibility="gone"
+
+                        />
+
+
+                    <Button
+
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/lldta"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/btn_shape"
+                        android:text="Submit"
+                        android:textColor="#fff"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+
+        </ScrollView>
+    </RelativeLayout>
+
+</RelativeLayout>

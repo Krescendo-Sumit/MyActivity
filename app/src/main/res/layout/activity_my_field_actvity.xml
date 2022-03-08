@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/gradient"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp">
+
+        <ImageView
+            android:id="@+id/backbtn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/ic_arrow_back" />
+
+        <TextView
+            android:id="@+id/lblheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="25dp"
+            android:layout_toRightOf="@+id/backbtn"
+            android:text="My Activity Recording"
+
+            android:textColor="@color/white"
+            android:textAllCaps="true"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+
+    <!-- Scrollable Content below header and above footer -->
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/footer"
+        android:layout_below="@id/header" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/text"
+
+                android:text="VISIT NO." />
+
+
+
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_month"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:elevation="1dp"
+                android:innerRadius="0dp"
+
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:cardCornerRadius="20dp"
+
+
+                >
+
+                <myactvity.mahyco.helper.SearchableSpinner
+
+                    android:id="@+id/spMyactvity"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:spinnerMode="dialog" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_month2"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+
+                android:layout_weight="1"
+                android:elevation="1dp"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:cardCornerRadius="20dp"
+                android:visibility="gone"
+
+
+                >
+
+                <myactvity.mahyco.helper.SearchableSpinner
+                    android:id="@+id/spState"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:background="@drawable/spinner"
+
+                    android:spinnerMode="dialog"
+                    android:visibility="gone"
+
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_month3"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+
+                android:layout_weight="1"
+                android:elevation="1dp"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:cardCornerRadius="20dp"
+
+
+                >
+
+                <myactvity.mahyco.helper.SearchableSpinner
+                    android:id="@+id/spDist"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:spinnerMode="dialog"
+
+                    />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_month4"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+
+                android:layout_weight="1"
+                android:elevation="1dp"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:cardCornerRadius="20dp"
+
+
+                >
+
+                <myactvity.mahyco.helper.SearchableSpinner
+                    android:id="@+id/spTaluka"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:spinnerMode="dialog"
+
+
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_month5"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+
+                android:layout_weight="1"
+                android:elevation="1dp"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:cardCornerRadius="20dp"
+
+
+                >
+
+                <myactvity.mahyco.helper.SearchableSpinner
+                    android:id="@+id/spVillage"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <RadioGroup
+                android:id="@+id/radGrp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <RadioButton
+                    android:id="@+id/rndRC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:text="Row Crop" />
+
+                <RadioButton
+                    android:id="@+id/rndVC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:text="Vegetable Crop" />
+
+                <RadioButton
+                    android:id="@+id/rndFC"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="40dp"
+                    android:text="FC"
+                    android:visibility="gone" />
+            </RadioGroup>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_month7"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+
+                android:layout_weight="1"
+                android:elevation="1dp"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:cardCornerRadius="20dp"
+
+
+                >
+
+                <myactvity.mahyco.helper.SearchableSpinner
+                    android:id="@+id/spCropType"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+            </androidx.cardview.widget.CardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:orientation="horizontal">
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/card_month8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_margin="5dp"
+
+                    android:layout_weight="1"
+                    android:elevation="1dp"
+                    android:innerRadius="0dp"
+                    android:shape="ring"
+                    android:thicknessRatio="1.9"
+                    app:cardCornerRadius="20dp"
+
+
+                    >
+
+                    <myactvity.mahyco.helper.SearchableSpinner
+                        android:id="@+id/spProductName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+
+                        />
+                </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/lblgeoststus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.5"
+                    android:gravity="right"
+                    android:text="Location Tag-No"
+                    android:textColor="@color/QRCodeBlackColor" />
+
+                <ImageView
+                    android:id="@+id/imggeo"
+                    android:layout_width="wrap_content"
+
+
+                    android:layout_height="40dp"
+                    android:src="@drawable/nogeo"
+
+                    />
+
+                <LinearLayout
+                    android:id="@+id/listock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_marginLeft="5dp"
+
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/lblStockDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:textColor="@color/maroon"
+
+                        />
+
+
+                    <Button
+                        android:id="@+id/btnaddstock"
+                        android:layout_width="50dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="right"
+                        android:layout_margin="5dp"
+                        android:layout_weight=".5"
+                        android:background="@color/Lowgreen"
+                        android:text="Add Stock"
+                        android:textColor="#FFFFFF"
+                        android:visibility="gone"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                android:id="@+id/inputLayout_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:textColorHint="@color/DarkGrey"
+                android:visibility="visible">
+
+
+                <EditText
+                    android:id="@+id/txtFarmerCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="0123456789"
+                    android:hint="Total Number Of Farmer's Met"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:maxLines="1"
+                    android:singleLine="true" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_month9"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:elevation="1dp"
+                android:innerRadius="0dp"
+                android:shape="ring"
+                android:thicknessRatio="1.9"
+                app:cardCornerRadius="20dp">
+
+                <myactvity.mahyco.helper.SearchableSpinner
+                    android:id="@+id/spComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+
+
+                    />
+            </androidx.cardview.widget.CardView>
+
+            <com.google.android.material.textfield.TextInputLayout
+
+                android:id="@+id/inputLayout_phone2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:textColorHint="@color/DarkGrey"
+                android:visibility="visible">
+
+
+                <EditText
+                    android:id="@+id/txtComments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:hint="Comment Description" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="4dp"
+
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnTakephoto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_shape"
+                    android:drawablePadding="5dp"
+                    android:text="Activity Photo"
+                    android:textColor="@color/white"
+                    style="@style/ImgButton"
+                    >
+
+                </Button>
+
+                <Button
+                    android:id="@+id/btnTakephoto2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_shape"
+                    android:drawablePadding="5dp"
+                    android:text="Farmer list Photo"
+                    android:textColor="@color/white"
+                    style="@style/ImgButton" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/liimagelayout"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/ivImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                </ImageView>
+
+                <ImageView
+                    android:id="@+id/ivImage2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1">
+
+                </ImageView>
+
+                <TextView
+                    android:id="@+id/text2"
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="45dp" />
+            </LinearLayout>
+
+
+                   </LinearLayout>
+
+
+
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/footer"
+        style="@android:style/ButtonBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:background="#ffffff"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnsave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/btn_shape"
+            android:text="Submit"
+            android:textColor="@color/white"
+            style="@style/Button" />
+
+    </LinearLayout>
+</RelativeLayout>

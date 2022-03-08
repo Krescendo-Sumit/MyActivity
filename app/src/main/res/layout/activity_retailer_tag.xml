@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    >
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"    android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="RETAILER TAGGING AND MAPPING"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+            android:textColor="#fff"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+
+
+
+    <!-- Scrollable Content below header and above footer -->
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/footer"
+
+        android:layout_below="@id/header" >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical" >
+            <TextView
+                android:layout_marginTop="2dp"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/lblgeoststus"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textStyle="bold"
+
+                android:text="STATE" />
+
+            <Spinner
+                android:id="@+id/spState"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner"
+                android:layout_marginTop="6dp"
+
+                />
+            <TextView
+                android:layout_marginTop="2dp"
+                android:textStyle="bold"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/QRCodeBlackColor"
+                android:text="DISTRICT" />
+
+            <Spinner
+                android:id="@+id/spDist"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:background="@drawable/spinner"
+                android:layout_marginTop="6dp"
+
+                />
+            <TextView
+                android:textStyle="bold"
+
+                android:layout_marginTop="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/QRCodeBlackColor"
+                android:text="TALUKA" />
+
+            <Spinner
+                android:id="@+id/spTaluka"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/spinner"
+
+                />
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/mystyles"
+                android:id="@+id/txtmarketplace"
+                android:maxLength="100"
+                android:hint="MARKET PLACE"
+                />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/mystyles"
+                    android:id="@+id/txtrtname"
+                    android:maxLength="100"
+                    android:hint="RETAILER NAME"
+                    /></com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:background="@drawable/mystyles"
+                    android:id="@+id/txtfirmname"
+                    android:maxLength="100"
+                    android:hint="RETAILER FIRM NAME"
+                    /></com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:orientation="horizontal" >
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    >
+
+                    <EditText
+                        android:id="@+id/txtAge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:hint="AGE"
+                        android:layout_marginRight="6dp"
+
+
+                        android:background="@drawable/mystyles"/>
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    >
+
+                    <EditText
+                        android:id="@+id/txtmobile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:hint="MOBILE NUMBER"
+                        android:layout_marginLeft="6dp"
+                        android:layout_marginRight="6dp"
+
+
+                        android:background="@drawable/mystyles"/>
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:textStyle="bold"
+
+                android:layout_marginTop="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/QRCodeBlackColor"
+                android:text="ASSOCIATED DISTRIBUTOR'S NAME" />
+
+            <Spinner
+                android:id="@+id/spdistr"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="6dp"
+                android:background="@drawable/spinner"
+
+                />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+
+            android:orientation="horizontal" >
+
+        <TextView
+            android:textStyle="bold"
+
+            android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/QRCodeBlackColor"
+                android:text="HE IS KEY RETAILER FOR MAHYCO" />
+
+            <RadioGroup
+                android:layout_width="wrap_content" android:orientation="horizontal"
+                android:id="@+id/radGrp"
+                android:layout_height="wrap_content">
+                <RadioButton
+                    android:id="@+id/rndVC"
+                    android:text="YES"
+                    android:textColor="@color/Username"
+
+                    android:layout_marginLeft="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <RadioButton
+                    android:textColor="@color/Username"
+
+                    android:id="@+id/rndFC"
+                    android:text="NO"
+                    android:layout_marginLeft="6dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+            </RadioGroup>
+        </LinearLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
+
+            <EditText
+                android:id="@+id/txtasscosiateDistr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/mystyles"
+                android:digits="0123456789"
+                android:hint="YEARS OF EXPERIENCE IN SEED BUSINESS"
+                android:imeOptions="actionUnspecified"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                /></com.google.android.material.textfield.TextInputLayout>
+
+
+            <TextView
+                android:textStyle="bold"
+
+                android:layout_marginTop="2dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:textColor="@color/QRCodeBlackColor"
+                android:text="BUSINESS OTHER THAN SEEDS" />
+
+            <LinearLayout
+                android:layout_width="wrap_content" android:orientation="horizontal"
+                android:layout_height="wrap_content">
+<CheckBox
+    android:text="FIRTILIZERS"
+    android:textColor="@color/Username"
+
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"  >
+</CheckBox>
+                <CheckBox
+                    android:text="PESTICIDES"
+                    android:textColor="@color/Username"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"  >
+                </CheckBox>
+            </LinearLayout>
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/mystyles"
+                android:id="@+id/txtComments"
+                android:inputType="text"
+                android:digits="0123456789"
+                android:maxLength="10"
+                android:hint="COMMENTS (ANY KEY INFORMATION ABOUT RETAILER)"
+                />
+
+                   </LinearLayout>
+
+    </ScrollView>
+    <LinearLayout android:id="@+id/footer" android:layout_width="fill_parent"
+        android:layout_height="wrap_content" android:orientation="horizontal"
+        android:focusable="true"  android:background="#ffffff"
+        android:focusableInTouchMode="true"
+        android:layout_alignParentBottom="true" style="@android:style/ButtonBar">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:id="@+id/btnsave"
+            android:textColor="@color/QRCodeBlackColor"
+            android:background="@drawable/rbutton"
+            android:text="Submit" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>

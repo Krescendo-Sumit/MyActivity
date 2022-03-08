@@ -1,0 +1,530 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/Appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/gradient"
+            android:elevation="10dp">
+
+            <TextView
+                android:id="@+id/lblheader"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="RETAILER VISIT TO FIELD"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold"
+
+                />
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <ScrollView
+        android:id="@+id/container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Appbar"
+        android:fadeScrollbars="false">
+
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:elevation="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardUseCompatPadding="true"
+
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:orientation="vertical">
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="Unit"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <RadioGroup
+                        android:id="@+id/radGroupUnit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/line"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="2">
+
+
+                        <RadioButton
+                            android:id="@+id/radVEGBU"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="VEGBU"
+
+                            />
+
+                        <RadioButton
+                            android:id="@+id/radRCBU"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="RCBU"
+
+                            />
+
+                    </RadioGroup>
+
+
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="10dp"
+                        android:text="STATE *"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month5"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+
+                            android:id="@+id/spState"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="DISTRICT *"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month6"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+
+
+                            android:id="@+id/spDist"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="HOST FARMER DETAILS *"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etFarmerName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="FARMER NAME (TYPE HERE)*"
+                            android:inputType="text"
+                            android:maxLength="50"
+                            android:textAllCaps="true" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etFarmerNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="MOBILE NUMBER (TYPE HERE)*"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:textAllCaps="true" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etVillage"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="VILLAGE (TYPE HERE)*"
+                            android:inputType="textCapWords"
+                            android:maxLength="50"
+                            android:textAllCaps="true" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etTaluka"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="TALUKA (TYPE HERE)*"
+                            android:inputType="textCapWords"
+                            android:maxLength="50"
+                            android:textAllCaps="true" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp"
+
+                            >
+
+                            <myactvity.mahyco.app.MultiSelectionSpinner
+                                android:id="@+id/spCropType"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp" />
+                        </androidx.cardview.widget.CardView>
+
+
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginBottom="5dp"
+                            android:layout_weight="1"
+                            android:elevation="1dp"
+                            android:innerRadius="0dp"
+                            android:shape="ring"
+                            android:thicknessRatio="1.9"
+                            app:cardCornerRadius="20dp">
+
+                            <myactvity.mahyco.app.MultiSelectionSpinner
+                                android:id="@+id/spProductName"
+                                android:layout_width="match_parent"
+                                android:layout_height="40dp"
+
+                                />
+                        </androidx.cardview.widget.CardView>
+
+                    </LinearLayout>
+
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp">
+
+                        <EditText
+                            android:id="@+id/etRetailerCount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ems="10"
+                            android:hint="TOTAL NUMBER OF RETAILERS PARTICIPATED *"
+                            android:inputType="phone"
+                            android:maxLength="3"
+                            android:textAllCaps="true" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="2dp"
+                        android:text="TAG THE FIELD (2ND ROW INSIDE THE FIELD)*"
+                        android:textAllCaps="true"
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:layout_marginBottom="2dp"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_margin="2dp"
+                            android:layout_weight="1.5"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvCordinates"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="5dp"
+                                android:visibility="gone"
+                                android:text="" />
+
+                            <TextView
+                                android:id="@+id/tvAddress"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_margin="5dp"
+                                android:text="" />
+                        </LinearLayout>
+
+                        <ImageView
+                            android:id="@+id/imgBtnGps"
+                            android:layout_width="0dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="center"
+                            android:layout_weight=".5"
+                            android:src="@drawable/ic_location_on" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnTakephoto"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/btn_shape"
+                            android:text="Activity Photo"
+                            android:textColor="@color/white"
+                            android:textStyle="bold">
+
+                        </Button>
+
+                        <Button
+                            android:id="@+id/btnTakephoto2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/btn_shape"
+                            android:text="Retailer list Photo"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/liimagelayout"
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="5dp"
+                        android:layout_height="wrap_content"
+                        android:weightSum="2"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/ivImage"
+                            android:layout_width="0dp"
+                            android:layout_height="120dp"
+                            android:visibility="gone"
+                            android:layout_weight="1"/>
+
+
+                        <ImageView
+                            android:id="@+id/ivImage2"
+                            android:layout_width="0dp"
+                            android:visibility="gone"
+                            android:layout_height="120dp"
+                            android:layout_weight="1"/>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnSubmit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/btnTakePhoto"
+                        android:layout_margin="10dp"
+                        android:background="@drawable/btn_shape"
+                        android:text="Submit"
+                        android:textColor="#fff"
+                        style="@style/Button"
+                        />
+                </LinearLayout>
+
+
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/relPRogress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:visibility="gone">
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardMdo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:layout_centerHorizontal="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardCornerRadius="10dp"
+            app:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <ProgressBar
+                    android:id="@+id/myProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="30dp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/headerAction"
+                    android:indeterminateTintMode="src_atop"
+                    android:visibility="visible"
+
+                    />
+
+                <TextView
+                    android:id="@+id/myTextProgress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="15sp"
+                    android:layout_toRightOf="@+id/myProgress"
+                    android:background="@android:color/transparent"
+                    android:text="Uploading Data"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

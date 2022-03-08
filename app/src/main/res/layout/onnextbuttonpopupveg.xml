@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="500dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/gradient"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/lblbook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:text="BALANCE STOCK STATUS UPDATE"
+            android:textAllCaps="true"
+            android:textStyle="bold"
+
+            android:layout_weight="1"
+
+            />
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:id="@+id/imgclose"
+            android:gravity="center"
+            android:src="@drawable/close"
+            android:scaleType="fitCenter" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/layout"
+        android:layout_height="wrap_content"
+        android:scrollbars="horizontal|vertical"
+        android:layout_width="match_parent"
+        android:layout_marginTop="5dip"
+        android:scrollbarStyle="outsideInset"
+        android:fillViewport="true">
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalView"
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="5dip">
+            <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="100dp"
+                android:paddingLeft="10dp"
+                android:scrollbars="horizontal"
+                android:id="@+id/tableLayout"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:paddingRight="10dp" >
+                <TableRow android:background="@color/heback" android:padding="5dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+
+                        android:textColor="@color/white"
+                        android:text="PRODUCT NAME" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:textColor="@color/white"
+                        android:text="BALANCE STOCK" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:textColor="@color/white"
+
+                        android:text="STATUS" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+
+                        android:text="QTY"
+                        android:id="@+id/lblVillage" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        android:text="EXPECTED DATE" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:layout_weight="1"
+
+                        android:id="@+id/lbldistributor"
+                        android:text="ASSOCIATED DISTRIBUTOR " />
+                </TableRow>
+                <TableRow android:background="#DAE8FC" android:padding="5dp">
+                    <EditText
+
+                        android:id="@+id/txtprdname"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:maxLines="5"
+                        android:hint="PKT"
+
+                        android:background="@drawable/mystyles"
+                        android:inputType="numberDecimal|textMultiLine"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+
+                        android:textSize="10sp"
+                        />
+
+                    <EditText
+
+                        android:id="@+id/txtbalance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+
+                        android:hint="PKT"
+                        android:background="@drawable/mystyles"
+                        android:inputType="numberDecimal"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+
+                        android:textSize="10sp"
+                        />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_weight="1"
+                        android:id="@+id/card_month9"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+
+
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="rectangle"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="6dp">
+
+
+                        <myactvity.mahyco.helper.SearchableSpinner
+                            android:id="@+id/spstatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"
+
+
+                            />
+                    </androidx.cardview.widget.CardView>
+                    <EditText
+
+                        android:id="@+id/txtqty"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+
+                        android:hint="PKT"
+                        android:background="@drawable/mystyles"
+                        android:inputType="numberDecimal"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+
+                        android:textSize="10sp"
+                        />
+                    <EditText
+                        android:id="@+id/txtdate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+
+                        android:hint="Date"
+                        android:background="@drawable/mystyles"
+                        android:inputType="numberDecimal|textMultiLine"
+                        android:layout_marginLeft="2dp"
+                        android:layout_marginRight="2dp"
+                        android:clickable="true"
+                        android:editable="false"
+                        android:focusableInTouchMode="false"
+                        android:textSize="10sp"
+                        />
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/card_month10"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginRight="1dp"
+                        android:layout_weight="1"
+                        android:elevation="1dp"
+                        android:innerRadius="0dp"
+                        android:shape="ring"
+                        android:thicknessRatio="1.9"
+                        app:cardCornerRadius="20dp">
+                        <myactvity.mahyco.app.MultiSelectionSpinner
+                            android:id="@+id/spdistr"
+                            android:layout_width="match_parent"
+                            android:layout_height="35dp"></myactvity.mahyco.app.MultiSelectionSpinner>
+                    </androidx.cardview.widget.CardView>
+                </TableRow>
+
+            </TableLayout>
+
+        </HorizontalScrollView>
+    </ScrollView>
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_margin="50dp"
+
+
+        android:layout_gravity="center">
+        <Button
+
+            android:id="@+id/btnaddmore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=" SAVE"
+
+            android:textColor="@color/QRCodeBlackColor"
+            android:background="@drawable/rbutton"
+
+            />
+    </LinearLayout>
+</LinearLayout>
