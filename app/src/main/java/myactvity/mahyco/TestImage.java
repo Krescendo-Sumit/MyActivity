@@ -47,8 +47,8 @@ public class TestImage extends AppCompatActivity implements IPickResult {
     Prefs mPref;
     String mCurrentPhotoPath;
     private static final String IMAGE_DIRECTORY_NAME = "VISITPHOTO";
-Context context;
-String photoPath="";
+    Context context;
+    String photoPath="";
 
      @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,7 +149,7 @@ String photoPath="";
 
             }else
             {
-                displayMessage(getBaseContext(),"Nullll");
+                displayMessage(getBaseContext(),"Null");
             }
         }
 

@@ -113,7 +113,6 @@ import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
 
 public class AdvanceBookingCouponActivity extends AppCompatActivity implements
-
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener,
         ResultCallback, IPickResult,View.OnClickListener

@@ -21,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -86,6 +87,7 @@ public class saleOrderReturnApproved extends AppCompatActivity {
         context = this;
         cx=new CommonExecution(context);
         MDOurlpath =cx.saleSERVER;
+
         testurl ="https://cmr.mahyco.com/IPM.ashx"; //cx.saleSERVER;
         pd = new ProgressDialog(context);
         config = new Config(this); //Here the context is passing
@@ -324,6 +326,7 @@ public class saleOrderReturnApproved extends AppCompatActivity {
             // postParameters.add(new BasicNameValuePair("xmlString", ""));
             String Urlpath1 = url + "?action=" + action + "&userCode=" + usercode + "" +
                     "&search=" + pattern+"&grower_code="+grower_code;
+
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
@@ -428,6 +431,7 @@ public class saleOrderReturnApproved extends AppCompatActivity {
                     "&customregroup="+customregroup+"&DLV_plant="+DLV_plant+"" +
                     "&name="+name+"" +
                     "&Comments="+Comments+"&actionby=TBM&reason="+Comments+"&lotno="+lotno+"";
+
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {

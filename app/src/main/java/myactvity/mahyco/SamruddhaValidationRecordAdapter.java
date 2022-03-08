@@ -34,9 +34,13 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
+import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.listeners.IPickCancel;
+import com.vansuita.pickimage.listeners.IPickResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -54,6 +58,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import myactvity.mahyco.app.AppConstant;
@@ -412,14 +417,42 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                     demoModelViewHolder.et_currentlocation.setText("" + s);
                 }
             });
+            String photoPath=SERVER_IMAGE + "" + samruddhaKisanModel.getFarmer_photo_name();
+            try{
+                if(photoPath!=null) {
+                    if( !photoPath.contains("/null")&& photoPath.contains(".jpg"))
+                        Glide.with(context)
+                                .load(photoPath)
+                                .into(demoModelViewHolder.imgSk_Photo);
+                }
+            }catch(Exception e)
+            {
+
+            }
+
             demoModelViewHolder.txt_capure_image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, TestImage.class);
+             /*       Intent intent = new Intent(context, TestImage.class);
                     //   intent.putExtra("MyClass", samruddhaKisanModel);
                     intent.putExtra("url", SERVER_IMAGE + "" + samruddhaKisanModel.getFarmer_photo_name());
-                    context.startActivity(intent);
-                }
+                    context.startActivity(intent);*/
+                    PickImageDialog.build(new PickSetup())
+                            .setOnPickResult(new IPickResult() {
+                                @Override
+                                public void onPickResult(PickResult r) {
+                                    //TODO: do what you have to...
+                                    demoModelViewHolder.imgSk_Photo.setImageBitmap(r.getBitmap());
+                                    mPref.save("CapturedImage",mDatabase.getImageDatadetail(r.getPath()));
+                                }
+                            })
+                            .setOnPickCancel(new IPickCancel() {
+                                @Override
+                                public void onCancelClick() {
+                                    //TODO: do what you have to if user clicked cancel
+                                }
+                            }).show((SamruddhaKisanValidationRecords) context);
+                 }
             });
 
             if (samruddhaKisanModel.getFarmer_dob().contains("1900"))
@@ -429,6 +462,54 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                 demoModelViewHolder.et_annivaesarydate.setText("");
 
 
+              demoModelViewHolder.btn_savechanges.setOnClickListener(new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                      if (demoModelViewHolder.et_dob.getText().toString().trim().equals("")) {
+                          demoModelViewHolder.et_dob.setError("Invalid Date");
+                          Toast.makeText(context, "Choose Birth Date.", Toast.LENGTH_SHORT).show();
+                      } else if (demoModelViewHolder.et_pincode.length() < 6) {
+                          demoModelViewHolder.et_pincode.setError("Pincode must be 6 digits");
+                      } else {
+                          setVisibleTextField(demoModelViewHolder);
+                          mlist.get(i).setFarmerName(demoModelViewHolder.edFarmerName.getText().toString());
+                          mlist.get(i).setMobileNumber(demoModelViewHolder.edMobileNum.getText().toString());
+                          mlist.get(i).setWhatsappNumber(demoModelViewHolder.edWANum.getText().toString());
+                          mlist.get(i).setMdoDesc(demoModelViewHolder.edMDO.getText().toString());
+                          mlist.get(i).setDistrict(demoModelViewHolder.edDist.getText().toString());
+                          mlist.get(i).setTaluka(demoModelViewHolder.edTaluka.getText().toString());
+                          mlist.get(i).setVillage(demoModelViewHolder.edVillage.getText().toString());
+                          mlist.get(i).setTotalLand(demoModelViewHolder.edLand.getText().toString());
+                          mlist.get(i).setCrop(demoModelViewHolder.edCrop.getText().toString());
+                          mlist.get(i).setFarmer_dob(samruddhaKisanModel.getStr_dob());
+                          mlist.get(i).setFarmer_anniversarydate(samruddhaKisanModel.getStr_aniversarydate());
+                          mlist.get(i).setFarmer_landmark(demoModelViewHolder.et_landmark.getText().toString());
+                          mlist.get(i).setFarmer_house_address(demoModelViewHolder.et_currentlocation.getText().toString());
+                          mlist.get(i).setFarmer_house_latlong(samruddhaKisanModel.getFarmer_house_latlong());
+                          mlist.get(i).setFarmer_pincode(demoModelViewHolder.et_pincode.getText().toString());
+                          //   String serverDate =  ConvertToServerDateFormat(demoModelViewHolder.edDate.getText().toString());
+                          mlist.get(i).setEntryDt(demoModelViewHolder.edDate.getText().toString());
+
+                          String ss = mPref.getString("CapturedImage", "");
+
+                          mlist.get(i).setFarmer_photo_name("");
+                          mlist.get(i).setFarmer_photo_path(ss);
+
+                          //  mlist.get(i).setTaggedAddress(demoModelViewHolder.edGeoTag.getText().toString());
+                          try {
+                              updateToDB(mlist.get(i));
+                          } catch (Exception e) {
+                              e.printStackTrace();
+                          }
+                      }
+                  }
+              });
+
+            demoModelViewHolder.btn_savechanges.setEnabled(false);
+            demoModelViewHolder.btn_savechanges.setClickable(false);
+
+            demoModelViewHolder.btnStatus.setEnabled(true);
+            demoModelViewHolder.btnStatus.setClickable(true);
         }
     }
 
@@ -679,7 +760,10 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
         JSONObject obj = new JSONObject(json);
         try {
             Log.i("JsonUpdate:", obj.toString());
+
             handleDataSyncResponse("KisanValidationData", obj.toString());
+
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -808,7 +892,11 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
         demoModelViewHolder.txt_capure_image.setEnabled(false);
         demoModelViewHolder.txt_getlocation.setEnabled(false);
         demoModelViewHolder.txt_getlocation.setClickable(false);
+        demoModelViewHolder.btn_savechanges.setEnabled(false);
+        demoModelViewHolder.btn_savechanges.setClickable(false);
 
+        demoModelViewHolder.btnStatus.setEnabled(true);
+        demoModelViewHolder.btnStatus.setClickable(true);
 
         demoModelViewHolder.et_dob.setBackgroundResource(R.drawable.no_border_line);
 
@@ -881,6 +969,8 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
         demoModelViewHolder.et_dob.setClickable(true);
         demoModelViewHolder.et_annivaesarydate.setEnabled(true);
         demoModelViewHolder.et_annivaesarydate.setClickable(true);
+        demoModelViewHolder.btn_savechanges.setClickable(true);
+        demoModelViewHolder.btn_savechanges.setEnabled(true);
 
         demoModelViewHolder.et_landmark.setEnabled(true);
         demoModelViewHolder.et_pincode.setEnabled(true);
@@ -888,6 +978,10 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
         demoModelViewHolder.txt_capure_image.setEnabled(true);
         demoModelViewHolder.txt_getlocation.setEnabled(true);
         demoModelViewHolder.txt_getlocation.setClickable(true);
+        demoModelViewHolder.btn_savechanges.setClickable(true);
+
+        demoModelViewHolder.btnStatus.setEnabled(false);
+        demoModelViewHolder.btnStatus.setClickable(false);
 
         demoModelViewHolder.et_dob.setBackgroundResource(R.drawable.bottum_line);
 
@@ -916,6 +1010,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
         return position;
     }
 
+
     class SamruddhaValidateRecord extends RecyclerView.ViewHolder {
         TextView txtFarmerName, txtMobileNum, txtWANum, txtMDO, txtDist, txtTaluka,
                 txtVillage, txtLand, txtCrop, txtDate, txtGeoTag;
@@ -923,6 +1018,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
         Button btnStatus;
         EditText edFarmerName, edMobileNum, edWANum, edMDO, edDist, edTaluka,
                 edVillage, edLand, edCrop, edDate, edGeoTag;
+        ImageView imgSk_Photo;
 
         int position;
 
@@ -930,6 +1026,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
 
         EditText et_dob, et_annivaesarydate, et_landmark, et_pincode, et_currentlocation;
         TextView txt_capure_image, txt_getlocation;
+        Button btn_savechanges;
 
 
         SamruddhaValidateRecord(@NonNull View itemView) {
@@ -964,7 +1061,6 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
             imgEdit = (ImageView) itemView.findViewById(R.id.imgEdit);
             btnStatus = (Button) itemView.findViewById(R.id.btnStatus);
 
-
             // New samruddhi Changes
 
             et_dob = itemView.findViewById(R.id.et_dob);
@@ -974,13 +1070,11 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
             et_currentlocation = itemView.findViewById(R.id.et_currentlocation);
             txt_capure_image = itemView.findViewById(R.id.txt_capturephoto);
             txt_getlocation = itemView.findViewById(R.id.txt_getlocation);
-
+            imgSk_Photo = itemView.findViewById(R.id.imgSk_Photo);
+            btn_savechanges = itemView.findViewById(R.id.btn_savechanges);
 
         }
-
-
     }
-
 
     public void uploadData(String kisanValidationData, JSONObject jsonObject) {
         String str = null;

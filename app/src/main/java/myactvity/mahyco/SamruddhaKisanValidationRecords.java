@@ -67,7 +67,7 @@ public class SamruddhaKisanValidationRecords extends AppCompatActivity {
         village = bundle.getString("village");
         farmerDetail = bundle.getString("farmerDetail");
         tbm = bundle.getString("tbm");
-
+        tbm="";
         if(bundle.getString("mdo").equals("ALL")){
             mdo = "";
         }else {
@@ -116,7 +116,7 @@ public class SamruddhaKisanValidationRecords extends AppCompatActivity {
 
 
             String searchQuery = getQuery();
-
+                   Log.i("Query ",searchQuery);
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
 
             int count = cursor.getCount();

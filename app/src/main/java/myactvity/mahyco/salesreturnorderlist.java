@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -543,6 +544,7 @@ public class salesreturnorderlist extends AppCompatActivity {
                     "&customregroup="+customregroup+"&DLV_plant="+DLV_plant+"" +
                     "&name="+name+"" +
                     "&Comments="+Comments+"&actionby=TBM&reason="+Comments+"&lotno="+lotno+"";
+
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
@@ -658,6 +660,7 @@ public class salesreturnorderlist extends AppCompatActivity {
             String Urlpath1= testurl+"?orderid="+orderid+"&action="+action+"&usercode="+usercode+"&saleorg="+saleorg+"" +
                     "&division="+division+"&customer="+customer+"" +
                     "&customregroup="+customregroup+"&DLV_plant="+DLV_plant+"&name="+name+"";
+
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {

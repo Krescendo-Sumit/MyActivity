@@ -110,7 +110,6 @@ public class LoginActivity extends AppCompatActivity {
     private DownloadManager dm;
     boolean isDeleted;
 
-
     SharedPreferences locdata;
     public String lang;
     private SqliteDatabase mDatabase;
@@ -669,6 +668,7 @@ public class LoginActivity extends AppCompatActivity {
             postParameters.add(new BasicNameValuePair("usercode",usercode));
             //String Urlpath1= Urlpath+"?appname="+appname+"";
             String Urlpath1= cx.MDOurlpath+"?appname="+appname+"&token="+token+"&imei="+imei;
+            Log.i("AppVersionUrl",Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
@@ -702,7 +702,9 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(String result) {
 
             dialog.dismiss();
-            Log.d("result Register API" , result);
+           // result="8.5.2~New Version SK";
+            Log.d("result Register API : " , "Result : "+result);
+          //  Toast.makeText(LoginActivity.this, ""+result, Toast.LENGTH_SHORT).show();
             try {
                 if (result!=null && !result.isEmpty())
                 {

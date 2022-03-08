@@ -85,6 +85,7 @@ public class UploadData extends AppCompatActivity {
     // TextView lblmyactvityrecord,lblfarmer;
     Config config;
     SharedPreferences pref;
+
     RadioButton rndmyactvity, rndfarmer, rndimages, rnd1, rnd2, rnd3, rnd4, rndVisit2, rndVisit1, rndCoupon, rndRetailerSurvey, rndKisanClub,
             rndFieldPurchaseList, rndfieldVisit, rndRetailerVisitToField, rndCropShow, rndHarvestDay, rndFieldDay, rndLivePlantDataVillage, rndLivePlantDataRetailer,
             rndTestimonialCollection, rndSanmanMela, rndVillageMeeting, rndPromotionThroughEntertainment, rndCropSeminar, rndJeepCampaigning, rndPopDisplay,
@@ -358,6 +359,8 @@ public class UploadData extends AppCompatActivity {
                             new SyncMDODemandAssessement_Async("MDO_demandassesmentservey").execute();
                             new SyncDataAsync_Async("mdo_starttravel").execute();
                             new SyncDataAsync_Async("mdo_endtravel").execute();
+                            new SyncDataAsync_Async("mdo_endtravel").execute();
+
                             //recordshow();
                         } else {
                             msclass.showMessage("Data not available for uploading");
@@ -620,7 +623,7 @@ public class UploadData extends AppCompatActivity {
                         int count3 = 0;
                         String searchQuery;
 
-                        searchQuery = "select  *  from RetailerVisitsData where  isSynced ='0'";
+                        searchQuery = "select  *  from RetailerVisitsData  where  isSynced ='0'";
                         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
                         count3 = count3 + cursor.getCount();
                         cursor.close();
@@ -981,7 +984,6 @@ public class UploadData extends AppCompatActivity {
 
             try {
                 new uploadRetailerVisitsDataServer(functionName, context).execute(Constants.RETAILERVIST_SERVER_API).get();
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1465,6 +1467,22 @@ public class UploadData extends AppCompatActivity {
 
             searchQuery = "select  *  from RetailerVisitsData where  isSynced ='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+            while(cursor.moveToNext())
+            {
+                String  row=cursor.getString(0)+"-"+
+                        cursor.getString(1)+"-"+
+                        cursor.getString(2)+"-"+
+                        cursor.getString(3)+"-"+
+                        cursor.getString(4)+"-"+
+                        cursor.getString(5)+"-"+
+                        cursor.getString(6)+"-"+
+                        cursor.getString(7)+"-"+
+                        cursor.getString(8)+"-"+
+                        cursor.getString(9)+"-"+
+                        cursor.getString(10)+"-"+
+                        cursor.getString(11)+"-";
+                Log.i("Valu",row);
+            }
             count4 = count4 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count4;
@@ -5177,6 +5195,7 @@ public class UploadData extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 returnvalue = syncDemandAssementdata("MDO_demandassesmentservey", objAsBytes, Imagestring1, Imagestring2, ImageName, "", cx.MDOurlpath);
+                Log.i("Return Values is ",returnvalue);
 
             } catch (Exception ex) {
                 // msclass.showMessage(ex.getMessage());
@@ -5236,12 +5255,15 @@ public class UploadData extends AppCompatActivity {
                         object.put("Table3", mDatabase.getResults(searchQuery));
                         searchQuery = "select * from mdo_Retaileranddistributordata where Status='0'";
                         object.put("Table4", mDatabase.getResults(searchQuery));
+
+                        Log.i("Retailer Data:",""+mDatabase.getResults(searchQuery).length());
                         searchQuery = "select * from mdo_retailerproductdetail where Status='0'";
                         object.put("Table5", mDatabase.getResults(searchQuery));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     try {
+                        Log.i("Object is :",object.toString());
                         objAsBytes = object.toString().getBytes("UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -6568,6 +6590,7 @@ public class UploadData extends AppCompatActivity {
             e.printStackTrace();
 
         }
+        Log.i("Return string is ",builder.toString());
         return builder.toString();
     }
 
@@ -6664,7 +6687,7 @@ public class UploadData extends AppCompatActivity {
                     progressDialog.dismiss();
 
                 }
-
+                Log.i("Results is ",result);
                 if (result.contains("True")) {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date d = new Date();
@@ -6715,6 +6738,7 @@ public class UploadData extends AppCompatActivity {
 
         @Override
         protected String doInBackground(Void... params) {
+            Log.i("Upload Start","Go too");
             if (tag.equals("mdo_starttravel"))
                 uploadstart(tag, cx.MDOurlpath);
             else if (tag.equals("mdo_endtravel")) {

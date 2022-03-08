@@ -991,7 +991,7 @@ public class couponpayment extends AppCompatActivity implements SwipeRefreshLayo
             new GetFarmerData(1, "").execute(SERVER,
                     usercode, "PaymentProcess");
         } else {
-            Utility.showAlertDialog("Error", "Connect To Internet", context);
+            Utility.showAlertDialog("Error 1", "Connect To Internet", context);
             onBackPressed();
 
 
@@ -1032,6 +1032,7 @@ public class couponpayment extends AppCompatActivity implements SwipeRefreshLayo
             postParameters.add(new BasicNameValuePair("Type", "Couponfarmerlist"));
             //  postParameters.add(new BasicNameValuePair("encodedData",encodeImage));
             String Urlpath1 = cx.MDOurlpath + "?action=" + action + "&usercode=" + usercode;
+            Log.i("url",Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             Log.d(TAG, "doInBackgroundGetFarmerData: " + Urlpath1);

@@ -47,7 +47,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LocationTest">
+        <activity android:name=".LocationTest" android:screenOrientation="portrait">
 
 
 
@@ -74,12 +74,15 @@
         <activity
             android:name=".SamruddhaKisanValidationRecords"
             android:exported="false"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".SamruddhaKisanValidation"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ActivityBeSurveyVCF"
             android:exported="false"
@@ -99,7 +102,7 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity android:name="myActivityRecordingOnline.imgpick" />
-        <activity android:name=".SplashScreen">
+        <activity android:name=".SplashScreen" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

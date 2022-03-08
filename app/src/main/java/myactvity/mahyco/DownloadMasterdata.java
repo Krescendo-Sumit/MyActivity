@@ -760,6 +760,7 @@ public class DownloadMasterdata extends AppCompatActivity {
             List<NameValuePair> postParameters = new ArrayList<NameValuePair>(2);
             postParameters.add(new BasicNameValuePair("Type", "MDOMyplotDataDownload"));
             String Urlpath1 = MDOurlpath + "?userCode=" + username + "";
+            Log.i("Url",Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
 
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");

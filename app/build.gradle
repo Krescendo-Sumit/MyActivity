@@ -32,18 +32,20 @@ android {
         applicationId 'myactvity.mahyco'
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 179
-        versionName "8.5.0"
-        /* Versioncode updated on 2nd feb 2022 */
+        versionCode 181
+        versionName "8.5.2"
+        /* Versioncode updated on 24nd feb 2022 */
+        /* Versioncode updated after getting Prograud rule Applied on 21 feb 2022 */
+        /* Versioncode updated after changing the save button for Samrudhikisan on 24 feb 2022 */
         /* testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner" */
         multiDexEnabled true
     }
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources true  /*<***GIS VAPT 2021 UPDATE***>*/
+            minifyEnabled false
+            shrinkResources false  /*<***GIS VAPT 2021 UPDATE***>*/
             /*debuggable true*/
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+           // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             multiDexEnabled true
         }
     }

@@ -265,8 +265,8 @@ public class PaymentCompletionActivity extends AppCompatActivity implements View
                     double amount = 0;
                    // for (int i = 0; i < jArray.length(); i++) {
                         JSONObject jObject = jArray.getJSONObject(0);
-                      String orderId=  jObject.getString("orderID");
-                    String paymentID=  jObject.getString("paymentID");
+                        String orderId=  jObject.getString("orderID");
+                        String paymentID=  jObject.getString("paymentID");
 
                     SqliteDatabase database = SqliteDatabase.getInstance(context);
                     database.updatePaymentTable(paymentID,orderId);

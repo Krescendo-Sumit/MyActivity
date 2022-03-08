@@ -58,6 +58,7 @@ public class saleOrderDashboard extends AppCompatActivity {
         setContentView(R.layout.activity_sale_order_dashboard);
         getSupportActionBar().hide(); //<< this
         context = this;
+
         config = new Config(this); //Here the context is passing
         mDatabase = SqliteDatabase.getInstance(this);
         cx=new CommonExecution(this);

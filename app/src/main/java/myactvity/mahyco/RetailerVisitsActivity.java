@@ -265,6 +265,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                     retailerDetails = gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
                     if (retailerList != null) {
                         if (position ==  1) {
+
                             editor.putString("RetailerCallActivity","RetailerVisitsActivity");
                             editor.commit();
                             intent = new Intent(RetailerVisitsActivity.this, RetailerandDistributorTag.class);

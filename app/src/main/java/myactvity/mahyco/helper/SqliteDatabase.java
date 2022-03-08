@@ -3544,7 +3544,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
                 db.endTransaction();
                 db.close();*/
                 JSONObject jObject = jArray.getJSONObject(i);
-
+                  Log.i("JsonFor Village",jObject.toString());
                 ContentValues newValues = new ContentValues();
                 newValues.put("state", jObject.getString("State").toString());
                 newValues.put("state_code", jObject.getString("State_Code").toString());
@@ -6314,8 +6314,6 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         db.insert(TABLE_RETAILERDETAILSMASTER, null, contentValues);
         db.close();
         return true;
-
-
     }
 
     public boolean insertDemoValidationData(String uId, String userCode, String plotType,
@@ -6361,7 +6359,6 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         db.close();
         return true;
     }
-
 
     public boolean insertMDOlistData(String userCode, String mdoname) {
         SQLiteDatabase db = getWritableDatabase();

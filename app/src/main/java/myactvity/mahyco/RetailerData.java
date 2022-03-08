@@ -2476,6 +2476,7 @@ public class RetailerData extends Fragment implements GoogleApiClient.Connection
 
     public void saveStarttravel() {
         try {
+
             if (turnGPSOn() == false) {
 
                 Toast.makeText(this.getActivity(), "GPS is not enabled,Please on GPS", Toast.LENGTH_LONG).show();
