@@ -8,6 +8,7 @@ import android.os.Handler;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.ProgressBar;
@@ -102,7 +103,7 @@ public class DSActivity extends AppCompatActivity {
 
 
         webview.setWebViewClient(new WebViewClient());
-
+        Log.i("DAS Web URL","https://das.mahyco.com/DASHome.aspx?tbmHquarter="+tbmHQ+"&DasEntry=DasEntry&Region="+region+"&TBMHQ="+tbmcode+"&EmpCode="+usercode);
         webview.loadUrl("https://das.mahyco.com/DASHome.aspx?tbmHquarter="+tbmHQ+"&DasEntry=DasEntry&Region="+region+"&TBMHQ="+tbmcode+"&EmpCode="+usercode);
       //  webview.loadUrl("https://sungroccf.mahyco.com/DASHome.aspx?tbmHquarter="+tbmHQ+"&DasEntry=DasEntry&Region="+region+"&TBMHQ="+tbmcode+"&EmpCode="+usercode);
         // webView.loadUrl("file:///android_asset/web.html");

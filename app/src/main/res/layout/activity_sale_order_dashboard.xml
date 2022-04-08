@@ -40,7 +40,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="11dp"
             android:layout_marginLeft="11dp"
-            android:layout_marginBottom="0dp">
+            android:layout_marginBottom="1dp">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

@@ -416,6 +416,7 @@ public class DownloadMasterdata extends AppCompatActivity {
             // postParameters.add(new BasicNameValuePair("xmlString",""));
 
             String Urlpath1 = MDOurlpath + "?Type=" + "mdo_couponSchemeDownloadAndUpload" + "&action=" + action + "&userCode=" + username + "";
+           Log.i("Urls",Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
 
             // StringEntity entity;

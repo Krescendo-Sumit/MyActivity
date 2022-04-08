@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -424,6 +425,7 @@ public class daslogin extends AppCompatActivity {
             postParameters.add(new BasicNameValuePair("action",action));
             String Urlpath1= cx.MDOurlpath;
             HttpPost httppost = new HttpPost(Urlpath1);
+            Log.i("Das Login Url",Urlpath1+"&Type=mdo_getRegionandHeadQuarterDetail&usercode="+usercode+"&region="+region+"&tbmcode="+tbmcode+"&password="+password+"&action="+action);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParameters));
@@ -458,6 +460,7 @@ public class daslogin extends AppCompatActivity {
 
             try{
                 pd.dismiss();
+                Log.i("Result is",result);
                 // JSONObject jsonObject = new JSONObject(result);
                 if (result.contains("True") ) {
                     pd.dismiss();

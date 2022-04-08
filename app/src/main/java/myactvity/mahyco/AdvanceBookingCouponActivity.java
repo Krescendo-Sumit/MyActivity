@@ -2592,7 +2592,6 @@ public class AdvanceBookingCouponActivity extends AppCompatActivity implements
 
             try {
 
-
                 JSONObject jsonObject = new JSONObject();
                 uId = uId;
                 String  imageName =farmerPhoto;

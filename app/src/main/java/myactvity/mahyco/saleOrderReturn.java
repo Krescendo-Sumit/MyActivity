@@ -1684,6 +1684,7 @@ public class saleOrderReturn extends AppCompatActivity {
             String Urlpath1= saleorderurl+"?usercode="+usercode+"&saleorg="+saleorg+"" +
                     "&division="+division+"&cmbDistributor="+cmbDistributor;
             HttpPost httppost = new HttpPost(Urlpath1);
+
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParameters));
@@ -1801,6 +1802,8 @@ public class saleOrderReturn extends AppCompatActivity {
                     "&customregroup="+customregroup+"&DLV_plant="+DLV_plant+"" +
                     "&name="+name+"" +
                     "&Comments="+Comments+"&actionby=TBM&reason="+drpreason+"&lotno="+lotno+"&Expiry=20-02-2020&Qtypkt=0";
+          Log.i("Lot Number url",Urlpath1+"--"+productcode);
+          Log.i("Lot Number url",encodeImage);
             HttpPost httppost = new HttpPost(Urlpath1);
             // HttpPost httppost = new HttpPost("");
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
@@ -1847,6 +1850,7 @@ public class saleOrderReturn extends AppCompatActivity {
         protected void onPostExecute(String result) {
             String weatherInfo="Weather Report  is: \n";
             try{
+                Log.i("Result is ",result);
                 // JSONObject jsonObject = new JSONObject(result);
                 pd.dismiss();
                 if (result.contains("True"))
