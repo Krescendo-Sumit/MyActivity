@@ -99,13 +99,14 @@
 
                         />
                 </androidx.cardview.widget.CardView>
+
                 <TextView
                     android:id="@+id/text"
                     android:layout_width="wrap_content"
 
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="3dp"
-                    android:text="Sales Organisation"
+                    android:text="Sales Brand"
                     android:textColor="@color/QRCodeBlackColor"
                     android:textStyle="bold" />
 

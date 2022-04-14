@@ -1678,7 +1678,7 @@ public class saleOrderReturn extends AppCompatActivity {
                 postParameters.add(new BasicNameValuePair("Type", "GetDistributorlist"));
             }
             if (action.equals("2")) {
-                postParameters.add(new BasicNameValuePair("Type", "GetProductList"));
+                postParameters.add(new BasicNameValuePair("Type", "GetProductListSR"));
             }
             postParameters.add(new BasicNameValuePair("xmlString",""));
             String Urlpath1= saleorderurl+"?usercode="+usercode+"&saleorg="+saleorg+"" +

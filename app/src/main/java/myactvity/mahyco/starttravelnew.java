@@ -1312,6 +1312,8 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     if(spvehicletype.getSelectedItem()!=null){
                         vehicletype = spvehicletype.getSelectedItem().toString();
                     }
+                    if(BuildConfig.VERSION_NAME!=null)
+                      address+="|VN-"+BuildConfig.VERSION_NAME+"|VC-"+BuildConfig.VERSION_CODE;
                     // String vehicletype=spvehicletype.getSelectedItem().toString();
                     String villagename="";//spTehsil.getSelectedItem().toString();
                     boolean fl = mDatabase.InsertTravelTime(pref.getString("UserID", null),

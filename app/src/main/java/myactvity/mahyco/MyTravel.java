@@ -29,6 +29,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -91,6 +93,7 @@ public class MyTravel extends AppCompatActivity {
         setContentView(R.layout.activity_my_travel);
         getSupportActionBar().hide(); //<< this
         context = this;
+
         try {
             cx = new CommonExecution(this);
             dialog = new ProgressDialog(this);

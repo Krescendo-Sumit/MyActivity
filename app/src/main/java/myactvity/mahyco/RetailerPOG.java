@@ -1,5 +1,6 @@
 package myactvity.mahyco;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -21,6 +22,9 @@ import android.provider.Settings;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,6 +66,9 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.params.BasicHttpParams;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -151,6 +158,10 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
     private Handler handler = new Handler();
     double lati;
     double longi;
+
+
+    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -195,8 +206,13 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
+
                     state=gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
-                    BindDist(state);
+                 //   Toast.makeText(context, "Bind Dist"+state, Toast.LENGTH_SHORT).show();
+                    if(!(gm.Code().equals("SELECT STATE"))) {
+                      //  Toast.makeText(context, "Bind Dist", Toast.LENGTH_SHORT).show();
+                        BindDist(state);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -217,7 +233,10 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
                 try
                 {
                     dist = gm.Code().trim();//URLEncoder.encode(gm.Code().trim(), "UTF-8");
-                    BindTaluka(dist);
+                    if(!(gm.Code().equals("SELECT DISTRICT"))) {
+                     //   Toast.makeText(context, "Bind Taluka", Toast.LENGTH_SHORT).show();
+                        BindTaluka(dist);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -247,7 +266,11 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
                 //BindIntialData();
                 try {
                     taluka =gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
-                    spRetailerCategory.setSelection(0);
+                    if(!(gm.Code().equals("SELECT TALUKA"))) {
+                        BindRetailerCategory();
+                     //   Toast.makeText(context, "Retailer Category.", Toast.LENGTH_SHORT).show();
+                    }
+                        spRetailerCategory.setSelection(0);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -593,7 +616,35 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
 
 
         BindIntialData();
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
 
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    // Logic to handle location object
+
+                    lati = location.getLatitude();
+                    longi = location.getLongitude();
+                    cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
+                    Log.i("Coordinates",cordinates);
+                    address = getCompleteAddressString(lati, longi);
+               //      Toast.makeText(context, "Location Latitude : " + location.getLatitude() + " Longitude :" + location.getLongitude()+" Hello :" +address, Toast.LENGTH_SHORT).show();
+                  //  edGeoTagging.setText(location.getLatitude() + "," + location.getLongitude());
+                }
+            }
+        });
 
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1161,12 +1212,10 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
                     (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spRetailerName.setAdapter(adapter);
-
         }
         catch (Exception ex) {
             Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
 
     }
     public void  Binddistributor(String str)
@@ -1251,6 +1300,7 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
     }
     public void  BindRetailerList_online(String str)
     {
+
         pd.dismiss();
             spRetailerName.setAdapter(null);
 
@@ -1302,6 +1352,7 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
     {
          if (config.NetworkConnection() )
          {
+
              new GetRetailerListOnline("1",usercode,org,division,cmbDistributor).execute();
 
          }
@@ -1333,6 +1384,15 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
         }
         @Override
         protected String doInBackground(String... urls) {
+
+            HttpParams httpParameters = new BasicHttpParams();
+// Set the timeout in milliseconds until a connection is established.
+            int timeoutConnection = 3000;
+            HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
+// Set the default socket timeout (SO_TIMEOUT)
+// in milliseconds which is the timeout for waiting for data.
+            int timeoutSocket = 2000;
+            HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
             HttpClient httpclient = new DefaultHttpClient();
             StringBuilder builder = new StringBuilder();
             List<NameValuePair> postParameters = new ArrayList<NameValuePair>(2);
@@ -1353,6 +1413,7 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
             String Urlpath1=cx.MDOurlpath +"?usercode="+usercode+"&saleorg="+saleorg+"" +
                     "&division="+division+"&cmbDistributor="+cmbDistributor;
             HttpPost httppost = new HttpPost(Urlpath1);
+            httppost.setParams(httpParameters);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParameters));
@@ -1707,7 +1768,7 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
         super.onResume();
         try {
 
-            startFusedLocationService();
+            //startFusedLocationService();
 
         } catch (Exception ex) {
             Utility.showAlertDialog("Error", "Funtion name :onresume" + ex.getMessage(), context);
@@ -1717,12 +1778,12 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
         if (cordinates != null && !cordinates.contains("null")) {
 
 
-                    startFusedLocationService();
+                   // startFusedLocationService();
 
 
         } else {
             Utility.showAlertDialog("Info", "Please wait fetching location", context);
-            startFusedLocationService();
+           // startFusedLocationService();
         }
     }
 
