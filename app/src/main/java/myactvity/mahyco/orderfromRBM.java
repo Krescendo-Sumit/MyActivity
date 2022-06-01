@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -1064,6 +1065,8 @@ public class orderfromRBM extends AppCompatActivity {
                     "&customregroup="+customregroup+"" +
                     "&DLV_plant="+DLV_plant+"&name="+name+"" +
                     "&Comments="+Comments+"&reason="+reason+"&shipto="+shiptocustomer+"&actionby=RBM";
+
+            Log.i("SalesOrder-RBM",Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {

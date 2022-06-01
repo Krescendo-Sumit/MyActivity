@@ -84,7 +84,7 @@ import myactvity.mahyco.myActivityRecording.preSeasonActivity.CropSeminarActivit
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
-public class SamruddhaKisanValidation extends AppCompatActivity  implements GoogleApiClient.ConnectionCallbacks,
+public class SamruddhaKisanValidation extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     private static final String TAG = "SamruddhaKisanValidation";
@@ -93,7 +93,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
     SearchableSpinner spState, spDist, spTaluka, spVillage, spFocusedVillages, spMDO, spTBM, spStatus, spFarmerName;
     String userCode;
     Button btnFilter, btnDownload;
-    private String stateDesc ="", state = "", dist = "", taluka = "", village = "", focusedVillage = "", status = "", tbm, mdo, farmerName = "";
+    private String stateDesc = "", state = "", dist = "", taluka = "", village = "", focusedVillage = "", status = "", tbm, mdo, farmerName = "";
     LinearLayout llOtherVillages;
     String[] statusyArray;
     LinearLayout llFocussedVillages;
@@ -109,20 +109,20 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
     RadioButton radFocusedActivity, radOtherActivity;
     private Handler handler = new Handler();
     Prefs mPref;
-    String BaseUrl="https://packhouse.mahyco.com/api/generalactivity/";
-    String GET_MDO_BY_TBM_URL = BaseUrl+"getMdoByTbm";
-    String GET_REGION_TBM_URL = BaseUrl+"getRegionTbm";
-    String BASE="packhouse.mahyco.com";
-    String SERVER = BaseUrl+"getSamruddhaKisanValidationData";
-   // String SERVER = "http://10.80.50.153/MAAPackHouseTest/api/generalactivity/getSamruddhaKisanValidationData";
+    String BaseUrl = "https://packhouse.mahyco.com/api/generalactivity/";
+    String GET_MDO_BY_TBM_URL = BaseUrl + "getMdoByTbm";
+    String GET_REGION_TBM_URL = BaseUrl + "getRegionTbm";
+    String BASE = "packhouse.mahyco.com";
+    String SERVER = BaseUrl + "getSamruddhaKisanValidationData";
+    // String SERVER = "http://10.80.50.153/MAAPackHouseTest/api/generalactivity/getSamruddhaKisanValidationData";
 
-    
+
     //New Samrudhha Kisan Changes
 
     Location mLocation;
     TextView latLng;
     GoogleApiClient mGoogleApiClient;
-   // private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    // private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
     private LocationRequest mLocationRequest;
     private long UPDATE_INTERVAL = 15000;  /* 15 secs */
@@ -136,10 +136,10 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
 
     // Creating Button to load All TBM list Form Server samrudhkisan validation.
     Button btn_refresh_tbm_list;
-    int flag_load=0;
-    int cnt=0;
-    
-    
+    int flag_load = 0;
+    int cnt = 0;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,11 +187,11 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
         userCode = mPref.getString(AppConstant.USER_CODE_TAG, "");
         msclass = new Messageclass(this);
 
-       if(flag_load==0) {
-           bindTBM();
-           flag_load=1;
-       }
-       // mdo="";
+        if (flag_load == 0) {
+            bindTBM();
+            flag_load = 1;
+        }
+        // mdo="";
         //tbm="";
         bindStatus();
         bindState();
@@ -204,7 +204,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                 if (config.NetworkConnection()) {
 
                     try {
-                        new GetRegionTBMList().execute(GET_REGION_TBM_URL,userCode,"0");// passing last 0 for we wish to load data in tbm list and 1 for load data in MDO list.
+                        new GetRegionTBMList().execute(GET_REGION_TBM_URL, userCode, "0");// passing last 0 for we wish to load data in tbm list and 1 for load data in MDO list.
 
 
                     } catch (Exception e) {
@@ -228,14 +228,14 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
             @Override
             public void onClick(View view) {
 
-                    relPRogress.setVisibility(View.VISIBLE);
-                    relPRogress.setOnTouchListener(new View.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, MotionEvent event) {
-                            return true;
-                        }
-                    });
-                    downloadData();
+                relPRogress.setVisibility(View.VISIBLE);
+                relPRogress.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return true;
+                    }
+                });
+                downloadData();
 
             }
         });
@@ -379,8 +379,8 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if(cnt>0)
-                bindMDO(tbm);
+                if (cnt > 0)
+                    bindMDO(tbm);
                 else
                     cnt++;
                 bindFarmerDetails();
@@ -397,12 +397,11 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
                     mdo = gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
-                    if(mdo.equals("ALL"))
-                    {
-                        mdo="";
+                    if (mdo.equals("ALL")) {
+                        mdo = "";
                     }
 
-                    if ((!mdo.equals("") && !mdo.equals("SELECT USERNAME") )) {
+                    if ((!mdo.equals("") && !mdo.equals("SELECT USERNAME"))) {
                         bindFarmerDetails();
                     }
                 } catch (Exception e) {
@@ -464,16 +463,16 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                             bindFocussedVillage();
                             llFocussedVillages.setVisibility(View.VISIBLE);
                             llOtherVillages.setVisibility(View.GONE);
-                            stateDesc="";
-                            dist="";
-                            taluka="";
-                            village="";
+                            stateDesc = "";
+                            dist = "";
+                            taluka = "";
+                            village = "";
 
                         } else {
                             bindState();
                             llFocussedVillages.setVisibility(View.GONE);
                             llOtherVillages.setVisibility(View.VISIBLE);
-                            focusedVillage="";
+                            focusedVillage = "";
                         }
 
                         radOtherActivity.setChecked(false);
@@ -483,15 +482,15 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                             bindState();
                             llFocussedVillages.setVisibility(View.GONE);
                             llOtherVillages.setVisibility(View.VISIBLE);
-                            focusedVillage="";
+                            focusedVillage = "";
                         } else {
                             bindFocussedVillage();
                             llFocussedVillages.setVisibility(View.VISIBLE);
                             llOtherVillages.setVisibility(View.GONE);
-                            stateDesc="";
-                            dist="";
-                            taluka="";
-                            village="";
+                            stateDesc = "";
+                            dist = "";
+                            taluka = "";
+                            village = "";
                         }
                         break;
                 }
@@ -504,71 +503,76 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                 //Toast.makeText(context, mdo+" === "+tbm, Toast.LENGTH_SHORT).show();
 
 
-                    Intent intent = new Intent(SamruddhaKisanValidation.this, SamruddhaKisanValidationRecords.class);
+                Intent intent = new Intent(SamruddhaKisanValidation.this, SamruddhaKisanValidationRecords.class);
 
+            //Adding That code ForIssue in Crashlatics
+                if (spTBM.getSelectedItem() != null) {
                     if (spTBM.getSelectedItem().toString().equalsIgnoreCase("SELECT TBM")) {
                         intent.putExtra("tbm", "");
                     } else {
                         intent.putExtra("tbm", tbm);
                     }
-                    if (spMDO.getSelectedItem().toString().equalsIgnoreCase("SELECT USERNAME")) {
-                        intent.putExtra("mdo", "");
-                    } else {
-                        intent.putExtra("mdo", mdo);
-                    }
-                if(mdo==null) {
-                    mdo="";
+                } else {
+                    intent.putExtra("tbm", "");
                 }
-                if(tbm==null) {
-                    tbm="";
+                if (spMDO.getSelectedItem().toString().equalsIgnoreCase("SELECT USERNAME")) {
+                    intent.putExtra("mdo", "");
+                } else {
+                    intent.putExtra("mdo", mdo);
+                }
+                if (mdo == null) {
+                    mdo = "";
+                }
+                if (tbm == null) {
+                    tbm = "";
                 }
 
-                    if (spStatus.getSelectedItem().toString().equalsIgnoreCase("CATEGORY")) {
-                        intent.putExtra("status", "");
-                    } else {
-                        intent.putExtra("status", status);
-                    }
-                    if (spFocusedVillages.getSelectedItem().toString().equalsIgnoreCase("SELECT FOCUSED VILLAGE")) {
-                        intent.putExtra("focussedVillage", "");
-                    } else {
-                        intent.putExtra("focussedVillage", focusedVillage);
-                    }
+                if (spStatus.getSelectedItem().toString().equalsIgnoreCase("CATEGORY")) {
+                    intent.putExtra("status", "");
+                } else {
+                    intent.putExtra("status", status);
+                }
+                if (spFocusedVillages.getSelectedItem().toString().equalsIgnoreCase("SELECT FOCUSED VILLAGE")) {
+                    intent.putExtra("focussedVillage", "");
+                } else {
+                    intent.putExtra("focussedVillage", focusedVillage);
+                }
 
-                    if (radOtherActivity.isChecked()) {
-                        if (spState.getSelectedItem().toString().equalsIgnoreCase("SELECT STATE")) {
-                            intent.putExtra("state", "");
-                        } else {
-                            intent.putExtra("state", stateDesc);
-                        }
-                        if (spDist.getSelectedItem().toString().equalsIgnoreCase("SELECT DISTRICT")) {
-                            intent.putExtra("district", "");
-                        } else {
-                            intent.putExtra("district", dist);
-                        }
-                        if (spTaluka.getSelectedItem().toString().equalsIgnoreCase("SELECT TALUKA")) {
-                            intent.putExtra("taluka", "");
-                        } else {
-                            intent.putExtra("taluka", taluka);
-                        }
-
-                        if (spVillage.getSelectedItem().toString().equalsIgnoreCase("SELECT VILLAGE")) {
-                            intent.putExtra("village", "");
-                        } else {
-                            intent.putExtra("village", village);
-                        }
+                if (radOtherActivity.isChecked()) {
+                    if (spState.getSelectedItem().toString().equalsIgnoreCase("SELECT STATE")) {
+                        intent.putExtra("state", "");
                     } else {
+                        intent.putExtra("state", stateDesc);
+                    }
+                    if (spDist.getSelectedItem().toString().equalsIgnoreCase("SELECT DISTRICT")) {
                         intent.putExtra("district", "");
-                        intent.putExtra("taluka", "");
-                        intent.putExtra("village", "");
-                    }
-
-                    if (spFarmerName.getSelectedItem().toString().equalsIgnoreCase("SELECT FARMER'S MOBILE NUMBER/ NAME")) {
-                        intent.putExtra("farmerDetail", "");
                     } else {
-                        intent.putExtra("farmerDetail", farmerName);
+                        intent.putExtra("district", dist);
+                    }
+                    if (spTaluka.getSelectedItem().toString().equalsIgnoreCase("SELECT TALUKA")) {
+                        intent.putExtra("taluka", "");
+                    } else {
+                        intent.putExtra("taluka", taluka);
                     }
 
-                    startActivity(intent);
+                    if (spVillage.getSelectedItem().toString().equalsIgnoreCase("SELECT VILLAGE")) {
+                        intent.putExtra("village", "");
+                    } else {
+                        intent.putExtra("village", village);
+                    }
+                } else {
+                    intent.putExtra("district", "");
+                    intent.putExtra("taluka", "");
+                    intent.putExtra("village", "");
+                }
+
+                if (spFarmerName.getSelectedItem().toString().equalsIgnoreCase("SELECT FARMER'S MOBILE NUMBER/ NAME")) {
+                    intent.putExtra("farmerDetail", "");
+                } else {
+                    intent.putExtra("farmerDetail", farmerName);
+                }
+
+                startActivity(intent);
 
             }
         });
@@ -627,7 +631,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
 
 
     /**
-     *  <P>//AsyncTask Class for api batch code upload call</P>
+     * <P>//AsyncTask Class for api batch code upload call</P>
      */
     private class GetValidationDataServer extends AsyncTask<String, String, String> {
 
@@ -651,7 +655,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                     if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
 
                         saveToDb(jsonObject);
-                        Log.i("Json Data ",jsonObject.toString());
+                        Log.i("Json Data ", jsonObject.toString());
 
                     } else {
                         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(SamruddhaKisanValidation.this);
@@ -707,7 +711,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
             obj.put("userCode", mdo);   // Get mdo wise  farmer visit  samruddha kisan data
 
             jsonObject.put("Table", obj);
-            Log.d("samruddhaKisanData",SERVER +"+++++"+ jsonObject.toString());
+            Log.d("samruddhaKisanData", SERVER + "+++++" + jsonObject.toString());
             str = syncSamruddhaKisanValidationData(samruddhaKisanData, SERVER, jsonObject);
 
 
@@ -743,12 +747,12 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                 Cursor cursor1 = mDatabase.getReadableDatabase().rawQuery(searchQuery1, null);
                 int count1 = cursor1.getCount();
 
-                if(count1==0){
+                if (count1 == 0) {
 
                     insertIntoLocalDB(jsonArray);
                 }
 
-            }else {
+            } else {
 
                 insertIntoLocalDB(jsonArray);
             }
@@ -871,7 +875,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                 }
 
 
-                fl = mDatabase.insertSamruddhaKisanValidationData(jsonArray.getJSONObject(i),userCode);
+                fl = mDatabase.insertSamruddhaKisanValidationData(jsonArray.getJSONObject(i), userCode);
 
 
             } catch (JSONException e) {
@@ -894,7 +898,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
-                  //  Config.refreshActivity(SamruddhaKisanValidation.this);
+                    //  Config.refreshActivity(SamruddhaKisanValidation.this);
                     dialog.dismiss();
                     relPRogress.setVisibility(View.GONE);
                     container.setClickable(true);
@@ -920,7 +924,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
             try {
                 List<GeneralMaster> list = new ArrayList<GeneralMaster>();
                 StringBuilder sb = new StringBuilder();
-                if ((!tbm.equals("")&& !tbm.equals("SELECT TBM"))) {
+                if ((!tbm.equals("") && !tbm.equals("SELECT TBM"))) {
                     // Initial Query
                     sb.append("SELECT distinct farmerName,mobileNumber  FROM SamruddhaKisanValidationData");
 
@@ -944,9 +948,9 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                     }
 
                     // category
-                    if ( status!= null) {
+                    if (status != null) {
                         if ((!status.equals("") && !status.equals("CATEGORY"))) {
-                            if(!status.equals("ALL")) {
+                            if (!status.equals("ALL")) {
                                 sb.append("action = '" + status.toUpperCase() + "'");
                                 sb.append(" AND ");
                             }
@@ -954,7 +958,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                     }
 
                     // focussed village
-                    if ( focusedVillage!= null) {
+                    if (focusedVillage != null) {
                         if ((!focusedVillage.equals("") && !focusedVillage.equals("SELECT FOCUSED VILLAGE"))) {
 
                             sb.append("focussedVillage = '" + focusedVillage.toUpperCase() + "'");
@@ -963,7 +967,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
 
                     }
                     //  state
-                    if ( stateDesc!= null) {
+                    if (stateDesc != null) {
                         if ((!stateDesc.equals("") && !stateDesc.equals("SELECT STATE"))) {
 
                             sb.append("state = '" + stateDesc.toUpperCase() + "'");
@@ -972,7 +976,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
 
                     }
                     //  dist
-                    if ( dist!= null) {
+                    if (dist != null) {
                         if ((!dist.equals("") && !dist.equals("SELECT DISTRICT"))) {
 
                             sb.append("district = '" + dist.toUpperCase() + "'");
@@ -982,7 +986,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                     }
 
                     //  taluka
-                    if ( taluka!= null) {
+                    if (taluka != null) {
                         if ((!taluka.equals("") && !taluka.equals("SELECT TALUKA"))) {
 
                             sb.append("taluka = '" + taluka.toUpperCase() + "'");
@@ -992,7 +996,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                     }
 
                     //  village
-                    if ( village!= null) {
+                    if (village != null) {
                         if ((!village.equals("") && !village.equals("SELECT VILLAGE"))) {
 
                             sb.append("village = '" + village.toUpperCase() + "'");
@@ -1045,10 +1049,10 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
         try {
 
             // Code is comment to take all the TBM form server by new API and and load to Spinner By CUrrent Register TBM id
- // Comment Date : 22 Feb 2022
- // Commented By : Sumit Suradkar
- // Suggested By : Anand Sir and Junaid Sidiquee
- // API desgn By : Junaid Sidiquee
+            // Comment Date : 22 Feb 2022
+            // Commented By : Sumit Suradkar
+            // Suggested By : Anand Sir and Junaid Sidiquee
+            // API desgn By : Junaid Sidiquee
           /*  spTBM.setAdapter(null);
             String str = null;
             try {
@@ -1075,8 +1079,8 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
                 spTBM.setAdapter(adapter);*/
 
             // New Added Code to Load all the TBM
-              try{
-            new GetRegionTBMList().execute(GET_REGION_TBM_URL,userCode,"0");// passing last 0 for we wish to load data in tbm list and 1 for load data in MDO list.
+            try {
+                new GetRegionTBMList().execute(GET_REGION_TBM_URL, userCode, "0");// passing last 0 for we wish to load data in tbm list and 1 for load data in MDO list.
 
 
             } catch (Exception e) {
@@ -1099,8 +1103,8 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
             String str = null;
             try {
 
-               // Toast.makeText(context, ""+tbm, Toast.LENGTH_SHORT).show();
-                new GetRegionTBMList().execute(GET_MDO_BY_TBM_URL,tbm,"1");// Passing 1 to load data in MDO list 0 to Load Data in TBM list
+                // Toast.makeText(context, ""+tbm, Toast.LENGTH_SHORT).show();
+                new GetRegionTBMList().execute(GET_MDO_BY_TBM_URL, tbm, "1");// Passing 1 to load data in MDO list 0 to Load Data in TBM list
 
           /*      List<GeneralMaster> mdolist = new ArrayList<GeneralMaster>();
                 //String searchQuery = "SELECT distinct mdoCode,mdoDesc,tbmDesc  FROM MdoTbmMaster where  tbmDesc= '" + tbm + "' AND( mdoCode!='" + "NA" + "') order by mdoDesc asc  ";
@@ -1398,8 +1402,6 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
     }
 
 
-
-
     private ArrayList findUnAskedPermissions(ArrayList wanted) {
         ArrayList result = new ArrayList();
 
@@ -1432,7 +1434,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
 
     @Override
     public void onConnected(@Nullable Bundle bundle) {
-       // Toast.makeText(SamruddhaKisanValidation.this, "Connected", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(SamruddhaKisanValidation.this, "Connected", Toast.LENGTH_SHORT).show();
 
         if (ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -1447,10 +1449,9 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
         mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
 
 
-        if(mLocation!=null)
-        {
-            mPref.save("currentLocation",mLocation.getLatitude() + "-" + mLocation.getLongitude());
-          //  Toast.makeText(context, "Latitude : "+mLocation.getLatitude()+" , Longitude : "+mLocation.getLongitude(), Toast.LENGTH_SHORT).show();
+        if (mLocation != null) {
+            mPref.save("currentLocation", mLocation.getLatitude() + "-" + mLocation.getLongitude());
+            //  Toast.makeText(context, "Latitude : "+mLocation.getLatitude()+" , Longitude : "+mLocation.getLongitude(), Toast.LENGTH_SHORT).show();
         }
 
         startLocationUpdates();
@@ -1470,9 +1471,9 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
     @Override
     public void onLocationChanged(Location location) {
 
-        if(location!=null) {
-          //  Toast.makeText(context, "changed Latitude : " + location.getLatitude() + " , Longitude : " + location.getLongitude(), Toast.LENGTH_SHORT).show();
-            mPref.save("currentLocation",location.getLatitude() + "-" + location.getLongitude());
+        if (location != null) {
+            //  Toast.makeText(context, "changed Latitude : " + location.getLatitude() + " , Longitude : " + location.getLongitude(), Toast.LENGTH_SHORT).show();
+            mPref.save("currentLocation", location.getLatitude() + "-" + location.getLongitude());
         }
 
 
@@ -1576,8 +1577,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
     }
 
 
-    public void stopLocationUpdates()
-    {
+    public void stopLocationUpdates() {
         if (mGoogleApiClient.isConnected()) {
             LocationServices.FusedLocationApi
                     .removeLocationUpdates(mGoogleApiClient, this);
@@ -1591,7 +1591,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity  implements Goog
         private String Content;
         private String Error = null;
         private ProgressDialog Dialog = new ProgressDialog(SamruddhaKisanValidation.this);
-private String type="";
+        private String type = "";
 
         protected void onPreExecute() {
             // NOTE: You can call UI Element here.
@@ -1608,10 +1608,10 @@ private String type="";
             StringBuilder sb = new StringBuilder();
             Log.i("pass", "1");
             String http = urls[0].trim();
-            String tbmcode=urls[1].trim();
-            type=urls[2].trim(); // type =0 load TBM list and 1= load MDO list
+            String tbmcode = urls[1].trim();
+            type = urls[2].trim(); // type =0 load TBM list and 1= load MDO list
 
-            Log.i("Host is::",""+http);
+            Log.i("Host is::", "" + http);
             HttpURLConnection urlConnection = null;
             try {
 
@@ -1632,7 +1632,7 @@ private String type="";
                 urlConnection.connect();
 
                 JSONObject jsonParam = new JSONObject();
-                jsonParam.put("UserCode",tbmcode);
+                jsonParam.put("UserCode", tbmcode);
 
                 DataOutputStream printout;
                 Log.i("pass", "5");
@@ -1690,75 +1690,69 @@ private String type="";
 
                 try {
                     Log.i("Details", "" + Content);
-                    JSONObject jsonObject=new JSONObject(Content.trim());
-                    JSONArray jsonArray=jsonObject.getJSONArray("Table");
-                 //   Toast.makeText(context, "Total Size :"+jsonArray.length(), Toast.LENGTH_SHORT).show();
+                    JSONObject jsonObject = new JSONObject(Content.trim());
+                    JSONArray jsonArray = jsonObject.getJSONArray("Table");
+                    //   Toast.makeText(context, "Total Size :"+jsonArray.length(), Toast.LENGTH_SHORT).show();
 
-                    if(jsonArray.length()>0)
-                    {
+                    if (jsonArray.length() > 0) {
 
                         String str = null;
                         try {
 
-                          if(type.equals("0")) {
-                              List<GeneralMaster> tbmlist = new ArrayList<GeneralMaster>();
-                              tbmlist.add(0, new GeneralMaster("SELECT TBM",
-                                      "SELECT TBM"));
-                              JSONObject json_TBM;
-                              for(int i=0;i<jsonArray.length();i++)
-                              {
-                                  json_TBM=jsonArray.getJSONObject(i);
-                                  String code=json_TBM.getString("TBMCode");
-                                  String desc=json_TBM.getString("TBMName");
+                            if (type.equals("0")) {
+                                List<GeneralMaster> tbmlist = new ArrayList<GeneralMaster>();
+                                tbmlist.add(0, new GeneralMaster("SELECT TBM",
+                                        "SELECT TBM"));
+                                JSONObject json_TBM;
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    json_TBM = jsonArray.getJSONObject(i);
+                                    String code = json_TBM.getString("TBMCode");
+                                    String desc = json_TBM.getString("TBMName");
 
-                                  tbmlist.add(new GeneralMaster(code,
-                                          desc.toUpperCase()));
-                              }
-                              spTBM.setAdapter(null);
-                              ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
-                                      (context, android.R.layout.simple_spinner_dropdown_item, tbmlist);
-                              adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                              spTBM.setAdapter(adapter);
+                                    tbmlist.add(new GeneralMaster(code,
+                                            desc.toUpperCase()));
+                                }
+                                spTBM.setAdapter(null);
+                                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                                        (context, android.R.layout.simple_spinner_dropdown_item, tbmlist);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spTBM.setAdapter(adapter);
 
-                              spMDO.setAdapter(null);
-                              List<GeneralMaster> mdoList = new ArrayList<GeneralMaster>();
-                              mdoList.add(0, new GeneralMaster("SELECT USERNAME",
-                                      "SELECT USERNAME"));
-                              ArrayAdapter<GeneralMaster> adapter1 = new ArrayAdapter<GeneralMaster>
-                                      (context, android.R.layout.simple_spinner_dropdown_item, mdoList);
-                              adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                              spMDO.setAdapter(adapter1);
-                          }else if(type.equals("1"))
-                          {
-                              List<GeneralMaster> mdoList = new ArrayList<GeneralMaster>();
-                              mdoList.add(0, new GeneralMaster("SELECT USERNAME",
-                                      "SELECT USERNAME"));
-                              JSONObject json_TBM;
-                              for(int i=0;i<jsonArray.length();i++)
-                              {
-                                  json_TBM=jsonArray.getJSONObject(i);
-                                  String code=json_TBM.getString("MDOCode");
-                                  String desc=json_TBM.getString("MDO_name");
+                                spMDO.setAdapter(null);
+                                List<GeneralMaster> mdoList = new ArrayList<GeneralMaster>();
+                                mdoList.add(0, new GeneralMaster("SELECT USERNAME",
+                                        "SELECT USERNAME"));
+                                ArrayAdapter<GeneralMaster> adapter1 = new ArrayAdapter<GeneralMaster>
+                                        (context, android.R.layout.simple_spinner_dropdown_item, mdoList);
+                                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spMDO.setAdapter(adapter1);
+                            } else if (type.equals("1")) {
+                                List<GeneralMaster> mdoList = new ArrayList<GeneralMaster>();
+                                mdoList.add(0, new GeneralMaster("SELECT USERNAME",
+                                        "SELECT USERNAME"));
+                                JSONObject json_TBM;
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    json_TBM = jsonArray.getJSONObject(i);
+                                    String code = json_TBM.getString("MDOCode");
+                                    String desc = json_TBM.getString("MDO_name");
 
-                                  mdoList.add(new GeneralMaster(code,
-                                          desc.toUpperCase()));
-                              }
-                              spMDO.setAdapter(null);
-                              ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
-                                      (context, android.R.layout.simple_spinner_dropdown_item, mdoList);
-                              adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                              spMDO.setAdapter(adapter);
+                                    mdoList.add(new GeneralMaster(code,
+                                            desc.toUpperCase()));
+                                }
+                                spMDO.setAdapter(null);
+                                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                                        (context, android.R.layout.simple_spinner_dropdown_item, mdoList);
+                                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                spMDO.setAdapter(adapter);
 
-                          }
-                        }catch(Exception e)
-                        {
+                            }
+                        } catch (Exception e) {
 
                         }
-                    }else
-                    {
-                        if(type.equals("0"))
-                          Toast.makeText(context, "TBM not found.", Toast.LENGTH_SHORT).show();
-                        else if(type.equals("1")) {
+                    } else {
+                        if (type.equals("0"))
+                            Toast.makeText(context, "TBM not found.", Toast.LENGTH_SHORT).show();
+                        else if (type.equals("1")) {
                             spMDO.setAdapter(null);
                             List<GeneralMaster> mdoList = new ArrayList<GeneralMaster>();
                             mdoList.add(0, new GeneralMaster("SELECT USERNAME",
@@ -1772,8 +1766,7 @@ private String type="";
                     }
 
 
-                }catch(Exception e)
-                {
+                } catch (Exception e) {
                     Log.i("Details", "" + e.getMessage());
 
 

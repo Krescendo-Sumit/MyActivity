@@ -35,6 +35,7 @@ public class FileUtilImage
             FIT;
         }
         public  static  String savefilepath = "";
+        public  static  String savefilepath2 = "";
     /*public static Bitmap getBitmapFromUri$default(Context var0, Uri var1, BitmapFactory.Options var2, int var3, Object var4) throws IOException {
         if ((var3 & 2) != 0) {
             var2 = (BitmapFactory.Options)null;
@@ -204,6 +205,114 @@ public class FileUtilImage
         }
         return "";
     }
+
+
+
+        public static String compressImageFile2(String path,
+                                               Uri uri, Context context,String Imagename){
+            boolean shouldOverride = false;
+            Bitmap scaledBitmap = null;
+            Bitmap bm=null;
+            try {
+                //Pair(hgt, wdt)
+                int[] arr = ScalingUtils.getImageHgtWdt(context,uri);
+                try {
+                    bm = getBitmapFromUri(context,uri,null);
+                    Log.d(tag, "original bitmap height:"+bm.getHeight()+" width:"+bm.getWidth());
+                    Log.d(tag, "changed bitmap height:"+arr[0]+" width:"+arr[1]);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                // Part 1: Decode image
+                Bitmap unscaledBitmap = ScalingUtils.decodeFile(context,uri, arr[0], arr[1], ScalingLogic.FIT);
+                if (unscaledBitmap != null) {
+                    if (!(unscaledBitmap.getWidth() <= 800 && unscaledBitmap.getHeight() <= 800)) {
+                        // Part 2: Scale image
+                        scaledBitmap = createScaledBitmap(unscaledBitmap, arr[0], arr[1], ScalingLogic.FIT);
+                    } else {
+                        scaledBitmap = unscaledBitmap;
+                    }
+                }
+
+                // Store to tmp file
+                // File mFolder = new File("filesDir/Images");
+                File mFolder = new File(String.valueOf(context.getExternalFilesDir(Environment.DIRECTORY_DCIM))+"/Images");
+                if (!mFolder.exists()) {
+                    mFolder.mkdir();
+                }
+
+                File tmpFile = new File(mFolder.getAbsolutePath(), Imagename+".jpg");
+
+           /*
+            //savefilepath=tmpFile.getAbsolutePath();
+            //ContentValues contentValues = new ContentValues();
+            //contentValues.put(MediaStore.MediaColumns.DISPLAY_NAME, Imagename);
+           // contentValues.put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg");
+           // contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES+"/MyActivity/");
+           // Uri localImageUri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
+            //OutputStream outputStream = context.getContentResolver().openOutputStream(localImageUri);
+           // bm.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+          */
+
+                savefilepath2=tmpFile.getAbsolutePath();
+                Log.d(tag,"Tmp File:"+tmpFile.getAbsolutePath()+" Exist : "+tmpFile.exists()+" Image quality="+getImageQualityPercent(tmpFile));
+                Log.d(tag,"Scaled bitmap: Height:"+scaledBitmap.getHeight()+" Width:"+scaledBitmap.getWidth());
+                FileOutputStream fos = null;
+                try {
+                    try {
+                        fos = new FileOutputStream(tmpFile);
+                        if (!tmpFile.exists()) {
+                            tmpFile.createNewFile();
+                        }
+                    } catch (FileNotFoundException e) {
+                        Log.d(tag,"Tmp File not found inner");
+                        e.printStackTrace();
+                    }
+                    scaledBitmap.compress(
+                            Bitmap.CompressFormat.JPEG,
+                            getImageQualityPercent(tmpFile),
+                            fos);
+                    fos.flush();
+                    fos.close();
+                } catch (FileNotFoundException e) {
+                    Log.d(tag,"Tmp File not found outer");
+                    e.printStackTrace();
+                }
+
+                String compressedPath = "";
+                if (tmpFile.exists() && tmpFile.length() > 0) {
+                    compressedPath = tmpFile.getAbsolutePath();
+                    if (shouldOverride) {
+                        Log.d(tag,"Path = "+path);
+                        Log.d(tag,"tempFile = "+tmpFile.getAbsolutePath());
+                        File srcFile = new File(path);
+                        Log.d(tag,"srcFile = "+srcFile.getAbsolutePath());
+                        //File result =  tmpFile.copyTo(srcFile, true);
+                        File result =  copy(tmpFile,srcFile);// tmpFile.copyTo(srcFile, true);
+                        Log.d(tag, "copied file :"+result.getAbsolutePath());
+                        Log.d(tag, "Delete temp file");
+                        tmpFile.delete();
+                    }
+                }
+
+                scaledBitmap.recycle();
+
+                if(shouldOverride){
+                    Log.d(tag,"RETURN path : "+path);
+                    return path;
+                }
+                else {
+                    Log.d(tag,"RETURN compressedPath : "+compressedPath);
+                    return compressedPath;
+                }
+            } catch (Throwable e) {
+                e.printStackTrace();
+            }
+            return "";
+        }
+
+
+
 
         public static File copy(File src, File dst) throws IOException {
         InputStream in = new FileInputStream(src);

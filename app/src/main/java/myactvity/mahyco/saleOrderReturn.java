@@ -1683,6 +1683,7 @@ public class saleOrderReturn extends AppCompatActivity {
             postParameters.add(new BasicNameValuePair("xmlString",""));
             String Urlpath1= saleorderurl+"?usercode="+usercode+"&saleorg="+saleorg+"" +
                     "&division="+division+"&cmbDistributor="+cmbDistributor;
+            Log.i("URL",Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
 
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");

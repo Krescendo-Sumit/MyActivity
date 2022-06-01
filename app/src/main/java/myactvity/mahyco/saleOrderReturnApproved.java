@@ -431,7 +431,7 @@ public class saleOrderReturnApproved extends AppCompatActivity {
                     "&customregroup="+customregroup+"&DLV_plant="+DLV_plant+"" +
                     "&name="+name+"" +
                     "&Comments="+Comments+"&actionby=TBM&reason="+Comments+"&lotno="+lotno+"";
-
+             Log.i("Sales Return Approval",Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {

@@ -5922,7 +5922,7 @@ public class UploadData extends AppCompatActivity {
                             try {
                                 ImageName = cursor.getString(cursor.getColumnIndex("imgname"));
                                 Imagestring1 = mDatabase.getImageDatadetail(cursor.getString(cursor.getColumnIndex("imgpath")));
-
+                                Log.i("Img64",Imagestring1);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -6384,7 +6384,7 @@ public class UploadData extends AppCompatActivity {
             //String Urlpath=urls[0];
 
             String Urlpath = urls[0] + "?ImageName=" + ImageName + "&ImageName2=" + ImageName2;
-
+Log.i("Urls_img_upld",Urlpath);
             HttpPost httppost = new HttpPost(Urlpath);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
 

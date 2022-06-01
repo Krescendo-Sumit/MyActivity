@@ -263,7 +263,7 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
                 finish();
             }
         });
-
+        Toast.makeText(context, "Hiii ", Toast.LENGTH_SHORT).show();
      /*   radGrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup arg0, int id) {
                 switch (id) {
@@ -1544,7 +1544,7 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
 
 
               Imagename2= AppConstant.Imagename ;//  "T"+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
-              Imagename=AppConstant.Imagename ;//"O"+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;//pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
+              Imagename=AppConstant.Imagename2 ;//"O"+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;//pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
              Tempimagepath1=Imagepath1;
              Tempimagepath2=Imagepath2;
             //St
@@ -1886,12 +1886,14 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
                 Imagepath1 = FileUtilImage.savefilepath;// photoFile.getAbsolutePath();  old ssave
             }
             if (imageselect == 2) {
-                AppConstant.Imagename = "retailerlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
-                FileUtilImage.compressImageFile(AppConstant.queryImageUrl, AppConstant.imageUri,
+                AppConstant.queryImageUrl2 = pathImage;
+                AppConstant.imageUri2 = Uri.fromFile(new File(AppConstant.queryImageUrl2));
+                AppConstant.Imagename2 = "retailerlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+                FileUtilImage.compressImageFile2(AppConstant.queryImageUrl2, AppConstant.imageUri2,
                         this, AppConstant.Imagename2);
-                Imagepath2 = FileUtilImage.savefilepath;// photoFile.getAbsolutePath();  old ssave
+                Imagepath2 = FileUtilImage.savefilepath2;// photoFile.getAbsolutePath();  old ssave
             }
-
+  Log.i("Images ",Imagename+"   ---   "+Imagename2);
 
         } else {
             //Handle possible errors
@@ -2510,7 +2512,7 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
                 }
                 else {
                     if (spMyactvity.getSelectedItem().toString().toLowerCase().equals("retailer visit")) {
-                        searchQuery = "SELECT distinct RetailerName  FROM RetailerMaster where activity='Retailer' and  taluka='" + taluka + "' order by  RetailerName ";
+                        searchQuery = "SELECT distinct RetailerName  FROM RetailerMaster where activity='Retailer' and  taluka='" + taluka.toUpperCase() + "' order by  RetailerName ";
                        // cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
                         Croplist.add(new GeneralMaster("SELECT RETAILER",
                                 "SELECT RETAILER"));

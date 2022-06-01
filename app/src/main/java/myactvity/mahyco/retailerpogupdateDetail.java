@@ -1251,8 +1251,15 @@ public class retailerpogupdateDetail extends AppCompatActivity {
 
             catch (Exception e) {
                 e.printStackTrace();
-                msclass.showMessage(e.getMessage().toString());
-                pd.dismiss();
+                if(msclass!=null) {
+                    try {
+                        msclass.showMessage(e.getMessage().toString());
+                    }catch (WindowManager.BadTokenException e1)
+                    {
+
+                    }
+                }
+                   pd.dismiss();
             }
 
         }

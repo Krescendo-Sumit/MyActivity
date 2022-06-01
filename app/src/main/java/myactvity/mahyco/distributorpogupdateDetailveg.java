@@ -187,6 +187,7 @@ public class distributorpogupdateDetailveg extends AppCompatActivity {
         spCropType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
                     croptype = gm.Desc().trim();//URLEncoder.encode(gm.Desc().trim(), "UTF-8");
@@ -1477,6 +1478,7 @@ public class distributorpogupdateDetailveg extends AppCompatActivity {
             postParameters.add(new BasicNameValuePair("compcode",compcode));
             String Urlpath1= cx.MDOurlpath+"?action="+action+"&usercode="+usercode+"&Crop_Code="+Crop_Code+"" +
                     "&cropname="+cropname+"&distcode="+DistrCode+"";
+            Log.i("URL",Urlpath1+"&Type=VegUpdatedPOG&encodedData="+encodeImage+"&compcode="+compcode);
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {

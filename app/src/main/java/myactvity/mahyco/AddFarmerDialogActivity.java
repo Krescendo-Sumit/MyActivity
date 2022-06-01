@@ -54,10 +54,7 @@ public final class AddFarmerDialogActivity extends Dialog {
     RadioButton radFocused, radOther;
     String villageType = "focussed";
     String taluka = "";
-
     CardView cardTaluka;
-
-
     public Messageclass msclass;
     public SqliteDatabase mDatabase;
     EditText etFarmerNo;

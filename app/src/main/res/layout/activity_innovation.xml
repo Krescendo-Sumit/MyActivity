@@ -236,18 +236,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="6dp"
 
-                android:text="TOT.COTTON PKT SOWN K-18"
-                android:textColor="@color/QRCodeBlackColor"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
                 android:imeOptions="actionUnspecified"
                 android:inputType="number"
 
-                android:textAllCaps="true"
-                android:textSize="8dp"
                 android:maxLines="1"
-                android:layout_weight="1"
-                android:layout_marginRight="5dp"
                 android:singleLine="true"
-                />
+                android:text="TOT. PKT SOWN K-18"
+                android:textAllCaps="true"
+                android:textColor="@color/QRCodeBlackColor"
+                android:textSize="8dp" />
             <TextView
                 android:id="@+id/lblTotalMahycoPkt"
                 android:layout_width="match_parent"

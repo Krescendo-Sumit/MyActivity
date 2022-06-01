@@ -32,11 +32,12 @@ android {
         applicationId 'myactvity.mahyco'
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 181
-        versionName "8.5.2"
+        versionCode 183
+        versionName "8.5.4"
         /* Versioncode updated on 24nd feb 2022 */
         /* Versioncode updated after getting Prograud rule Applied on 21 feb 2022 */
         /* Versioncode updated after changing the save button for Samrudhikisan on 24 feb 2022 */
+        /* Versioncode updated after increase Pog Module Performance on 14 Apr 2022 */
         /* testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner" */
         multiDexEnabled true
     }
