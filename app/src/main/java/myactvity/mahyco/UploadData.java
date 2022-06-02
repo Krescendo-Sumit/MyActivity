@@ -5198,7 +5198,7 @@ public class UploadData extends AppCompatActivity {
                 Log.i("Return Values is ",returnvalue);
 
             } catch (Exception ex) {
-                // msclass.showMessage(ex.getMessage());
+                 msclass.showMessage(ex.getMessage());
                 dialog.dismiss();
             }
         } else {
@@ -5274,11 +5274,11 @@ public class UploadData extends AppCompatActivity {
 
 
                 } catch (Exception ex) {
-                    // msclass.showMessage(ex.getMessage());
+                     msclass.showMessage(ex.getMessage());
 
                 }
             } else {
-                // msclass.showMessage("Uploading data not available");
+                 msclass.showMessage("Uploading data not available");
 
             }
         } catch (Exception ex) {
@@ -5433,8 +5433,6 @@ public class UploadData extends AppCompatActivity {
             cursor.close();
             totalcount = totalcount + count2;
             rndFieldPurchaseList.setText("PURCHASE LIST" + " " + String.valueOf(count2));
-
-
             int count3 = 0;
             searchQuery = "select  *  from DemoModelData where  isSynced ='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
@@ -5442,17 +5440,13 @@ public class UploadData extends AppCompatActivity {
             cursor.close();
             totalcount = totalcount + count3;
             rndfieldVisit.setText("FIELD VISIT" + " " + String.valueOf(count3));
-
-
             int count4 = 0;
-
             searchQuery = "select  *  from RetailerVisitToFieldData where  isSynced ='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count4 = count4 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count4;
             rndRetailerVisitToField.setText("RETAILER VISIT TO FIELD" + " " + String.valueOf(count4));
-
             int count5 = 0;
             searchQuery = "select  *  from CropShowData where  isSynced ='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
@@ -5460,7 +5454,6 @@ public class UploadData extends AppCompatActivity {
             cursor.close();
             totalcount = totalcount + count5;
             rndCropShow.setText("CROP SHOW" + " " + String.valueOf(count5));
-
             int count6 = 0;
             searchQuery = "select  *  from HarvestDayData where  isSynced ='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
@@ -5468,7 +5461,6 @@ public class UploadData extends AppCompatActivity {
             cursor.close();
             totalcount = totalcount + count6;
             rndHarvestDay.setText("HARVEST DAY" + " " + String.valueOf(count6));
-
             int count7 = 0;
             searchQuery = "select  *  from FieldDayData where  isSynced ='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
@@ -6707,6 +6699,10 @@ Log.i("Urls_img_upld",Urlpath);
                     rnd2.setText("Pending retailer and distributor data=0");
 
 
+                }else
+                {
+                    Toast.makeText(context, "Error is -"+result,
+                            Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
