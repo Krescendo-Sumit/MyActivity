@@ -110,20 +110,21 @@ public  class UserHomeContainer  extends Fragment {
             }
            //New change for Temp user login
             else {
-                if (pref.getString("unit", null).contains("VCBU")) {
+                if (pref.getString("unit", null).contains("VCBU"))
+                {
                     if (pref.getString("RoleID", null).contains("0")) // MDO Role Id
                     {
                         prgmNameList = new String[]{"MY ACTIVITY RECORDING", "MY TRAVEL",
                                 "UPLOAD DATA", "DOWNLOAD MASTER DATA", "REPORT"
-                                , "BCF CALL LOG", "POG", "VOF", "MDO SURVEY", "WOW"
-                        };
+                                , "BCF CALL LOG", "POG", "WOW"
+                        };//Removing  "VOF", "MDO SURVEY"
                         ImageList = new String[]{"actvity.png", "journey.png",
                                 "upload.png", "download.png", "report.png", "field.png",
-                                "pog.png", "voiceofcustomer.png", "mdoservey.png", "wow.png"
-                        };
+                                "pog.png", "wow.png"
+                        };// "voiceofcustomer.png", "mdoservey.png"
                         ActivityName = new String[]{"Myactivity", "MyTravel", "UploadData",
-                                "DownloadData", "Report", "Kisan Club (MAGiK)", "POG", "VOF", "MDOSURVEY", "WOW"
-                        };
+                                "DownloadData", "Report", "Kisan Club (MAGiK)", "POG", "WOW"
+                        }; // Removing "VOF", "MDOSURVEY"
                     } // Other Than MDO only for VCBU
                     else {
 

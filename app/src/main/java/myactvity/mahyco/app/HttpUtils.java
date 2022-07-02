@@ -42,7 +42,7 @@ public class HttpUtils {
     public static String POSTJSON( String url, JSONObject obj, String accesstoken){
         Log.i("JSONPOSTBEGIN", "Beginning of JSON POST");
         Log.d("JsonObject",obj.toString());
-
+        Log.d("URL",url);
         InputStream inputStream = null;
         String result = "";
         try{
@@ -50,17 +50,16 @@ public class HttpUtils {
             post.setHeader("Content-type", "application/json");
             post.setHeader("Accept", "application/json");
             post.setHeader("Authorization", "Bearer " + accesstoken);
-           // StringEntity se = new StringEntity(obj.toString().trim());
-            //se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+            // StringEntity se = new StringEntity(obj.toString().trim());
+            // se.setContentEncoding(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
             byte[] vart= obj.toString().trim().getBytes("UTF-8");
             String utf=convertStringToUTF8(obj.toString().trim());
-          //  String normal=convertUTF8ToString(utf);
-           // String  out=vart.toString()
+           // String normal=convertUTF8ToString(utf);
+           // String out=vart.toString()
             StringEntity se = new StringEntity(utf);
             post.setEntity(se);
 
             //post.setEntity(new UrlEncodedFormEntity(( obj.toString() ),"UTF-8"));
-
 
             HttpResponse httpResponse = mHhttpclient.execute(post);
             // receive response as inputStream

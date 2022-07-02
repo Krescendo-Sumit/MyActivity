@@ -1062,8 +1062,6 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
         } else {
             Utility.showAlertDialog("Error", "Connect To Internet", context);
             onBackPressed();
-
-
         }
     }
 

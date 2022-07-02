@@ -513,7 +513,7 @@ public class MDOweeklyPlanReport extends AppCompatActivity {
             String Urlpath1 = MDOurlpath + "?action=" + action + "&userId=" + usercode + "&taluka=" + week + "&month=" + Month + "&week=" + week +
                     "&year=" + week + "&mdocode=" + MDOcode + "";
 
-            Log.i("Report Urls", Urlpath1);
+            Log.i("Report Urlss", Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
             // StringEntity entity;
             // entity = new StringEntity(request, HTTP.UTF_8);

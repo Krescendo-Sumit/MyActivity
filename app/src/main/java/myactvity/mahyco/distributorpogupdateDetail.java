@@ -1587,7 +1587,7 @@ public class distributorpogupdateDetail extends AppCompatActivity {
         try {
             httppost.setEntity(new UrlEncodedFormEntity(postParameters));
             UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(postParameters);
-            httppost.setEntity(formEntity);
+            httppost.setEntity(formEntity);//97261389
 
             HttpResponse response = httpclient.execute(httppost);
             StatusLine statusLine = response.getStatusLine();
