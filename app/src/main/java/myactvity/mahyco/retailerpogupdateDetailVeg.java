@@ -205,9 +205,13 @@ public class retailerpogupdateDetailVeg extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     if(config.NetworkConnection()) {
-                        new UpdatedPOG("2", objAsBytes, usercode, Crop_Code,
-                                cropname,RetailerMobileno).execute();
-
+                        if(Crop_Code.contains("Select"))
+                        {
+                            Toast.makeText(context, "Please Select the crop.", Toast.LENGTH_SHORT).show();
+                        }else {
+                            new UpdatedPOG("2", objAsBytes, usercode, Crop_Code,
+                                    cropname, RetailerMobileno).execute();
+                        }
                     }
                     else
                     {
@@ -750,7 +754,11 @@ public class retailerpogupdateDetailVeg extends AppCompatActivity {
                                         listenForChanges = true;
                                     }
                                     // listenForChanges = true;
-                                } catch (Exception ex) {
+                                }catch(NumberFormatException we)
+                                {
+                                    Toast.makeText(context, "Number Format exception "+we.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                                catch (Exception ex) {
                                     ex.printStackTrace();
                                 }
                             }
@@ -1263,7 +1271,7 @@ public class retailerpogupdateDetailVeg extends AppCompatActivity {
 
             String Urlpath1= cx.MDOurlpath+"?action="+action+"&usercode="+usercode+"&Crop_Code="+Crop_Code+"" +
                     "&cropname="+cropname+"&distcode="+DistrCode+"";
-            HttpPost httppost = new HttpPost(Urlpath1);
+            HttpPost httppost = new HttpPost(Urlpath1.replace(" ","%20"));
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParameters));

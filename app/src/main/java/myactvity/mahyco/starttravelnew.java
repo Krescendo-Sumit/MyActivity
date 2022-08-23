@@ -220,6 +220,14 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
         pref = this.getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = pref.edit();
         usercode= pref.getString("UserID", null);
+
+        Toast.makeText(context, ""+preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
+        if(preferences.getString("unit", null).contains("VCBU")) {
+         //   spvehicletype.setEnabled(false);
+            chktag.setChecked(true);
+
+        }
+
         //startFusedLocationService();
         //BindDist("");
         BindState();

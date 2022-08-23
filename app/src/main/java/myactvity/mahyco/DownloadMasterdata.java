@@ -62,6 +62,7 @@ public class DownloadMasterdata extends AppCompatActivity {
     Config config;
     SharedPreferences sp;
     String  InTime,userCode;
+    Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,14 @@ public class DownloadMasterdata extends AppCompatActivity {
         Date entrydate = new Date();
         // String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
           InTime = new SimpleDateFormat("dd-MM-yyyy").format(entrydate);
+        context=DownloadMasterdata.this;
+
+        if(sp.getString("unit", null).contains("VCBU")) {
+            btncoupondata.setVisibility(View.GONE);
+            btnDemoplot.setVisibility(View.GONE);
+            btnhdps.setVisibility(View.GONE);
+        }
+
 
 
         btnDownload.setOnClickListener(new View.OnClickListener() {
@@ -749,7 +758,7 @@ public class DownloadMasterdata extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-           dialog.setMessage("Downloading (4)");
+            dialog.setMessage("Downloading (4)");
             dialog.show();
 
         }

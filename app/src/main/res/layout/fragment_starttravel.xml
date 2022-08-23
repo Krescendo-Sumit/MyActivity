@@ -327,13 +327,14 @@
                     android:layout_width="wrap_content" android:orientation="horizontal"
                     android:layout_marginTop="5dp"
                     android:layout_height="wrap_content">
-                    <CheckBox
-                        android:textColor="@color/Username"
 
-                        android:text="TOUR START"
+                    <CheckBox
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"  >
-                    </CheckBox>
+
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:text="TOUR START"
+                        android:textColor="@color/Username"></CheckBox>
                     <CheckBox
                         android:textColor="@color/Username"
                         android:id="@+id/chktag"

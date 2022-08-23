@@ -21,8 +21,8 @@ android {
         config {
             keyAlias 'androidApps'
             keyPassword '123456'
-//            storeFile file('C:/Users/97260828/.AndroidStudio3.0/releasekeystore.jks')
-//            storePassword '123456'
+            storeFile file('releasekeystore.jks')
+            storePassword '123456'
         }
     }
     compileSdkVersion 30
@@ -32,8 +32,8 @@ android {
         applicationId 'myactvity.mahyco'
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 183
-        versionName "8.5.4"
+        versionCode 184
+        versionName "8.5.5"
         /* Versioncode updated on 24nd feb 2022 */
         /* Versioncode updated after getting Prograud rule Applied on 21 feb 2022 */
         /* Versioncode updated after changing the save button for Samrudhikisan on 24 feb 2022 */

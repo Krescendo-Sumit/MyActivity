@@ -263,7 +263,7 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
                 finish();
             }
         });
-        Toast.makeText(context, "Hiii ", Toast.LENGTH_SHORT).show();
+    //    Toast.makeText(context, "Hiii ", Toast.LENGTH_SHORT).show();
      /*   radGrp.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup arg0, int id) {
                 switch (id) {

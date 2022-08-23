@@ -125,6 +125,16 @@ public class MyTravel extends AppCompatActivity {
             msclass = new Messageclass(this);
             btnStarttravel = (Button) findViewById(R.id.btnStarttravel);
             btnAddActivity = (Button) findViewById(R.id.btnAddActivity);
+            Toast.makeText(context, "User Unit Name : "+preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
+
+           // We are hiding Add Activity Button for Veg Users
+            // Consern Person : Mr. Munjaji Sir / Nitish Kumar.
+            // Developer :  Sumit
+            if(preferences.getString("unit", null).contains("VCBU"))
+                btnAddActivity.setVisibility(View.GONE);
+
+
+
             btnendtravel = (Button) findViewById(R.id.btnendtravel);
             btnStarttravel.setOnClickListener(new View.OnClickListener()
             {

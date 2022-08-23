@@ -192,9 +192,9 @@ public class UserRegister extends AppCompatActivity {
                                                         jObject.getString("user_code").toString().toUpperCase().trim(),
                                                         jObject.getString("IMEI_No").toString(),
                                                         jObject.getString("User_pwd").toString(),
-                                                        jObject.getString("MDO_name").toString() + "(MDO)",
+                                                        jObject.getString("MDO_name").toString() + "(KA)",
                                                         jObject.getString("unit").toString());
-                                                editor.putString("Displayname", jObject.getString("MDO_name").toString()+"(MDO)");
+                                                editor.putString("Displayname", jObject.getString("MDO_name").toString()+"(KA)");
                                                 editor.putString("RoleID", jObject.getString("RoleID").toString() );
                                                 editor.putString("unit", jObject.getString("unit").toString() );
                                             } else {

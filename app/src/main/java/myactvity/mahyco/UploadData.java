@@ -5215,7 +5215,7 @@ public class UploadData extends AppCompatActivity {
         String returnvalue = "";
         String Imagestring1 = "";
         String Imagestring2 = "";
-        String ImageName = "";
+        String ImageName = "sumit.jpg";
         Cursor cursor = null;
         String searchQuery = "";
         int count = 0;

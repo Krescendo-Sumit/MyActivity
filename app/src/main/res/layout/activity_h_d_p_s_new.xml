@@ -1027,7 +1027,8 @@
                                     android:id="@+id/rd_online_payment"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-
+                                    android:visibility="gone"
+                                    android:enabled="false"
                                     android:text="ONLINE PAYMENT"
                                     android:textColor="@color/QRCodeBlackColor"
                                     android:textStyle="" />
@@ -1036,6 +1037,7 @@
                                     android:id="@+id/rd_payment_by_cash"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
+                                    android:checked="true"
                                     android:text="PAYMENT BY CASH"
                                     android:textColor="@color/QRCodeBlackColor"
                                     android:textStyle="" />

@@ -737,7 +737,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                 &&(spSelectMDO.getSelectedItem().toString().equals("SELECT MDO / SO"))
                 )
         {
-            msclass.showMessage("Please select RBM/TBM/MDO attending the Field day ");
+            msclass.showMessage("Please select RBM/TBM/KA attending the Field day ");
 
             return false;
         }

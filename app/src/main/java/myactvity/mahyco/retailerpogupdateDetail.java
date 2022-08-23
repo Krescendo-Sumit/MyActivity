@@ -76,7 +76,6 @@ import myactvity.mahyco.helper.SqliteDatabase;
 
 public class retailerpogupdateDetail extends AppCompatActivity {
     ProgressDialog pd;
-
     public SearchableSpinner  spCropType;
     private SqliteDatabase mDatabase;
     Context context;
@@ -1188,6 +1187,7 @@ public class retailerpogupdateDetail extends AppCompatActivity {
 
             String Urlpath1= cx.MDOurlpath+"?action="+action+"&usercode="+usercode+"&Crop_Code="+Crop_Code+"" +
                     "&cropname="+cropname+"&distcode="+DistrCode+"";
+            Log.i("URL",Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {

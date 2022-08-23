@@ -968,7 +968,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:layout_marginTop="10dp"
-                        android:text="21.Are you happy with number of  Manpower (MDO) provided for your area ?*"
+                        android:text="21.Are you happy with number of  Manpower (KA) provided for your area ?*"
                         android:textAllCaps="true"
                         android:textColor="@color/QRCodeBlackColor"
                         android:fontFamily="@font/titilliumwebbold" />

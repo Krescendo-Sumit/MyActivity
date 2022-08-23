@@ -307,7 +307,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="CALL INITIATED BY (MDO) :"
+                        android:text="CALL INITIATED BY (KA) :"
                         android:layout_row="8"
                         android:layout_column="0"
                         android:layout_columnWeight="0.2"

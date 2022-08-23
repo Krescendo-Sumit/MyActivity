@@ -180,6 +180,9 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
         lblwelcome.setText("NAME: " + preferences.getString("Displayname", null));
         spState=(SearchableSpinner) findViewById(R.id.spState);
         spvehicletype= (SearchableSpinner)findViewById(R.id.spvehicletype);
+
+
+
         spDist = (SearchableSpinner) findViewById(R.id.spDist);
         spTaluka = (SearchableSpinner) findViewById(R.id.spTaluka);
         // spTehsil = (Spinn) parentHolder.findViewById(R.id.spTehsil);
@@ -189,6 +192,17 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
         txtkm=(EditText) findViewById(R.id.txtEnd);
         chktag=(CheckBox) findViewById(R.id.chktag);
         txtlocation=(EditText) findViewById(R.id.txtlocation);
+
+
+        //Freeze the Vehicle Type for Veg Users
+        // Given By : Mr Munjaji Sir,Nitesh Kumar
+        // Developer: Sumit
+        Toast.makeText(context, ""+preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
+        if(preferences.getString("unit", null).contains("VCBU")) {
+            spvehicletype.setEnabled(false);
+            chktag.setChecked(true);
+
+        }
 
         TextView lbltime = (TextView) findViewById(R.id.lbltime);
         Utility.setRegularFont(lblwelcome,context);

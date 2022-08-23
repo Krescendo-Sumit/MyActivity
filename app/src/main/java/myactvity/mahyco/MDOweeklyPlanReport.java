@@ -118,11 +118,11 @@ public class MDOweeklyPlanReport extends AppCompatActivity {
         //mdoName.setText("MDO Name: "+);
         // mdoName.setText("MDO Name: "+pref.getString("Displayname",null));
         if (getIntent().getStringExtra("ReportType").equals("WeeklyPlan")) {
-            lblheader.setText("MDO Visit Weekly Plan");
+            lblheader.setText("KA Visit Weekly Plan");
 
         }
         if (getIntent().getStringExtra("ReportType").equals("PlannedVsActualSummary")) {
-            lblheader.setText("MDO  Planned Vs Actual Report");
+            lblheader.setText("KA  Planned Vs Actual Report");
 
         }
         if (getIntent().getStringExtra("ReportType").equals("ActivityProgress")) {
@@ -183,7 +183,29 @@ public class MDOweeklyPlanReport extends AppCompatActivity {
 
                     */
 
+                    Calendar cal = Calendar.getInstance();
+//cal.setTime(new Date());//Set specific Date if you want to
 
+                    for(int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
+                        cal.set(Calendar.DAY_OF_WEEK, i);
+                        Log.i("====>",""+cal.getTime());//Returns Date
+                    }
+
+
+                    cal = Calendar.getInstance();
+                    for(int i = 0 ; i < 11;i++){
+                        cal.set(Calendar.YEAR, 2022);
+                        cal.set(Calendar.DAY_OF_MONTH, 1);
+                        cal.set(Calendar.MONTH, i);
+                        int maxWeeknumber = cal.getActualMaximum(Calendar.WEEK_OF_MONTH);
+                        Log.d("LOG","max week number" + maxWeeknumber);
+                    }
+Calendar c=Calendar.getInstance();
+                    int year=c.get(Calendar.YEAR);
+                    int month=c.get(Calendar.MONTH);
+                    Toast.makeText(context, year+" "+year, Toast.LENGTH_SHORT).show();
+                    int countMonday = countDayOccurence(2022,8,Calendar.MONDAY);
+                    Toast.makeText(context, "Mondays "+countMonday, Toast.LENGTH_SHORT).show();
 
                     List<GeneralMaster> gm2 = new ArrayList<GeneralMaster>();
                     gm2.add(new GeneralMaster("All", "All"));
@@ -192,7 +214,7 @@ public class MDOweeklyPlanReport extends AppCompatActivity {
                     gm2.add(new GeneralMaster("Week3", "Week3"));
                     gm2.add(new GeneralMaster("Week4", "Week4"));
                     gm2.add(new GeneralMaster("Week5", "Week5"));
-                    gm2.add(new GeneralMaster("Week6", "Week6"));
+                    gm2.add(new GeneralMaster("Week6", "Week23"));
 
                     ArrayAdapter<GeneralMaster> adapter2 = new ArrayAdapter<GeneralMaster>
                             (MDOweeklyPlanReport.this, android.R.layout.simple_spinner_dropdown_item, gm2);
@@ -241,6 +263,26 @@ public class MDOweeklyPlanReport extends AppCompatActivity {
 
     }
 
+
+
+    public int countDayOccurence(int year, int month,int dayToFindCount) {
+        Calendar calendar = Calendar.getInstance();
+        // Note that month is 0-based in calendar, bizarrely.
+        calendar.set(year, month - 1, 1);
+        int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        int count = 0;
+        for (int day = 1; day <= daysInMonth; day++) {
+            calendar.set(year, month - 1, day);
+            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+            if (dayOfWeek == dayToFindCount) {
+                count++;
+                Log.i("Week",day+"-"+dayToFindCount+" --- > "+count);
+                // Or do whatever you need to with the result.
+            }
+        }
+        return count;
+    }
     private void setDateTimeField(View v) {
         final EditText txt = (EditText) v;
         Calendar newCalendar = dateSelected;

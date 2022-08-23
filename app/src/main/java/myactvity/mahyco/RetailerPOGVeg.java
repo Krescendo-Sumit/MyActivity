@@ -1,5 +1,6 @@
 package myactvity.mahyco;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -21,6 +22,9 @@ import android.provider.Settings;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
@@ -153,6 +157,9 @@ public class RetailerPOGVeg extends AppCompatActivity  implements GoogleApiClien
     double lati;
     double longi;
     int check3=0;
+
+    private FusedLocationProviderClient fusedLocationClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -195,13 +202,16 @@ public class RetailerPOGVeg extends AppCompatActivity  implements GoogleApiClien
         BindRetailerCategory();
         BindIntialData();
         BindState();
+        address="";
         spState.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
                     state=gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
-                    BindDist(state);
+                    if(!(gm.Code().equals("SELECT STATE"))) {
+                        BindDist(state);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -222,7 +232,9 @@ public class RetailerPOGVeg extends AppCompatActivity  implements GoogleApiClien
                 try
                 {
                     dist = gm.Code().trim();//URLEncoder.encode(gm.Code().trim(), "UTF-8");
-                    BindTaluka(dist);
+                    if(!(gm.Code().equals("SELECT DISTRICT"))) {
+                        BindTaluka(dist);
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -571,6 +583,35 @@ public class RetailerPOGVeg extends AppCompatActivity  implements GoogleApiClien
             }
         });
 
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    // Logic to handle location object
+
+                    lati = location.getLatitude();
+                    longi = location.getLongitude();
+                    cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
+                    Log.i("Coordinates",cordinates);
+                    address = getCompleteAddressString(lati, longi);
+                    //      Toast.makeText(context, "Location Latitude : " + location.getLatitude() + " Longitude :" + location.getLongitude()+" Hello :" +address, Toast.LENGTH_SHORT).show();
+                    //  edGeoTagging.setText(location.getLatitude() + "," + location.getLongitude());
+                }
+            }
+        });
 
 
         BindIntialData();
@@ -1731,7 +1772,7 @@ hidewait();
         super.onResume();
         try {
 
-            startFusedLocationService();
+         //   startFusedLocationService();
 
         } catch (Exception ex) {
             Utility.showAlertDialog("Error", "Funtion name :onresume" + ex.getMessage(), context);
@@ -1741,12 +1782,12 @@ hidewait();
         if (cordinates != null && !cordinates.contains("null")) {
 
 
-            startFusedLocationService();
+        //    startFusedLocationService();
 
 
         } else {
             Utility.showAlertDialog("Info", "Please wait fetching location", context);
-            startFusedLocationService();
+          //  startFusedLocationService();
         }
     }
 
@@ -1927,8 +1968,12 @@ hidewait();
             location = arg0;
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
             cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
-            address = getCompleteAddressString(lati, longi);
-
+           if(address.trim().equals("")) {
+               address = getCompleteAddressString(lati, longi);
+           }else
+           {
+               Log.d("Address 123",""+address);
+           }
             Log.d(TAG, "onlocation" + cordinates);
             manageGeoTag();
 

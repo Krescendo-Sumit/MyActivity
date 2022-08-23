@@ -23,17 +23,18 @@
            android:visibility="gone"
             android:layout_marginTop="5dp"
             ></ImageView>
+
         <TextView
             android:id="@+id/lblheader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="20dp"
-            android:text="MDO Visit Weekly Plan"
+            android:layout_marginTop="10dp"
+            android:text="KA Visit Weekly Plan"
             android:textAllCaps="true"
-            android:textStyle="bold"
             android:textColor="#fff"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
