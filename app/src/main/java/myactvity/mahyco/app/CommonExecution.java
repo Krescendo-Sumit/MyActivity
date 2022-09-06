@@ -39,13 +39,13 @@ public class CommonExecution {
     ProgressDialog dialog;
     public String saleSERVER,Urlpath,MDOurlpath;
     public CommonExecution(Context context) {
+
         this.context = context;
         dialog = new ProgressDialog( this.context);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         Urlpath="https://farm.mahyco.com/TestHandler.ashx";
         MDOurlpath="https://cmr.mahyco.com/MDOHandler.ashx";
         saleSERVER = "https://farm.mahyco.com/SaleOrder_new.ashx"; // Upldate Link as material conditonal values
-
 
     }
 

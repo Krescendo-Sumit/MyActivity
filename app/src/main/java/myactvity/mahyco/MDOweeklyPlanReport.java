@@ -62,12 +62,12 @@ import static java.util.Calendar.FRIDAY;
 import static java.util.Calendar.SATURDAY;
 
 public class MDOweeklyPlanReport extends AppCompatActivity {
+
     String returnstring;
     private TableMainLayout tmain, tmain2, tmain3, tmain4;
     public RelativeLayout RelativeLayout1, RelativeLayout2, RelativeLayout3, RelativeLayout4;
     public Button btnReport;
     public TextView lbl, lblheader, mdoName, lblweek, lblMonth;
-
     public ProgressDialog dialog, pd;
     private TextView recyclableTextView;
     public String MDOurlpath = "";
@@ -83,7 +83,7 @@ public class MDOweeklyPlanReport extends AppCompatActivity {
     private WebView wb1;
     private Context context;
     private Spinner spMonth, spweek, spmdo;
-
+    int secondCount=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,54 +160,16 @@ public class MDOweeklyPlanReport extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try {
-                   /*
 
-                   //Code For Dynamic Week Calculations
-                   int month=4;
-                    Calendar cal = Calendar.getInstance();
-                    cal.set(cal.get(Calendar.YEAR), month, 1);
-                    Toast.makeText(context, "" + spMonth.getSelectedItem().toString() + cal.getActualMaximum(Calendar.WEEK_OF_MONTH), Toast.LENGTH_SHORT).show();
-                    int mes_cal = cal.get(month);
-                    int ano_cal = cal.get(Calendar.YEAR);
-                    int daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
-
-                    int count = 0;
-                    for (int day = 1; day <= daysInMonth; day++) {
-                        cal.set(ano_cal, mes_cal, day);
-                        int dayOfWeek = cal.get(Calendar.DAY_OF_WEEK);
-                        if (dayOfWeek == Calendar.SUNDAY)
-                            count++;
-                    }
-
-                    System.out.println("Total Sunday : "+count);
-
-                    */
-
-                    Calendar cal = Calendar.getInstance();
-//cal.setTime(new Date());//Set specific Date if you want to
-
-                    for(int i = Calendar.SUNDAY; i <= Calendar.SATURDAY; i++) {
-                        cal.set(Calendar.DAY_OF_WEEK, i);
-                        Log.i("====>",""+cal.getTime());//Returns Date
-                    }
-
-
-                    cal = Calendar.getInstance();
-                    for(int i = 0 ; i < 11;i++){
-                        cal.set(Calendar.YEAR, 2022);
-                        cal.set(Calendar.DAY_OF_MONTH, 1);
-                        cal.set(Calendar.MONTH, i);
-                        int maxWeeknumber = cal.getActualMaximum(Calendar.WEEK_OF_MONTH);
-                        Log.d("LOG","max week number" + maxWeeknumber);
-                    }
-Calendar c=Calendar.getInstance();
-                    int year=c.get(Calendar.YEAR);
-                    int month=c.get(Calendar.MONTH);
-                    Toast.makeText(context, year+" "+year, Toast.LENGTH_SHORT).show();
-                    int countMonday = countDayOccurence(2022,8,Calendar.MONDAY);
-                    Toast.makeText(context, "Mondays "+countMonday, Toast.LENGTH_SHORT).show();
-
-                    List<GeneralMaster> gm2 = new ArrayList<GeneralMaster>();
+                    GeneralMaster generalMaster=(GeneralMaster)spMonth.getSelectedItem();
+                    Toast.makeText(context, "" + generalMaster.Desc().toString(), Toast.LENGTH_SHORT).show();
+                    Calendar c = Calendar.getInstance();
+                    int year = c.get(Calendar.YEAR);
+                    int month = Integer.parseInt(generalMaster.Code().toString().trim());
+                    secondCount=1;
+                    int countMonday = countDayOccurence(year,month,Calendar.MONDAY,spMonth.getSelectedItem().toString());
+                    Toast.makeText(context, "Total Weeks in Month "+countMonday, Toast.LENGTH_SHORT).show();
+                   /* List<GeneralMaster> gm2 = new ArrayList<GeneralMaster>();
                     gm2.add(new GeneralMaster("All", "All"));
                     gm2.add(new GeneralMaster("Week1", "Week1"));
                     gm2.add(new GeneralMaster("Week2", "Week2"));
@@ -219,7 +181,7 @@ Calendar c=Calendar.getInstance();
                     ArrayAdapter<GeneralMaster> adapter2 = new ArrayAdapter<GeneralMaster>
                             (MDOweeklyPlanReport.this, android.R.layout.simple_spinner_dropdown_item, gm2);
                     adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spweek.setAdapter(adapter2);
+                    spweek.setAdapter(adapter2);*/
                 } catch (Exception e) {
 
                 }
@@ -265,22 +227,74 @@ Calendar c=Calendar.getInstance();
 
 
 
-    public int countDayOccurence(int year, int month,int dayToFindCount) {
+    public int countDayOccurence(int year, int month,int dayToFindCount,String monthLbl) {
+       // year=2022;
+       // month=5;
+       int weekcount=1;
+        List<GeneralMaster> gm2 = new ArrayList<GeneralMaster>();
+        gm2.add(new GeneralMaster("All", "All"));
+       /* gm2.add(new GeneralMaster("Week1", "Week1"));
+        gm2.add(new GeneralMaster("Week2", "Week2"));
+        gm2.add(new GeneralMaster("Week3", "Week3"));
+        gm2.add(new GeneralMaster("Week4", "Week4"));
+        gm2.add(new GeneralMaster("Week5", "Week5"));
+        gm2.add(new GeneralMaster("Week6", "Week6"));*/
+
+
+
         Calendar calendar = Calendar.getInstance();
         // Note that month is 0-based in calendar, bizarrely.
         calendar.set(year, month - 1, 1);
         int daysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         int count = 0;
+
         for (int day = 1; day <= daysInMonth; day++) {
             calendar.set(year, month - 1, day);
             int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
             if (dayOfWeek == dayToFindCount) {
                 count++;
-                Log.i("Week",day+"-"+dayToFindCount+" --- > "+count);
+                if(count==1 && day>1)
+                {
+                    secondCount=day-1;
+                    Log.i("First Week ","1 to "+secondCount);
+                    gm2.add(new GeneralMaster("Week"+weekcount, "1 to "+secondCount+" "+monthLbl+" "+year));
+                    weekcount++;
+                    secondCount=day;
+                }
+                else {
+                   // Log.i("Week", day + "-" + dayToFindCount + " --- > " + count);
+                    if(count==1)
+                    {
+                        secondCount=day;
+                        //Log.i("First Week ","1 to "+secondCount);
+                        secondCount=day;
+                    }else {
+                        gm2.add(new GeneralMaster("Week"+weekcount, secondCount + " to " + (day - 1)+" "+monthLbl+" "+year));
+                        Log.i(count + " Week : ", secondCount + " to " + (day - 1));
+                        weekcount++;
+                        secondCount = day - 1;
+                        if (count > 1)
+                            secondCount++;
+                    }
+                }
                 // Or do whatever you need to with the result.
             }
         }
+        if(count<daysInMonth)
+        {
+            count++;
+            gm2.add(new GeneralMaster("Week"+weekcount, secondCount+" to "+daysInMonth+" "+monthLbl+" "+year));
+            weekcount++;
+            Log.i(count+" END Week : ", secondCount+" to "+daysInMonth);
+           // secondCount=day-1;
+        }
+
+        ArrayAdapter<GeneralMaster> adapter2 = new ArrayAdapter<GeneralMaster>
+                (MDOweeklyPlanReport.this, android.R.layout.simple_spinner_dropdown_item, gm2);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spweek.setAdapter(adapter2);
+
         return count;
     }
     private void setDateTimeField(View v) {
@@ -381,7 +395,8 @@ Calendar c=Calendar.getInstance();
             boolean fl = false;
             try {
                 lbl.setText("");
-                new GetMDOVISITPlanReport(9, pref.getString("UserID", null), "", spweek.getSelectedItem().toString(), "", MDOweeklyPlanReport.this).execute();
+                GeneralMaster generalMaster=(GeneralMaster) spweek.getSelectedItem();
+                new GetMDOVISITPlanReport(9, pref.getString("UserID", null), "", generalMaster.Code().toString(), "", MDOweeklyPlanReport.this).execute();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -426,10 +441,11 @@ Calendar c=Calendar.getInstance();
             boolean fl = false;
             try {
                 GeneralMaster dt = (GeneralMaster) spMonth.getSelectedItem();
+                GeneralMaster dtweek = (GeneralMaster) spweek.getSelectedItem();
                 lbl.setText("MY TRAVEL REPORT");
                 // new GetMDOVISITPlanReport(1,pref.getString("UserID",null),dt.Code().toString(),"",MDOweeklyPlanReport.this).execute();
                 // new GetMDOVISITPlanReport(8,pref.getString("UserID",null),"",spweek.getSelectedItem().toString(),"" ,MDOweeklyPlanReport.this).execute();
-                new GetMDOVISITPlanReport(8, pref.getString("UserID", null), dt.Code().toString(), spweek.getSelectedItem().toString(), "", MDOweeklyPlanReport.this).execute();
+                new GetMDOVISITPlanReport(8, pref.getString("UserID", null), dt.Code().toString(), dtweek.Code(), "", MDOweeklyPlanReport.this).execute();
 
 
             } catch (Exception e) {
@@ -452,27 +468,28 @@ Calendar c=Calendar.getInstance();
             try {
                 GeneralMaster dt = (GeneralMaster) spMonth.getSelectedItem();
                 GeneralMaster mdt = (GeneralMaster) spmdo.getSelectedItem();
+                GeneralMaster weekdt = (GeneralMaster) spweek.getSelectedItem();
 
                 if (getIntent().getStringExtra("ReportType").equals("WeeklyPlan")) {
                     lbl.setText("MDO Weekly Visit Plan details Report Month of :\n" + spMonth.getSelectedItem());
                     // new GetMDOVISITPlanReport(1,pref.getString("UserID",null),dt.Code().toString(),"",MDOweeklyPlanReport.this).execute();
-                    new GetMDOVISITPlanReport(4, pref.getString("UserID", null), dt.Code().toString(), spweek.getSelectedItem().toString(), mdt.Code(), MDOweeklyPlanReport.this).execute();
+                    new GetMDOVISITPlanReport(4, pref.getString("UserID", null), dt.Code().toString(), weekdt.Code().toString(), mdt.Code(), MDOweeklyPlanReport.this).execute();
 
                 }
                 if (getIntent().getStringExtra("ReportType").equals("PlannedVsActualSummary")) {
                     lbl.setText("MDO Planned Vs Actual Summary Report Month of : " + spMonth.getSelectedItem());
                     // new GetMDOVISITPlanReport(2,pref.getString("UserID",null),dt.Code().toString(),"",mdt.Code(),MDOweeklyPlanReport.this).execute();
-                    new GetMDOVISITPlanReport(5, pref.getString("UserID", null), dt.Code().toString(), spweek.getSelectedItem().toString(), mdt.Code(), MDOweeklyPlanReport.this).execute();
+                    new GetMDOVISITPlanReport(5, pref.getString("UserID", null), dt.Code().toString(), weekdt.Code().toString(), mdt.Code(), MDOweeklyPlanReport.this).execute();
 
                 }
                 if (getIntent().getStringExtra("ReportType").equals("ActivityProgress")) {
                     lbl.setText("Activity Progress Report Month of : " + spMonth.getSelectedItem());
-                    new GetMDOVISITPlanReport(6, pref.getString("UserID", null), dt.Code().toString(), spweek.getSelectedItem().toString(), mdt.Code(), MDOweeklyPlanReport.this).execute();
+                    new GetMDOVISITPlanReport(6, pref.getString("UserID", null), dt.Code().toString(), weekdt.Code().toString(), mdt.Code(), MDOweeklyPlanReport.this).execute();
 
                 }
                 if (getIntent().getStringExtra("ReportType").equals("demovisit")) {
                     //lbl.setText("Activity Progress Report Month of : "+spMonth.getSelectedItem());
-                    new GetMDOVISITPlanReport(16, pref.getString("UserID", null), dt.Code().toString(), spweek.getSelectedItem().toString(), mdt.Code(), MDOweeklyPlanReport.this).execute();
+                    new GetMDOVISITPlanReport(16, pref.getString("UserID", null), dt.Code().toString(), weekdt.Code().toString(), mdt.Code(), MDOweeklyPlanReport.this).execute();
 
                 }
             } catch (Exception e) {

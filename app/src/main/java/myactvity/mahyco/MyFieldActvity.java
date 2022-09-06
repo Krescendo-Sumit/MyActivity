@@ -1543,8 +1543,8 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
              final String Tempimagepath2 ;
 
 
-              Imagename2= AppConstant.Imagename ;//  "T"+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
-              Imagename=AppConstant.Imagename2 ;//"O"+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;//pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
+              Imagename2= AppConstant.Imagename2 ;//  "T"+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
+              Imagename=AppConstant.Imagename ;//"O"+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;//pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
              Tempimagepath1=Imagepath1;
              Tempimagepath2=Imagepath2;
             //St
@@ -1823,6 +1823,7 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+
             case R.id.btnTakephoto:
                 imageselect=1;
                 if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA)
@@ -1846,6 +1847,7 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
     public void onPickResult(PickResult r) {
 
         if (r.getError() == null) {
+            GeneralMaster myact = (GeneralMaster) spMyactvity.getSelectedItem();
 
 
             if (imageselect == 1)
@@ -1876,10 +1878,12 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
             //Image path
             String pathImage = r.getPath();
             ////
-            AppConstant.queryImageUrl = pathImage;
-            AppConstant.imageUri = Uri.fromFile(new File(AppConstant.queryImageUrl));
+
 
             if (imageselect == 1) {
+                AppConstant.queryImageUrl = pathImage;
+                AppConstant.imageUri = Uri.fromFile(new File(AppConstant.queryImageUrl));
+              //  AppConstant.Imagename = myact.Desc().replace(" ","_")+"farmerlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
                 AppConstant.Imagename = "farmerlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
                 FileUtilImage.compressImageFile(AppConstant.queryImageUrl, AppConstant.imageUri,
                         this, AppConstant.Imagename);
@@ -1888,6 +1892,7 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
             if (imageselect == 2) {
                 AppConstant.queryImageUrl2 = pathImage;
                 AppConstant.imageUri2 = Uri.fromFile(new File(AppConstant.queryImageUrl2));
+            //    AppConstant.Imagename2 = myact.Desc().replace(" ","_")+"retailerlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
                 AppConstant.Imagename2 = "retailerlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
                 FileUtilImage.compressImageFile2(AppConstant.queryImageUrl2, AppConstant.imageUri2,
                         this, AppConstant.Imagename2);

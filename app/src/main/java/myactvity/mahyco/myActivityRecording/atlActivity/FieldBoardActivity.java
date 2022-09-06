@@ -1247,16 +1247,13 @@ public class FieldBoardActivity extends AppCompatActivity implements GoogleApiCl
             String myTable = "Table1";//Set name of your table
             String searchQuery = "SELECT distinct ProductName, CropName  FROM CropMaster where CropName='" + croptype + "' ";
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
-
             Croplist.add(new GeneralMaster("SELECT PRODUCT",
                     "SELECT PRODUCT"));
             cursor.moveToFirst();
-
             while (cursor.isAfterLast() == false) {
 
                 Croplist.add(new GeneralMaster(cursor.getString(0),
                         cursor.getString(0).toUpperCase()));
-
                 cursor.moveToNext();
             }
             cursor.close();
@@ -1265,13 +1262,10 @@ public class FieldBoardActivity extends AppCompatActivity implements GoogleApiCl
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
            spProductName.setAdapter(adapter);
 
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
-
 
     public void bindFarmerDetails(String village) {
 
@@ -1284,6 +1278,7 @@ public class FieldBoardActivity extends AppCompatActivity implements GoogleApiCl
                         "FROM DemoModelData  where (upper(village) = '"+ village.toUpperCase() +"' OR" +
                         " upper(focussedVillage) = '"+ village.toUpperCase() +"') " +
                         " order by mobileNumber asc  ";
+                Log.i("FarmerQuery",searchQuery);
                 Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
 
                 farmerlist.add(new GeneralMaster("SELECT FARMER",

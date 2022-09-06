@@ -115,8 +115,7 @@ protected void onCreate(Bundle savedInstanceState) {
     //setContentView(R.layout.vocpegetablewebview);
     //getSupportActionBar().hide();
 
-
-        context = this;
+    context = this;
     pd = new ProgressDialog(context);
     mPref = Prefs.with(this);
     pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
@@ -131,16 +130,15 @@ protected void onCreate(Bundle savedInstanceState) {
     progressDialog.setCancelable(false);
     usercode= pref.getString("UserID", null);
 
-        points = new ArrayList<LatLng>();
+    points = new ArrayList<LatLng>();
     boolean istrue = mPref.getBoolean(Constants.LOCAL_userencrptionVOCP, false);
     if (istrue == true) {
         //   getCurrentLocation();
            callvocpfunction();
-
-        }
-        else
-            {
-                new GetEncryandDecyCode().execute();
+    }
+    else
+    {
+             new GetEncryandDecyCode().execute();
            }
         }
 
@@ -155,6 +153,7 @@ protected void onCreate(Bundle savedInstanceState) {
             webView.setWebViewClient(new WebViewClient());
             String encyptusercode = mPref.getString(Constants.userencrytion, "false");
             webView.loadUrl("https://dt.mahyco.com/?UserCode="+encyptusercode);
+            Log.i("URLS","https://dt.mahyco.com/?UserCode="+encyptusercode);
             // webView.loadUrl("file:///android_asset/web.html");
             webView.setWebChromeClient(new WebChromeClient() {
             });

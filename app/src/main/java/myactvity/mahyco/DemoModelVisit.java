@@ -336,7 +336,7 @@ public class DemoModelVisit extends AppCompatActivity {
             postParameters.add(new BasicNameValuePair("Type", "MDO_DownloadDemoDataForValidation"));
             String Urlpath1 = MDOurlpath + "?Type=" + "MDO_DownloadDemoDataForValidation&userCode=" + username + "";
             HttpPost httppost = new HttpPost(Urlpath1);
-
+            Log.i("URL_Plot Mgnt",Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParameters));

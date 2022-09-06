@@ -2935,19 +2935,13 @@ public class SqliteDatabase extends SQLiteOpenHelper {
                                     // String str=Base64.encodeToString(cursor.getBlob(i),Base64.DEFAULT);
                                     // rowObject.put(cursor.getColumnName(i), Base64.encodeToString(cursor.getBlob(i),Base64.DEFAULT));
                                     rowObject.put(cursor.getColumnName(i), cursor.getString(i));
-
                                 } else {
                                     rowObject.put(cursor.getColumnName(i), cursor.getString(i));
-
                                 }
                             } else {
                                 if (cursor.getString(i) != null) {
-
                                     Log.d("TAG_NAME", cursor.getString(i));
-
-
                                     rowObject.put(cursor.getColumnName(i), cursor.getString(i));
-
                                 } else {
                                     rowObject.put(cursor.getColumnName(i), "");
                                 }
