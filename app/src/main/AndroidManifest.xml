@@ -52,7 +52,7 @@
 
 
         </activity>
-        <activity android:name=".VocpvegetablewebviewActivity" />
+        <activity android:name=".VocpvegetablewebviewActivity" android:screenOrientation="portrait"/>
         <activity android:name=".PaymentHistoryActivityHDPS" />
         <activity android:name=".couponpaymentHDPS" />
         <activity android:name=".HDPSCouponDashboardActivity" />

@@ -1883,8 +1883,8 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
             if (imageselect == 1) {
                 AppConstant.queryImageUrl = pathImage;
                 AppConstant.imageUri = Uri.fromFile(new File(AppConstant.queryImageUrl));
-              //  AppConstant.Imagename = myact.Desc().replace(" ","_")+"farmerlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
-                AppConstant.Imagename = "farmerlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+               // AppConstant.Imagename = myact.Desc().replace(" ","_")+"_Img1" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+               AppConstant.Imagename = "farmerlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
                 FileUtilImage.compressImageFile(AppConstant.queryImageUrl, AppConstant.imageUri,
                         this, AppConstant.Imagename);
                 Imagepath1 = FileUtilImage.savefilepath;// photoFile.getAbsolutePath();  old ssave
@@ -1892,13 +1892,13 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
             if (imageselect == 2) {
                 AppConstant.queryImageUrl2 = pathImage;
                 AppConstant.imageUri2 = Uri.fromFile(new File(AppConstant.queryImageUrl2));
-            //    AppConstant.Imagename2 = myact.Desc().replace(" ","_")+"retailerlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
-                AppConstant.Imagename2 = "retailerlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+              //  AppConstant.Imagename2 = myact.Desc().replace(" ","_")+"_Img2" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+               AppConstant.Imagename2 = "retailerlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
                 FileUtilImage.compressImageFile2(AppConstant.queryImageUrl2, AppConstant.imageUri2,
                         this, AppConstant.Imagename2);
                 Imagepath2 = FileUtilImage.savefilepath2;// photoFile.getAbsolutePath();  old ssave
             }
-  Log.i("Images ",Imagename+"   ---   "+Imagename2);
+            Log.i("Images ",Imagename+"   ---   "+Imagename2);
 
         } else {
             //Handle possible errors

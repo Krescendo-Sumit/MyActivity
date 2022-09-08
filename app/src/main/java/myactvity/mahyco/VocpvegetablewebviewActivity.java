@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
 import com.google.android.gms.maps.model.LatLng;
 
 import android.annotation.TargetApi;
@@ -57,8 +58,7 @@ import myactvity.mahyco.helper.DatabaseHelper;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SqliteDatabase;
 
-public class VocpvegetablewebviewActivity extends AppCompatActivity implements LocationListener
-{
+public class VocpvegetablewebviewActivity extends AppCompatActivity implements LocationListener {
     Prefs mPref;
     public Messageclass msclass;
     public CommonExecution cx;
@@ -71,32 +71,32 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
     private Context context;
     public ProgressDialog pd;
     Config config;
-    WebView webview ;
+    WebView webview;
     String usercode;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-// Toolbar toolbar;
-protected LocationManager locationManager;
-        Location location_network;
-        Location location_gps;
-protected static final int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 1;
-        double Latitude, Longitude;
-public String newlat;
-public String newlng;
+    // Toolbar toolbar;
+    protected LocationManager locationManager;
+    Location location_network;
+    Location location_gps;
+    protected static final int MY_PERMISSIONS_ACCESS_FINE_LOCATION = 1;
+    double Latitude, Longitude;
+    public String newlat;
+    public String newlng;
 
-        DatabaseHelper myDb;
-        List<LatLng> points;
-        boolean isNewLatLng = false, isFirstTime = true;
-        WebView webView;
-        AlertDialog.Builder builder;
-        Intent intent;
-public Criteria criteria;
-        int locationMode = 0;
+    DatabaseHelper myDb;
+    List<LatLng> points;
+    boolean isNewLatLng = false, isFirstTime = true;
+    WebView webView;
+    AlertDialog.Builder builder;
+    Intent intent;
+    public Criteria criteria;
+    int locationMode = 0;
 
-private static final String[] requiredPermissions = new String[]
-        {
-        android.Manifest.permission.ACCESS_FINE_LOCATION,
-        };
+    private static final String[] requiredPermissions = new String[]
+            {
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+            };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -104,65 +104,68 @@ private static final String[] requiredPermissions = new String[]
         return true;
     }
 
-@Override
-protected void onCreate(Bundle savedInstanceState) {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-   getSupportActionBar().hide();
-   // super.onCreate(savedInstanceState);
-    //setContentView(R.layout.vocpegetablewebview);
-    //getSupportActionBar().hide();
+        getSupportActionBar().hide();
+        // super.onCreate(savedInstanceState);
+        //setContentView(R.layout.vocpegetablewebview);
+        //getSupportActionBar().hide();
 
-    context = this;
-    pd = new ProgressDialog(context);
-    mPref = Prefs.with(this);
-    pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
-    editor = pref.edit();
-    msclass = new Messageclass(this);
-    config = new Config(this); //Here the context is passing
-    progressBar = (ProgressBar) findViewById(R.id.myProgress);
-    relPRogress = (RelativeLayout) findViewById(R.id.relPRogress);
-    container =  findViewById(R.id.container);
-    final ProgressDialog progressDialog = new ProgressDialog(this);
-    progressDialog.setMessage("Loading Data...");
-    progressDialog.setCancelable(false);
-    usercode= pref.getString("UserID", null);
+        context = this;
+        pd = new ProgressDialog(context);
+        mPref = Prefs.with(this);
+        pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
+        editor = pref.edit();
+        msclass = new Messageclass(this);
+        config = new Config(this); //Here the context is passing
+        progressBar = (ProgressBar) findViewById(R.id.myProgress);
+        relPRogress = (RelativeLayout) findViewById(R.id.relPRogress);
+        container = findViewById(R.id.container);
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading Data...");
+        progressDialog.setCancelable(false);
+        usercode = pref.getString("UserID", null);
 
-    points = new ArrayList<LatLng>();
-    boolean istrue = mPref.getBoolean(Constants.LOCAL_userencrptionVOCP, false);
-    if (istrue == true) {
+        points = new ArrayList<LatLng>();
+        boolean istrue = mPref.getBoolean(Constants.LOCAL_userencrptionVOCP, false);
+  /*  if (istrue == true) {
         //   getCurrentLocation();
            callvocpfunction();
     }
     else
-    {
-             new GetEncryandDecyCode().execute();
-           }
-        }
+    {*/
+        new GetEncryandDecyCode().execute();
+        //       }
+    }
 
 
-        public void callvocpfunction()
-        {
-            webView = (WebView) findViewById(R.id.webview);
-            WebSettings settings = webView.getSettings();
-            settings.setJavaScriptEnabled(true);
-            settings.setDomStorageEnabled(true);
-            settings.setJavaScriptCanOpenWindowsAutomatically(true);
-            webView.setWebViewClient(new WebViewClient());
-            String encyptusercode = mPref.getString(Constants.userencrytion, "false");
-            webView.loadUrl("https://dt.mahyco.com/?UserCode="+encyptusercode);
-            Log.i("URLS","https://dt.mahyco.com/?UserCode="+encyptusercode);
-            // webView.loadUrl("file:///android_asset/web.html");
-            webView.setWebChromeClient(new WebChromeClient() {
-            });
+    public void callvocpfunction(String Urls) {
+        webView = (WebView) findViewById(R.id.webview);
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setJavaScriptCanOpenWindowsAutomatically(true);
+        webView.setWebViewClient(new WebViewClient());
+        String encyptusercode = mPref.getString(Constants.userencrytion, "false");
+
+        webView.loadUrl(Urls);
+        //  OLD CODE COMMENTED
+        //     webView.loadUrl("https://dt.mahyco.com/?UserCode="+encyptusercode);
+        Log.i("URLS", Urls);
+        // webView.loadUrl("file:///android_asset/web.html");
+        webView.setWebChromeClient(new WebChromeClient() {
+        });
 
 
-            webView.addJavascriptInterface(new JavaScriptInterface(newlat, newlng, this), "Android");
+        webView.addJavascriptInterface(new JavaScriptInterface(newlat, newlng, this), "Android");
 
-        }
-public void getCurrentLocation() {
+    }
+
+    public void getCurrentLocation() {
 
         builder = new AlertDialog.Builder(this, R.style.DialogTheme);
         criteria = new Criteria();
@@ -172,65 +175,65 @@ public void getCurrentLocation() {
 
         //  if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
         if (locationMode == 0) {
-        new AlertDialog.Builder(context)
-        .setTitle("GPS not found")  // GPS not found
-        .setMessage("Kindly click OK to enable your GPS Location and then set Location mode to Device Only") // Want to enable?
-        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-public void onClick(DialogInterface dialogInterface, int i) {
-        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-        }
-        })
-        .setNegativeButton("Cancel", null)
-        .show();
+            new AlertDialog.Builder(context)
+                    .setTitle("GPS not found")  // GPS not found
+                    .setMessage("Kindly click OK to enable your GPS Location and then set Location mode to Device Only") // Want to enable?
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .show();
         }
 
         builder.setOnCancelListener(new DialogInterface.OnCancelListener() {
-@Override
-public void onCancel(DialogInterface dialog) {
-        finish();
-        }
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                finish();
+            }
         });
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
-        ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        builder.setMessage("Tip");
-        builder.setPositiveButton("Get Permission", new DialogInterface.OnClickListener() {
-@Override
-public void onClick(DialogInterface dialog, int which) {
-        getPermission(android.Manifest.permission.ACCESS_FINE_LOCATION);
+                ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            builder.setMessage("Tip");
+            builder.setPositiveButton("Get Permission", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    getPermission(android.Manifest.permission.ACCESS_FINE_LOCATION);
 
-        }
-        });
+                }
+            });
         }
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-        android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION)) {
 
-        } else {
-        ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_ACCESS_FINE_LOCATION);
-        }
+            } else {
+                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, MY_PERMISSIONS_ACCESS_FINE_LOCATION);
+            }
         } else if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-        //   Toast.makeText(this, "Hiiiiiiiiii", Toast.LENGTH_SHORT).show();
+            //   Toast.makeText(this, "Hiiiiiiiiii", Toast.LENGTH_SHORT).show();
         }
         try {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE); //setAccuracyは内部では、https://stackoverflow.com/a/17874592/1709287の用にHorizontalAccuracyの設定に変換されている。
-        criteria.setPowerRequirement(Criteria.POWER_HIGH);
-        criteria.setAltitudeRequired(false);
-        criteria.setSpeedRequired(true);
-        criteria.setCostAllowed(true);
-        criteria.setBearingRequired(false);
+            Criteria criteria = new Criteria();
+            criteria.setAccuracy(Criteria.ACCURACY_FINE); //setAccuracyは内部では、https://stackoverflow.com/a/17874592/1709287の用にHorizontalAccuracyの設定に変換されている。
+            criteria.setPowerRequirement(Criteria.POWER_HIGH);
+            criteria.setAltitudeRequired(false);
+            criteria.setSpeedRequired(true);
+            criteria.setCostAllowed(true);
+            criteria.setBearingRequired(false);
 
-        //API level 9 and up
-        criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
-        criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
-        //criteria.setBearingAccuracy(Criteria.ACCURACY_HIGH);
-        // criteria.setSpeedAccuracy(Criteria.ACCURACY_HIGH);
-        Log.d("locationMode:: ", locationMode + "");
-        if (locationMode != 0) {
-        //  if (locationMode == 1) {
+            //API level 9 and up
+            criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
+            criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
+            //criteria.setBearingAccuracy(Criteria.ACCURACY_HIGH);
+            // criteria.setSpeedAccuracy(Criteria.ACCURACY_HIGH);
+            Log.d("locationMode:: ", locationMode + "");
+            if (locationMode != 0) {
+                //  if (locationMode == 1) {
 
-        locationManager.requestLocationUpdates(0, (float) 0, criteria, (LocationListener) this, null);
+                locationManager.requestLocationUpdates(0, (float) 0, criteria, (LocationListener) this, null);
 //                } else  {
 //                    new AlertDialog.Builder(context)
 //                            .setTitle("Change Location mode")  // GPS not found
@@ -243,98 +246,98 @@ public void onClick(DialogInterface dialog, int which) {
 //                            .setNegativeButton("Cancel", null)
 //                            .show();
 //                }
-        }
+            }
 
         } catch (Exception e) {
-        Log.e("error::: ", e.toString());
+            Log.e("error::: ", e.toString());
         }
         if (location_gps != null) {
-        //  onLocationChanged(location_gps);
+            //  onLocationChanged(location_gps);
 
         }
 
-        }
+    }
 
-public int getLocationMode(Context context) {
+    public int getLocationMode(Context context) {
         try {
-        return Settings.Secure.getInt(this.getContentResolver(), Settings.Secure.LOCATION_MODE);
+            return Settings.Secure.getInt(this.getContentResolver(), Settings.Secure.LOCATION_MODE);
         } catch (Settings.SettingNotFoundException e) {
-        e.printStackTrace();
-        return -1;
+            e.printStackTrace();
+            return -1;
         }
-        }
+    }
 
-private void getPermission(String permission) {
+    private void getPermission(String permission) {
         if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-        ActivityCompat.requestPermissions(this, new String[]{permission}, 0);
+            ActivityCompat.requestPermissions(this, new String[]{permission}, 0);
         }
-        }
+    }
 
-@TargetApi(Build.VERSION_CODES.M)
-public boolean hasPermissions(@NonNull String... permissions) {
+    @TargetApi(Build.VERSION_CODES.M)
+    public boolean hasPermissions(@NonNull String... permissions) {
         for (String permission : permissions)
-        if (PackageManager.PERMISSION_GRANTED != checkSelfPermission(permission))
-        return false;
+            if (PackageManager.PERMISSION_GRANTED != checkSelfPermission(permission))
+                return false;
         return true;
-        }
+    }
 
-@Override
-public void onLocationChanged(Location location) {
+    @Override
+    public void onLocationChanged(Location location) {
         Log.d("onLocationChanged:", location.toString());
         if (location != null) {
-        Latitude = location.getLatitude();
-        Longitude = location.getLongitude();
-        newlat = String.valueOf(Latitude);
-        newlng = String.valueOf(Longitude);
+            Latitude = location.getLatitude();
+            Longitude = location.getLongitude();
+            newlat = String.valueOf(Latitude);
+            newlng = String.valueOf(Longitude);
 
-        if (newlat != null && newlng != null) {
-        //  Toast.makeText(MainActivity.this, "Android newLatt: " + newlat + " newLnggg:: " + newlng, Toast.LENGTH_LONG).show();
-        }
+            if (newlat != null && newlng != null) {
+                //  Toast.makeText(MainActivity.this, "Android newLatt: " + newlat + " newLnggg:: " + newlng, Toast.LENGTH_LONG).show();
+            }
 
-        if (isFirstTime != true && isNewLatLng != true) {
-        //  addData();
+            if (isFirstTime != true && isNewLatLng != true) {
+                //  addData();
+            }
+            isFirstTime = false;
+            isNewLatLng = false;
+            locationManager.removeUpdates(this);
+            locationManager = null;
         }
-        isFirstTime = false;
-        isNewLatLng = false;
-        locationManager.removeUpdates(this);
-        locationManager = null;
-        }
-        }
+    }
 
-private void notifyLocationProviderStatusUpdated(boolean isLocationProviderAvailable) {
+    private void notifyLocationProviderStatusUpdated(boolean isLocationProviderAvailable) {
         //Broadcast location provider status change here
         // Toast.makeText(MainActivity.this, "isLocationProviderAvailable: " + isLocationProviderAvailable, Toast.LENGTH_LONG).show();
-        }
+    }
 
-@Override
-public void onStatusChanged(String provider, int status, Bundle extras) {
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
         if (provider.equals(LocationManager.GPS_PROVIDER)) {
-        if (status == LocationProvider.OUT_OF_SERVICE) {
-        notifyLocationProviderStatusUpdated(false);
-        } else {
-        notifyLocationProviderStatusUpdated(true);
+            if (status == LocationProvider.OUT_OF_SERVICE) {
+                notifyLocationProviderStatusUpdated(false);
+            } else {
+                notifyLocationProviderStatusUpdated(true);
+            }
         }
-        }
-        }
+    }
 
-@Override
-public void onProviderEnabled(String provider) {
+    @Override
+    public void onProviderEnabled(String provider) {
         if (provider.equals(LocationManager.GPS_PROVIDER)) {
-        notifyLocationProviderStatusUpdated(true);
+            notifyLocationProviderStatusUpdated(true);
         }
-        }
+    }
 
-@Override
-public void onProviderDisabled(String provider) {
+    @Override
+    public void onProviderDisabled(String provider) {
         if (provider.equals(LocationManager.GPS_PROVIDER)) {
-        notifyLocationProviderStatusUpdated(false);
+            notifyLocationProviderStatusUpdated(false);
         }
-        }
+    }
 
-@Override
-public void onBackPressed() {
-      VocpvegetablewebviewActivity.this.finish();
-        }
+    @Override
+    public void onBackPressed() {
+        VocpvegetablewebviewActivity.this.finish();
+    }
 
 
 //    @Override
@@ -349,7 +352,7 @@ public void onBackPressed() {
 //        super.onDestroy();
 //    }
 
-public boolean compareLatLng(String latPassed, String lngPassed) {
+    public boolean compareLatLng(String latPassed, String lngPassed) {
         getCurrentLocation();
         Location startPoint = new Location("locationA");
         startPoint.setLatitude(Double.valueOf(latPassed));
@@ -359,46 +362,46 @@ public boolean compareLatLng(String latPassed, String lngPassed) {
         Log.d("compare newLat ", newlat + " lng: " + newlng);
 
         if (newlat != null && newlng != null) {
-        endPoint.setLatitude(Double.valueOf(newlat));
-        endPoint.setLongitude(Double.valueOf(newlng));
-final double distance = startPoint.distanceTo(endPoint);
-        Log.d("distance:: ", String.valueOf(distance));
+            endPoint.setLatitude(Double.valueOf(newlat));
+            endPoint.setLongitude(Double.valueOf(newlng));
+            final double distance = startPoint.distanceTo(endPoint);
+            Log.d("distance:: ", String.valueOf(distance));
 
-        if (distance <= 500) {
-        new AlertDialog.Builder(this)
-        .setIcon(android.R.drawable.ic_dialog_alert)
-        .setTitle("Info")
-        .setMessage("Distance:: " + distance + " \n You are inside the field")
-        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-@Override
-public void onClick(DialogInterface dialog, int which) {
-        dialog.cancel();
-        }
-        })
-        .show();
+            if (distance <= 500) {
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Info")
+                        .setMessage("Distance:: " + distance + " \n You are inside the field")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
 
-        //  Toast.makeText(MainActivity.this, "Distance:: " + distance + "You are inside the field", Toast.LENGTH_LONG).show();
+                //  Toast.makeText(MainActivity.this, "Distance:: " + distance + "You are inside the field", Toast.LENGTH_LONG).show();
+            } else {
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Info")
+                        .setMessage("Distance:: " + distance + " \n You are outside the field")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        })
+                        .show();
+                //  Toast.makeText(MainActivity.this, "Distance:: " + distance + "You are outside the field", Toast.LENGTH_LONG).show();
+            }
         } else {
-        new AlertDialog.Builder(this)
-        .setIcon(android.R.drawable.ic_dialog_alert)
-        .setTitle("Info")
-        .setMessage("Distance:: " + distance + " \n You are outside the field")
-        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-@Override
-public void onClick(DialogInterface dialog, int which) {
-        dialog.cancel();
-        }
-        })
-        .show();
-        //  Toast.makeText(MainActivity.this, "Distance:: " + distance + "You are outside the field", Toast.LENGTH_LONG).show();
-        }
-        } else {
-        Toast.makeText(VocpvegetablewebviewActivity.this, "There is some issue in fetching location", Toast.LENGTH_LONG).show();
-        return false;
+            Toast.makeText(VocpvegetablewebviewActivity.this, "There is some issue in fetching location", Toast.LENGTH_LONG).show();
+            return false;
         }
 
         return true;
-        }
+    }
 
 
     /*Changes START Added on 11th Oct 2021 ------------------------------------------------------------------------------------------*/
@@ -424,19 +427,20 @@ public void onClick(DialogInterface dialog, int which) {
 
         @Override
         protected String doInBackground(String... urls) {
-            String result="";
+            String result = "";
             try {
                 JSONObject obj = new JSONObject();
-                   JSONObject jsonObject = new JSONObject();
+                JSONObject jsonObject = new JSONObject();
 
                 jsonObject.put("UserCode", usercode);
                 jsonObject.put("AppName", "VOCPSurvey");
+                jsonObject.put("FormName", "RetailerForm");
                 //obj.put("Table", jsonObject);
-                Log.d("Get Ency and Descpt ", "************ UPDATE API URL : " );
+                Log.d("Get Ency and Descpt ", "************ UPDATE API URL : ");
                 Log.d("Get Ency and Descpt ", "************ UPDATE API JSON OBJECT : " + obj);
                 Prefs mPref = Prefs.with(context);
                 Log.d("Get Ency and Descpt ", "************ UPDATE API JSON OBJECT ACCESS_TOKEN_TAG : " + mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
-                 result = HttpUtils.POSTJSON("https://dt.mahyco.com/api/survey/getRedirectURL", jsonObject, mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
+                result = HttpUtils.POSTJSON("https://dt.mahyco.com/api/survey/getRedirectURL", jsonObject, mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
                 Log.d("Get Ency and Descpt ", "************ UPDATE API RESPONSE : " + result);
                 return result;
             } catch (Exception e) {
@@ -448,29 +452,28 @@ public void onClick(DialogInterface dialog, int which) {
         protected void onPostExecute(String result) {
             try {
                 String resultout = result.trim();
-                boolean  resultfalg = false;
+                String Urls = "";
+                boolean resultfalg = false;
                 //redirecttoRegisterActivity(resultout);
                 try {
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.has("ResultFlag")) {
 
                         resultfalg = (boolean) jsonObject.get("ResultFlag");
-
+                        Urls = jsonObject.getString("RedirectURL");
                         mPref.save(Constants.userencrytion, jsonObject.get("UserCode").toString());
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                catch (Exception e) {
-                        e.printStackTrace();
-                    }
 
-                    if (pd != null) {
+                if (pd != null) {
                     pd.dismiss();
                 }
                 Log.d("encryt and decrpt", "UPDATE API Response" + resultout);
-                if (resultfalg)
-                 {
-                     mPref.saveBoolean(Constants.LOCAL_userencrptionVOCP, true);
-                      callvocpfunction();
+                if (resultfalg) {
+                    mPref.saveBoolean(Constants.LOCAL_userencrptionVOCP, true);
+                    callvocpfunction(Urls);
 
                 }
             } catch (Exception e) {
@@ -482,6 +485,7 @@ public void onClick(DialogInterface dialog, int which) {
         }
 
     }
+
     public void redirecttoRegisterActivity(String result) {
         if (result.toLowerCase().contains("authorization")) {
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
@@ -505,7 +509,7 @@ public void onClick(DialogInterface dialog, int which) {
         }
     }
 
-        }
+}
 
 class JavaScriptInterface {
     Context mContext;
@@ -556,7 +560,6 @@ class JavaScriptInterface {
         }
         return status;
     }
-
 
 
 }

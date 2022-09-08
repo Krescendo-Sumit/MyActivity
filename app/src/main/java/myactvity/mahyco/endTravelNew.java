@@ -2,6 +2,7 @@ package myactvity.mahyco;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import android.os.Environment;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.Settings;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +32,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -97,12 +100,11 @@ import myactvity.mahyco.helper.SqliteDatabase;
 import static android.content.ContentValues.TAG;
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
-public class endTravelNew   extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,LocationListener, ResultCallback,
-        IPickResult,View.OnClickListener
-{
+public class endTravelNew extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback,
+        IPickResult, View.OnClickListener {
     View parentHolder;
-    public SearchableSpinner spvehicletype,spDist,spState, spTaluka, spVillage, spCropType, spProductName, spMyactvity, spComment;
+    public SearchableSpinner spvehicletype, spDist, spState, spTaluka, spVillage, spCropType, spProductName, spMyactvity, spComment;
     public Button btnstUpdate, btnTakephoto;
     private String state;
     EditText txtlocation;
@@ -118,15 +120,15 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
     CheckBox chktag;
     Config confing;
     CommonExecution cx;
-    public static int startreading=0;
+    public static int startreading = 0;
     private long mLastClickTime = 0;
     File photoFile = null;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "VISITPHOTO";
     SharedPreferences preferences;
-    public   static String cordinate="";
-    public static String address="" ;
+    public static String cordinate = "";
+    public static String address = "";
     EditText txtkm;
     String usercode;
     //Rohit given
@@ -139,11 +141,12 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
     private FusedLocationProviderApi fusedLocationProviderApi = FusedLocationApi;
     boolean fusedlocationRecieved;
     boolean GpsEnabled;
-    int REQUEST_CHECK_SETTINGS=101;
+    int REQUEST_CHECK_SETTINGS = 101;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
-    private  Uri imageUri = null;
-    private   String queryImageUrl = "";
-    private String Imagename="";
+    private Uri imageUri = null;
+    private String queryImageUrl = "";
+    private String Imagename = "";
+
     public endTravelNew() {
         // Required empty public constructor
     }
@@ -156,31 +159,27 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
         mDatabase = SqliteDatabase.getInstance(this);
         msclass = new Messageclass(this);
         context = this;
-        confing=new Config(context);
-        cx=new CommonExecution(context);
+        confing = new Config(context);
+        cx = new CommonExecution(context);
         initUI();
         if (checkPlayServices()) {
 
-        }
-        else
-        {
+        } else {
             msclass.showMessage("This device google play services not supported for Devices location");
         }
 
     }
 
 
-    private void initUI()
-    {
+    private void initUI() {
 
 
         preferences = this.getSharedPreferences("MyPref", 0);
         editor = preferences.edit();
         TextView lblwelcome = (TextView) findViewById(R.id.lblwelcome);
         lblwelcome.setText("NAME: " + preferences.getString("Displayname", null));
-        spState=(SearchableSpinner) findViewById(R.id.spState);
-        spvehicletype= (SearchableSpinner)findViewById(R.id.spvehicletype);
-
+        spState = (SearchableSpinner) findViewById(R.id.spState);
+        spvehicletype = (SearchableSpinner) findViewById(R.id.spvehicletype);
 
 
         spDist = (SearchableSpinner) findViewById(R.id.spDist);
@@ -189,40 +188,40 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
         btnstUpdate = (Button) findViewById(R.id.btnstUpdate);
         btnTakephoto = (Button) findViewById(R.id.btnTakephoto);
         ivImage = (ImageView) findViewById(R.id.ivImage);
-        txtkm=(EditText) findViewById(R.id.txtEnd);
-        chktag=(CheckBox) findViewById(R.id.chktag);
-        txtlocation=(EditText) findViewById(R.id.txtlocation);
+        txtkm = (EditText) findViewById(R.id.txtEnd);
+        chktag = (CheckBox) findViewById(R.id.chktag);
+        txtlocation = (EditText) findViewById(R.id.txtlocation);
 
 
         //Freeze the Vehicle Type for Veg Users
         // Given By : Mr Munjaji Sir,Nitesh Kumar
         // Developer: Sumit
-        Toast.makeText(context, ""+preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
-        if(preferences.getString("unit", null).contains("VCBU")) {
+        Toast.makeText(context, "" + preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
+        if (preferences.getString("unit", null).contains("VCBU")) {
             spvehicletype.setEnabled(false);
             chktag.setChecked(true);
 
         }
 
         TextView lbltime = (TextView) findViewById(R.id.lbltime);
-        Utility.setRegularFont(lblwelcome,context);
-        Utility.setRegularFont(lbltime,context);
-        Utility.setRegularFont(btnTakephoto,context);
-        Utility.setRegularFont(btnstUpdate,context);
-        Utility.setRegularFont(txtkm,context);
-        Utility.setRegularFont(chktag,context);
-        Utility.setRegularFont(txtlocation,context);
-        Utility.setRegularFont(chktag,context);
+        Utility.setRegularFont(lblwelcome, context);
+        Utility.setRegularFont(lbltime, context);
+        Utility.setRegularFont(btnTakephoto, context);
+        Utility.setRegularFont(btnstUpdate, context);
+        Utility.setRegularFont(txtkm, context);
+        Utility.setRegularFont(chktag, context);
+        Utility.setRegularFont(txtlocation, context);
+        Utility.setRegularFont(chktag, context);
         btnTakephoto.setOnClickListener(this);
 
         Date entrydate = new Date();
         // String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
-        String  InTime = new SimpleDateFormat("dd-MM-yyyy").format(entrydate);
+        String InTime = new SimpleDateFormat("dd-MM-yyyy").format(entrydate);
 
-        lbltime.setText("END TOUR FOR THE DAY- "+InTime);
+        lbltime.setText("END TOUR FOR THE DAY- " + InTime);
         pref = this.getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = pref.edit();
-        usercode= pref.getString("UserID", null);
+        usercode = pref.getString("UserID", null);
 
         // BindDist("");
         BindState();
@@ -232,7 +231,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
-                    state= URLEncoder.encode(gm.Code().trim(), "UTF-8");
+                    state = URLEncoder.encode(gm.Code().trim(), "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -240,6 +239,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                 BindDist(state);
                 // Toast.makeText(MobileVerify.this, "Country ID: "+gm.Code()+",  Country Name : "+gm.Desc(), Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 //  Toast.makeText(MobileVerify.this,"gngvnv", Toast.LENGTH_LONG).show();
@@ -346,6 +346,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
         intialbinddata();
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -358,6 +359,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                 break;
         }
     }
+
     @Override
     public void onPickResult(PickResult r) {
         if (r.getError() == null) {
@@ -379,7 +381,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             FileUtilImage.compressImageFile(AppConstant.queryImageUrl, AppConstant.imageUri,
                     this, AppConstant.Imagename);
             // need to set commpress image path
-            Imagename=AppConstant.Imagename;
+            Imagename = AppConstant.Imagename;
             Imagepath1 = FileUtilImage.savefilepath;// photoFile.getAbsolutePath();  old ssave
             //roundedImageView.setImageBitmap(myBitmap);
             ////
@@ -392,14 +394,14 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
         }
     }
 
-    private void imagetaken()
-    {
+    private void imagetaken() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(intent, REQUEST_CAMERA);
     }
+
     private void selectImage() {
         try {
             if (Indentcreate.getPickImageIntent(this) != null) {
@@ -408,37 +410,33 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             } else {
                 Toast.makeText(this, "Picker intent not found", Toast.LENGTH_SHORT).show();
             }
-        }
-        catch (Exception ex)
-        {
-            Log.d(TAG, "selectImage(): "+ex.toString());
+        } catch (Exception ex) {
+            Log.d(TAG, "selectImage(): " + ex.toString());
         }
     }
 
     private void selectImage2() {
-        final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
+        final CharSequence[] options = {"Take Photo", "Choose from Gallery", "Cancel"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Photo!");
         builder.setItems(options, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                if (options[item].equals("Take Photo"))
-                {
+                if (options[item].equals("Take Photo")) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
                     intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                     startActivityForResult(intent, REQUEST_CAMERA);
-                }
-
-                else if (options[item].equals("Cancel")) {
+                } else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
                 }
             }
         });
         builder.show();
     }
+
     private boolean checkPlayServices() {
-        boolean flag=false;
+        boolean flag = false;
         try {
             int resultCode = GooglePlayServicesUtil
                     .isGooglePlayServicesAvailable(this);
@@ -452,16 +450,12 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                             .show();
                     this.finish();
                 }
-                flag=false;
+                flag = false;
+            } else {
+                flag = true;
             }
-            else
-            {
-                flag=true;
-            }
-        }
-        catch (Exception ex)
-        {
-            flag=false;
+        } catch (Exception ex) {
+            flag = false;
         }
         return flag;
     }
@@ -471,6 +465,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
     public void onConnectionFailed(ConnectionResult arg0) {
 
     }
+
     @Override
     public void onConnected(Bundle arg0) {
         try {
@@ -489,7 +484,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                         // for ActivityCompat#requestPermissions for more details.
                         return;
                     }
-                    fusedLocationProviderApi.requestLocationUpdates(googleApiClient, locationRequest,  this);
+                    fusedLocationProviderApi.requestLocationUpdates(googleApiClient, locationRequest, this);
                 }
 
             } else {
@@ -515,6 +510,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
     public void onConnectionSuspended(int arg0) {
 
     }
+
     @Override
     public synchronized void onLocationChanged(Location arg0) {
 
@@ -528,9 +524,9 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             }
             double lati = arg0.getLatitude();
             double longi = arg0.getLongitude();
-            location=arg0;
-            Log.d(TAG, "onLocationChanged: "+String.valueOf(longi));
-            cordinate = String.valueOf(lati)+"-"+String.valueOf(longi);
+            location = arg0;
+            Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
+            cordinate = String.valueOf(lati) + "-" + String.valueOf(longi);
             address = getCompleteAddressString(lati, longi);
             //accuracy = String.valueOf(arg0.getAccuracy());
             // Toast.makeText(context, cordinate+"E", Toast.LENGTH_SHORT).show();
@@ -540,12 +536,13 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             //  fusedlocationRecieved = true;
 
         } catch (Exception e) {
-            Log.d(TAG, "onLocationChanged: "+e.toString());
+            Log.d(TAG, "onLocationChanged: " + e.toString());
             e.printStackTrace();
             //  }
         }
 
     }
+
     private synchronized void startFusedLocationService() {
         /* cancelNotification(NOTIFICATION_ID_REALTIME);*/
         try {
@@ -586,9 +583,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                 result.setResultCallback(this);
             }
             Log.d(TAG, "startFusedLocationService: ");
-        }
-        catch (Exception  ex)
-        {
+        } catch (Exception ex) {
             Toast.makeText(this, "Enable gps in High Accuracy only.", Toast.LENGTH_LONG).show();
 
             //msclass.showMessage("Please on device GPS location.\n startFusedLocationService"+ex.getMessage());
@@ -613,8 +608,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
 
                         status.startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
 
-                    } catch (IntentSender.SendIntentException e)
-                    {
+                    } catch (IntentSender.SendIntentException e) {
 
                     }
                     break;
@@ -623,10 +617,8 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                     // Location settings are unavailable so not possible to show any dialog now
                     break;
             }
-        }
-        catch(Exception ex)
-        {
-            Toast.makeText(this, "Func-onResult"+ex.toString(), Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            Toast.makeText(this, "Func-onResult" + ex.toString(), Toast.LENGTH_LONG).show();
 
         }
     }
@@ -643,9 +635,10 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
         return val;
 
     }
+
     public void stopFusedApi() {
         try {
-            if (googleApiClient != null && (googleApiClient.isConnected() )) {
+            if (googleApiClient != null && (googleApiClient.isConnected())) {
                 FusedLocationApi.removeLocationUpdates(googleApiClient, this);
                 googleApiClient.disconnect();
             }
@@ -660,6 +653,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             locationRequest = null;
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -670,13 +664,12 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             startFusedLocationService();
             // updateLocationUI();
             // }
-        }
-        catch(Exception ex)
-        {
-            msclass.showMessage("Funtion name :onresume"+ex.getMessage());
+        } catch (Exception ex) {
+            msclass.showMessage("Funtion name :onresume" + ex.getMessage());
         }
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -684,62 +677,54 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
         try {
             stopFusedApi();
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void intialbinddata()
-    {
+    public void intialbinddata() {
         spvehicletype.setAdapter(null);
         List<GeneralMaster> gm = new ArrayList<GeneralMaster>();
-        gm.add(new GeneralMaster("0","SELECT VEHICLE TYPE"));
-        gm.add(new GeneralMaster("1","COMPANY VEHICLE"));
-        gm.add(new GeneralMaster("2","PERSONAL VEHICLE(4 wheeler)"));
-        gm.add(new GeneralMaster("3","PERSONAL VEHICLE(2 wheeler)"));
-        gm.add(new GeneralMaster("4","PUBLIC VEHICLE"));
-        gm.add(new GeneralMaster("5","OTHER"));
+        gm.add(new GeneralMaster("0", "SELECT VEHICLE TYPE"));
+        gm.add(new GeneralMaster("1", "COMPANY VEHICLE"));
+        gm.add(new GeneralMaster("2", "PERSONAL VEHICLE(4 wheeler)"));
+        gm.add(new GeneralMaster("3", "PERSONAL VEHICLE(2 wheeler)"));
+        gm.add(new GeneralMaster("4", "PUBLIC VEHICLE"));
+        gm.add(new GeneralMaster("5", "OTHER"));
         ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
-                (this.context,android.R.layout.simple_spinner_dropdown_item, gm);
+                (this.context, android.R.layout.simple_spinner_dropdown_item, gm);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spvehicletype.setAdapter(adapter);
         try {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date d=new Date();
-            String strdate=dateFormat.format(d);
+            Date d = new Date();
+            String strdate = dateFormat.format(d);
 
             JSONObject object = new JSONObject();
             object.put("Table1", mDatabase.getResults("select  * from mdo_endtravel  " +
-                    "where strftime( '%Y-%m-%d', enddate)='"+strdate+"' and upper(mdocode)='"+usercode.toUpperCase()+"'"));
+                    "where strftime( '%Y-%m-%d', enddate)='" + strdate + "' and upper(mdocode)='" + usercode.toUpperCase() + "'"));
             JSONArray jArray = object.getJSONArray("Table1");//new JSONArray(result);
 
             JSONObject object2 = new JSONObject();
             object2.put("Table2", mDatabase.getResults("select  * from mdo_starttravel  " +
-                    "where strftime( '%Y-%m-%d', startdate)='"+strdate+"' and" +
-                    " upper(mdocode)='"+usercode.toUpperCase()+"'"));
+                    "where strftime( '%Y-%m-%d', startdate)='" + strdate + "' and" +
+                    " upper(mdocode)='" + usercode.toUpperCase() + "'"));
             JSONArray jArray2 = object2.getJSONArray("Table2");//new JSONArray(result);
-            startreading=0;
-            if(jArray2.length()>0)
-            {
+            startreading = 0;
+            if (jArray2.length() > 0) {
                 JSONObject jObject = jArray2.getJSONObject(0);
-                if(jObject.getString("txtkm").toString().length() !=0) {
+                if (jObject.getString("txtkm").toString().length() != 0) {
                     startreading = Integer.valueOf(jObject.getString("txtkm").toString());
                 }
-                spvehicletype.setSelection(confing.getIndex(spvehicletype,jObject.getString("vehicletype").toString()));
-            }
-            else
-            {
+                spvehicletype.setSelection(confing.getIndex(spvehicletype, jObject.getString("vehicletype").toString()));
+            } else {
                 btnstUpdate.setVisibility(View.INVISIBLE);
                 //chktag.setChecked(true);
                 msclass.showMessage("Tour is not started ,please fill tour started data.");
             }
 
 
-
-
-            if(jArray.length()>0) {
+            if (jArray.length() > 0) {
 
                 btnstUpdate.setVisibility(View.INVISIBLE);
                 chktag.setChecked(true);
@@ -753,19 +738,17 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             }*/
                 BindDist("");
                 spDist.setSelection(confing.getIndex(spDist, jObject.getString("dist").toString()));
-                BindTaluka(jObject.getString("dist").toString()) ;
+                BindTaluka(jObject.getString("dist").toString());
                 spTaluka.setSelection(confing.getIndex(spTaluka, jObject.getString("taluka").toString()));
                 // BindVillage(jObject.getString("taluka").toString());
                 // spTehsil.setSelection(confing.getIndex(spTehsil, jObject.getString("village").toString()));
                 txtkm.setText(jObject.getString("txtkm").toString());
-                Imagepath1=jObject.getString("imgpath");
+                Imagepath1 = jObject.getString("imgpath");
                 // cx.bindimage(ivImage,jObject.getString("imgpath"));
                 txtlocation.setText(jObject.getString("place").toString());
             }
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
 
@@ -970,6 +953,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             msclass.showMessage(e.toString());
         }*/
     }
+
     private void onCaptureImageResultnewol(Intent data) {
 
         try {
@@ -987,7 +971,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                 bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
                         bitmapOptions);
                 Date entrydate = new Date();
-                String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
+                String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
 
                 ivImage.setImageBitmap(bitmap);
                 Imagepath1 = android.os.Environment
@@ -1002,8 +986,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
                     outFile.flush();
                     outFile.close();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } catch (Exception e) {
@@ -1011,13 +994,13 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             }
 
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             msclass.showMessage(e.toString());
             e.printStackTrace();
         }
 
     }
+
     private void onCaptureImageResult(Intent data) {
 
         try {
@@ -1026,7 +1009,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                 try {
                     BitmapFactory.Options options = new BitmapFactory.Options();
                     // options.inJustDecodeBounds = true;
-                    options.inSampleSize =2;
+                    options.inSampleSize = 2;
 
                     //Bitmap myBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(),options);
 
@@ -1034,10 +1017,10 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                     // this only get capture photo
                     //************
                     Date entrydate = new Date();
-                    String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
+                    String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
                     queryImageUrl = photoFile.getAbsolutePath();
                     imageUri = Uri.fromFile(new File(queryImageUrl));
-                    Imagename=this.getClass().getSimpleName()+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
+                    Imagename = this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
                     //ivImage.setImageBitmap(myBitmap);
 
 
@@ -1049,21 +1032,19 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                             .into(ivImage);
 
                     FileUtilImage.compressImageFile(queryImageUrl, imageUri,
-                            this,Imagename);
+                            this, Imagename);
                     // need to set commpress image path
                     Imagepath1 = FileUtilImage.savefilepath;// photoFile.getAbsolutePath();  old ssave
 
                     //**************
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     msclass.showMessage(e.toString());
                     e.printStackTrace();
                 }
                 //end
             }
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             msclass.showMessage(e.toString());
             e.printStackTrace();
         }
@@ -1087,6 +1068,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
         }
 
     }
+
     /* public void onLocationChanged1(Location location) {
          // Assign the new location
          try {
@@ -1142,12 +1124,11 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
         return strAdd;
     }
 
-    private boolean validation()
-    {
+    private boolean validation() {
         try {
             boolean flag = true;
             GeneralMaster sv = (GeneralMaster) spvehicletype.getSelectedItem();
-            String vehicletype =sv.Code().toString();
+            String vehicletype = sv.Code().toString();
             if (sv.Code().equals("0")) {
                 msclass.showMessage("Please select vehicle type");
                 return false;
@@ -1168,16 +1149,14 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             }*/
 
 
-
-
-            if(vehicletype.equals("2")||vehicletype.equals("3")) // Only for company vehicle code validation
+            if (vehicletype.equals("2") || vehicletype.equals("3")) // Only for company vehicle code validation
             {
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                Date d=new Date();
-                String strdate=dateFormat.format(d);
+                Date d = new Date();
+                String strdate = dateFormat.format(d);
                 JSONObject object1 = new JSONObject();
                 object1.put("Table1", mDatabase.getResults("select  * from mdo_addplace  " +
-                        "where strftime( '%Y-%m-%d', date)='"+strdate+"' and mdocode='"+usercode+"'"));
+                        "where strftime( '%Y-%m-%d', date)='" + strdate + "' and mdocode='" + usercode + "'"));
                 JSONArray jArray1 = object1.getJSONArray("Table1");//new JSONArray(result);
                 /*if (jArray1.length() <2)
                  {
@@ -1198,18 +1177,17 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
 
                 JSONObject object2 = new JSONObject();
                 object2.put("Table2", mDatabase.getResults("select  * from mdo_starttravel  " +
-                        "where strftime( '%Y-%m-%d', startdate)='"+strdate+"' and mdocode='"+usercode+"'"));
+                        "where strftime( '%Y-%m-%d', startdate)='" + strdate + "' and mdocode='" + usercode + "'"));
                 JSONArray jArray2 = object2.getJSONArray("Table2");//new JSONArray(result);
-                if(jArray2.length()>0) {
+                if (jArray2.length() > 0) {
                     JSONObject jObject = jArray2.getJSONObject(0);
-                    startreading=Integer.valueOf(jObject.getString("txtkm").toString());
+                    startreading = Integer.valueOf(jObject.getString("txtkm").toString());
                 }
-                if(Integer.valueOf(txtkm.getText().toString()) < startreading ) {
-                    msclass.showMessage("Your tour started KM reading is("+String.valueOf(startreading)+")."
-                            +"\n"+"Please enter tour ended km reading should be more than tour start reading.");
+                if (Integer.valueOf(txtkm.getText().toString()) < startreading) {
+                    msclass.showMessage("Your tour started KM reading is(" + String.valueOf(startreading) + ")."
+                            + "\n" + "Please enter tour ended km reading should be more than tour start reading.");
                     return false;
                 }
-
 
 
             }
@@ -1219,20 +1197,17 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                 msclass.showMessage("Please enter location/place.");
                 return false;
             }
-            if(chktag.isChecked()==false)
-            {
+            if (chktag.isChecked() == false) {
                 msclass.showMessage("Please check geo tag.");
                 return false;
             }
-            if(cordinate.length()==0)
-            {
+            if (cordinate.length() == 0) {
                 msclass.showMessage(" GPS Location not found ,please check GPS location setting .");
                 return false;
             }
 
 
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
 
@@ -1296,17 +1271,17 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
 
                 public void onClick(DialogInterface dialog, int which) {
                     // Do do my action here
-                    String vehicletype=spvehicletype.getSelectedItem().toString();
+                    String vehicletype = spvehicletype.getSelectedItem().toString();
 
                     String crop = "";
                     String product = "";
-                    String villagename="";//spTehsil.getSelectedItem().toString();
+                    String villagename = "";//spTehsil.getSelectedItem().toString();
                     boolean fl = mDatabase.InsertendTravelTime(pref.getString("UserID", null),
-                            cordinate, address, InTime,spDist.getSelectedItem().toString().trim(),
+                            cordinate, address, InTime, spDist.getSelectedItem().toString().trim(),
                             spTaluka.getSelectedItem().toString().trim(),
                             villagename,
-                            Imagename,Tempimagepath1,txtkm.getText().toString(),
-                            txtlocation.getText().toString(),vehicletype);
+                            Imagename, Tempimagepath1, txtkm.getText().toString(),
+                            txtlocation.getText().toString(), vehicletype);
 
                     //dialog.dismiss();
                     // cleardata();
@@ -1314,6 +1289,8 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                     if (fl == true) {
                         try {
                             msclass.showMessage("Tour end data saved successfully");
+                            Toast.makeText(endTravelNew.this, "Please Upload Todays Data.", Toast.LENGTH_SHORT).show();
+                            showUpdateDialog();
                             txtkm.setText("");
                             txtlocation.setText("");
                             btnstUpdate.setVisibility(View.INVISIBLE);
@@ -1357,20 +1334,51 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
         }
     }
 
-    private boolean turnGPSOn(){
-        boolean flag=false;
+    public void showUpdateDialog() {
+        try {
+
+            Dialog dialog = new Dialog(endTravelNew.this);
+            dialog.setContentView(R.layout.popup_uload_data);
+            Button btn_ok;
+            ImageView img_close;
+
+            btn_ok = dialog.findViewById(R.id.btn_ok);
+            img_close = dialog.findViewById(R.id.imgclose);
+
+            img_close.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            btn_ok.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                    Intent intent = new Intent(endTravelNew.this, UploadData.class);
+                    startActivity(intent);
+                }
+            });
+
+            dialog.show();
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    private boolean turnGPSOn() {
+        boolean flag = false;
         // boolean flag=true;
         try {
-            LocationManager locationManager=null;
+            LocationManager locationManager = null;
             try {
                 locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
                 // locationManager = (LocationManager) context.getSystemService();
                 // locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-            }
-            catch(SecurityException e) {
+            } catch (SecurityException e) {
                 e.printStackTrace();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 msclass.showMessage(ex.getMessage());
             }
@@ -1380,26 +1388,23 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
             boolean isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            if(!isGPSEnabled)// && !isGPSEnabled1)
+            if (!isGPSEnabled)// && !isGPSEnabled1)
             {
 
-                flag=false;
+                flag = false;
 
-            }
-            else
-            {
-                flag=true;
+            } else {
+                flag = true;
             }
 
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             msclass.showMessage(ex.getMessage());
         }
-        return  flag;
+        return flag;
     }
-    public void  BindState()
-    {
+
+    public void BindState() {
 
         try {
             spState.setAdapter(null);
@@ -1424,14 +1429,12 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spState.setAdapter(adapter);
 
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
 
             }
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
 
@@ -1447,7 +1450,7 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             try {
                 List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
                 String searchQuery = "SELECT distinct district,district_code  FROM VillageLevelMaster" +
-                        " where state_code='"+state+"' order by district asc  ";
+                        " where state_code='" + state + "' order by district asc  ";
 
                 //String searchQuery = "SELECT distinct district,district_code  FROM VillageLevelMaster order by district asc  ";
                 Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
@@ -1554,7 +1557,6 @@ public class endTravelNew   extends AppCompatActivity implements GoogleApiClient
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
         }
-
 
 
     }
