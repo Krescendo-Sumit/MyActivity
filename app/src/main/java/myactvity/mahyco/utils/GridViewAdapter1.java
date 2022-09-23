@@ -420,6 +420,16 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
 
                                 intent= new Intent(context.getApplicationContext(), VocpvegetablewebviewActivity.class);
                                 // intent= new Intent(context.getApplicationContext(), DSActivity.class);
+                                intent.putExtra("FormName","RetailerForm");
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                context.startActivity(intent);
+                            }
+
+                            if (ActivityName[position].contains( "VEGVOCP1")) {
+
+                                intent= new Intent(context.getApplicationContext(), VocpvegetablewebviewActivity.class);
+                                intent.putExtra("FormName","VOFPSurvey");
+                                // intent= new Intent(context.getApplicationContext(), DSActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }

@@ -7,8 +7,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -92,7 +96,8 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
     Intent intent;
     public Criteria criteria;
     int locationMode = 0;
-
+    String FormName="";
+    private FusedLocationProviderClient fusedLocationClient;
     private static final String[] requiredPermissions = new String[]
             {
                     android.Manifest.permission.ACCESS_FINE_LOCATION,
@@ -129,6 +134,9 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
         progressDialog.setMessage("Loading Data...");
         progressDialog.setCancelable(false);
         usercode = pref.getString("UserID", null);
+        FormName=getIntent().getExtras().getString("FormName");
+        if(FormName!=null)
+          FormName=getIntent().getExtras().getString("FormName");
 
         points = new ArrayList<LatLng>();
         boolean istrue = mPref.getBoolean(Constants.LOCAL_userencrptionVOCP, false);
@@ -140,6 +148,35 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
     {*/
         new GetEncryandDecyCode().execute();
         //       }
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    // Logic to handle location object
+
+                    newlat = ""+location.getLatitude();
+                    newlng = ""+location.getLongitude();
+
+                     //     Toast.makeText(context, "Location Latitude : " + location.getLatitude() + " Longitude :" + location.getLongitude(), Toast.LENGTH_SHORT).show();
+                    //  edGeoTagging.setText(location.getLatitude() + "," + location.getLongitude());
+                }
+            }
+        });
+
     }
 
 
@@ -148,8 +185,18 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setDomStorageEnabled(true);
+        settings.setJavaScriptEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setUseWideViewPort(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setDisplayZoomControls(false);
+        settings.setSupportZoom(true);
+        settings.setDefaultTextEncodingName("utf-8");
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         webView.setWebViewClient(new WebViewClient());
+        webView.getSettings().setDomStorageEnabled(true);
+
         String encyptusercode = mPref.getString(Constants.userencrytion, "false");
 
         webView.loadUrl(Urls);
@@ -434,7 +481,7 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
 
                 jsonObject.put("UserCode", usercode);
                 jsonObject.put("AppName", "VOCPSurvey");
-                jsonObject.put("FormName", "RetailerForm");
+                jsonObject.put("FormName", FormName);
                 //obj.put("Table", jsonObject);
                 Log.d("Get Ency and Descpt ", "************ UPDATE API URL : ");
                 Log.d("Get Ency and Descpt ", "************ UPDATE API JSON OBJECT : " + obj);
