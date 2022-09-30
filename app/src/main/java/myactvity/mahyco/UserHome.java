@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -61,10 +62,17 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -256,6 +264,7 @@ public class UserHome extends AppCompatActivity
         /*TODO Uncomment when App Feedback Module required.*/
         showUserFeedbackScreen(userId);
     }
+
 
     private void showUserFeedbackScreen(String user) {
         Prefs mPref = Prefs.with(UserHome.this);
@@ -452,17 +461,62 @@ public class UserHome extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = 2 ;//item.getItemId();
-
+id=item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             /*ToDo comment later, before upload, 6th Sept 2021*/
 
-            Intent i = new Intent(this, AndroidDatabaseManager.class);
-            startActivity(i);
+            /*Intent i = new Intent(this, AndroidDatabaseManager.class);
+            startActivity(i);*/
+
+            try{
+                try
+                {
+                    Context c=UserHome.this;
+                    File sd = Environment.getExternalStorageDirectory();
+                    File data = Environment.getDataDirectory();
+
+                    String currentDBPath = "//data//myactvity.mahyco//databases//MDOApps.db";
+                    String userid=preferences.getString("UserID", null);
+                    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
+                    LocalDateTime now = LocalDateTime.now();
+                    System.out.println(dtf.format(now));
+                    String backupDBPath = userid+"_"+dtf.format(now)+"_MDAPP.db";
+                    File currentDB = new File(data, currentDBPath);
+                    File backupDB = new File(sd, backupDBPath);
+
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+
+                    Toast.makeText(c, "Exported", Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e) {
+                    Toast.makeText(this, "Not Exported", Toast.LENGTH_SHORT).show();
+                    Log.d("Main", e.toString());
+                }
+
+            }catch (Exception e)
+            {
+
+            }
+
             return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void createDB() {
+        SQLiteDatabase sampleDB =  this.openOrCreateDatabase("Sumit_MyActivity.db", MODE_PRIVATE, null);
+        sampleDB.execSQL("CREATE TABLE IF NOT EXISTS mahycoDev (LastName VARCHAR, FirstName VARCHAR," +
+                " Rank VARCHAR);");
+        sampleDB.execSQL("INSERT INTO mahycoDev Values ('Kirk','James, T','Captain');");
+        sampleDB.close();
+        sampleDB.getPath();
+        Toast.makeText(this, "DB Created @ "+sampleDB.getPath(), Toast.LENGTH_LONG).show();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
