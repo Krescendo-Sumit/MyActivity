@@ -443,20 +443,13 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
                 if (cordinates != null && !cordinates.contains("null")) {
                     if (tvCordinates.getText().toString().contains("Yes")) {
                         imgBtnGps.setImageResource(R.drawable.ic_location_off);
-
                         cordinatesmsg = "GEO TAG : \n";
-
                     } else {
-
                         if (lati != 0) {
                             imgBtnGps.setImageResource(R.drawable.ic_location_on);
                             cordinatesmsg = "GEO TAG RECIEVED SUCCESSFULLY : \n";
-
                         } else {
-
                             startFusedLocationService();
-
-
                         }
                     }
                 } else {
@@ -494,7 +487,6 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
                     case R.id.radJumbo:
                         if (radJumbo.isChecked()) {
                             plotType = "jumbo plot";
-
                             llCheckHybrids.setVisibility(View.GONE);
                         } else if (radOther.isChecked()) {
                             plotType = "other field";
@@ -505,7 +497,6 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
                         } else {
                             plotType = "demo plot";
                             llCheckHybrids.setVisibility(View.VISIBLE);
-
                         }
                         radDemo.setChecked(false);
                         radModel.setChecked(false);
@@ -524,7 +515,6 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
                         } else {
                             plotType = "demo plot";
                             llCheckHybrids.setVisibility(View.VISIBLE);
-
                         }
                         radDemo.setChecked(false);
                         radJumbo.setChecked(false);
@@ -543,7 +533,6 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
                         } else {
                             plotType = "demo plot";
                             llCheckHybrids.setVisibility(View.VISIBLE);
-
                         }
                         break;
 
@@ -1390,6 +1379,10 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
           if (fl) {
               Intent intent;
               String callactivity = pref.getString("calldemoplot", "");
+              Log.i("callactivity","->"+callactivity);
+
+              Toast.makeText(context, "callactivity:"+callactivity, Toast.LENGTH_SHORT).show();
+
               switch (callactivity) {
                   case "FieldBoard":
                       intent = new Intent(DemoModelRecordActivity.this, FieldBoardActivity.class);

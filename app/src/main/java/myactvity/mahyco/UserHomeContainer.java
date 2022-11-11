@@ -116,14 +116,14 @@ public  class UserHomeContainer  extends Fragment {
                     {
                         prgmNameList = new String[]{"MY ACTIVITY RECORDING", "MY TRAVEL",
                                 "UPLOAD DATA", "DOWNLOAD MASTER DATA", "REPORT"
-                                , "BCF CALL LOG", "POG", "WOW"
+                                , "BCF CALL LOG", "POG", "WOW","VOFP"
                         };//Removing  "VOF", "MDO SURVEY"
                         ImageList = new String[]{"actvity.png", "journey.png",
                                 "upload.png", "download.png", "report.png", "field.png",
-                                "pog.png", "wow.png"
+                                "pog.png", "wow.png","actvity.png"
                         };// "voiceofcustomer.png", "mdoservey.png"
                         ActivityName = new String[]{"Myactivity", "MyTravel", "UploadData",
-                                "DownloadData", "Report", "Kisan Club (MAGiK)", "POG", "WOW"
+                                "DownloadData", "Report", "Kisan Club (MAGiK)", "POG", "WOW","VEGVOCP1"
                         }; // Removing "VOF", "MDOSURVEY"
                     } // Other Than MDO only for VCBU
                     else {

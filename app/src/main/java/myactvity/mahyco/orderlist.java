@@ -424,7 +424,7 @@ public class orderlist extends AppCompatActivity {
         // online
         if (config.NetworkConnection()) {
             String usercode =pref.getString("UserID", null);
-            String TBMcode=getIntent().getStringExtra("grcode");
+            String TBMcode=getIntent().getStringExtra("grcode").trim();
             if (TBMcode==null)
             {
                 TBMcode="0";

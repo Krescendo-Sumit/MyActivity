@@ -11,6 +11,7 @@ import android.os.Bundle;
 import androidx.cardview.widget.CardView;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -87,6 +88,9 @@ public class orderfromTBM extends AppCompatActivity {
         setContentView(R.layout.activity_orderfrom_tbm);
         getSupportActionBar().hide(); //<< this
         context = this;
+
+        Toast.makeText(context,"Create Sales Order",Toast.LENGTH_LONG).show();
+
         cx=new CommonExecution(this);
         SERVER = cx.MDOurlpath;
         saleorderurl = cx.saleSERVER;
@@ -943,6 +947,8 @@ public class orderfromTBM extends AppCompatActivity {
                     "&customregroup="+customregroup+"&DLV_plant="+DLV_plant+"" +
                     "&name="+name+"" +
                     "&Comments="+Comments+"&actionby=TBM&shipto="+shiptocustomer+"";
+            Log.i("URLs",Urlpath1);
+            Log.i("Encodedata:",postParameters.toString());
             HttpPost httppost = new HttpPost(Urlpath1);
             //  HttpPost httppost = new HttpPost("");
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");

@@ -105,9 +105,14 @@ import myactvity.mahyco.helper.SqliteDatabase;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
-/**
+
+
+/*
+ *
  * Created by Akash Namdev on 2019-08-22.
+ *
  */
+
 public class FieldBoardActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback,
         IPickResult,View.OnClickListener{

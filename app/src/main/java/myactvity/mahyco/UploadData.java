@@ -4886,25 +4886,21 @@ public class UploadData extends AppCompatActivity {
             httppost.setEntity(new UrlEncodedFormEntity(postParameters));
             UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(postParameters);
             httppost.setEntity(formEntity);
-
             HttpResponse response = httpclient.execute(httppost);
             StatusLine statusLine = response.getStatusLine();
             int statusCode = statusLine.getStatusCode();
+
             if (statusCode == 200) {
                 HttpEntity entity = response.getEntity();
                 InputStream content = entity.getContent();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-
                 String line;
                 while ((line = reader.readLine()) != null) {
                     builder.append(line).append("\n");
                 }
-
             }
-
         } catch (Exception e) {
             e.printStackTrace();
-
         }
         return builder.toString();
     }

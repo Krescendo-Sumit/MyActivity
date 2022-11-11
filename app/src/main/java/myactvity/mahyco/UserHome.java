@@ -284,7 +284,8 @@ public class UserHome extends AppCompatActivity
                         json = cxx.new BreederMasterDataIsFeedGiven(1, userId, packageName).execute().get();
                         Log.d("IsFeed", "User data str :" + json);
                         JSONObject obj = new JSONObject(json);
-                        String IsFeedbackGiven = obj.getString("IsFeedbackGiven");
+                    //    String IsFeedbackGiven = obj.getString("IsFeedbackGiven");
+                        String IsFeedbackGiven = "False";
                         if (IsFeedbackGiven.equalsIgnoreCase("False")) {
                             showFeedbackScreen(userId);
                         } else {

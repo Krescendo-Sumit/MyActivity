@@ -5384,7 +5384,6 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         Date entrydate = new Date();
         final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
         contentValues.put("EntryDt", InTime);
-
         db.insert(TABLE_DEMOMODELDATA, null, contentValues);
         // db.close();
         return true;

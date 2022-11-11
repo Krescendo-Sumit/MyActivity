@@ -77,6 +77,7 @@ public class saleOrderDashboard extends AppCompatActivity {
             //btnsalesreturnorderApp.setVisibility(View.GONE);
             //btnsalesorder.setVisibility(View.GONE);
 
+
         }
         else
         {
@@ -157,7 +158,7 @@ public class saleOrderDashboard extends AppCompatActivity {
                 try
                 {
 
-                    // 2 RBM  5 ZBM 7ZMM
+                    // 2 RBM  5 ZBM 7 -ZMM
                     if (pref.getString("RoleID",null).equals("2")||
                             pref.getString("RoleID",null).equals("5")||
                             pref.getString("RoleID",null).equals("7")) {

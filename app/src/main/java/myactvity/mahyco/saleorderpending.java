@@ -269,14 +269,14 @@ public class saleorderpending extends AppCompatActivity {
     public void  CallPage(String grcode,String grname)
     {
         Intent intent;
-
+            Log.i("SData",grcode+" and "+grname);
        // if(locdata.getString("Pagetype",null).equals("SampleTesting"))
         {
             intent = new Intent(saleorderpending.this,orderlist.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("Pagetype", "SampleTesting");
-            intent.putExtra("grname", grname);
-            intent.putExtra("grcode", grcode);
+            intent.putExtra("grname", grname.trim());
+            intent.putExtra("grcode", grcode.trim());
             intent.putExtra("Header", "Sample Testing Details");
            // loceditor.putString("grname",grname);
             //loceditor.putString("grcode",grcode);
@@ -427,6 +427,9 @@ public class saleorderpending extends AppCompatActivity {
             String Urlpath1= MDOurlpath+"?orderid="+orderid+"&action="+action+"&usercode="+usercode+"&saleorg="+saleorg+"" +
                     "&division="+division+"&customer="+customer+"" +
                     "&customregroup="+customregroup+"&DLV_plant="+DLV_plant+"&name="+name+"&Comments="+Comments+"";
+             Log.i("SaleorderPedingLIst",Urlpath1);
+             Log.i("Paramters",postParameters.toString());
+
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
