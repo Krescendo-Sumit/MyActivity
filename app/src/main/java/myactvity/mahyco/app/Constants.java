@@ -95,5 +95,9 @@ public class Constants {
     public static String LOCAL_userencrptionVOCP="userencrptionVOCP";
     public static String userencrytion="userencrytion";
 
+    /* Added on 14 Nov 20222 TO check feedback module activation .*/
+
+    public static String IS_FEEDBACK_STATUS_BYYEAR ="https://feedbackapi.mahyco.com/api/Feedback/getFeedbackStatusByYear";
+
 
 }

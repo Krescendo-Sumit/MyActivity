@@ -894,5 +894,70 @@ public class CommonExecution {
             super.onPostExecute(s);
         }
     }
+    public class CheckFeedbackStatus extends AsyncTask<String, String, String> {
+
+        private int action;
+        private String userCode;
+        private String year;
+
+        public CheckFeedbackStatus(int action, String userCode,String year) {
+            this.action = action;
+            this.userCode = userCode.trim();
+            this.userCode=this.userCode.replace(" ","%20");
+            this.year = year.trim();
+            this.year = this.year.replace(" ","%20");
+        }
+
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            HttpClient httpclient = new DefaultHttpClient();
+            StringBuilder builder = new StringBuilder();
+            List<NameValuePair> postParameters = new ArrayList<NameValuePair>(2);
+            postParameters.add(new BasicNameValuePair("from", "insertbreederData"));
+            //String Urlpath1 = Constants.IS_FEEDBACK_GIVEN + "?UserCode=" + userCode;
+            String Urlpath1 = Constants.IS_FEEDBACK_STATUS_BYYEAR + "?UserCode=" + userCode +"&Year="+year;
+            Log.d("Is FeedbackGiven","Urlpath1 :"+Urlpath1);
+
+            HttpPost httppost = new HttpPost(Urlpath1);
+            httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
+            try {
+                httppost.setEntity(new UrlEncodedFormEntity(postParameters));
+                UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(postParameters);
+                httppost.setEntity(formEntity);
+
+                HttpResponse response = httpclient.execute(httppost);
+                StatusLine statusLine = response.getStatusLine();
+                int statusCode = statusLine.getStatusCode();
+                if (statusCode == 200) {
+                    HttpEntity entity = response.getEntity();
+                    InputStream content = entity.getContent();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        builder.append(line).append("\n");
+                    }
+                    returnstring = builder.toString();
+                }
+            } catch (UnsupportedEncodingException e) {
+                Log.d("MSG",e.getMessage());
+                returnstring = e.getMessage().toString();
+            } catch (ClientProtocolException e) {
+                Log.d("MSG",e.getMessage());
+                Log.d("MSG",e.getMessage());
+            } catch (Exception e) {
+                Log.d("MSG",e.getMessage());
+                returnstring = e.getMessage().toString();
+            }
+            Log.d("Is FeedbackGiven","Return String :"+builder.toString());
+            return builder.toString();
+        }
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
 
 }

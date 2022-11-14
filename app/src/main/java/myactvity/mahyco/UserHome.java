@@ -2,6 +2,7 @@ package myactvity.mahyco;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,6 +18,7 @@ import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import androidx.annotation.RequiresApi;
@@ -34,11 +36,15 @@ import androidx.appcompat.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
@@ -54,8 +60,10 @@ import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -263,6 +271,21 @@ public class UserHome extends AppCompatActivity
 
         /*TODO Uncomment when App Feedback Module required.*/
         showUserFeedbackScreen(userId);
+
+        if(config.NetworkConnection())
+        {
+            Toast.makeText(context, "Internet Connected.", Toast.LENGTH_SHORT).show();
+            try {
+                new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco");
+            } catch (Exception e) {
+
+            }
+        }else
+        {
+
+        }
+
+
     }
 
 
@@ -1645,5 +1668,197 @@ id=item.getItemId();
             }
         }
     };
+    private class CheckVersion extends AsyncTask<String, Void, Void> {
+
+        private final HttpClient Client = new DefaultHttpClient();
+        private String Content;
+        private String Error = null;
+        private ProgressDialog Dialog = new ProgressDialog(context);
+
+
+        protected void onPreExecute() {
+            // NOTE: You can call UI Element here.
+
+            //UI Element
+            //   uiUpdate.setText("Output : ");
+            //  Dialog.setMessage("Please Wait..");
+            // Dialog.show();
+            //pb.setVisibility(View.VISIBLE);
+        }
+
+        // Call after onPreExecute method
+        protected Void doInBackground(String... urls) {
+            try {
+
+                Log.d("Url", urls[0]);
+                Log.d("Url", urls[0]);
+                // Call long running operations here (perform background computation)
+                // NOTE: Don't call UI Element here.
+
+                // Server url call by GET method
+                HttpPost httpget = new HttpPost(urls[0]);
+           //     httpget.setHeader("Authorization", "Bearer " + mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
+                ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                Content = Client.execute(httpget, responseHandler);
+
+            } catch (ClientProtocolException e) {
+                Error = e.getMessage();
+                cancel(true);
+            } catch (IOException e) {
+                Error = e.getMessage();
+                cancel(true);
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(Void unused) {
+            // NOTE: You can call UI Element here.
+
+            // Close progress dialog
+            //Dialog.dismiss();
+
+            if (Error != null) {
+
+                //  uiUpdate.setText("Output : "+Error);
+
+            } else {
+                //pb.setVisibility(View.GONE);
+                //   uiUpdate.setText("Output : "+Content);
+                // loadFromServer(Content.toString().trim());
+                Log.i("Details123", "" + Content);
+                //   Toast.makeText(getApplicationContext(), ""+Content, Toast.LENGTH_SHORT).show();
+
+                try {
+
+               //     JSONObject jsonObject = new JSONObject(Content.trim());
+
+                    JSONObject jsonVersionDetails = new JSONObject(Content.trim());
+                    int vcode = BuildConfig.VERSION_CODE;
+                    if (jsonVersionDetails.getBoolean("success")) {
+                        if (jsonVersionDetails.getBoolean("IsFeedbackStatus")==false) {
+                          //  showUpdateDialog();
+                            Toast.makeText(context, "CheckFeedback Given.", Toast.LENGTH_SHORT).show();
+
+                            CommonExecution cxx = new CommonExecution(context);
+                            String json = cxx.new CheckFeedbackStatus(1, userId,"2022").execute().get();
+                            Log.i("Feedback Status",json);
+                            try {
+                                JSONObject jsonObject = new JSONObject(json.trim());
+
+                                if(jsonObject.getBoolean("success"))
+                                {
+                                    if(!(jsonObject.getBoolean("IsFeedbackGiven")))
+                                    {
+                                        showFeedbackScreen(userId);
+                                    }
+                                }else
+                                {
+                                    Toast.makeText(context, ""+jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                }
+
+
+                            }catch(Exception e)
+                            {
+
+                            }
+
+                        }
+                        if (jsonVersionDetails.getBoolean("DescriptionStatus")) {
+                            android.app.Dialog dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                            dialog.setContentView(R.layout.dialog_notification);
+                            WebView web = dialog.findViewById(R.id.web);
+                            Button btn_close = dialog.findViewById(R.id.btn_close);
+                            btn_close.setEnabled(false);
+                            btn_close.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.dismiss();
+                                }
+                            });
+
+                            web.getSettings().setJavaScriptEnabled(true);
+                            web.getSettings().setBuiltInZoomControls(true);
+                            web.getSettings().setDisplayZoomControls(false);
+                            web.setWebChromeClient(new WebChromeClient());
+                            web.loadUrl(jsonVersionDetails.getString("Description"));
+
+                            web.setWebChromeClient(new WebChromeClient() {
+                                public void onProgressChanged(WebView view, int progress) {
+                                    //Make the bar disappear after URL is loaded, and changes string to Loading...
+                                    setTitle("Loading...");
+                                    setProgress(progress * 100); //Make the bar disappear after URL is loaded
+
+                                    // Return the app name after finish loading
+                                    if (progress == 100)
+                                        setTitle("My Activity");
+                                }
+                            });
+
+                            web.setWebViewClient(new WebViewClient() {
+                                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                                    // do your handling codes here, which url is the requested url
+                                    // probably you need to open that url rather than redirect:
+                                    view.loadUrl(url);
+                                    return false; // then it is not handled by default action
+                                }
+                            });
+
+                            web.setOnKeyListener(new View.OnKeyListener() {
+                                @Override
+                                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                                    if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                                        WebView webView = (WebView) v;
+
+                                        switch (keyCode) {
+                                            case KeyEvent.KEYCODE_BACK:
+                                                if (webView.canGoBack()) {
+                                                    webView.goBack();
+                                                    return true;
+                                                }
+                                                break;
+                                        }
+                                    }
+
+                                    return false;
+                                }
+                            });
+
+                            new CountDownTimer(10000, 1000) {
+                                int count = 1;
+
+                                @Override
+                                public void onTick(long millisUntilFinished) {
+                                    // TODO Auto-generated method stub
+                                    btn_close.setText("" + millisUntilFinished / 1000);
+                                    count++;
+                                }
+
+                                @Override
+                                public void onFinish() {
+                                    // TODO Auto-generated method stub
+                                    btn_close.setText("Close");
+                                    btn_close.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_close_24, 0);
+                                    btn_close.setEnabled(true);
+                                   // dialog.dismiss();
+                                }
+                            }.start();
+
+
+                            dialog.show();
+                        }
+                    } else  //  Coming False from the Version API
+                    {
+                        Toast.makeText(context, "" + jsonVersionDetails.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    Log.i("Error is ", e.getMessage());
+                }
+            }
+        }
+
+    }
+
 
 }
