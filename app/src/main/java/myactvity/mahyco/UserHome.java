@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -15,6 +16,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -82,6 +84,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -115,6 +118,7 @@ public class UserHome extends AppCompatActivity
     RelativeLayout relPRogress;
     private Handler handler = new Handler();
     String userId;
+    Dialog dialog1;
     // private DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -270,11 +274,10 @@ public class UserHome extends AppCompatActivity
         //testCrash();
 
         /*TODO Uncomment when App Feedback Module required.*/
-        showUserFeedbackScreen(userId);
+       // showUserFeedbackScreen(userId);
 
         if(config.NetworkConnection())
         {
-            Toast.makeText(context, "Internet Connected.", Toast.LENGTH_SHORT).show();
             try {
                 new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco");
             } catch (Exception e) {
@@ -1668,6 +1671,11 @@ id=item.getItemId();
             }
         }
     };
+
+    // Check Version Class is Added to check feedback module is active or not
+    // Date : 14-11-2022
+
+
     private class CheckVersion extends AsyncTask<String, Void, Void> {
 
         private final HttpClient Client = new DefaultHttpClient();
@@ -1731,21 +1739,24 @@ id=item.getItemId();
 
                 try {
 
-               //     JSONObject jsonObject = new JSONObject(Content.trim());
-
                     JSONObject jsonVersionDetails = new JSONObject(Content.trim());
-                    int vcode = BuildConfig.VERSION_CODE;
-                    if (jsonVersionDetails.getBoolean("success")) {
-                        if (jsonVersionDetails.getBoolean("IsFeedbackStatus")==false) {
-                          //  showUpdateDialog();
-                            Toast.makeText(context, "CheckFeedback Given.", Toast.LENGTH_SHORT).show();
+                    String vcode = BuildConfig.VERSION_NAME;
 
+                    if (jsonVersionDetails.getBoolean("success")) {
+
+                        if (!(vcode.trim().equals(jsonVersionDetails.getString("AppVersion").trim()))) {
+                            showUpdateDialog();
+                        }
+                        if (jsonVersionDetails.getBoolean("IsFeedbackStatus")) {
+                          //  showUpdateDialog();
+                          //  Toast.makeText(context, "CheckFeedback Given.", Toast.LENGTH_SHORT).show();
+                            Calendar calendar = Calendar.getInstance();
+                            int year = calendar.get(Calendar.YEAR);
                             CommonExecution cxx = new CommonExecution(context);
-                            String json = cxx.new CheckFeedbackStatus(1, userId,"2022").execute().get();
-                            Log.i("Feedback Status",json);
+                            String json = cxx.new CheckFeedbackStatus(1, userId,""+year).execute().get();
+                            Log.i("Feedback Status",json+" Year:"+year);
                             try {
                                 JSONObject jsonObject = new JSONObject(json.trim());
-
                                 if(jsonObject.getBoolean("success"))
                                 {
                                     if(!(jsonObject.getBoolean("IsFeedbackGiven")))
@@ -1756,13 +1767,10 @@ id=item.getItemId();
                                 {
                                     Toast.makeText(context, ""+jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 }
-
-
                             }catch(Exception e)
                             {
 
                             }
-
                         }
                         if (jsonVersionDetails.getBoolean("DescriptionStatus")) {
                             android.app.Dialog dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
@@ -1859,6 +1867,27 @@ id=item.getItemId();
         }
 
     }
+    private void showUpdateDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("A new update is available.");
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
+                        ("https://play.google.com/store/apps/details?id=myactvity.mahyco")));
+                dialog.dismiss();
+            }
+        });
 
+        /*builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //background.start();
+            }
+        });*/
+
+        builder.setCancelable(false); //Update 17 Jan. 2022
+        dialog1 = builder.show();
+    }
 
 }
