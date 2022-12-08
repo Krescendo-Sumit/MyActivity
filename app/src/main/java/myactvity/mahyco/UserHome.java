@@ -531,10 +531,51 @@ id=item.getItemId();
 
             return true;
         }
+        if (id == R.id.action_resetall) {
+            /*ToDo comment later, before upload, 6th Sept 2021*/
 
+            /*Intent i = new Intent(this, AndroidDatabaseManager.class);
+            startActivity(i);*/
+
+            try{
+                clearApplicationData();
+
+            }catch (Exception e)
+            {
+
+            }
+
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
+    public void clearApplicationData() {
+        File cache = getCacheDir();
+        File appDir = new File(cache.getParent());
+        if(appDir.exists()){
+            String[] children = appDir.list();
+            for(String s : children){
+                if(!s.equals("lib")){
+                    deleteDir(new File(appDir, s));
+                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s +" DELETED");
+                }
+            }
+        }
+    }
 
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+
+        return dir.delete();
+    }
     private void createDB() {
         SQLiteDatabase sampleDB =  this.openOrCreateDatabase("Sumit_MyActivity.db", MODE_PRIVATE, null);
         sampleDB.execSQL("CREATE TABLE IF NOT EXISTS mahycoDev (LastName VARCHAR, FirstName VARCHAR," +

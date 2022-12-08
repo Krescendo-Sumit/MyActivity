@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="myactvity.mahyco">
+    package="myactvity.mahyco"
+
+    >
 
     <queries>
         <intent>
@@ -36,6 +38,7 @@
         android:name=".utils.MyApplication"
         android:allowBackup="false"
         android:configChanges="orientation"
+        android:exported="true"
         android:hardwareAccelerated="true"
         android:hasFragileUserData="true"
         android:icon="@mipmap/ic_launcher"
@@ -47,453 +50,476 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LocationTest" android:screenOrientation="portrait">
-
-
-
+        <activity
+            android:name=".LocationTest"
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".VocpvegetablewebviewActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".PaymentHistoryActivityHDPS" />
-        <activity android:name=".couponpaymentHDPS" />
-        <activity android:name=".HDPSCouponDashboardActivity" />
-        <activity android:name=".TempUserDashboard" />
-        <activity android:name=".HDPSNewActivity" />
-        <activity android:name=".endTravelNew" />
-        <activity android:name=".starttravelnew" />
-        <activity android:name=".voiceofchanelpartner_be" />
+        <activity
+            android:name=".VocpvegetablewebviewActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".PaymentHistoryActivityHDPS"
+            android:exported="true" />
+        <activity
+            android:name=".couponpaymentHDPS"
+            android:exported="true" />
+        <activity
+            android:name=".HDPSCouponDashboardActivity"
+            android:exported="true" />
+        <activity
+            android:name=".TempUserDashboard"
+            android:exported="true" />
+        <activity
+            android:name=".HDPSNewActivity"
+            android:exported="true" />
+        <activity
+            android:name=".endTravelNew"
+            android:exported="true" />
+        <activity
+            android:name=".starttravelnew"
+            android:exported="true" />
+        <activity
+            android:name=".voiceofchanelpartner_be"
+            android:exported="true" />
         <activity
             android:name=".daslogin"
             android:exported="false" />
         <activity
             android:name=".barcode.ScannedBarcodeActivity"
-            android:exported="false" /> <!-- tools:node="replace" -->
+            android:exported="true" /> <!-- tools:node="replace" -->
         <activity
             android:name=".myActivityRecording.generalActivity.ReviewMeetingActivity"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".SamruddhaKisanValidationRecords"
-            android:exported="false"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:screenOrientation="portrait"/>
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".SamruddhaKisanValidation"
-            android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:exported="true"
             android:screenOrientation="portrait"
-            />
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ActivityBeSurveyVCF"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".myActivityRecording.preSeasonActivity.POPDisplayActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".myActivityRecording.preSeasonActivity.JeepCampaigningActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.preSeasonActivity.CropSeminarActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity android:name="myActivityRecordingOnline.imgpick" />
-        <activity android:name=".SplashScreen" android:screenOrientation="portrait">
-            <intent-filter>
+        <activity
+            android:name="myActivityRecordingOnline.imgpick"
+            android:exported="true" />
+        <activity
+            android:name=".SplashScreen"
+            android:exported="true"
+            android:screenOrientation="portrait">
+            <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize" /> <!-- android:value="@string/rzp_test" -->
         <activity
             android:name=".UserHome"
-            android:exported="false"
+            android:exported="true"
             android:label="@string/title_activity_user_home"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" /> <!-- android:value="rzp_test_OTUqtIMwpHfcdU" -->
         <activity
             android:name=".WebviewActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".NewUserRegistration"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".Profile"
-            android:exported="false" /> <!-- android:theme="@style/AppTheme.NoActionBar"> -->
+            android:exported="true" /> <!-- android:theme="@style/AppTheme.NoActionBar"> -->
         <activity
             android:name=".MyFieldActvity"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".UploadData"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".DownloadMasterdata"
             android:exported="false" />
         <activity
             android:name=".UserRegister"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ForgetPassword"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".Report"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ReportDashboard"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ReportDisplay"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".DetailSummaryReport"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".TestImage"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MDOweeklyPlanReport"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MyFieldActvityonline"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Innovation"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".VerificationUpdate"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".OfflineActivity"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".RetailerTag"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".orderfromTBM"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".saleorderpending"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".orderlist"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MyTravel"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".RetailerandDistributorTag"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".saleorderreport"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".AndroidDatabaseManager"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".demandassessmentsurvey"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".voiceofcustomerDashboard"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".orderfromRBM"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".RetailerPOG"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".retailerpogupdateDetail"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".retailerCompetitatorPOGupdate"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".pogDashboard"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".DistributorPOG"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".distributorpogupdateDetail"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".distributorCompetitatorPOGupdate"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".tablelayouttest"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".DistributorAsRetailerPOG"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".DistributorAsretailerpogupdateDetail"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".distributorASRetailerCompetitatorPOGupdate"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".couponDashboard"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".coupondistribution"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".couponpayment"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".PaymentCompletionActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PaymentHistoryActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".leaveapply"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".leaveHistory"
-            android:exported="false"
+            android:exported="true"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".SalesServiceActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MdoLeaveActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MdoExpensesActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".MdoDaActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".saleOrderDashboard"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".DemoModelListActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".DemoModelRecordActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".DemoPlotReviewListActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".DemoModelReviewActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Dialog1" />
         <activity
             android:name=".DemoModelVisit"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".AdvanceBookingCouponActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait" />
         <activity
             android:name=".barcode.BarcodeCaptureActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ActivityKisanClub"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".ActivityRetailerSurvey"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".ValidateDemoListActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ValidateReviewListActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".ValidateReviewActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/Dialog1" />
         <activity
             android:name=".ActivityBeSurvey"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".MyActivityRecordingNew"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PurchaseListActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".CropShowActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".HarvestDayActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".ParticipantFarmerListActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".RetailerToVisitActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".LivePlantDisplayVillageActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".LivePlantDisplayRetailCounterActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".FieldDayActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.atlActivity.ATLPosteringActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.atlActivity.ATLWallPaintingActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
             android:name=".myActivityRecording.atlActivity.FieldBoardActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.atlActivity.FieldBannerActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.atlActivity.TrolleyPaintingActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.atlActivity.ATLExhibitionActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.atlActivity.MarketDayActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.preSeasonActivity.TestimonialCollectionActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".preSeasonActivityOnline.TestimonialCollectionActivityOnline"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.preSeasonActivity.SanmanMelaActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.preSeasonActivity.VillageMeetingActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.preSeasonActivity.PromotionActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".RetailerVisitsActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".FarmerVisitsActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".DistributerVisitsActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.generalActivity.SamruddhaKisanVisitsActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".myActivityRecording.generalActivity.AddressComplaintActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".saleOrderReturn"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".salesreturnorderlist"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".saleOrderReturnApproved"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".postSeasonActivityOnline.CropShowActivityOnline"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".generalActivityOnline.RetailerVisitsActivityOnline"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".generalActivityOnline.DistributerVisitsActivityOnline"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".preSeasonActivityOnline.VillageMeetingActivityOnline"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <!--
@@ -503,99 +529,99 @@
         -->
         <activity
             android:name=".postSeasonActivityOnline.LivePlantDisplayRetailCounterActivityOnline"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
             android:name=".mdoSurvey"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".DSActivity"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".SalesWebData"
             android:exported="false"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ActivityVOFP"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".BCFCallTBM"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".DistributorPOGVeg"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".distributorpogupdateDetailveg"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".RetailerPOGVeg"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".retailerpogupdateDetailVeg"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".distributorCompetitatorPOGupdateveg"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".retailerCompetitatorPOGupdateveg"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".myActivityRecording.digitalMarketing.Mahakisan"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".myActivityRecording.digitalMarketing.RetailerValidationRecordActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".myActivityRecording.digitalMarketing.DistributorValidationRecordActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".myActivityRecording.digitalMarketing.FarmerValidationRecordActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".myActivityRecording.digitalMarketing.CallValidation"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".myActivityRecording.digitalMarketing.FarmerCallActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".myActivityRecording.digitalMarketing.TestimonialSharingActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".myActivityRecording.digitalMarketing.WhatsappGrpCreatedActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".myActivityRecording.digitalMarketing.DistributorCallActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".myActivityRecording.digitalMarketing.RetailerCallActivity"
-            android:exported="false"
+            android:exported="true"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".wawActivity"
-            android:exported="false" />
+            android:exported="true" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -607,6 +633,7 @@
             android:name="com.razorpay.ApiKey"
             android:value="@string/rzp_key" />
         <meta-data
+
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
         <!--
@@ -641,13 +668,14 @@
         </service>
         <service
             android:name=".services.MyFirebaseMessagingService"
-            android:enabled="true"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <uses-library
+
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>

@@ -86,7 +86,7 @@ public class DownloadMasterdata extends AppCompatActivity {
         lblmsg = (TextView) findViewById(R.id.lblmsg);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         sp = getApplicationContext().getSharedPreferences("MyPref", 0);
-       userCode = sp.getString("UserID", null);
+        userCode = sp.getString("UserID", null);
         Date entrydate = new Date();
         // String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
           InTime = new SimpleDateFormat("dd-MM-yyyy").format(entrydate);
@@ -97,8 +97,6 @@ public class DownloadMasterdata extends AppCompatActivity {
             btnDemoplot.setVisibility(View.GONE);
             btnhdps.setVisibility(View.GONE);
         }
-
-
 
         btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -580,7 +578,7 @@ public class DownloadMasterdata extends AppCompatActivity {
                 JSONArray jArray12 = object.getJSONArray("Table11");
                 JSONArray jArray13 = object.getJSONArray("Table12");
 
-                  Log.d("dataMainObject", object.toString());
+                Log.d("dataMainObject", object.toString());
                 Log.d("dataTable1", jArray.toString());
                 Log.d("dataTable2", jArray2.toString());
                 Log.d("dataTable3", jArray3.toString());

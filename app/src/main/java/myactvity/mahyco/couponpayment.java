@@ -272,7 +272,8 @@ public class couponpayment extends AppCompatActivity implements SwipeRefreshLayo
                 orderRequest.put("payment_capture", 1);
 
                 Log.d("REQUESTED ORDERID", orderRequest.toString());
-                Order order = razorpay.Orders.create(orderRequest);
+                Order order = razorpay.orders.create(orderRequest);
+
                 JSONObject jsonObject = new JSONObject(String.valueOf(order));
 
 

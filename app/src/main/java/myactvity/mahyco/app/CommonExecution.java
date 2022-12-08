@@ -55,7 +55,7 @@ public class CommonExecution {
         private String userID;
         private String croptype;
         private String Action;
-        public getAssignState( String userID ){
+        public getAssignState(String userID ){
             this.userID=userID;
         }
         protected void onPreExecute() {}

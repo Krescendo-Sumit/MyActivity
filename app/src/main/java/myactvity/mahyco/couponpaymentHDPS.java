@@ -266,7 +266,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
                 orderRequest.put("payment_capture", 1);
 
                 Log.d("REQUESTED ORDERID", orderRequest.toString());
-                Order order = razorpay.Orders.create(orderRequest);
+                Order order = razorpay.orders.create(orderRequest);
                 JSONObject jsonObject = new JSONObject(String.valueOf(order));
 
 
@@ -529,7 +529,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
                 String successData = (data.getData().toString()).replaceAll("\\\\", "");
                 Log.d("onPaymentSuccess", "onPaymentSuccess : " + successData);
                 JSONObject error = new JSONObject();
-                new couponpaymentHDPS.FinalOrderServerResponse(2, "orderCompletion", "success", "", "", error.toString(), data.getPaymentId(), successData).execute();
+                new FinalOrderServerResponse(2, "orderCompletion", "success", "", "", error.toString(), data.getPaymentId(), successData).execute();
 
             }
 
@@ -555,7 +555,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
             error.put("errorDetails", data.getData());
             String erroData = (data.getData().toString()).replaceAll("\\\\", "");
             Log.d("onPaymentError", "erroData : " + erroData);
-            new couponpaymentHDPS.FinalOrderServerResponse(2, "orderCompletion", "failed", String.valueOf(code), response, error.toString(), "", data.getData().toString()).execute();
+            new FinalOrderServerResponse(2, "orderCompletion", "failed", String.valueOf(code), response, error.toString(), "", data.getData().toString()).execute();
         } catch (Exception e) {
             Log.e(TAG, "Exception in onPaymentError", e);
             e.printStackTrace();
@@ -785,7 +785,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
         Resources res = getResources();
         list = (ListView) findViewById(R.id.list);
         if (adapter == null) {
-            adapter = new couponpaymentHDPS.CustomAdapter(couponpaymentHDPS.this, farmerPaymentModelArrayList, res);
+            adapter = new CustomAdapter(couponpaymentHDPS.this, farmerPaymentModelArrayList, res);
 
             list.setAdapter(adapter);
         } else
@@ -869,7 +869,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
         public View getView(final int position, final View convertView, final ViewGroup parent) {
 
             View vi = convertView;
-            final couponpaymentHDPS.CustomAdapter.ViewHolder holder;
+            final ViewHolder holder;
 
             if (convertView == null) {
 
@@ -877,7 +877,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
                 vi = inflater.inflate(R.layout.tabitem, null);
             }
             /******** View Holder Object to contain tabitem.xml file elements ************/
-            holder = new couponpaymentHDPS.CustomAdapter.ViewHolder();
+            holder = new ViewHolder();
             holder.text = (TextView) vi.findViewById(R.id.text);
             holder.cb = (CheckBoxAnimated) vi.findViewById(R.id.scb);
             holder.txtCardId = (TextView) vi.findViewById(R.id.txtCardId);
@@ -919,8 +919,8 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
                 holder.txtVillage.setText(tempValues.getvillagename());
 
 
-                vi.setOnLongClickListener(new couponpaymentHDPS.OnItemLongClickListener(position, vi));
-                vi.setOnClickListener(new couponpaymentHDPS.OnItemClickListener(position, vi));
+                vi.setOnLongClickListener(new OnItemLongClickListener(position, vi));
+                vi.setOnClickListener(new OnItemClickListener(position, vi));
 
                 vi.setTag(tempValues.getCardId());
             }
@@ -1057,7 +1057,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
             /*new couponpaymentHDPS.GetFarmerData(1, "").execute(SERVER,
                     usercode, "PaymentProcess");*/
             //last is 1 action now it 5
-            new couponpaymentHDPS.GetFarmerData(5, "").execute("",
+            new GetFarmerData(5, "").execute("",
                     usercode, "PaymentProcess");
         } else {
             Utility.showAlertDialog("Error", "Connect To Internet", context);
