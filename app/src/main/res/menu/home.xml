@@ -6,9 +6,9 @@
         android:orderInCategory="100"
         android:title="Export Data"
         app:showAsAction="never" />
-  <!--  <item
+    <item
         android:id="@+id/action_resetall"
         android:orderInCategory="100"
         android:title="Reset All"
-        app:showAsAction="never" />-->
+        app:showAsAction="never" />
 </menu>

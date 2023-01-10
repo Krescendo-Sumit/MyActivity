@@ -393,7 +393,8 @@ public class HarvestDayActivity extends AppCompatActivity implements
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
-                    village = gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
+                    village = gm.Code().trim(); // URLEncoder.encode(gm.Code().trim(), "UTF-8");
+                    village = gm.Desc().trim();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -1049,6 +1050,7 @@ public class HarvestDayActivity extends AppCompatActivity implements
                         "FROM DemoModelData  where (upper(village) = '"+ village.toUpperCase() +"' OR" +
                         " upper(focussedVillage) = '"+ village.toUpperCase() +"') " +
                         " order by mobileNumber asc  ";
+                Log.i("Query",searchQuery);
                 Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
 
                 farmerlist.add(new GeneralMaster("SELECT FARMER",
@@ -2695,7 +2697,8 @@ public class HarvestDayActivity extends AppCompatActivity implements
                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                     GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                     try {
-                        village = gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
+                        village = gm.Code().trim();
+                        Log.i("vilage selected",village);// URLEncoder.encode(gm.Code().trim(), "UTF-8");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

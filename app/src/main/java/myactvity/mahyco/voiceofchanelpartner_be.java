@@ -195,8 +195,9 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
     int counter=1;
     String customercode="";
     public CommonExecution cx;
+    int qcnt=0;
     JSONArray questionans =  new JSONArray();
-    String questionlist[] =
+    String questionlist_distributor[] =
             {"1 Product performance rating (Overall product performance, satisfaction of the farmers in terms of quality and yields etc)\n",
             " 2 Seed quality and germination (Appearance, size , Germination)\n",
             " 3 Promotional activities (PDA & PSA at village, farmer, trade  level)\n",
@@ -211,6 +212,36 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
             " 12 Promotional schemes (Farmer and trade related promotional schemes , booking , discounts etc  understanding and communication)\n",
             " 13 Ease of doing business ( Overall feedback about doing  Mahyco business)\n"
                    };
+    String questionlist_retailer[] =
+            {"1 Product performance rating (Overall product performance, satisfaction of the farmers in terms of quality and yields etc)\n",
+                    " 2 Seed quality and germination (Appearance, size , Germination)\n",
+                    " 3 Promotional activities (PDA & PSA at village, farmer, trade  level)\n",
+                    " 4 Customer services (Farmer services, trade communications, interaction)\n",
+                    " 5 Packaging (Quality of primary and secondary bags, design, strength, legibility of matter )\n",
+                    " 6 Promotional activities (PDA & PSA at village, farmer, trade  level)\n",
+                    " 7 Effective problems solving (Lead time , satisfaction level of solution)\n",
+                    " 8 Pricing policy (Invoice prices, farmer prices etc)\n",
+                    " 9 Trade discounts ( Distributors and retailers margins, other scheme discounts, timing of credit notes issuance)\n",
+                    " 10 Sales returns policy\n",
+                 //   " 11 Credit limit and payment terms ( Kharif and rabi crops credit period, limits and payment terms )\n",
+                    " 11 Promotional schemes (Farmer and trade related promotional schemes , booking , discounts etc  understanding and communication)\n",
+                    " 12 Ease of doing business ( Overall feedback about doing  Mahyco business)\n"
+            };
+    String questionlist[] =
+            {"1 Product performance rating (Overall product performance, satisfaction of the farmers in terms of quality and yields etc)\n",
+                    " 2 Seed quality and germination (Appearance, size , Germination)\n",
+                    " 3 Promotional activities (PDA & PSA at village, farmer, trade  level)\n",
+                    " 4 Customer services (Farmer services, trade communications, interaction)\n",
+                    " 5 Packaging (Quality of primary and secondary bags, design, strength, legibility of matter )\n",
+                    " 6 Promotional activities (PDA & PSA at village, farmer, trade  level)\n",
+                    " 7 Effective problems solving (Lead time , satisfaction level of solution)\n",
+                    " 8 Pricing policy (Invoice prices, farmer prices etc)\n",
+                    " 9 Trade discounts ( Distributors and retailers margins, other scheme discounts, timing of credit notes issuance)\n",
+                    " 10 Sales returns policy\n",
+                    //   " 11 Credit limit and payment terms ( Kharif and rabi crops credit period, limits and payment terms )\n",
+                    " 11 Promotional schemes (Farmer and trade related promotional schemes , booking , discounts etc  understanding and communication)\n",
+                    " 12 Ease of doing business ( Overall feedback about doing  Mahyco business)\n"
+            };
     /**
      * <P>Method to get the current date time</P>
      *
@@ -382,7 +413,7 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 try {
 
-                   // if(parent.getSelectedItemPosition()!=0 )//&& parent.getSelectedItemPosition()!=1)
+                   // if(parent.getSelectedItemPosition()!=0)//&& parent.getSelectedItemPosition()!=1)
                     {
                         // set the UI visibility
 
@@ -393,13 +424,36 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
                          {
                              binddistributor();
                              selecttype=1; // distributor selection
-                            linearretailertot.setVisibility(View.VISIBLE);
+                             linearretailertot.setVisibility(View.VISIBLE);
+
+                             questionlist=new String[questionlist_distributor.length];
+                             int i=0;
+                             for(String s:questionlist_distributor)
+                             {
+                                questionlist[i]=s;
+                                i++;
+                             }
+
+                          //   questionlist=questionlist_distributor;
+                             qcnt=questionlist.length;
+
                          }
                         if (gm.Code().toString().equals("2")) // retailer  bind
                         {
 
                             selecttype=2; // retailer selection
                             //  Linearlocation.setVisibility(View.GONE);
+                            questionlist=new String[questionlist_retailer.length];
+                             int i=0;
+                            for(String s:questionlist_retailer)
+                            {
+                                questionlist[i]=s;
+                                i++;
+                            }
+
+                          //   questionlist=questionlist_distributor;
+                             qcnt=questionlist.length;
+
                             linearretailertot.setVisibility(View.GONE);
                         }
                         setUIVisibility();
@@ -420,6 +474,7 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
 
 
                 } catch (Exception e) {
+                    Toast.makeText(context, "Error "+e.getMessage(), Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
                 }
 
@@ -1041,7 +1096,7 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
                         msclass.showMessage("Please select the answer.");
                         return ;
                     }
-                    if(questionans.length()==13)
+                    if(questionans.length()==qcnt)
                     {
                         counter=0;
                         msclass.showMessage("All questions rating are  selected ,Please  click on submit  button.");
@@ -1061,7 +1116,7 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
                         idsJsonObject.put("answerId", radioButton.getId());
                         idsJsonObject.put("userCode", userCode);
                         idsJsonObject.put("customerCode", customercode);
-                        if(questionans.length()<13) {
+                        if(questionans.length()<qcnt) {
                             questionans.put(idsJsonObject);
                             tvQuestion.setText(questionlist[counter-1].toString());
                             counter++;
@@ -2068,7 +2123,7 @@ this.action=action;
               }
           }
 
-        if(questionans.length()<13)
+        if(questionans.length()<qcnt)
         {
             msclass.showMessage("Please select  the rating of all questions");
             return false;

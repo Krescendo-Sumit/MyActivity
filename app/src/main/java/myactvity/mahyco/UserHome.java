@@ -1,6 +1,7 @@
 package myactvity.mahyco;
 
 import android.app.ActionBar;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -538,8 +539,8 @@ id=item.getItemId();
             startActivity(i);*/
 
             try{
-                clearApplicationData();
-
+                //clearApplicationData();
+                clearAppData();
             }catch (Exception e)
             {
 
@@ -576,6 +577,23 @@ id=item.getItemId();
 
         return dir.delete();
     }
+
+    private void clearAppData() {
+        try {
+            // clearing app data
+            if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
+                ((ActivityManager)getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData(); // note: it has a return value!
+            } else {
+                String packageName = getApplicationContext().getPackageName();
+                Runtime runtime = Runtime.getRuntime();
+                runtime.exec("pm clear "+packageName);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void createDB() {
         SQLiteDatabase sampleDB =  this.openOrCreateDatabase("Sumit_MyActivity.db", MODE_PRIVATE, null);
         sampleDB.execSQL("CREATE TABLE IF NOT EXISTS mahycoDev (LastName VARCHAR, FirstName VARCHAR," +
