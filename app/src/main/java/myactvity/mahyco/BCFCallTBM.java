@@ -119,7 +119,7 @@ public class BCFCallTBM extends AppCompatActivity {
 
     public String saleorderurl = "";
     LinearLayout my_linear_layout1;
-    Switch switchYN;
+    Switch switchYN,switchSKYN;
     private String dist, taluka, state,village,whatsup,firmname,comments;
     String RetailerName, retailerfirmname, customer, name, DLV_plant,
             customregroup, cmbproductlist, mobileno, retailerCategory, userCode;
@@ -155,13 +155,19 @@ public class BCFCallTBM extends AppCompatActivity {
     CardView villageCard,spRDNCard;
     ProgressDialog pd;
 
+    String isSamrudhakisan="",skData="";
+    Dialog dialogSK;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bcfcall_tbm);
         getSupportActionBar().hide(); //<< this
         context = this;
+        dialogSK=new Dialog(context);
+        dialogSK.setContentView(R.layout.popup_bcf_sk);
         cx = new CommonExecution(this);
+        Toast.makeText(context, "Hii", Toast.LENGTH_SHORT).show();
         SERVER = cx.MDOurlpath;
         saleorderurl = cx.saleSERVER;
         // Inflate the layout for this fragment
@@ -188,6 +194,7 @@ public class BCFCallTBM extends AppCompatActivity {
          txtrtname = (EditText) findViewById(R.id.txtrtname);
         Utility.setRegularFont(btnsave, this);
         switchYN = (Switch) findViewById(R.id.switchYN);
+        switchSKYN = (Switch) findViewById(R.id.switchSKYN);
         lnwhatsup = (TextInputLayout) findViewById(R.id.lnwhatsup);
         liswitch = (LinearLayout) findViewById(R.id.liswitch);
         lblvillage = (TextView) findViewById(R.id.lblvillage);
@@ -493,6 +500,24 @@ public class BCFCallTBM extends AppCompatActivity {
             }
         });
 
+        switchSKYN.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    isSamrudhakisan="YES";
+                    OpenSamrudhkisanDialog();
+                }
+                else
+                {
+                    isSamrudhakisan="NO";
+                    skData="{}";
+
+                }
+            }
+        });
+
+
         btnsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -552,6 +577,8 @@ public class BCFCallTBM extends AppCompatActivity {
 
 
     }
+
+
 
     private void dowork() {
         progressBar.setIndeterminate(true);
@@ -1730,6 +1757,16 @@ public class BCFCallTBM extends AppCompatActivity {
 
         }
     }
+
+    public void OpenSamrudhkisanDialog() {
+        try{
+            dialogSK.show();
+        }catch (Exception e)
+        {
+
+        }
+    }
+
 }
 
 

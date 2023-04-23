@@ -263,6 +263,16 @@
         <item>Syngenta</item>
         <item>Other</item>
     </string-array>
+
+    <string-array name="sk_cata_farmer">
+        <item>SELECT</item>
+        <item>Small (1.0-5.0 Acres)</item>
+        <item>Semi-Medium (5.0-10.0 Acres)</item>
+        <item>Medium (10.0-25.0 Acres)</item>
+        <item>Large (>25 Acres)</item>
+
+    </string-array>
+
     <string-array name="rating">
         <item>SELECT</item>
         <item>Very Dissatisfied</item>

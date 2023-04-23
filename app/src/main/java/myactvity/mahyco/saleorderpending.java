@@ -326,6 +326,10 @@ public class saleorderpending extends AppCompatActivity {
             String Urlpath1 = url + "?action=" + action + "&userCode=" + usercode + "" +
                     "&search=" + pattern+"&grower_code="+grower_code;
             HttpPost httppost = new HttpPost(Urlpath1);
+
+            Log.i("URL",Urlpath1);
+            Log.i("Param",postParameters.toString());
+
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParameters));

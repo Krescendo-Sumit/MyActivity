@@ -314,12 +314,12 @@ public class Innovation extends AppCompatActivity implements LocationListener,
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
                     if (gm.Code().trim().equals("RETAILER") || gm.Code().trim().equals("DISTRIBUTOR")) {
-                        lblTotalMahycoPkt.setText("K21  PKT SOLD OF MAHYCO");
-                        lblTotalPkt.setText("K21 TOT  PKT SOLD ALL COMPANIES");
+                        lblTotalMahycoPkt.setText("K22  PKT SOLD OF MAHYCO");
+                        lblTotalPkt.setText("K22 TOT  PKT SOLD ALL COMPANIES");
                         txtfarmname.setVisibility(View.VISIBLE);
                     } else {
-                        lblTotalMahycoPkt.setText("TOT MAHYCO PKT SOWN IN K-21");
-                        lblTotalPkt.setText("TOT  PKT SOWN IN K-21");
+                        lblTotalMahycoPkt.setText("TOT MAHYCO PKT SOWN IN K-22");
+                        lblTotalPkt.setText("TOT  PKT SOWN IN K-22");
                         txtfarmname.setVisibility(View.GONE);
                     }
                 } catch (Exception e) {

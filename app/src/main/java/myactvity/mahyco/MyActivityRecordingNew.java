@@ -801,6 +801,7 @@ public class MyActivityRecordingNew extends AppCompatActivity {
      */
     private void navigateToPreSeasonScreen(String screenName) {
         // RBM 2 ,BU Head 9 ,NMM 8,ZBM 7
+        Toast.makeText(this, ""+screenName, Toast.LENGTH_SHORT).show();
         if (pref.getString("RoleID",null).equals("2")
                 || pref.getString("RoleID",null).equals("9")
                 ||pref.getString("RoleID",null).equals("7")
@@ -844,11 +845,21 @@ public class MyActivityRecordingNew extends AppCompatActivity {
             } else if (screenName.equalsIgnoreCase("7")) {
 
                 //    Toast.makeText(getApplicationContext(), "Module under development", Toast.LENGTH_LONG).show();
-                intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
+               intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            } else {
+            }
+            else if (screenName.equalsIgnoreCase("8")) {
+
+                //    Toast.makeText(getApplicationContext(), "Module under development", Toast.LENGTH_LONG).show();
+                //        intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
+                intent = new Intent(context.getApplicationContext(), ProjectorMeetingActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+
+            }
+            else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
         }
@@ -886,11 +897,22 @@ public class MyActivityRecordingNew extends AppCompatActivity {
             } else if (screenName.equalsIgnoreCase("7")) {
 
                 //    Toast.makeText(getApplicationContext(), "Module under development", Toast.LENGTH_LONG).show();
-                intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
+               intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
+             //   intent = new Intent(context.getApplicationContext(), ProjectorMeetingActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            } else {
+            }
+            else if (screenName.equalsIgnoreCase("8")) {
+
+                //    Toast.makeText(getApplicationContext(), "Module under development", Toast.LENGTH_LONG).show();
+                //        intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
+                intent = new Intent(context.getApplicationContext(), ProjectorMeetingActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+
+            }
+            else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
         }

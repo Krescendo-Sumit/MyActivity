@@ -88,9 +88,6 @@ public class orderfromTBM extends AppCompatActivity {
         setContentView(R.layout.activity_orderfrom_tbm);
         getSupportActionBar().hide(); //<< this
         context = this;
-
-        Toast.makeText(context,"Create Sales Order",Toast.LENGTH_LONG).show();
-
         cx=new CommonExecution(this);
         SERVER = cx.MDOurlpath;
         saleorderurl = cx.saleSERVER;
@@ -566,7 +563,7 @@ public class orderfromTBM extends AppCompatActivity {
     }
     private void addrow()//LinearLayout my_linear_layout1)
     {
-
+        Toast.makeText(context, "Hi", Toast.LENGTH_SHORT).show();
         //st
         try {
 

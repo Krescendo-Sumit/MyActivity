@@ -139,7 +139,9 @@ public class saleOrderReturnApproved extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 finish();
+
             }
         });
 
@@ -432,6 +434,7 @@ public class saleOrderReturnApproved extends AppCompatActivity {
                     "&name="+name+"" +
                     "&Comments="+Comments+"&actionby=TBM&reason="+Comments+"&lotno="+lotno+"";
              Log.i("Sales Return Approval",Urlpath1);
+             Log.i("Sales Return PARAM",postParameters.toString());
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {

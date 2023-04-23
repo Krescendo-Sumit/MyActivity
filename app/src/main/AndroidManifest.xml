@@ -56,6 +56,12 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
+            android:name=".ProjectorMeetingActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
             android:name=".VocpvegetablewebviewActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
@@ -163,6 +169,9 @@
             android:exported="true" />
         <activity
             android:name=".DownloadMasterdata"
+            android:exported="false" />
+        <activity
+            android:name=".DownloadMasterdataRBM"
             android:exported="false" />
         <activity
             android:name=".UserRegister"

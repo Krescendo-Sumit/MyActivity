@@ -2,6 +2,7 @@ package myactvity.mahyco;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
@@ -48,7 +49,7 @@ import myactvity.mahyco.helper.SqliteDatabase;
 
 public class DownloadMasterdata extends AppCompatActivity {
 
-    public Button btnDownload,btncoupondata,btnDemoplot,btnhdps;
+    public Button btnDownload,btncoupondata,btnDemoplot,btnhdps,btnDownloadRBM;
     public ProgressDialog dialog;
 
     public String SERVER = "";
@@ -71,6 +72,7 @@ public class DownloadMasterdata extends AppCompatActivity {
         setTitle("Download Master Data");
         // setTitle("User Registration ");
         btnDownload = (Button) findViewById(R.id.btnDownload);
+        btnDownloadRBM = (Button) findViewById(R.id.btnDownloadRBM);
         btncoupondata = (Button) findViewById(R.id.btncoupondata);
         btnDemoplot = (Button) findViewById(R.id.btnDemoplot);
         btnhdps = (Button) findViewById(R.id.btnhdps);
@@ -89,7 +91,7 @@ public class DownloadMasterdata extends AppCompatActivity {
         userCode = sp.getString("UserID", null);
         Date entrydate = new Date();
         // String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
-          InTime = new SimpleDateFormat("dd-MM-yyyy").format(entrydate);
+        InTime = new SimpleDateFormat("dd-MM-yyyy").format(entrydate);
         context=DownloadMasterdata.this;
 
         if(sp.getString("unit", null).contains("VCBU")) {
@@ -103,6 +105,16 @@ public class DownloadMasterdata extends AppCompatActivity {
             public void onClick(View v) {
                 lblmsg.setText("Master data downloading on process 1");
                 Downloadmaster();
+            }
+        });
+        btnDownloadRBM.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(context,DownloadMasterdataRBM.class);
+                startActivity(intent);
+
+
             }
         });
         btnDemoplot.setOnClickListener(new View.OnClickListener() {
@@ -145,9 +157,7 @@ public class DownloadMasterdata extends AppCompatActivity {
 
             //Before   upload coupon data
            /* if (recordshowCoupon() > 0) {
-
                 msclass.showMessage("before download, please upload your coupon scan pending data. ");
-
             }
             else*/
             {
@@ -178,9 +188,7 @@ public class DownloadMasterdata extends AppCompatActivity {
 
             //Before   upload coupon data
            /* if (recordshowCoupon() > 0) {
-
                 msclass.showMessage("before download, please upload your coupon scan pending data. ");
-
             }
             else*/
             {
@@ -211,14 +219,12 @@ public class DownloadMasterdata extends AppCompatActivity {
     public void Downloadmaster() {
         try {
 
-             //Before   upload coupon data
+            //Before   upload coupon data
            /* if (recordshowCoupon() > 0) {
-
                 msclass.showMessage("before download, please upload your coupon scan pending data. ");
-
             }
             else*/
-                {
+            {
                 if (config.NetworkConnection()) {
                     String str = null;
                     String uid = sp.getString("UserID", null);
@@ -247,7 +253,7 @@ public class DownloadMasterdata extends AppCompatActivity {
         } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
-           // dialog.dismiss();
+            // dialog.dismiss();
         }
     }
 
@@ -257,7 +263,7 @@ public class DownloadMasterdata extends AppCompatActivity {
         // dismissProgressDialog();
         try {
             dialog.dismiss();
-           // accessTokenTracker.stopTracking();
+            // accessTokenTracker.stopTracking();
         }
         catch (Exception ex )
         {
@@ -335,7 +341,7 @@ public class DownloadMasterdata extends AppCompatActivity {
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
                 returnstring = e.getMessage().toString();
-               // dialog.dismiss();
+                // dialog.dismiss();
                 p.dismiss();
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
@@ -345,17 +351,17 @@ public class DownloadMasterdata extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
                 returnstring = e.getMessage().toString();
-               // dialog.dismiss();
+                // dialog.dismiss();
                 p.dismiss();
             } catch (Exception e) {
                 e.printStackTrace();
                 returnstring = e.getMessage().toString();
-               // dialog.dismiss();
+                // dialog.dismiss();
                 p.dismiss();
             } catch (Throwable e) {
                 e.printStackTrace();
                 returnstring = e.getMessage().toString();
-               // dialog.dismiss();
+                // dialog.dismiss();
                 p.dismiss();
             }
 
@@ -372,7 +378,7 @@ public class DownloadMasterdata extends AppCompatActivity {
                 lblmsg.setText("Master data downloading on process,Wait step1....");
                 if(handleAllResponse( p,result)==true)
                 {   p.dismiss();
-                 //   new MDOCouponSchemeDataDownload(1, username, DownloadMasterdata.this, result).execute(MDOurlpath);
+                    //   new MDOCouponSchemeDataDownload(1, username, DownloadMasterdata.this, result).execute(MDOurlpath);
                 }
 
             } catch (Exception e) {
@@ -423,7 +429,7 @@ public class DownloadMasterdata extends AppCompatActivity {
             // postParameters.add(new BasicNameValuePair("xmlString",""));
 
             String Urlpath1 = MDOurlpath + "?Type=" + "mdo_couponSchemeDownloadAndUpload" + "&action=" + action + "&userCode=" + username + "";
-           Log.i("Urls",Urlpath1);
+            Log.i("Urls",Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
 
             // StringEntity entity;
@@ -454,7 +460,7 @@ public class DownloadMasterdata extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
                 returnstring = e.getMessage().toString();
-               // dialog.dismiss();
+                // dialog.dismiss();
                 p.dismiss();
             }
 
@@ -488,8 +494,6 @@ public class DownloadMasterdata extends AppCompatActivity {
                     /*
                     for (int i = 0; i < jArray.length(); i++) {
                         JSONObject jObject = jArray.getJSONObject(i);
-
-
                         f1 = mDatabase.InsertCouponSchemeMaster(jObject.getString("year").toString(),
                                 jObject.getString("season").toString(), jObject.getString("state").toString()
                                 , jObject.getString("region"), jObject.getString("crop")
@@ -498,13 +502,11 @@ public class DownloadMasterdata extends AppCompatActivity {
                                 , jObject.getString("advAmtPerUnit"), jObject.getString("perUnitBenifitOffer")
                                 , jObject.getString("couponValue"), jObject.getString("schemeFrom")
                                 , jObject.getString("schemeEnd"));
-
                     }
                     for (int i = 0; i < jArray2.length(); i++) {
                         JSONObject jObject2 = jArray2.getJSONObject(i);
                         f1 = mDatabase.InsertCouponMaster(jObject2.getString("couponCode").toString(),
                                 jObject2.getString("productCode").toString(),InTime);
-
                     }
                  */
                     if(result.contains("updateTrue"))
@@ -515,11 +517,10 @@ public class DownloadMasterdata extends AppCompatActivity {
                             f1 = mDatabase.InsertCouponCheckData(jObject3.getString("userCode").toString(),
                                     jObject3.getString("mobileNumber").toString(), jObject3.getString("crop").toString()
                                     ,jObject3.getString("product").toString(), jObject3.getString("farmerPhoto").toString());
-
                         }*/
                         //mDatabase.Updatedata("update  CouponRecordData set isSynced=0,imgStatus=0 where farmerPhoto " +
                         //        " not in (select farmerPhoto from CheckUploadCoupon) and userCode='"+username+"' ");
-                       // mDatabase.deleterecord("delete  from  CouponRecordData  where farmerPhoto " +
+                        // mDatabase.deleterecord("delete  from  CouponRecordData  where farmerPhoto " +
                         //        "  in (select farmerPhoto from CheckUploadCoupon where mobileNumber='1') and userCode='"+username+"' ");
                     }
 
@@ -539,7 +540,7 @@ public class DownloadMasterdata extends AppCompatActivity {
                             lblmsg.setText("coupon data download successfully....");
                             msclass.showMessage("Coupon data download successfully....");
                         }
-                       // new MDOMyplotDataDownload(1, username, DownloadMasterdata.this, result).execute(MDOurlpath);
+                        // new MDOMyplotDataDownload(1, username, DownloadMasterdata.this, result).execute(MDOurlpath);
                     }
                 }
             } catch (Exception e1) {
@@ -595,7 +596,6 @@ public class DownloadMasterdata extends AppCompatActivity {
                /* for(int i=0; i < jArray.length(); i++) {
                     JSONObject jObject = jArray.getJSONObject(i);
                    boolean fl = mDatabase.insertVillageMasterdata("1","1",jObject.getString("District").toString(),jObject.getString("District_code").toString(),jObject.getString("Taluka").toString(),jObject.getString("Taluka_code"),jObject.getString("Village"),jObject.getString("Village_code"));
-
                 } */
 
                 f1 = mDatabase.InsertCropMasterDatanew(jArray2);
@@ -613,7 +613,6 @@ public class DownloadMasterdata extends AppCompatActivity {
                     f1 = mDatabase.InsertMyActivityData(jObject3.getString("ActivityName").toString(), jObject3.getString("activityType").toString()
                             , jObject3.getString("activityTypeCode").toString(), jObject3.getString("activityNameCode").toString());//jArray3);
                 }
-
                 for (int i = 0; i < jArray5.length(); i++) {
                     JSONObject jObject5 = jArray5.getJSONObject(i);
                     f1 = mDatabase.InsertCommentrData(jObject5.getString("commentlist").toString());
@@ -707,14 +706,10 @@ public class DownloadMasterdata extends AppCompatActivity {
                 e.printStackTrace();
                 dialog.dismiss();
                 lblmsg.setText(e.getMessage());
-
-
             } catch (ExecutionException e) {
                 e.printStackTrace();
                 dialog.dismiss();
                 lblmsg.setText(e.getMessage());
-
-
             }*/ catch (JSONException e) {
             e.printStackTrace();
             p.dismiss();
@@ -731,6 +726,9 @@ public class DownloadMasterdata extends AppCompatActivity {
         return f1;
 
     }
+
+
+
 
     private class MDOMyplotDataDownload extends AsyncTask<String, String, String> {
 
@@ -881,12 +879,12 @@ public class DownloadMasterdata extends AppCompatActivity {
 
     private void logDownloadMasterData(){
         if(sp!=null){
-        String userId="", displayName="";
-        if (sp.getString("UserID", null) != null && sp.getString("Displayname", null) != null ){
-            userId = sp.getString("UserID", "");
-            displayName = sp.getString("Displayname", "");
-            FirebaseAnalyticsHelper.getInstance(this).callDownloadMasterDataEvent(userId,displayName);
-        }
+            String userId="", displayName="";
+            if (sp.getString("UserID", null) != null && sp.getString("Displayname", null) != null ){
+                userId = sp.getString("UserID", "");
+                displayName = sp.getString("Displayname", "");
+                FirebaseAnalyticsHelper.getInstance(this).callDownloadMasterDataEvent(userId,displayName);
+            }
         }
     }
 
@@ -979,17 +977,11 @@ public class DownloadMasterdata extends AppCompatActivity {
                 e.printStackTrace();
                 dialog.dismiss();
                 lblmsg.setText(e.getMessage());
-
-
             } catch (ExecutionException e) {
                 e.printStackTrace();
                 dialog.dismiss();
                 lblmsg.setText(e.getMessage());
-
-
             }*/
-
-
 
 
 

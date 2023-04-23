@@ -18,6 +18,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.media.ExifInterface;
+import android.os.AsyncTask;
 import android.util.Base64;
 import android.util.Log;
 
@@ -3566,8 +3567,70 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         }
         return flag;
     }
+    public synchronized boolean insertVillageMasterdata1(JSONArray jArray,Context context) {
+        String sql = "Insert  into VillageLevelMaster (state, state_code,district, district_code,taluka,taluka_code,village,village_code) values(?,?,?,?,?,?,?,?)";
+        boolean flag = false;
+        try {
 
-    public boolean insertVillageMasterdata(String state, String state_code, String district, String district_code, String taluka, String taluka_code, String village, String village_code) {
+            // db.beginTransaction();
+
+            SQLiteDatabase db = this.getWritableDatabase();
+            // db.beginTransactionNonExclusive();
+            db.beginTransaction();
+
+            for (int i = 0; i < jArray.length(); i++) {
+                // SQLiteDatabase db = this.getWritableDatabase();
+                // db.beginTransactionNonExclusive();
+                //  db.beginTransaction();
+             /*   SQLiteStatement insert = db.compileStatement(sql);
+
+                JSONObject jObject = jArray.getJSONObject(i);
+                        insert.bindString(1, jObject.getString("State").toString());
+                        insert.bindString(2, jObject.getString("State_Code").toString());
+                        insert.bindString(3, jObject.getString("District").toString());
+                        insert.bindString(4, jObject.getString("District_code").toString());
+                        insert.bindString(5, jObject.getString("Taluka").toString());
+                        insert.bindString(6, jObject.getString("Taluka_code").toString());
+                        insert.bindString(7, jObject.getString("Village").toString());
+                        insert.bindString(8, jObject.getString("Village_code").toString());
+                        insert.execute();
+                        insert.clearBindings();
+                        insert.close();
+                db.setTransactionSuccessful();
+                db.endTransaction();
+                db.close();*/
+                JSONObject jObject = jArray.getJSONObject(i);
+                Log.i("JsonFor Village",jObject.toString());
+                ContentValues newValues = new ContentValues();
+                newValues.put("state", jObject.getString("State").toString());
+                newValues.put("state_code", jObject.getString("State_Code").toString());
+                newValues.put("district", jObject.getString("District").toString());
+                newValues.put("district_code", jObject.getString("District_code").toString());
+                newValues.put("taluka", jObject.getString("Taluka").toString());
+                newValues.put("taluka_code", jObject.getString("Taluka_code").toString());
+                newValues.put("village", jObject.getString("Village").toString());
+                newValues.put("village_code", jObject.getString("Village_code").toString());
+
+                long res = db.insert("VillageLevelMaster", null, newValues);
+
+
+            }
+            db.setTransactionSuccessful();
+            db.endTransaction();
+
+            // db.close();
+            // db.endTransaction();
+
+            flag = true;
+        } catch (Exception ex) {
+            flag = false;
+
+        }
+        return flag;
+    }
+
+
+    public boolean insertVillageMasterdata(String state,String state_code, String district, String district_code, String taluka, String taluka_code, String village, String village_code) {
         SQLiteDatabase db = getWritableDatabase();
         boolean flag = false;
         try {

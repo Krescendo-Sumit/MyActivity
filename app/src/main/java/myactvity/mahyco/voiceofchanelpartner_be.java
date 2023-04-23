@@ -154,7 +154,7 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
     TextView tvQuestion,lblothlack, lbllack,tvCordinates, tvAddress,tvVillage,
             tvTaluka,tvDist,tvState,myTextProgress;
     String cordinatesmsg = "TAG * \n";
-    String address;
+    String address="";
     EditText txtTotalRetailer,txtMFieldCrop,txtMCotton,txtMonth,txtYear,etSearchText, etName, etPhone, etAcres,
             etComment, etOther, etOther1, etOther2,etOther3, etOtherCompany,etOtherCompany2,
             etOtherCompany3,
@@ -374,6 +374,7 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
                 txtYear= findViewById(R.id.txtYear);
 
         tiOther = findViewById(R.id.tiOther);
+        tvAddress = findViewById(R.id.tvAddress);
         rndone = (RadioButton)findViewById(R.id.rndone);
         rndtwo = (RadioButton)findViewById(R.id.rndtwo);
         rndthree = (RadioButton)findViewById(R.id.rndthree);
@@ -492,7 +493,7 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
                     etName.setText("");
                     etPhone.setText("");
                     etWhatup.setText("");
-
+                    Toast.makeText(context, "hii", Toast.LENGTH_SHORT).show();
                     if (spFarmerSearch.getSelectedItem().toString().toLowerCase().contains("retailer not found") )
                     {
                         android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(voiceofchanelpartner_be.this);
@@ -894,6 +895,7 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
     }
     public String  addPOGretaill()
     {
+        Log.i("*********Retailer","Calledddd");
         String  str="";
         if (config.NetworkConnection() )
         {
@@ -1064,7 +1066,6 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
                 handler.post(new Runnable() {
                     public void run() {
                         new getDistributorVOCP("getDistributorVOCP", context).execute(Constants.FIELDBANNER_SERVER_API);
-
                     }
                 });
 
@@ -1357,6 +1358,8 @@ this.action=action;
             postParameters.add(new BasicNameValuePair("marketplace", "marketplace"));
             String Urlpath1 = cx.MDOurlpath;
             HttpPost httppost = new HttpPost(Urlpath1);
+            Log.i("URL",Urlpath1);
+            Log.i("PARAM",postParameters.toString());
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParameters));
@@ -1391,7 +1394,7 @@ this.action=action;
             String weatherInfo = "Weather Report  is: \n";
             try {
                 // JSONObject jsonObject = new JSONObject(result);
-
+                    Log.i("Data",result);
                     BindRetailerList_online(result);
 
 
@@ -1416,6 +1419,7 @@ this.action=action;
                         try {
                             JSONObject object = new JSONObject(str);
                             JSONArray jArray = object.getJSONArray("Table");
+                            Toast.makeText(context, "Retailer List : "+jArray.length(), Toast.LENGTH_SHORT).show();
                             for (int i = 0; i < jArray.length(); i++) {
 
                                 Croplist.add(new GeneralMaster((jArray.get(i)).toString(),

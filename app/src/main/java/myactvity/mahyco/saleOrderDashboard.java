@@ -76,8 +76,6 @@ public class saleOrderDashboard extends AppCompatActivity {
             btnsalesorder.setVisibility(View.VISIBLE);
             //btnsalesreturnorderApp.setVisibility(View.GONE);
             //btnsalesorder.setVisibility(View.GONE);
-
-
         }
         else
         {

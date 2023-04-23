@@ -11,10 +11,14 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Build;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+
 import androidx.cardview.widget.CardView;
+
 import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
@@ -91,14 +95,15 @@ public class distributorpogupdateDetail extends AppCompatActivity {
     SharedPreferences.Editor editor, locedit;
     Calendar dateSelected = Calendar.getInstance();
     private DatePickerDialog datePickerDialog;
-    String croptype,Crop_Code;
+    String croptype, Crop_Code;
     TextView txtDescription;
     Config config;
-    String state,dist,taluka,mktplace,RetailerMobileno,DistrCode,TBMCode;
+    String state, dist, taluka, mktplace, RetailerMobileno, DistrCode, TBMCode;
     private boolean listenForChanges = true;
-    String strdate,usercode;
-    int check=0;
+    String strdate, usercode;
+    int check = 0;
     public CommonExecution cx;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,21 +115,21 @@ public class distributorpogupdateDetail extends AppCompatActivity {
         config = new Config(this); //Here the context is passing
         pref = this.getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = pref.edit();
-        usercode=pref.getString("UserID", null);
-        cx=new CommonExecution(this);
+        usercode = pref.getString("UserID", null);
+        cx = new CommonExecution(this);
 
         spCropType = (SearchableSpinner) findViewById(R.id.spCropType);
-        btnsave= (Button)findViewById(R.id.btnsave);
-        my_linear_layout1 = (LinearLayout)findViewById(R.id.my_linear_layout1);
-        context=this;
-        txtpridate=(EditText)findViewById(R.id.txtpridate);
+        btnsave = (Button) findViewById(R.id.btnsave);
+        my_linear_layout1 = (LinearLayout) findViewById(R.id.my_linear_layout1);
+        context = this;
+        txtpridate = (EditText) findViewById(R.id.txtpridate);
         txtpridate.setEnabled(false);
         Date dt = new Date();
         strdate = dateFormatter.format(dt);
 
         txtpridate.setText(strdate.toString());
 
-        txtDescription=(TextView)findViewById(R.id.txtDescription);
+        txtDescription = (TextView) findViewById(R.id.txtDescription);
         Bundle bundle = getIntent().getExtras();
 
 
@@ -137,33 +142,30 @@ public class distributorpogupdateDetail extends AppCompatActivity {
         });
 
 
-        state=bundle.getString("state");
-        dist=bundle.getString("dist");
-        taluka=bundle.getString("taluka");
-        mktplace=bundle.getString("mktplace");
-        RetailerMobileno=bundle.getString("RetailerMobileno");
-        DistrCode=bundle.getString("DistrCode");
-        TBMCode=bundle.getString("TBMCode");
-        String htmstring2="<p><b><font color=#FF0000>RCVD STOCK DEPOT :</font></b>CUMMULATIVE RECEIVED STOCK FROM DEPOT <br/>\n" +
+        state = bundle.getString("state");
+        dist = bundle.getString("dist");
+        taluka = bundle.getString("taluka");
+        mktplace = bundle.getString("mktplace");
+        RetailerMobileno = bundle.getString("RetailerMobileno");
+        DistrCode = bundle.getString("DistrCode");
+        TBMCode = bundle.getString("TBMCode");
+        String htmstring2 = "<p><b><font color=#FF0000>RCVD STOCK DEPOT :</font></b>CUMMULATIVE RECEIVED STOCK FROM DEPOT <br/>\n" +
                 "<b><font color=#FF0000>RCVD STOCK DISTR</font></b>CUMMULATIVE RECEIVED STOCK FROM OTHER DISTRIBUTOR <br/>\n" +
                 "<b><font color=#FF0000> TRAN TO DISTR:</font></b>CUMMULATIVE TRANSFER TO OTHER DISTRIBUTOR <br/>\n" +
                 "<b><font color=#FF0000> NET STOCK- :</font></b>CUMMULATIVE NET RECEIVED STOCK <br/>\n" +
                 "<b><font color=#FF0000>BAL STOCK:</font></b>BALANCE STOCK IN GODOWN <br/>\n" +
-                 "<b><font color=#FF0000>PLACE STOCK:</font></b>PLACEMENT <br/> TO RETAILERS \n</p>";
+                "<b><font color=#FF0000>PLACE STOCK:</font></b>PLACEMENT <br/> TO RETAILERS \n</p>";
 
 
         String pkt = "<font color='#EE0000'>(pkt)</font>";
         String kg = "<font color='#EE0000'>(kg)</font>";
-        String htmstring ="<p> <b> NOTE-Cummulative stock details to be recorded<br/>" +
-                "Stock Details for cotton should be recorded in " +pkt+"<br/> \n" +
-                "Stock Details for other crop should be recorded in " +kg+"<br/> \n" +
+        String htmstring = "<p> <b> NOTE-Cummulative stock details to be recorded<br/>" +
+                "Stock Details for cotton should be recorded in " + pkt + "<br/> \n" +
+                "Stock Details for other crop should be recorded in " + kg + "<br/> \n" +
                 "\n</p>";
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            txtDescription.setText(Html.fromHtml(htmstring,Html.FROM_HTML_MODE_LEGACY));
-        }
-
-        else
-        {
+            txtDescription.setText(Html.fromHtml(htmstring, Html.FROM_HTML_MODE_LEGACY));
+        } else {
             txtDescription.setText(Html.fromHtml(htmstring));
         }
 
@@ -180,38 +182,33 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
                     croptype = gm.Desc().trim();//URLEncoder.encode(gm.Desc().trim(), "UTF-8");
-                    Crop_Code=gm.Code().trim();
-                }
-                catch (Exception ex)
-                {
-                    Toast.makeText(distributorpogupdateDetail.this,ex.toString(),Toast.LENGTH_LONG).show();
+                    Crop_Code = gm.Code().trim();
+                } catch (Exception ex) {
+                    Toast.makeText(distributorpogupdateDetail.this, ex.toString(), Toast.LENGTH_LONG).show();
                 }
 
 
-                 check = check + 1;
-                 if (check > 1)
-                {
-                   // updatePOG(Crop_Code,croptype);
+                check = check + 1;
+                if (check > 1) {
+                    // updatePOG(Crop_Code,croptype);
                     JSONObject mainObj = new JSONObject();
                     byte[] objAsBytes = null;//new byte[10000];
-                    String cropcode="-";
-                    String cropname="";
+                    String cropcode = "-";
+                    String cropname = "";
                     try {
                         objAsBytes = cropcode.getBytes("UTF-8");
-                        cropcode=URLEncoder.encode(Crop_Code, "UTF-8");
-                        cropname=URLEncoder.encode(croptype, "UTF-8");
+                        cropcode = URLEncoder.encode(Crop_Code, "UTF-8");
+                        cropname = URLEncoder.encode(croptype, "UTF-8");
 
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if(config.NetworkConnection()) {
+                    if (config.NetworkConnection()) {
                         new UpdatedPOG("1", objAsBytes, usercode, Crop_Code,
-                                cropname,DistrCode).execute();
+                                cropname, DistrCode).execute();
 
-                    }
-                    else
-                        {
-                            msclass.showMessage("Please check internet connection");
+                    } else {
+                        msclass.showMessage("Please check internet connection");
                     }
 
 
@@ -245,21 +242,17 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                     }
                     String regex = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
                     Pattern pattern = Pattern.compile(regex);
-                    if(txtpridate.getText().length() ==0)
-                    {
+                    if (txtpridate.getText().length() == 0) {
                         msclass.showMessage("Please enter POG Date ");
                         return;
                     }
-                    if (txtpridate.getText().length()>0)
-                    {
+                    if (txtpridate.getText().length() > 0) {
                         Matcher matcher = pattern.matcher(txtpridate.getText().toString());
                         if (matcher.matches()) {
 
-                        }
-                        else
-                        {
+                        } else {
                             msclass.showMessage("Please enter POG DD/MM/YYYY format date.. ");
-                            return ;
+                            return;
                         }
                         //Date javaDate = dateFormatter.parse(txtBirthdate.getText().toString());
                     }
@@ -274,8 +267,9 @@ public class distributorpogupdateDetail extends AppCompatActivity {
             }
         });
     }
+
     private void setDateTimeField(View v) {
-        final EditText txt=(EditText)v;
+        final EditText txt = (EditText) v;
         Calendar newCalendar = dateSelected;
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -299,18 +293,17 @@ public class distributorpogupdateDetail extends AppCompatActivity {
 
     }
 
-    public void UpdateRetailerPOG()
-    {
+    public void UpdateRetailerPOG() {
         try {
             final String crop = spCropType.getSelectedItem().toString();
             GeneralMaster gm = (GeneralMaster) spCropType.getSelectedItem();
-             Crop_Code=gm.Code();
+            Crop_Code = gm.Code();
             //St
-            int count=0;
+            int count = 0;
             // mDatabase.deleterecord("delete from DistributorPOGTable where" +
-              //      " DistrCode='"+DistrCode+"' and CropName ='"+crop+"'");
+            //      " DistrCode='"+DistrCode+"' and CropName ='"+crop+"'");
             mDatabase.deleterecord("delete from DistributorPOGTable where" +
-                    " DistrCode='"+DistrCode+"' and CropCode ='"+gm.Code()+"'");
+                    " DistrCode='" + DistrCode + "' and CropCode ='" + gm.Code() + "'");
 
             for (int i = 1; i < my_linear_layout1.getChildCount(); i++) {
                 View view2 = my_linear_layout1.getChildAt(i);
@@ -318,22 +311,22 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                 final EditText lblreceivedfrmdepo = (EditText) view2.findViewById(R.id.lblreceivedfrmdepo);
                 final EditText lblreceivedfrmdistr = (EditText) view2.findViewById(R.id.lblreceivedfrmdistr);
                 final EditText lblshipttodistr = (EditText) view2.findViewById(R.id.lblshipttodistr);
-                final   EditText lblnetstock = (EditText) view2.findViewById(R.id.lblnetstock);
+                final EditText lblnetstock = (EditText) view2.findViewById(R.id.lblnetstock);
                 final TextView txtprdname = (TextView) view2.findViewById(R.id.txtprdname);
                 final TextView txtprdcode = (TextView) view2.findViewById(R.id.txtprdcode);
                 final EditText lblbalgoddown = (EditText) view2.findViewById(R.id.lblbalgoddown);
-                final  EditText lblplacement = (EditText) view2.findViewById(R.id.lblplacement);
+                final EditText lblplacement = (EditText) view2.findViewById(R.id.lblplacement);
                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-               // SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                // SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date d = new Date();
                 final String strdate = dateFormat.format(d);
                 boolean f = mDatabase.InsertDistributorPOGData(pref.getString("UserID", null),
-                        state,dist,taluka,mktplace,RetailerMobileno,crop.trim(),txtprdname.getText().toString(),
-                        Crop_Code,txtprdcode.getText().toString().trim(),lblplan.getText().toString(),lblreceivedfrmdepo.getText().toString(),
-                        lblreceivedfrmdistr.getText().toString(),lblshipttodistr.getText().toString(),
-                        lblnetstock.getText().toString(),lblbalgoddown.getText().toString(),
-                        lblplacement.getText().toString(),strdate,DistrCode);
+                        state, dist, taluka, mktplace, RetailerMobileno, crop.trim(), txtprdname.getText().toString(),
+                        Crop_Code, txtprdcode.getText().toString().trim(), lblplan.getText().toString(), lblreceivedfrmdepo.getText().toString(),
+                        lblreceivedfrmdistr.getText().toString(), lblshipttodistr.getText().toString(),
+                        lblnetstock.getText().toString(), lblbalgoddown.getText().toString(),
+                        lblplacement.getText().toString(), strdate, DistrCode);
 
                 if (f == true) {
                     count++;
@@ -351,7 +344,7 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                 check =0;
                 spCropType.setSelection(0);
                 my_linear_layout1.removeAllViews();*/
-                new SyncPOGData_Async("MDO_POGData","DistributorAsRetailer3").execute();
+                new SyncPOGData_Async("MDO_POGData", "DistributorAsRetailer3").execute();
 
             } else {
                 msclass.showMessage("Please enter product details");
@@ -366,9 +359,7 @@ public class distributorpogupdateDetail extends AppCompatActivity {
     }
 
 
-
-    public void updatePOG(final String cropcode,final String cropname,String result )
-    {
+    public void updatePOG(final String cropcode, final String cropname, String result) {
         try {
 
             my_linear_layout1.removeAllViews();                              //add this too
@@ -386,8 +377,8 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                         " FROM  mdo_pogsapdata a left outer join" +
                         " DistributorPOGTable b on a.Crop_Code= b.CropCode" +
                         " and a.Prod_Code=b.ProductCode where a.Crop_Code='" + cropcode + "'" +
-                        " and Cust_Code='"+DistrCode+"' and a.QTY_Unit <>'0' and Prod_Name <>'' ";
-
+                        " and Cust_Code='" + DistrCode + "' and a.QTY_Unit <>'0' and Prod_Name <>'' ";
+                Log.i("QQ", searchQuery);
              /*   String searchQuery = "SELECT distinct Cust_Code,Prod_Name as ProductName," +
                         " Crop_Name as CropName" +
                         ",Plan_Qty,QTY_Unit,QTY_Base,ifnull(RecStockdepot,0) as RecStockdepot," +
@@ -408,7 +399,7 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                 // JSONObject object = new JSONObject();
                 //object.put("Table1", mDatabase.getResults(searchQuery));
                 JSONArray jArray = object.getJSONArray("Table1");//new JSONArray(result);
-                String  str="a";
+                String str = "a";
                 String[] splittedValues = str.split(",");//spcrop.getSelectedItemsAsString().split(",");
 
                 //HEADER START
@@ -432,7 +423,7 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                 txtprdname.setBackgroundColor(Color.TRANSPARENT);
                 txtprdname.setTypeface(txtprdname.getTypeface(), Typeface.BOLD);
 
-                lblplan.setFilters(new InputFilter[] {new InputFilter.LengthFilter(30)});
+                lblplan.setFilters(new InputFilter[]{new InputFilter.LengthFilter(30)});
                 lblplan.setText("PLAN");
                 lblplan.setEnabled(false);
                 lblplan.setMaxLines(2);
@@ -505,7 +496,7 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                 //  lblqty.setTextSize(14);
                 lblbalgoddown.setTypeface(lblbalgoddown.getTypeface(), Typeface.BOLD);
 
-                 lblplacement.setText("PLACEMENT TO RETAILERS");
+                lblplacement.setText("PLACEMENT TO RETAILERS");
                 lblplacement.setEnabled(false);
                 lblplacement.setSingleLine(false);
                 lblplacement.setImeOptions(EditorInfo.IME_FLAG_NO_ENTER_ACTION);
@@ -521,312 +512,305 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                 view1.setBackgroundColor(getResources().getColor(R.color.heback));
                 my_linear_layout1.addView(view1);
                 // HEADER END
-              if(jArray.length()>0) {
-                  for (int i = 0; i < jArray.length(); i++) {
-
-                      int total = 0;
-
-                      final View view2 = LayoutInflater.from(this).inflate(R.layout.showupdatedistributorpog, null);
-
-                      view2.setBackgroundColor(getResources().getColor(R.color.lightgray));
-                      final EditText lblplan1 = (EditText) view2.findViewById(R.id.lblplan);
-                      final EditText lblreceivedfrmdepo1 = (EditText) view2.findViewById(R.id.lblreceivedfrmdepo);
-                      final EditText lblreceivedfrmdistr1 = (EditText) view2.findViewById(R.id.lblreceivedfrmdistr);
-                      final EditText lblshipttodistr1 = (EditText) view2.findViewById(R.id.lblshipttodistr);
-                      final EditText lblnetstock1 = (EditText) view2.findViewById(R.id.lblnetstock);
-                      final TextView txtprdname1 = (TextView) view2.findViewById(R.id.txtprdname);
-                      final EditText lblbalgoddown1 = (EditText) view2.findViewById(R.id.lblbalgoddown);
-                      final EditText lblplacement1 = (EditText) view2.findViewById(R.id.lblplacement);
-                      final TextView txtprdcode1 = (TextView) view2.findViewById(R.id.txtprdcode);
-
-
-                      Button btnnext1 = (Button) view2.findViewById(R.id.btnnext);
-
-
-                      btnnext1.setOnClickListener(new View.OnClickListener() {
-                          @Override
-                          public void onClick(View v) {
-                              if (lblbalgoddown1.getText().length() == 0) {
-                                  msclass.showMessage(" please check goddown balance stock ");
-                              } else {
-                                  addproduct(croptype, txtprdcode1.getText().toString(), txtprdname1.getText().toString(), lblbalgoddown1.getText().toString());
-
-                              }
-
-                          }
-                      });
-
-                      JSONObject jObject = jArray.getJSONObject(i);
-                      txtprdname1.setText(jObject.getString("ProductName").toString());
-                      txtprdcode1.setText(jObject.getString("Prod_Code").toString());
-                      lblplan1.setEnabled(false);
-                      lblreceivedfrmdepo1.setEnabled(false);
-                      lblnetstock1.setEnabled(false);
-
-                      lblreceivedfrmdistr1.setText(jObject.getString("RecStockdistr").toString());
-                      lblshipttodistr1.setText(jObject.getString("ShiftStockToDistr").toString());
-                      lblnetstock1.setText(jObject.getString("NetStock").toString());
-                      lblbalgoddown1.setText(jObject.getString("BalStock").toString());
-                      lblplacement1.setText(jObject.getString("placementstock").toString());
-                      //if(txtpridate.getText().length() ==0)
-                      if (jObject.getString("stockDate").toString().length() != 0)
-
-                      {
-                          txtpridate.setText(jObject.getString("stockDate").toString());
-                      }
-
-                      if (cropname.toLowerCase().contains("cotton")) {
-                          lblplan1.setText(jObject.getString("Plan_Qty").toString());
-                          lblreceivedfrmdepo1.setText(jObject.getString("QTY_Unit").toString());
-
-                          lblreceivedfrmdepo1.setHint("PKT");
-                          lblreceivedfrmdistr1.setHint("PKT");
-                          lblshipttodistr1.setHint("PKT");
-                          lblshipttodistr1.setHint("PKT");
-                          lblnetstock1.setHint("PKT");
-                          lblplacement1.setHint("PKT");
-                          lblbalgoddown1.setHint("PKT");
-                      } else {
-                          lblreceivedfrmdepo1.setHint("KG");
-                          lblreceivedfrmdistr1.setHint("KG");
-                          lblshipttodistr1.setHint("KG");
-                          lblshipttodistr1.setHint("KG");
-                          lblnetstock1.setHint("KG");
-                          lblplacement1.setHint("KG");
-                          lblbalgoddown1.setHint("KG");
-                          lblplan1.setText(jObject.getString("Plan_Qty").toString());
-                          lblreceivedfrmdepo1.setText(jObject.getString("QTY_Base").toString());
-                      }
-
-                      //Intial calulation
-                      if (listenForChanges) {
-                          listenForChanges = false;
-                          if (lblreceivedfrmdepo1.getText().length() != 0) { //do your work here }
-                              if (lblreceivedfrmdistr1.getText().length() == 0) {
-                                  lblreceivedfrmdistr1.setText("0");
-                              }
-                              if (lblshipttodistr1.getText().length() == 0) {
-                                  lblshipttodistr1.setText("0");
-                              }
-                              if (lblnetstock1.getText().length() == 0) {
-                                  lblnetstock1.setText("0");
-                              }
-                              if (lblbalgoddown1.getText().length() == 0) {
-                                  lblbalgoddown1.setText("0");
-                              }
-
-
-                              int cont = Integer.valueOf(lblreceivedfrmdepo1.getText().toString()) + Integer.valueOf(lblreceivedfrmdistr1.getText().toString());
-                              int bal = Integer.valueOf(cont) - Integer.valueOf(lblshipttodistr1.getText().toString());
-                              lblnetstock1.setText(String.valueOf(bal));
-                              int vv = Integer.valueOf(bal) - Integer.valueOf(lblbalgoddown1.getText().toString());
-                              lblplacement1.setText(String.valueOf(vv));
-
+                if (jArray.length() > 0) {
+                    for (int i = 0; i < jArray.length(); i++) {
+
+                        int total = 0;
+
+                        final View view2 = LayoutInflater.from(this).inflate(R.layout.showupdatedistributorpog, null);
+
+                        view2.setBackgroundColor(getResources().getColor(R.color.lightgray));
+                        final EditText lblplan1 = (EditText) view2.findViewById(R.id.lblplan);
+                        final EditText lblreceivedfrmdepo1 = (EditText) view2.findViewById(R.id.lblreceivedfrmdepo);
+                        final EditText lblreceivedfrmdistr1 = (EditText) view2.findViewById(R.id.lblreceivedfrmdistr);
+                        final EditText lblshipttodistr1 = (EditText) view2.findViewById(R.id.lblshipttodistr);
+                        final EditText lblnetstock1 = (EditText) view2.findViewById(R.id.lblnetstock);
+                        final TextView txtprdname1 = (TextView) view2.findViewById(R.id.txtprdname);
+                        final EditText lblbalgoddown1 = (EditText) view2.findViewById(R.id.lblbalgoddown);
+                        final EditText lblplacement1 = (EditText) view2.findViewById(R.id.lblplacement);
+                        final TextView txtprdcode1 = (TextView) view2.findViewById(R.id.txtprdcode);
+
+
+                        Button btnnext1 = (Button) view2.findViewById(R.id.btnnext);
+
+
+                        btnnext1.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (lblbalgoddown1.getText().length() == 0) {
+                                    msclass.showMessage(" please check goddown balance stock ");
+                                } else {
+                                    addproduct(croptype, txtprdcode1.getText().toString(), txtprdname1.getText().toString(), lblbalgoddown1.getText().toString());
+
+                                }
+
+                            }
+                        });
+
+                        JSONObject jObject = jArray.getJSONObject(i);
+                        txtprdname1.setText(jObject.getString("ProductName").toString());
+                        txtprdcode1.setText(jObject.getString("Prod_Code").toString());
+                        lblplan1.setEnabled(false);
+                        lblreceivedfrmdepo1.setEnabled(false);
+                        lblnetstock1.setEnabled(false);
+
+                        lblreceivedfrmdistr1.setText(jObject.getString("RecStockdistr").toString());
+                        lblshipttodistr1.setText(jObject.getString("ShiftStockToDistr").toString());
+                        lblnetstock1.setText(jObject.getString("NetStock").toString());
+                        lblbalgoddown1.setText(jObject.getString("BalStock").toString());
+                        lblplacement1.setText(jObject.getString("placementstock").toString());
+                        //if(txtpridate.getText().length() ==0)
+                        if (jObject.getString("stockDate").toString().length() != 0) {
+                            txtpridate.setText(jObject.getString("stockDate").toString());
+                        }
+
+                        if (cropname.toLowerCase().contains("cotton")) {
+                            lblplan1.setText(jObject.getString("Plan_Qty").toString());
+                            lblreceivedfrmdepo1.setText(jObject.getString("QTY_Unit").toString());
+
+                            lblreceivedfrmdepo1.setHint("PKT");
+                            lblreceivedfrmdistr1.setHint("PKT");
+                            lblshipttodistr1.setHint("PKT");
+                            lblshipttodistr1.setHint("PKT");
+                            lblnetstock1.setHint("PKT");
+                            lblplacement1.setHint("PKT");
+                            lblbalgoddown1.setHint("PKT");
+                        } else {
+                            lblreceivedfrmdepo1.setHint("KG");
+                            lblreceivedfrmdistr1.setHint("KG");
+                            lblshipttodistr1.setHint("KG");
+                            lblshipttodistr1.setHint("KG");
+                            lblnetstock1.setHint("KG");
+                            lblplacement1.setHint("KG");
+                            lblbalgoddown1.setHint("KG");
+                            lblplan1.setText(jObject.getString("Plan_Qty").toString());
+                            lblreceivedfrmdepo1.setText(jObject.getString("QTY_Base").toString());
+                        }
+
+                        //Intial calulation
+                        if (listenForChanges) {
+                            listenForChanges = false;
+                            if (lblreceivedfrmdepo1.getText().length() != 0) { //do your work here }
+                                if (lblreceivedfrmdistr1.getText().length() == 0) {
+                                    lblreceivedfrmdistr1.setText("0");
+                                }
+                                if (lblshipttodistr1.getText().length() == 0) {
+                                    lblshipttodistr1.setText("0");
+                                }
+                                if (lblnetstock1.getText().length() == 0) {
+                                    lblnetstock1.setText("0");
+                                }
+                                if (lblbalgoddown1.getText().length() == 0) {
+                                    lblbalgoddown1.setText("0");
+                                }
+
+
+                                int cont = Integer.valueOf(lblreceivedfrmdepo1.getText().toString()) + Integer.valueOf(lblreceivedfrmdistr1.getText().toString());
+                                int bal = Integer.valueOf(cont) - Integer.valueOf(lblshipttodistr1.getText().toString());
+                                lblnetstock1.setText(String.valueOf(bal));
+                                int vv = Integer.valueOf(bal) - Integer.valueOf(lblbalgoddown1.getText().toString());
+                                lblplacement1.setText(String.valueOf(vv));
+
+
+                            }
+
+                            listenForChanges = true;
+                            lblplacement1.setEnabled(false);
+                        }
+
+                        //end Calulation
+                        //Start
+
+                        lblreceivedfrmdistr1.addTextChangedListener(new TextWatcher() {
+
+                            public void onTextChanged(CharSequence s, int start, int before,
+                                                      int count) {
+                                try {
+
+                                    if (listenForChanges) {
+                                        listenForChanges = false;
+                                        if (s.length() != 0) { //do your work here }
+
+                                            if (lblreceivedfrmdepo1.getText().length() == 0) {
+                                                lblreceivedfrmdepo1.setText("0");
+                                            }
+                                            if (lblreceivedfrmdistr1.getText().length() == 0) {
+                                                lblreceivedfrmdistr1.setText("0");
+                                            }
+                                            if (lblshipttodistr1.getText().length() == 0) {
+                                                lblshipttodistr1.setText("0");
+                                            }
+                                            if (lblnetstock1.getText().length() == 0) {
+                                                lblnetstock1.setText("0");
+                                            }
+
+                                            if (lblreceivedfrmdistr1.getText().length() != 0) {
+                                                int cont = Integer.valueOf(lblreceivedfrmdepo1.getText().toString()) + Integer.valueOf(lblreceivedfrmdistr1.getText().toString());
+                                                int bal = Integer.valueOf(cont) - Integer.valueOf(lblshipttodistr1.getText().toString());
+                                                lblnetstock1.setText(String.valueOf(bal));
+                                                //lblplacement1.setText(Integer.valueOf(lblnetstock1.getText().toString()) + Integer.valueOf(lblbalgoddown1.getText().toString()));
+                                                int vv = Integer.valueOf(bal) - Integer.valueOf(lblbalgoddown1.getText().toString());
+                                                lblplacement1.setText(String.valueOf(vv));
+                                            }
+
+                                        }
+                                        // txtCurrentStock.setText("");
+
+                                        listenForChanges = true;
+                                    }
+
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+
+                            @Override
+                            public void afterTextChanged(Editable s) {
+
+                            }
+
+                            public void beforeTextChanged(CharSequence s, int start, int count,
+                                                          int after) {
+
+                            }
+
+
+                        });
+                        lblshipttodistr1.addTextChangedListener(new TextWatcher() {
+
+                            public void onTextChanged(CharSequence s, int start, int before,
+                                                      int count) {
+                                try {
+
+                                    if (listenForChanges) {
+                                        listenForChanges = false;
+                                        if (s.length() != 0) { //do your work here }
+
+                                            if (lblreceivedfrmdepo1.getText().length() == 0) {
+                                                lblreceivedfrmdepo1.setText("0");
+                                            }
+                                            if (lblreceivedfrmdistr1.getText().length() == 0) {
+                                                lblreceivedfrmdistr1.setText("0");
+                                            }
+                                            if (lblshipttodistr1.getText().length() == 0) {
+                                                lblshipttodistr1.setText("0");
+                                            }
+                                            if (lblnetstock1.getText().length() == 0) {
+                                                lblnetstock1.setText("0");
+                                            }
 
-                          }
-
-                          listenForChanges = true;
-                          lblplacement1.setEnabled(false);
-                      }
-
-                      //end Calulation
-                      //Start
-
-                      lblreceivedfrmdistr1.addTextChangedListener(new TextWatcher() {
-
-                          public void onTextChanged(CharSequence s, int start, int before,
-                                                    int count) {
-                              try {
-
-                                  if (listenForChanges) {
-                                      listenForChanges = false;
-                                      if (s.length() != 0) { //do your work here }
-
-                                          if (lblreceivedfrmdepo1.getText().length() == 0) {
-                                              lblreceivedfrmdepo1.setText("0");
-                                          }
-                                          if (lblreceivedfrmdistr1.getText().length() == 0) {
-                                              lblreceivedfrmdistr1.setText("0");
-                                          }
-                                          if (lblshipttodistr1.getText().length() == 0) {
-                                              lblshipttodistr1.setText("0");
-                                          }
-                                          if (lblnetstock1.getText().length() == 0) {
-                                              lblnetstock1.setText("0");
-                                          }
+                                            if (lblreceivedfrmdistr1.getText().length() != 0) {
+                                                int cont = Integer.valueOf(lblreceivedfrmdepo1.getText().toString()) + Integer.valueOf(lblreceivedfrmdistr1.getText().toString());
+                                                int bal = Integer.valueOf(cont) - Integer.valueOf(lblshipttodistr1.getText().toString());
+                                                //New change 21-04 -2020
+                                                if (bal < 0) {
+                                                    msclass.showMessage("stock transfer to other distributor  should not more than net received stock.");
+                                                    lblshipttodistr1.setText("0");
+                                                    //lblbalgoddown1.setText("0");
 
-                                          if (lblreceivedfrmdistr1.getText().length() != 0) {
-                                              int cont = Integer.valueOf(lblreceivedfrmdepo1.getText().toString()) + Integer.valueOf(lblreceivedfrmdistr1.getText().toString());
-                                              int bal = Integer.valueOf(cont) - Integer.valueOf(lblshipttodistr1.getText().toString());
-                                              lblnetstock1.setText(String.valueOf(bal));
-                                              //lblplacement1.setText(Integer.valueOf(lblnetstock1.getText().toString()) + Integer.valueOf(lblbalgoddown1.getText().toString()));
-                                              int vv = Integer.valueOf(bal) - Integer.valueOf(lblbalgoddown1.getText().toString());
-                                              lblplacement1.setText(String.valueOf(vv));
-                                          }
-
-                                      }
-                                      // txtCurrentStock.setText("");
-
-                                      listenForChanges = true;
-                                  }
-
-                              } catch (Exception ex) {
-                                  ex.printStackTrace();
-                              }
-                          }
-
-                          @Override
-                          public void afterTextChanged(Editable s) {
-
-                          }
-
-                          public void beforeTextChanged(CharSequence s, int start, int count,
-                                                        int after) {
-
-                          }
-
-
-                      });
-                      lblshipttodistr1.addTextChangedListener(new TextWatcher() {
-
-                          public void onTextChanged(CharSequence s, int start, int before,
-                                                    int count) {
-                              try {
-
-                                  if (listenForChanges) {
-                                      listenForChanges = false;
-                                      if (s.length() != 0) { //do your work here }
+                                                } else {
 
-                                          if (lblreceivedfrmdepo1.getText().length() == 0) {
-                                              lblreceivedfrmdepo1.setText("0");
-                                          }
-                                          if (lblreceivedfrmdistr1.getText().length() == 0) {
-                                              lblreceivedfrmdistr1.setText("0");
-                                          }
-                                          if (lblshipttodistr1.getText().length() == 0) {
-                                              lblshipttodistr1.setText("0");
-                                          }
-                                          if (lblnetstock1.getText().length() == 0) {
-                                              lblnetstock1.setText("0");
-                                          }
+                                                    lblnetstock1.setText(String.valueOf(bal));
+                                                    // lblplacement1.setText(Integer.valueOf(lblnetstock1.getText().toString()) + Integer.valueOf(lblbalgoddown1.getText().toString()));
+                                                    int vv = Integer.valueOf(bal) - Integer.valueOf(lblbalgoddown1.getText().toString());
+                                                    lblplacement1.setText(String.valueOf(vv));
+                                                }
+                                            }
 
-                                          if (lblreceivedfrmdistr1.getText().length() != 0) {
-                                              int cont = Integer.valueOf(lblreceivedfrmdepo1.getText().toString()) + Integer.valueOf(lblreceivedfrmdistr1.getText().toString());
-                                              int bal = Integer.valueOf(cont) - Integer.valueOf(lblshipttodistr1.getText().toString());
-                                              //New change 21-04 -2020
-                                              if (bal < 0) {
-                                                  msclass.showMessage("stock transfer to other distributor  should not more than net received stock.");
-                                                  lblshipttodistr1.setText("0");
-                                                  //lblbalgoddown1.setText("0");
+                                        }
+                                        // txtCurrentStock.setText("");
 
-                                              }
-                                              else {
+                                        listenForChanges = true;
+                                    }
 
-                                                  lblnetstock1.setText(String.valueOf(bal));
-                                                  // lblplacement1.setText(Integer.valueOf(lblnetstock1.getText().toString()) + Integer.valueOf(lblbalgoddown1.getText().toString()));
-                                                  int vv = Integer.valueOf(bal) - Integer.valueOf(lblbalgoddown1.getText().toString());
-                                                  lblplacement1.setText(String.valueOf(vv));
-                                              }
-                                          }
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
 
-                                      }
-                                      // txtCurrentStock.setText("");
+                            @Override
+                            public void afterTextChanged(Editable s) {
 
-                                      listenForChanges = true;
-                                  }
+                            }
 
-                              } catch (Exception ex) {
-                                  ex.printStackTrace();
-                              }
-                          }
+                            public void beforeTextChanged(CharSequence s, int start, int count,
+                                                          int after) {
 
-                          @Override
-                          public void afterTextChanged(Editable s) {
+                            }
 
-                          }
 
-                          public void beforeTextChanged(CharSequence s, int start, int count,
-                                                        int after) {
+                        });
+                        lblbalgoddown1.addTextChangedListener(new TextWatcher() {
 
-                          }
+                            public void onTextChanged(CharSequence s, int start, int before,
+                                                      int count) {
+                                try {
 
+                                    if (listenForChanges) {
+                                        listenForChanges = false;
+                                        if (s.length() != 0) { //do your work here }
+                                            if (lblbalgoddown1.getText().length() != 0) {
+                                                if (lblnetstock1.getText().length() == 0) {
+                                                    lblnetstock1.setText("0");
+                                                }
 
-                      });
-                      lblbalgoddown1.addTextChangedListener(new TextWatcher() {
+                                                int bal = Integer.parseInt(String.valueOf(s));
+                                                int netstock = Integer.parseInt(String.valueOf(lblnetstock1.getText()));
 
-                          public void onTextChanged(CharSequence s, int start, int before,
-                                                    int count) {
-                              try {
+                                                if (bal > netstock) {
+                                                    msclass.showMessage("goddown balance stock should not more " +
+                                                            "than net  stock.");
+                                                    int cont = Integer.valueOf(lblreceivedfrmdepo1.getText().toString()) +
+                                                            Integer.valueOf(lblreceivedfrmdistr1.getText().toString());
 
-                                  if (listenForChanges) {
-                                      listenForChanges = false;
-                                      if (s.length() != 0)
-                                      { //do your work here }
-                                          if (lblbalgoddown1.getText().length() != 0) {
-                                              if (lblnetstock1.getText().length() == 0) {
-                                                  lblnetstock1.setText("0");
-                                              }
+                                                    lblnetstock1.setText(String.valueOf(cont));
+                                                    lblbalgoddown1.setText("0");
 
-                                              int bal = Integer.parseInt(String.valueOf(s));
-                                              int netstock = Integer.parseInt(String.valueOf(lblnetstock1.getText()));
+                                                } else {
+                                                    int cont = Integer.valueOf(netstock) - Integer.valueOf(bal);
+                                                    lblplacement1.setText(String.valueOf(cont));
 
-                                              if (bal > netstock) {
-                                                  msclass.showMessage("goddown balance stock should not more " +
-                                                          "than net  stock.");
-                                                  int cont = Integer.valueOf(lblreceivedfrmdepo1.getText().toString()) +
-                                                             Integer.valueOf(lblreceivedfrmdistr1.getText().toString());
+                                                }
+                                            }
+                                            // txtCurrentStock.setText("");
+                                        } else {
 
-                                                  lblnetstock1.setText(String.valueOf(cont));
-                                                  lblbalgoddown1.setText("0");
 
-                                              } else {
-                                                  int cont = Integer.valueOf(netstock) - Integer.valueOf(bal);
-                                                  lblplacement1.setText(String.valueOf(cont));
+                                        }
+                                        listenForChanges = true;
+                                    }
 
-                                              }
-                                          }
-                                          // txtCurrentStock.setText("");
-                                      } else {
 
+                                } catch (Exception ex) {
+                                    ex.printStackTrace();
+                                    listenForChanges = true;
+                                }
+                            }
 
-                                      }
-                                      listenForChanges = true;
-                                  }
+                            @Override
+                            public void afterTextChanged(Editable s) {
 
+                            }
 
-                              } catch (Exception ex) {
-                                  ex.printStackTrace();
-                                  listenForChanges = true;
-                              }
-                          }
+                            public void beforeTextChanged(CharSequence s, int start, int count,
+                                                          int after) {
 
-                          @Override
-                          public void afterTextChanged(Editable s) {
+                            }
 
-                          }
 
-                          public void beforeTextChanged(CharSequence s, int start, int count,
-                                                        int after) {
+                        });
 
-                          }
 
+                        my_linear_layout1.addView(view2);
 
-                      });
 
+                    }
+                    if (txtpridate.length() == 0) {
 
-                      my_linear_layout1.addView(view2);
+                        txtpridate.setText(strdate.toString());
 
-
-                  }
-                  if (txtpridate.length() == 0) {
-
-                      txtpridate.setText(strdate.toString());
-
-                  }
-              }
-
-                  else
-                {
+                    }
+                } else {
                     msclass.showMessage("Received stock from depot not available this crop.\n" +
                             "please confirm this data or download master data");
                     // Toast.makeText(retailerpogupdateDetail.this,ex.toString(),Toast.LENGTH_LONG).show();
@@ -838,14 +822,14 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                 ex.printStackTrace();
 
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
 
         }
     }
-    public void addproduct( final String crop,final String prd_code,final String productname,String balancestock)
-    {
+
+    public void addproduct(final String crop, final String prd_code, final String productname, String balancestock) {
         try {
 
             // Check Record Exist
@@ -858,42 +842,39 @@ public class distributorpogupdateDetail extends AppCompatActivity {
             String searchQuery = "SELECT distinct a.ProductName, a.ProductCode,  " +
                     " a.BalStock,actionstatus,Qty ,Date" +
                     " FROM DistributorNextBtPOGTable a " +
-                    " where a.ProductCode='" + prd_code + "' and DistrCode='"+DistrCode+"' ";
+                    " where a.ProductCode='" + prd_code + "' and DistrCode='" + DistrCode + "' ";
 
-            object.put("Table1", mDatabase.getResults( searchQuery));
+            object.put("Table1", mDatabase.getResults(searchQuery));
             final JSONArray jArray = object.getJSONArray("Table1");//new JSONArray(result);
             boolean flag = false;
             final Dialog dialog = new Dialog(context);
             dialog.setContentView(R.layout.onnextbuttonpopup);
-            final HorizontalScrollView s = (HorizontalScrollView)dialog.findViewById(R.id.horizontalView);
+            final HorizontalScrollView s = (HorizontalScrollView) dialog.findViewById(R.id.horizontalView);
           /*  s.postDelayed(new Runnable() {
                 public void run() {
                     s.fullScroll(HorizontalScrollView.FOCUS_RIGHT);
                 }
             }, 100L);*/
-            final TableLayout tblLayout = (TableLayout)dialog.findViewById(R.id.tableLayout);
-            TableRow row0 = (TableRow)tblLayout.getChildAt(0);
-            TableRow row = (TableRow)tblLayout.getChildAt(1);
+            final TableLayout tblLayout = (TableLayout) dialog.findViewById(R.id.tableLayout);
+            TableRow row0 = (TableRow) tblLayout.getChildAt(0);
+            TableRow row = (TableRow) tblLayout.getChildAt(1);
             Button btnaddmore = (Button) dialog.findViewById(R.id.btnaddmore);
             final MultiSelectionSpinner spdistr = (MultiSelectionSpinner) row.findViewById(R.id.spdistr);
-            final CardView card_month10= (CardView) row.findViewById(R.id.card_month10);
+            final CardView card_month10 = (CardView) row.findViewById(R.id.card_month10);
             final TextView lbldistributor = (TextView) row0.findViewById(R.id.lbldistributor);
             final TextView lblQty = (TextView) row0.findViewById(R.id.lblVillage);
 
-            final SearchableSpinner  spstatus=(SearchableSpinner) row.findViewById(R.id.spstatus);
+            final SearchableSpinner spstatus = (SearchableSpinner) row.findViewById(R.id.spstatus);
             BindststusData(spstatus);
             final EditText txtqty = (EditText) row.findViewById(R.id.txtqty);
             final EditText txtprdname = (EditText) row.findViewById(R.id.txtprdname);
             final EditText txtbalance = (EditText) row.findViewById(R.id.txtbalance);
             final EditText txtdate = (EditText) row.findViewById(R.id.txtdate);
 
-            if (crop.toLowerCase().contains("cotton"))
-            {
+            if (crop.toLowerCase().contains("cotton")) {
                 lblQty.setText("QTY(pkts)");
                 txtqty.setHint("pkt");
-            }
-            else
-            {
+            } else {
                 lblQty.setText("QTY(kgs)");
                 txtqty.setHint("kg");
             }
@@ -904,12 +885,11 @@ public class distributorpogupdateDetail extends AppCompatActivity {
             lbldistributor.setVisibility(View.GONE);
             txtprdname.setText(productname);
             txtbalance.setText(balancestock);
-            if(jArray.length() >0)
-            {
+            if (jArray.length() > 0) {
                 JSONObject jObject = jArray.getJSONObject(0);
                 txtdate.setText(jObject.getString("Date").toString());
                 txtqty.setText(jObject.getString("Qty").toString());
-                spstatus.setSelection((config.getIndex(spstatus,jObject.getString("actionstatus").toString()))) ;
+                spstatus.setSelection((config.getIndex(spstatus, jObject.getString("actionstatus").toString())));
                 // txtdate.setText(jObject.getString("ProductName").toString());
             }
 
@@ -926,13 +906,13 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                     dialog.dismiss();
                 }
             });
-            String [] array=null;
+            String[] array = null;
             array = new String[1];
-            array[0]="SELECT PRODUCT";
+            array[0] = "SELECT PRODUCT";
             //spproduct .setItems(array);
             //spproduct.hasNoneOption(true);
             // spproduct.setSelection(new int[]{0});
-            spdistr.setListener(new MultiSelectionSpinner.MySpinnerListener(){
+            spdistr.setListener(new MultiSelectionSpinner.MySpinnerListener() {
 
                 @Override
                 public void onItemClicked(int which) {
@@ -958,20 +938,18 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                             return;
                         }
                         if (!status.equals("SUFFICIENT")) {
-                            if (txtqty.getText().length()==0) {
+                            if (txtqty.getText().length() == 0) {
                                 msclass.showMessage("Please  enter qty");
                                 return;
                             }
-                            if (txtdate.getText().length()==0) {
+                            if (txtdate.getText().length() == 0) {
                                 msclass.showMessage("Please  enter date");
                                 return;
                             }
                         }
 
-                        if (status.contains("SALES RETURN") )
-                        {
-                            if (Integer.valueOf(txtqty.getText().toString())>Integer.valueOf(txtbalance.getText().toString()))
-                            {
+                        if (status.contains("SALES RETURN")) {
+                            if (Integer.valueOf(txtqty.getText().toString()) > Integer.valueOf(txtbalance.getText().toString())) {
                                 msclass.showMessage("sales return ,not allow to more than balance qty.");
                                 return;
                             }
@@ -983,24 +961,23 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                         //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         // Date d = new Date();
                         //final String strdate = dateFormat.format(d);
-                        if(jArray.length() >0) {
-                          //  mDatabase.deleterecord("delete from  DistributorNextBtPOGTable where " +
-                          //          " DistrCode='"+DistrCode+"' and ProductName='"+productname+"'");
+                        if (jArray.length() > 0) {
+                            //  mDatabase.deleterecord("delete from  DistributorNextBtPOGTable where " +
+                            //          " DistrCode='"+DistrCode+"' and ProductName='"+productname+"'");
                             mDatabase.deleterecord("delete from  DistributorNextBtPOGTable where " +
-                                    " DistrCode='"+DistrCode+"' and ProductCode='"+prd_code+"'");
+                                    " DistrCode='" + DistrCode + "' and ProductCode='" + prd_code + "'");
                         }
                         boolean f = mDatabase.InsertDistributorNextBtPOGData(pref.getString("UserID",
                                 null), RetailerMobileno,
-                                txtprdname.getText().toString().trim(),prd_code,
+                                txtprdname.getText().toString().trim(), prd_code,
                                 txtbalance.getText().toString().trim(), spstatus.getSelectedItem().toString(),
-                                txtqty.getText().toString(),txtdate.getText().toString(),
+                                txtqty.getText().toString(), txtdate.getText().toString(),
                                 DistrCode);
                         if (f == true) {
                             count++;
                         } else {
 
                         }
-
 
 
                         //ene
@@ -1033,19 +1010,16 @@ public class distributorpogupdateDetail extends AppCompatActivity {
             //window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
 
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
 
         }
 
 
-
     }
 
-    public void addproductold(final String crop,final String productname,String balancestock)
-    {
+    public void addproductold(final String crop, final String productname, String balancestock) {
         try {
 
             // Check Record Exist
@@ -1053,11 +1027,9 @@ public class distributorpogupdateDetail extends AppCompatActivity {
             String searchQuery = "SELECT distinct a.ProductName, a.ProductCode,  " +
                     " a.BalStock,actionstatus,Qty ,Date" +
                     " FROM DistributorNextBtPOGTable a " +
-                    " where a.ProductName='" + productname + "' and DistrCode='"+DistrCode+"' ";
-            object.put("Table1", mDatabase.getResults( searchQuery));
+                    " where a.ProductName='" + productname + "' and DistrCode='" + DistrCode + "' ";
+            object.put("Table1", mDatabase.getResults(searchQuery));
             final JSONArray jArray = object.getJSONArray("Table1");//new JSONArray(result);
-
-
 
 
             boolean flag = false;
@@ -1070,22 +1042,19 @@ public class distributorpogupdateDetail extends AppCompatActivity {
             Rl1.setBackgroundColor(getResources().getColor(R.color.Whitecl));
             Button btnaddmore = (Button) dialog.findViewById(R.id.btnaddmore);
             final MultiSelectionSpinner spdistr = (MultiSelectionSpinner) dialog.findViewById(R.id.spdistr);
-            final CardView card_month10= (CardView) dialog.findViewById(R.id.card_month10);
+            final CardView card_month10 = (CardView) dialog.findViewById(R.id.card_month10);
             final TextView lbldistributor = (TextView) dialog.findViewById(R.id.lbldistributor);
-            final SearchableSpinner  spstatus=(SearchableSpinner) dialog.findViewById(R.id.spstatus);
+            final SearchableSpinner spstatus = (SearchableSpinner) dialog.findViewById(R.id.spstatus);
             BindststusData(spstatus);
             final EditText txtqty = (EditText) dialog.findViewById(R.id.txtqty);
             final EditText txtprdname = (EditText) dialog.findViewById(R.id.txtprdname);
             final EditText txtbalance = (EditText) dialog.findViewById(R.id.txtbalance);
             final EditText txtdate = (EditText) dialog.findViewById(R.id.txtdate);
-            final TextView  lblunit = (TextView) dialog.findViewById(R.id.lblunit);
+            final TextView lblunit = (TextView) dialog.findViewById(R.id.lblunit);
 
-            if (crop.toLowerCase().contains("cotton"))
-            {
+            if (crop.toLowerCase().contains("cotton")) {
                 lblunit.setText("QTY(pkts)");
-            }
-            else
-            {
+            } else {
                 lblunit.setText("QTY(kgs)");
             }
             txtbalance.setEnabled(false);
@@ -1095,12 +1064,11 @@ public class distributorpogupdateDetail extends AppCompatActivity {
             lbldistributor.setVisibility(View.GONE);
             txtprdname.setText(productname);
             txtbalance.setText(balancestock);
-            if(jArray.length() >0)
-            {
+            if (jArray.length() > 0) {
                 JSONObject jObject = jArray.getJSONObject(0);
                 txtdate.setText(jObject.getString("Date").toString());
                 txtqty.setText(jObject.getString("Qty").toString());
-                spstatus.setSelection((config.getIndex(spstatus,jObject.getString("actionstatus").toString()))) ;
+                spstatus.setSelection((config.getIndex(spstatus, jObject.getString("actionstatus").toString())));
                 // txtdate.setText(jObject.getString("ProductName").toString());
             }
 
@@ -1117,13 +1085,13 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                     dialog.dismiss();
                 }
             });
-            String [] array=null;
+            String[] array = null;
             array = new String[1];
-            array[0]="SELECT PRODUCT";
+            array[0] = "SELECT PRODUCT";
             //spproduct .setItems(array);
             //spproduct.hasNoneOption(true);
             // spproduct.setSelection(new int[]{0});
-            spdistr.setListener(new MultiSelectionSpinner.MySpinnerListener(){
+            spdistr.setListener(new MultiSelectionSpinner.MySpinnerListener() {
 
                 @Override
                 public void onItemClicked(int which) {
@@ -1149,11 +1117,11 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                             msclass.showMessage("Please select stock  status");
                             return;
                         }
-                        if (txtqty.getText().length()==0) {
+                        if (txtqty.getText().length() == 0) {
                             msclass.showMessage("Please  enter qty");
                             return;
                         }
-                        if (txtdate.getText().length()==0) {
+                        if (txtdate.getText().length() == 0) {
                             msclass.showMessage("Please  enter date");
                             return;
                         }
@@ -1163,22 +1131,21 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                         //SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                         // Date d = new Date();
                         //final String strdate = dateFormat.format(d);
-                        if(jArray.length() >0) {
+                        if (jArray.length() > 0) {
                             mDatabase.deleterecord("delete from  DistributorNextBtPOGTable where " +
-                                    " DistrCode='"+DistrCode+"' and ProductName='"+productname+"'");
+                                    " DistrCode='" + DistrCode + "' and ProductName='" + productname + "'");
                         }
                         boolean f = mDatabase.InsertDistributorNextBtPOGData(pref.getString("UserID",
                                 null), RetailerMobileno,
-                                txtprdname.getText().toString().trim(),"",
+                                txtprdname.getText().toString().trim(), "",
                                 txtbalance.getText().toString().trim(), spstatus.getSelectedItem().toString(),
-                                txtqty.getText().toString(),txtdate.getText().toString(),
+                                txtqty.getText().toString(), txtdate.getText().toString(),
                                 DistrCode);
                         if (f == true) {
                             count++;
                         } else {
 
                         }
-
 
 
                         //ene
@@ -1209,8 +1176,7 @@ public class distributorpogupdateDetail extends AppCompatActivity {
             dialog.getWindow().setAttributes(lp);
             //Window window = dialog.getWindow();
             //window.setLayout(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-        } catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
 
@@ -1218,7 +1184,8 @@ public class distributorpogupdateDetail extends AppCompatActivity {
 
 
     }
-    private  void BindststusData(SearchableSpinner spstatus) {
+
+    private void BindststusData(SearchableSpinner spstatus) {
 
         try {
             spstatus.setAdapter(null);
@@ -1234,18 +1201,14 @@ public class distributorpogupdateDetail extends AppCompatActivity {
             spstatus.setAdapter(adapter);
 
 
-
-
-
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
 
     }
-    private void BindCROPMaster()
-    {
+
+    private void BindCROPMaster() {
         try {
             //st
             spCropType.setAdapter(null);
@@ -1269,10 +1232,8 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                     (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spCropType.setAdapter(adapter);
-        }
-        catch (Exception ex)
-        {
-            Toast.makeText(this,ex.toString(), Toast.LENGTH_SHORT).show();
+        } catch (Exception ex) {
+            Toast.makeText(this, ex.toString(), Toast.LENGTH_SHORT).show();
             ex.printStackTrace();
         }
 
@@ -1283,23 +1244,24 @@ public class distributorpogupdateDetail extends AppCompatActivity {
 
     public class UpdatedPOG extends AsyncTask<String, String, String> {
 
-        private String usercode,Crop_Code,cropname,customer,DistrCode,
-                returnstring,action,cmbDistributor,DLV_plant,name,customregroup,Comments;
+        private String usercode, Crop_Code, cropname, customer, DistrCode,
+                returnstring, action, cmbDistributor, DLV_plant, name, customregroup, Comments;
         byte[] objAsBytes;
 
-        public UpdatedPOG( String action,byte[] objAsBytes, String usercode,String Crop_Code,
-                              String cropname,String DistrCode  ){
-            this.objAsBytes=objAsBytes;
-            this.usercode=usercode;
-            this.Crop_Code=Crop_Code;
-            this.cropname=cropname;
-            this.action=action;
-            this.DistrCode=DistrCode;
+        public UpdatedPOG(String action, byte[] objAsBytes, String usercode, String Crop_Code,
+                          String cropname, String DistrCode) {
+            this.objAsBytes = objAsBytes;
+            this.usercode = usercode;
+            this.Crop_Code = Crop_Code;
+            this.cropname = cropname;
+            this.action = action;
+            this.DistrCode = DistrCode;
 
 
         }
+
         protected void onPreExecute() {
-             pd = new ProgressDialog(context);
+            pd = new ProgressDialog(context);
             pd.setTitle("Wait ...");
             pd.setMessage("Please wait.");
             // pd.setCancelable(false);
@@ -1307,18 +1269,19 @@ public class distributorpogupdateDetail extends AppCompatActivity {
             pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             pd.show();
         }
+
         @Override
         protected String doInBackground(String... urls) {
 
-            String encodeImage = Base64.encodeToString(objAsBytes,Base64.DEFAULT);
+            String encodeImage = Base64.encodeToString(objAsBytes, Base64.DEFAULT);
             HttpClient httpclient = new DefaultHttpClient();
             StringBuilder builder = new StringBuilder();
             List<NameValuePair> postParameters = new ArrayList<NameValuePair>(2);
             postParameters.add(new BasicNameValuePair("Type", "UpdatedPOG"));
-            postParameters.add(new BasicNameValuePair("encodedData",encodeImage));
-            String Urlpath1= cx.MDOurlpath+"?action="+action+"&usercode="+usercode+"&Crop_Code="+Crop_Code+"" +
-                    "&cropname="+cropname+"&distcode="+DistrCode+"";
-            Log.i("Url is",Urlpath1);
+            postParameters.add(new BasicNameValuePair("encodedData", encodeImage));
+            String Urlpath1 = cx.MDOurlpath + "?action=" + action + "&usercode=" + usercode + "&Crop_Code=" + Crop_Code + "" +
+                    "&cropname=" + cropname + "&distcode=" + DistrCode + "";
+            Log.i("Url is", Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
@@ -1337,43 +1300,37 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                     while ((line = reader.readLine()) != null) {
                         builder.append(line).append("\n");
                     }
-                    returnstring= builder.toString();
+                    returnstring = builder.toString();
                 }
-            }
-            catch (UnsupportedEncodingException e)
-            {
+            } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
-                returnstring=e.getMessage().toString();
+                returnstring = e.getMessage().toString();
                 pd.dismiss();
-            }
-            catch (ClientProtocolException e)
-            {
+            } catch (ClientProtocolException e) {
                 e.printStackTrace();
-                returnstring=e.getMessage().toString();
+                returnstring = e.getMessage().toString();
                 pd.dismiss();
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-                returnstring=e.getMessage().toString();
+                returnstring = e.getMessage().toString();
                 pd.dismiss();
             }
 
             pd.dismiss();
             return builder.toString();
         }
+
         protected void onPostExecute(String result) {
-            String weatherInfo="Weather Report  is: \n";
-            try{
+            String weatherInfo = "Weather Report  is: \n";
+            try {
                 // JSONObject jsonObject = new JSONObject(result);
                 pd.dismiss();
                 if (result.contains("True")) {
-                     updatePOG(Crop_Code,croptype,result);
+                    updatePOG(Crop_Code, croptype, result);
 
-                }
-                else
-                {
+                } else {
                     JSONObject object = new JSONObject(result);
-                    String coplist="";
+                    String coplist = "";
 
                     JSONArray jArray = object.getJSONArray("Table");
                     JSONObject jObject = jArray.getJSONObject(0);
@@ -1385,25 +1342,26 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                 // }
 
 
-            }
-
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
-                msclass.showMessage(e.getMessage().toString() +result);
+                msclass.showMessage(e.getMessage().toString() + result);
                 pd.dismiss();
             }
 
         }
     }
+
     class SyncPOGData_Async extends AsyncTask<Void, Void, String> {
         //  ProgressDialog progressDialog;
-        String tag,classname;
+        String tag, classname;
         String returnvalue;
         ProgressDialog progressDialog;
+
         public SyncPOGData_Async(String tag, String classname) {
             this.tag = tag;
-            this.classname =classname;
+            this.classname = classname;
         }
+
         protected void onPreExecute() {
             progressDialog = new ProgressDialog(context);
             progressDialog.setTitle("Data Uploading ...");
@@ -1417,9 +1375,10 @@ public class distributorpogupdateDetail extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
 
-            returnvalue=MDO_POGData();
+            returnvalue = MDO_POGData();
             return returnvalue;
         }
+
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
         protected void onPostExecute(String result) {
 
@@ -1444,7 +1403,7 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                     mDatabase.Updatedata("update DistributorAsRetailerNextBtPOGTable  set Status='1'");
                     Toast.makeText(context, "POG Data Uploaded successfully.",
                             Toast.LENGTH_SHORT).show();
-                    check =0;
+                    check = 0;
                     spCropType.setSelection(0);
                     my_linear_layout1.removeAllViews();
 
@@ -1452,11 +1411,7 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                 }
 
 
-
-
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 Toast.makeText(context, ex.toString(),
                         Toast.LENGTH_SHORT).show();
@@ -1464,56 +1419,56 @@ public class distributorpogupdateDetail extends AppCompatActivity {
 
         }
     }
-    public String  MDO_POGData()
-    {
+
+    public String MDO_POGData() {
         //if(config.NetworkConnection()) {
         // dialog.setMessage("Loading. Please wait...");
         //dialog.show();
-        String str= null;
-        String returnvalue="";
-        String Imagestring1="";
-        String Imagestring2="";
-        String ImageName="";
-        Cursor cursor=null;
-        String searchQuery="";
-        int count=0;
+        String str = null;
+        String returnvalue = "";
+        String Imagestring1 = "";
+        String Imagestring2 = "";
+        String ImageName = "";
+        Cursor cursor = null;
+        String searchQuery = "";
+        int count = 0;
         searchQuery = "select * from RetailerPOGTable  where  Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = cursor.getCount();
         cursor.close();
 
         searchQuery = "select * from RetailerNextBtPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
 
         searchQuery = "select * from RetailerCompetitatorPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
 
         searchQuery = "select * from DistributorPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
         searchQuery = "select * from DistributorNextBtPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
 
 
         searchQuery = "select * from DistributorCompetitatorPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
 
         searchQuery = "select * from DistributorAsRetailerPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
         searchQuery = "select * from DistributorAsRetailerCompetitatorPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
 
         if (count > 0) {
@@ -1549,26 +1504,24 @@ public class distributorpogupdateDetail extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                returnvalue= syncPOGdata("MDO_POGData", objAsBytes, Imagestring1, Imagestring2, ImageName, "",cx.MDOurlpath);
-
+                returnvalue = syncPOGdata("MDO_POGData", objAsBytes, Imagestring1, Imagestring2, ImageName, "", cx.MDOurlpath);
 
 
             } catch (Exception ex) {
                 // msclass.showMessage(ex.getMessage());
 
             }
-        }
-        else
-        {
+        } else {
             // msclass.showMessage("Uploading data not available");
 
         }
         return returnvalue;
     }
-    public synchronized String  syncPOGdata(String Funname, byte[] objAsBytes,String Imagestring1,String Imagestring2,String ImageName,String Intime,String urls) {
+
+    public synchronized String syncPOGdata(String Funname, byte[] objAsBytes, String Imagestring1, String Imagestring2, String ImageName, String Intime, String urls) {
 
 
-        String encodeImage = Base64.encodeToString(objAsBytes,Base64.DEFAULT);
+        String encodeImage = Base64.encodeToString(objAsBytes, Base64.DEFAULT);
         HttpClient httpclient = new DefaultHttpClient();
         StringBuilder builder = new StringBuilder();
         List<NameValuePair> postParameters = new ArrayList<NameValuePair>(2);
@@ -1578,7 +1531,7 @@ public class distributorpogupdateDetail extends AppCompatActivity {
         postParameters.add(new BasicNameValuePair("encodedData", encodeImage));
         postParameters.add(new BasicNameValuePair("TBMCode", TBMCode));
 
-        String Urlpath=urls+"?appName=Myactivity";
+        String Urlpath = urls + "?appName=Myactivity";
         Log.d("mahi", "doInBackground: " + Urlpath);
         Log.d("mahi", "doInBackground:params::: " + postParameters);
         HttpPost httppost = new HttpPost(Urlpath);

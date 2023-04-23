@@ -6468,12 +6468,10 @@ Log.i("Urls_img_upld",Urlpath);
     public synchronized String syncDemandAssementdata(String Funname, byte[] objAsBytes, String
             Imagestring1, String Imagestring2, String ImageName, String Intime, String urls) {
 
-
         String encodeImage = Base64.encodeToString(objAsBytes, Base64.DEFAULT);
         HttpClient httpclient = new DefaultHttpClient();
         StringBuilder builder = new StringBuilder();
         List<NameValuePair> postParameters = new ArrayList<NameValuePair>(2);
-
 
         postParameters.add(new BasicNameValuePair("Type", Funname));
         postParameters.add(new BasicNameValuePair("encodedData", encodeImage));
@@ -6495,7 +6493,6 @@ Log.i("Urls_img_upld",Urlpath);
                 HttpEntity entity = response.getEntity();
                 InputStream content = entity.getContent();
                 BufferedReader reader = new BufferedReader(new InputStreamReader(content));
-
                 String line;
                 while ((line = reader.readLine()) != null) {
                     //builder.append(line).append("\n");

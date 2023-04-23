@@ -113,8 +113,8 @@ public class orderfromRBM extends AppCompatActivity {
         Utility.setRegularFont(btnsave, this);
         Utility.setRegularFont(btnadd, this);
         Utility.setRegularFont(txtQty, this);
-
-
+        Toast.makeText(context, "Hii RBM", Toast.LENGTH_SHORT).show();
+          
         pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = pref.edit();
         config = new Config(context); //Here the context is passing

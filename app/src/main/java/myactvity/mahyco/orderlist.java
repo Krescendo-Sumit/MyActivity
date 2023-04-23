@@ -11,6 +11,7 @@ import android.os.AsyncTask;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -484,6 +485,10 @@ public class orderlist extends AppCompatActivity {
                     "&division="+division+"&customer="+customer+"" +
                     "&customregroup="+customregroup+"&DLV_plant="+DLV_plant+"" +
                     "&name="+name+"&Comments="+Comments+"";
+
+            Log.i("URL",Urlpath1);
+            Log.i("Param",postParameters.toString());
+
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
