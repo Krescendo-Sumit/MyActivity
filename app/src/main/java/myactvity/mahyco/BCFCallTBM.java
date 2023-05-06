@@ -19,8 +19,11 @@ import android.os.SystemClock;
 import com.google.android.material.textfield.TextInputLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
+
 import androidx.cardview.widget.CardView;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -70,8 +73,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import myactvity.mahyco.app.CommonExecution;
 import myactvity.mahyco.app.Config;
@@ -86,7 +92,7 @@ import myactvity.mahyco.helper.SqliteDatabase;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
-public class BCFCallTBM extends AppCompatActivity {
+public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
     private static final String TAG = "RetailerPOG";
 
     public EditText txtIrrigationdt, txtirrigation,
@@ -96,7 +102,7 @@ public class BCFCallTBM extends AppCompatActivity {
 
     MultiSelectionSpinner spdistr, spBussiness;
     RadioButton rndNo, rndYes;
-    EditText  txtrtname, txtmobilewhatup,
+    EditText txtrtname, txtmobilewhatup,
             txtBirthdate, txtyearofexperiance, txtComments, txtfirmname;
     ProgressDialog dialog;
 
@@ -119,8 +125,8 @@ public class BCFCallTBM extends AppCompatActivity {
 
     public String saleorderurl = "";
     LinearLayout my_linear_layout1;
-    Switch switchYN,switchSKYN;
-    private String dist, taluka, state,village,whatsup,firmname,comments;
+    Switch switchYN, switchSKYN;
+    private String dist, taluka, state, village, whatsup, firmname, comments;
     String RetailerName, retailerfirmname, customer, name, DLV_plant,
             customregroup, cmbproductlist, mobileno, retailerCategory, userCode;
     TextView lbltaluka;
@@ -152,11 +158,53 @@ public class BCFCallTBM extends AppCompatActivity {
     TextInputLayout lnwhatsup;
     LinearLayout liswitch;
     TextView lblvillage, labelchange, lblcontactperson;
-    CardView villageCard,spRDNCard;
+    CardView villageCard, spRDNCard;
     ProgressDialog pd;
 
-    String isSamrudhakisan="",skData="";
+    String isSamrudhakisan = "", skData = "", finalsSkData = "";
     Dialog dialogSK;
+
+    SearchableSpinner sp_catfarmer;
+    EditText et_acres;
+
+    Switch switchVGBhindi, switchVGChilli, switchVGBrinjal, switchVGBottle, switchVGCali, switchVGOther, switchVGTomato;
+
+    Switch switchNHBhindi, switchNHChilli, switchNHBrinjal, switchNHBottle, switchNHCali, switchNHOther, switchNHTomato;
+
+    SearchableSpinner sp_demotaken;
+
+    Switch switchcdMahyco, switchcdbasf, switchcdeastwest, switchcdrasi, switchcdupl, switchcdsyngenta, switchcdseminis, switchcdnamdhari, switchcdother;
+
+    EditText et_adoptedfarmer, et_mahycoproduct;
+
+    Switch switchobbask, switchobeastwest, switchobrasi, switchobvnr, switchobupl, switchobsyngejta, switchobseminis, switchobnamdhari, switchobOther, switchobNO;
+
+    HashSet hs_ob, hs_cd, hs_vg, hs_nh;
+    Button btnsksubmit;
+    JSONArray jsonArray_ob, jsonArray_cd, jsonArray_nh, jsonArray_vg;
+    JSONObject finalJsonObject;
+
+    String strob = "";
+    String strcd = "";
+    String strnh = "";
+    String strvg = "";
+
+    String str_COF = "";
+    String str_Land_Under_Veg = "";
+    String str_Veg_Grown = "";
+    String str_Crop_New_Hybrid = "";
+    String str_IsDemoTaken = "";
+    String str_CompnanyDemoSown = "";
+    String str_FarmersAdopted = "";
+    String str_Mahyco_Exp = "";
+    String str_OtherBrands = "";
+    String str_vali_message = "";
+
+    LinearLayout llnh, llvg, llcd, llob,llswitchSK;
+    EditText et_othernh, et_othervg, et_othercd, et_otherob;
+    CardView card_demotaken;
+    TextView txt_demotaken;
+    double skmin = 0.0, skmax = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,10 +212,10 @@ public class BCFCallTBM extends AppCompatActivity {
         setContentView(R.layout.activity_bcfcall_tbm);
         getSupportActionBar().hide(); //<< this
         context = this;
-        dialogSK=new Dialog(context);
+
+        dialogSK = new Dialog(context);
         dialogSK.setContentView(R.layout.popup_bcf_sk);
         cx = new CommonExecution(this);
-        Toast.makeText(context, "Hii", Toast.LENGTH_SHORT).show();
         SERVER = cx.MDOurlpath;
         saleorderurl = cx.saleSERVER;
         // Inflate the layout for this fragment
@@ -187,11 +235,12 @@ public class BCFCallTBM extends AppCompatActivity {
         spRDNlist = (SearchableSpinner2) findViewById(R.id.spRDNlist);
         btnsave = (Button) findViewById(R.id.btnsave);
         villageCard = (CardView) findViewById(R.id.villageCard);
-        spRDNCard= (CardView) findViewById(R.id.spRDNCard);
+        spRDNCard = (CardView) findViewById(R.id.spRDNCard);
+        llswitchSK = (LinearLayout) findViewById(R.id.llswitchSK);
         spVillage = (SearchableSpinner) findViewById(R.id.spVillage);
         btnCompetitatorPOG = (Button) findViewById(R.id.btnCompetitatorPOG);
         btnPOG = (Button) findViewById(R.id.btnPOG);
-         txtrtname = (EditText) findViewById(R.id.txtrtname);
+        txtrtname = (EditText) findViewById(R.id.txtrtname);
         Utility.setRegularFont(btnsave, this);
         switchYN = (Switch) findViewById(R.id.switchYN);
         switchSKYN = (Switch) findViewById(R.id.switchSKYN);
@@ -207,6 +256,8 @@ public class BCFCallTBM extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.myProgress);
         relPRogress = (RelativeLayout) findViewById(R.id.relPRogress);
         container = (ScrollView) findViewById(R.id.container);
+        skControlsit();
+
         pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = pref.edit();
         config = new Config(context); //Here the context is passing
@@ -279,6 +330,9 @@ public class BCFCallTBM extends AppCompatActivity {
                 } else {
                     bindVillage(taluka);
                 }
+
+
+
                 //check3 = check3 + 1;
                 //if (check3 > 1)
                 {
@@ -302,6 +356,17 @@ public class BCFCallTBM extends AppCompatActivity {
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
                     retailerCategory = gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
+
+                    Toast.makeText(context, ""+spRetailerCategory.getSelectedItem().toString().toUpperCase(), Toast.LENGTH_SHORT).show();
+                    if(spRetailerCategory.getSelectedItem().toString().toUpperCase().contains("FARMER CALL")){
+                        llswitchSK.setVisibility(View.VISIBLE);
+
+                    }
+                    else
+                    {
+                        llswitchSK.setVisibility(View.GONE);
+
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -334,24 +399,20 @@ public class BCFCallTBM extends AppCompatActivity {
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
 
-                   // mobileno = gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
-                    if(retailerCategory.toUpperCase().contains("RETAILER CALL"))
-                    {
+                    // mobileno = gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
+                    if (retailerCategory.toUpperCase().contains("RETAILER CALL")) {
                         if (!spRDNlist.getSelectedItem().toString().toLowerCase().contains("retailer not found") &&
-                                !spRDNlist.getSelectedItem().toString().toLowerCase().contains("select retailer"))
-                        {
-                            String[] distr=spRDNlist.getSelectedItem().toString().split("\\|");
+                                !spRDNlist.getSelectedItem().toString().toLowerCase().contains("select retailer")) {
+                            String[] distr = spRDNlist.getSelectedItem().toString().split("\\|");
                             etFarmerName.setText(distr[1].toString());
                             etMobileNo.setText(gm.Code().trim());
 
                         }
                     }
-                    if(retailerCategory.toUpperCase().contains("NURSERY CALL"))
-                    {
+                    if (retailerCategory.toUpperCase().contains("NURSERY CALL")) {
                         if (!spRDNlist.getSelectedItem().toString().toLowerCase().contains("nursery not found") &&
-                                !spRDNlist.getSelectedItem().toString().toLowerCase().contains("select nursery"))
-                        {
-                            String[] distr=spRDNlist.getSelectedItem().toString().split("\\|");
+                                !spRDNlist.getSelectedItem().toString().toLowerCase().contains("select nursery")) {
+                            String[] distr = spRDNlist.getSelectedItem().toString().split("\\|");
                             etFarmerName.setText(distr[1].toString());
                             etMobileNo.setText(gm.Code().trim());
 
@@ -503,15 +564,12 @@ public class BCFCallTBM extends AppCompatActivity {
         switchSKYN.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-                    isSamrudhakisan="YES";
+                if (isChecked) {
+                    isSamrudhakisan = "YES";
                     OpenSamrudhkisanDialog();
-                }
-                else
-                {
-                    isSamrudhakisan="NO";
-                    skData="{}";
+                } else {
+                    isSamrudhakisan = "NO";
+                    skData = "{}";
 
                 }
             }
@@ -522,8 +580,7 @@ public class BCFCallTBM extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (validation())
-                {
+                if (validation()) {
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
                         return;
                     }
@@ -578,6 +635,285 @@ public class BCFCallTBM extends AppCompatActivity {
 
     }
 
+    void skControlsit() {
+        hs_ob = new HashSet();
+        hs_cd = new HashSet();
+        hs_vg = new HashSet();
+        hs_nh = new HashSet();
+
+        llnh = dialogSK.findViewById(R.id.ll_othernh);
+        llvg = dialogSK.findViewById(R.id.ll_othervg);
+        llcd = dialogSK.findViewById(R.id.ll_othercd);
+        llob = dialogSK.findViewById(R.id.ll_otherob);
+        card_demotaken = dialogSK.findViewById(R.id.card_demotaken);
+        txt_demotaken = dialogSK.findViewById(R.id.txt_demotaken);
+
+        et_othernh = dialogSK.findViewById(R.id.et_othernh);
+        et_othervg = dialogSK.findViewById(R.id.et_othervg);
+        et_othercd = dialogSK.findViewById(R.id.et_othercd);
+        et_otherob = dialogSK.findViewById(R.id.et_otherob);
+
+        sp_catfarmer = dialogSK.findViewById(R.id.sp_catfarmer);
+        sp_demotaken = dialogSK.findViewById(R.id.sp_demotaken);
+
+        et_acres = dialogSK.findViewById(R.id.et_acres);
+        et_adoptedfarmer = dialogSK.findViewById(R.id.et_adoptedfarmer);
+        et_mahycoproduct = dialogSK.findViewById(R.id.et_mahycoproduct);
+
+        et_mahycoproduct.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                           if(s.toString().trim().equals(""))
+                           {
+                               et_mahycoproduct.setError("REQUIRED");
+                           }else
+                           {
+                             int a=Integer.parseInt(s.toString().trim());
+                             if(a>0 && a<60)
+                             {
+
+                             }else
+                             {
+                                 et_mahycoproduct.setText("");
+                                 et_mahycoproduct.setError("Years should not be more than 60.");
+                             }
+                           }
+            }
+        });
+
+
+        switchVGBhindi = dialogSK.findViewById(R.id.switchVGBhindi);
+        switchVGChilli = dialogSK.findViewById(R.id.switchVGChilli);
+        switchVGBrinjal = dialogSK.findViewById(R.id.switchVGBrinjal);
+        switchVGBottle = dialogSK.findViewById(R.id.switchVGBottle);
+        switchVGCali = dialogSK.findViewById(R.id.switchVGCali);
+        switchVGOther = dialogSK.findViewById(R.id.switchVGOther);
+        switchVGTomato = dialogSK.findViewById(R.id.switchVGTomato);
+
+        switchNHBhindi = dialogSK.findViewById(R.id.switchNHBhindi);
+        switchNHChilli = dialogSK.findViewById(R.id.switchNHChilli);
+        switchNHBrinjal = dialogSK.findViewById(R.id.switchNHBrinjal);
+        switchNHBottle = dialogSK.findViewById(R.id.switchNHBottle);
+        switchNHCali = dialogSK.findViewById(R.id.switchNHCali);
+        switchNHOther = dialogSK.findViewById(R.id.switchNHOther);
+        switchNHTomato = dialogSK.findViewById(R.id.switchNHTomato);
+
+
+        switchcdMahyco = dialogSK.findViewById(R.id.switchcdMahyco);
+        switchcdbasf = dialogSK.findViewById(R.id.switchcdbasf);
+        switchcdeastwest = dialogSK.findViewById(R.id.switchcdeastwest);
+        switchcdrasi = dialogSK.findViewById(R.id.switchcdrasi);
+        switchcdupl = dialogSK.findViewById(R.id.switchcdupl);
+        switchcdsyngenta = dialogSK.findViewById(R.id.switchcdsyngenta);
+        switchcdseminis = dialogSK.findViewById(R.id.switchcdseminis);
+        switchcdnamdhari = dialogSK.findViewById(R.id.switchcdnamdhari);
+        switchcdother = dialogSK.findViewById(R.id.switchcdother);
+
+
+        switchobbask = dialogSK.findViewById(R.id.switchobbask);
+        switchobeastwest = dialogSK.findViewById(R.id.switchobeastwest);
+        switchobrasi = dialogSK.findViewById(R.id.switchobrasi);
+        switchobvnr = dialogSK.findViewById(R.id.switchobvnr);
+        switchobupl = dialogSK.findViewById(R.id.switchobupl);
+        switchobsyngejta = dialogSK.findViewById(R.id.switchobsyngejta);
+        switchobseminis = dialogSK.findViewById(R.id.switchobseminis);
+        switchobnamdhari = dialogSK.findViewById(R.id.switchobnamdhari);
+        switchobOther = dialogSK.findViewById(R.id.switchobOther);
+        switchobNO = dialogSK.findViewById(R.id.switchobNO);
+
+        btnsksubmit = dialogSK.findViewById(R.id.btnsksubmit);
+        btnsksubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //  if(str)
+
+                if (validateSKFields()) {
+                    if (switchSKYN.isChecked()) {
+                        if (validateSKFields()) {
+                            finalsSkData = skData;
+                        } else {
+                            new androidx.appcompat.app.AlertDialog.Builder(context)
+                                    .setMessage(str_vali_message)
+                                    .setTitle("Check form data ")
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .show();
+                        }
+                    } else {
+                        finalsSkData = "{}";
+                    }
+
+
+                    dialogSK.dismiss();
+                } else {
+                    new androidx.appcompat.app.AlertDialog.Builder(context)
+                            .setMessage(str_vali_message)
+                            .setTitle("Check form data ")
+                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+
+                }
+
+
+            }
+        });
+
+
+        switchVGBhindi.setOnCheckedChangeListener(this);
+        switchVGChilli.setOnCheckedChangeListener(this);
+        switchVGBrinjal.setOnCheckedChangeListener(this);
+        switchVGBottle.setOnCheckedChangeListener(this);
+        switchVGCali.setOnCheckedChangeListener(this);
+        switchVGOther.setOnCheckedChangeListener(this);
+        switchVGTomato.setOnCheckedChangeListener(this);
+
+        switchNHBhindi.setOnCheckedChangeListener(this);
+        switchNHChilli.setOnCheckedChangeListener(this);
+        switchNHBrinjal.setOnCheckedChangeListener(this);
+        switchNHBottle.setOnCheckedChangeListener(this);
+        switchNHCali.setOnCheckedChangeListener(this);
+        switchNHOther.setOnCheckedChangeListener(this);
+        switchNHTomato.setOnCheckedChangeListener(this);
+
+
+        switchcdMahyco.setOnCheckedChangeListener(this);
+        switchcdbasf.setOnCheckedChangeListener(this);
+        switchcdeastwest.setOnCheckedChangeListener(this);
+        switchcdrasi.setOnCheckedChangeListener(this);
+        switchcdupl.setOnCheckedChangeListener(this);
+        switchcdsyngenta.setOnCheckedChangeListener(this);
+        switchcdseminis.setOnCheckedChangeListener(this);
+        switchcdnamdhari.setOnCheckedChangeListener(this);
+        switchcdother.setOnCheckedChangeListener(this);
+
+
+        switchobbask.setOnCheckedChangeListener(this);
+        switchobeastwest.setOnCheckedChangeListener(this);
+        switchobrasi.setOnCheckedChangeListener(this);
+        switchobvnr.setOnCheckedChangeListener(this);
+        switchobupl.setOnCheckedChangeListener(this);
+        switchobsyngejta.setOnCheckedChangeListener(this);
+        switchobseminis.setOnCheckedChangeListener(this);
+        switchobnamdhari.setOnCheckedChangeListener(this);
+        switchobOther.setOnCheckedChangeListener(this);
+        switchobOther.setOnCheckedChangeListener(this);
+
+
+        sp_catfarmer.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                et_acres.setText("");
+
+                switch (position) {
+                    case 1:
+                        skmin = 1.0;
+                        skmax = 5.0;
+                        break;
+
+                    case 2:
+                        skmin = 5.0;
+                        skmax = 10.0;
+                        break;
+                    case 3:
+                        skmin = 10.0;
+                        skmax = 25.0;
+                        break;
+                    case 4:
+                        skmin = 25.0;
+                        skmax = 5000.0;
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        et_acres.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String str = s.toString().trim();
+                if (str.length() > 0) {
+                    double d = Double.parseDouble(str);
+                    if (d >= skmin && d <= skmax) {
+
+                    } else {
+                        et_acres.setError("Enter the lands in between " + skmin + " to " + skmax + ".");
+
+                    }
+                }
+            }
+        });
+        et_acres.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                String str = et_acres.getText().toString().trim();
+                if (str.length() > 0) {
+                    double d = Double.parseDouble(str);
+                    if (d >= skmin && d <= skmax) {
+
+                    } else {
+                        et_acres.setError("Enter the lands in between " + skmin + " to " + skmax + ".");
+                        et_acres.setText("");
+                    }
+                } else {
+                    et_acres.setError("Enter the lands in between " + skmin + " to " + skmax + ".");
+                    et_acres.setText("");
+                }
+            }
+        });
+
+        sp_demotaken.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (sp_demotaken.getSelectedItem().toString().trim().toLowerCase().equals("yes")) {
+                    card_demotaken.setVisibility(View.VISIBLE);
+                    txt_demotaken.setVisibility(View.VISIBLE);
+                } else {
+                    card_demotaken.setVisibility(View.GONE);
+                    txt_demotaken.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+    }
 
 
     private void dowork() {
@@ -608,8 +944,6 @@ public class BCFCallTBM extends AppCompatActivity {
     public void saveToDb() {
 
 
-
-
         if (etWhatsappNumber.getText().toString().isEmpty() || etWhatsappNumber.getText().toString().equals("")) {
 
             whatsup = "";
@@ -620,16 +954,17 @@ public class BCFCallTBM extends AppCompatActivity {
             whatsup = etWhatsappNumber.getText().toString();
         }
 
+
         name = etFarmerName.getText().toString();
 
-         village = spVillage.getSelectedItem().toString();
-         state = spState.getSelectedItem().toString();
+        village = spVillage.getSelectedItem().toString();
+        state = spState.getSelectedItem().toString();
         dist = spDist.getSelectedItem().toString();
-         taluka = spTaluka.getSelectedItem().toString();
-         comments = etComments.getText().toString() + "";
-        mobileno= etMobileNo.getText().toString() + "";
+        taluka = spTaluka.getSelectedItem().toString();
+        comments = etComments.getText().toString() + "~" + finalsSkData;
+        mobileno = etMobileNo.getText().toString() + "";
         //whatsappNumber= etWhatsappNumber.getText().toString();
-        firmname=spRDNlist.getSelectedItem().toString();
+        firmname = spRDNlist.getSelectedItem().toString();
         String isSynced = "0";
         Date entrydate = new Date();
         long epoch = entrydate.getTime();
@@ -649,10 +984,9 @@ public class BCFCallTBM extends AppCompatActivity {
 //            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 //            dialog.show();
             String str = null;
-             int count = 1;
+            int count = 1;
             JSONArray jsonArray = new JSONArray();
-            if (count > 0)
-            {
+            if (count > 0) {
 
                 try {
 
@@ -670,7 +1004,7 @@ public class BCFCallTBM extends AppCompatActivity {
                         jsonsubObject.put("Name", name);
                         jsonsubObject.put("firmname", firmname);
                         jsonsubObject.put("mobileNumber", mobileno);
-                        jsonsubObject.put("whatsappNumber",whatsup);
+                        jsonsubObject.put("whatsappNumber", whatsup);
                         jsonsubObject.put("comments", comments);
                         jsonArray.put(jsonsubObject);
                         jsonObject.put("Table", jsonArray);
@@ -776,7 +1110,7 @@ public class BCFCallTBM extends AppCompatActivity {
         @Override
         protected String doInBackground(String... urls) {
 
-            String utf=HttpUtils.convertStringToUTF8(obj.toString().trim());
+            String utf = HttpUtils.convertStringToUTF8(obj.toString().trim());
             HttpClient httpclient = new DefaultHttpClient();
             StringBuilder builder = new StringBuilder();
             List<NameValuePair> postParameters = new ArrayList<NameValuePair>(2);
@@ -956,7 +1290,7 @@ public class BCFCallTBM extends AppCompatActivity {
                         }
                         if (txtretailermobileno.getText().length() != 10) {
                             Utility.showAlertDialog("Info", "Please Enter Valid Mobile Number", context);
-                            return ;
+                            return;
                         }
 
                         retailerfirmname = txtretailerfirmname.getText().toString().trim();
@@ -1098,9 +1432,9 @@ public class BCFCallTBM extends AppCompatActivity {
             dist = spDist.getSelectedItem().toString();
             taluka = spTaluka.getSelectedItem().toString();
             comments = etComments.getText().toString() + "";
-            mobileno= etMobileNo.getText().toString() + "";
+            mobileno = etMobileNo.getText().toString() + "";
             //whatsappNumber= etWhatsappNumber.getText().toString();
-            firmname=spRDNlist.getSelectedItem().toString();
+            firmname = spRDNlist.getSelectedItem().toString();
             GeneralMaster vr = (GeneralMaster) spVillage.getSelectedItem();
 
             if (rc.Code().toLowerCase().equals("farmer call")) {
@@ -1110,12 +1444,11 @@ public class BCFCallTBM extends AppCompatActivity {
                     return false;
                 }
 
-                if (etFarmerName.getText().length()==0) {
+                if (etFarmerName.getText().length() == 0) {
                     msclass.showMessage("Please enter farmer name ");
                     return false;
                 }
-            }
-            else {
+            } else {
                 if (spRDNlist.getSelectedItem().toString().toLowerCase().equals("select retailer") || spRDNlist.getSelectedItem().toString().toLowerCase().contains("retailer not found")) {
                     msclass.showMessage("Please select retailer firm name ");
                     return false;
@@ -1124,16 +1457,16 @@ public class BCFCallTBM extends AppCompatActivity {
                     msclass.showMessage("Please select nursery name ");
                     return false;
                 }
-                if (spRDNlist.getSelectedItem().toString().toLowerCase().equals("select distributor") ) {
+                if (spRDNlist.getSelectedItem().toString().toLowerCase().equals("select distributor")) {
                     msclass.showMessage("Please select distributor  ");
                     return false;
                 }
-                if (etFarmerName.getText().length()==0) {
+                if (etFarmerName.getText().length() == 0) {
                     msclass.showMessage("Please enter contact person name  ");
                     return false;
                 }
             }
-            if (etMobileNo.getText().length()==0) {
+            if (etMobileNo.getText().length() == 0) {
                 msclass.showMessage("Please enter mobile number   ");
                 return false;
             }
@@ -1141,9 +1474,20 @@ public class BCFCallTBM extends AppCompatActivity {
                 Utility.showAlertDialog("Info", "Please Enter Valid Mobile Number", context);
                 return false;
             }
-            if (etComments.getText().length()==0) {
+            if (etComments.getText().length() == 0) {
                 msclass.showMessage("Please enter comments  ");
                 return false;
+            }
+            if (switchSKYN.isChecked()) {
+                if (validateSKFields()) {
+                    getSkValues();
+                    finalsSkData = skData;
+                } else {
+                    msclass.showMessage("Samrudha Kisan details.");
+                    return false;
+                }
+            } else {
+                finalsSkData = "{}";
             }
 
         } catch (Exception ex) {
@@ -1388,9 +1732,7 @@ public class BCFCallTBM extends AppCompatActivity {
                 default:
                     break;
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
         }
     }
@@ -1543,7 +1885,6 @@ public class BCFCallTBM extends AppCompatActivity {
 
 
     }
-
 
 
     public void BindProductList(String str) {
@@ -1759,13 +2100,468 @@ public class BCFCallTBM extends AppCompatActivity {
     }
 
     public void OpenSamrudhkisanDialog() {
-        try{
+        try {
             dialogSK.show();
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
     }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+
+        switch (buttonView.getId()) {
+            case R.id.switchVGBhindi:
+
+                if (buttonView.isChecked())
+                    hs_vg.add("Bhindi");
+                else
+                    hs_vg.remove("Bhindi");
+
+                break;
+            case R.id.switchVGChilli:
+                if (buttonView.isChecked())
+                    hs_vg.add("Chilli");
+                else
+                    hs_vg.remove("Chilli");
+                break;
+            case R.id.switchVGBrinjal:
+                if (buttonView.isChecked())
+                    hs_vg.add("Brinjal");
+                else
+                    hs_vg.remove("Brinjal");
+                break;
+            case R.id.switchVGBottle:
+                if (buttonView.isChecked())
+                    hs_vg.add("Bottle Guard");
+                else
+                    hs_vg.remove("Bottle Guard");
+                break;
+            case R.id.switchVGCali:
+                if (buttonView.isChecked())
+                    hs_vg.add("Cauliflower");
+                else
+                    hs_vg.remove("Cauliflower");
+                break;
+            case R.id.switchVGTomato:
+                if (buttonView.isChecked())
+                    hs_vg.add("Tomato");
+                else
+                    hs_vg.remove("Tomato");
+                break;
+            case R.id.switchVGOther:
+                if (buttonView.isChecked()) {
+                    hs_vg.add("Other");
+                    llvg.setVisibility(View.VISIBLE);
+                } else {
+                    hs_vg.remove("Other");
+                    llvg.setVisibility(View.GONE);
+                }
+                break;
+
+            case R.id.switchNHBhindi:
+                if (buttonView.isChecked())
+                    hs_nh.add("Bhindi");
+                else
+                    hs_nh.remove("Bhindi");
+
+                break;
+            case R.id.switchNHChilli:
+                if (buttonView.isChecked())
+                    hs_nh.add("Chilli");
+                else
+                    hs_nh.remove("Chilli");
+
+                break;
+            case R.id.switchNHBrinjal:
+                if (buttonView.isChecked())
+                    hs_nh.add("Brinjal");
+                else
+                    hs_nh.remove("Brinjal");
+
+                break;
+            case R.id.switchNHBottle:
+                if (buttonView.isChecked())
+                    hs_nh.add("Bottle Gourd");
+                else
+                    hs_nh.remove("Bottle Gourd");
+
+                break;
+            case R.id.switchNHCali:
+                if (buttonView.isChecked())
+                    hs_nh.add("Cauliflower");
+                else
+                    hs_nh.remove("Cauliflower");
+
+                break;
+            case R.id.switchNHTomato:
+                if (buttonView.isChecked())
+                    hs_nh.add("Tomato");
+                else
+                    hs_nh.remove("Tomato");
+                break;
+
+            case R.id.switchNHOther:
+                if (buttonView.isChecked()) {
+                    hs_nh.add("Other");
+                    llnh.setVisibility(View.VISIBLE);
+                } else {
+                    hs_nh.remove("Other");
+                    llnh.setVisibility(View.GONE);
+                }
+                break;
+
+
+            case R.id.switchcdMahyco:
+
+
+                if (buttonView.isChecked())
+                    hs_cd.add("Mahyco Pvt Ltd");
+                else
+                    hs_cd.remove("Mahyco Pvt Ltd");
+
+                break;
+            case R.id.switchcdbasf:
+                if (buttonView.isChecked())
+                    hs_cd.add("BASF");
+                else
+                    hs_cd.remove("BASF");
+
+                break;
+            case R.id.switchcdeastwest:
+                if (buttonView.isChecked())
+                    hs_cd.add("East- west seeds");
+                else
+                    hs_cd.remove("East- west seeds");
+
+                break;
+            case R.id.switchcdrasi:
+                if (buttonView.isChecked())
+                    hs_cd.add("Rasi seeds");
+                else
+                    hs_cd.remove("Rasi seeds");
+
+                break;
+
+            case R.id.switchcdvnr:
+                if (buttonView.isChecked())
+                    hs_cd.add("VNR");
+                else
+                    hs_cd.remove("VNR");
+
+                break;
+            case R.id.switchcdupl:
+                if (buttonView.isChecked())
+                    hs_cd.add("UPL");
+                else
+                    hs_cd.remove("UPL");
+
+                break;
+            case R.id.switchcdsyngenta:
+                if (buttonView.isChecked())
+                    hs_cd.add("Syngenta");
+                else
+                    hs_cd.remove("Syngenta");
+
+                break;
+            case R.id.switchcdseminis:
+                if (buttonView.isChecked())
+                    hs_cd.add("Seminis");
+                else
+                    hs_cd.remove("Seminis");
+
+                break;
+            case R.id.switchcdnamdhari:
+                if (buttonView.isChecked())
+                    hs_cd.add("Namdhari seeds");
+                else
+                    hs_cd.remove("Namdhari seeds");
+
+                break;
+            case R.id.switchcdother:
+                if (buttonView.isChecked()) {
+                    hs_cd.add("Other");
+                    llcd.setVisibility(View.VISIBLE);
+                } else {
+                    hs_cd.remove("Other");
+                    llcd.setVisibility(View.GONE);
+                }
+                break;
+
+            case R.id.switchobNO:
+                if (buttonView.isChecked())
+                    hs_ob.add("No");
+                else
+                    hs_ob.remove("No");
+
+                break;
+            case R.id.switchobbask:
+                if (buttonView.isChecked())
+                    hs_ob.add("BASF");
+                else
+                    hs_ob.remove("BASF");
+
+                break;
+            case R.id.switchobeastwest:
+                if (buttonView.isChecked())
+                    hs_ob.add("East- west seeds");
+                else
+                    hs_ob.remove("East- west seeds");
+                break;
+            case R.id.switchobrasi:
+                if (buttonView.isChecked())
+                    hs_ob.add("Rasi seeds");
+                else
+                    hs_ob.remove("Rasi seeds");
+                break;
+            case R.id.switchobvnr:
+                if (buttonView.isChecked())
+                    hs_ob.add("VNR");
+                else
+                    hs_ob.remove("VNR");
+                break;
+            case R.id.switchobupl:
+                if (buttonView.isChecked())
+                    hs_ob.add("UPL");
+                else
+                    hs_ob.remove("UPL");
+                break;
+            case R.id.switchobsyngejta:
+                if (buttonView.isChecked())
+                    hs_ob.add("Syngenta");
+                else
+                    hs_ob.remove("Syngenta");
+                break;
+            case R.id.switchobseminis:
+                if (buttonView.isChecked())
+                    hs_ob.add("Seminis");
+                else
+                    hs_ob.remove("Seminis");
+                break;
+            case R.id.switchobnamdhari:
+                if (buttonView.isChecked())
+                    hs_ob.add("Namdhari seeds");
+                else
+                    hs_ob.remove("Namdhari seeds");
+                break;
+            case R.id.switchobOther:
+                if (buttonView.isChecked()) {
+                    hs_ob.add("Other");
+                    llob.setVisibility(View.VISIBLE);
+                } else {
+                    hs_ob.remove("Other");
+                    llob.setVisibility(View.GONE);
+                }
+                break;
+        }
+
+        getSkValues();
+
+
+    }
+
+    void getSkValues() {
+
+        finalJsonObject = new JSONObject();
+        jsonArray_ob = new JSONArray();
+        jsonArray_cd = new JSONArray();
+        jsonArray_nh = new JSONArray();
+        jsonArray_vg = new JSONArray();
+        strob = "";
+        strcd = "";
+        strnh = "";
+        strvg = "";
+
+
+        for (Object str : hs_ob) {
+            try {
+
+                Log.i("Values", str.toString());
+                JSONObject jsonObject = new JSONObject();
+                String d = "";
+                d = str.toString().trim();
+                if (d.toLowerCase().contains("other")) {
+                    d += "(" + et_otherob.getText().toString().trim() + ")";
+                }
+                jsonObject.put("text", d);
+                jsonArray_ob.put(jsonObject);
+                strob += d.toString().trim() + "-";
+            } catch (Exception e) {
+
+            }
+        }
+        for (Object str : hs_cd) {
+            try {
+                Log.i("Values", str.toString());
+                JSONObject jsonObject = new JSONObject();
+                String d = "";
+                d = str.toString().trim();
+                if (d.toLowerCase().contains("other")) {
+                    d += "(" + et_othercd.getText().toString().trim() + ")";
+                }
+                jsonObject.put("text", d);
+                jsonArray_cd.put(jsonObject);
+                strcd += d.toString().trim() + "-";
+            } catch (Exception e) {
+
+            }
+        }
+
+        for (Object str : hs_vg) {
+            try {
+                Log.i("Values", str.toString());
+                JSONObject jsonObject = new JSONObject();
+                String d = "";
+                d = str.toString().trim();
+                if (d.toLowerCase().contains("other")) {
+                    d += "(" + et_othervg.getText().toString().trim() + ")";
+                }
+                jsonObject.put("text", d);
+                jsonArray_vg.put(jsonObject);
+                strvg += d.toString().trim() + "-";
+            } catch (Exception e) {
+
+            }
+        }
+        for (Object str : hs_nh) {
+            try {
+                Log.i("Values", str.toString());
+                JSONObject jsonObject = new JSONObject();
+                String d = "";
+                d = str.toString().trim();
+                if (d.toLowerCase().contains("other")) {
+                    d += "(" + et_othernh.getText().toString().trim() + ")";
+                }
+                jsonObject.put("text", d);
+                jsonArray_nh.put(jsonObject);
+                strnh += d.toString().trim() + "-";
+            } catch (Exception e) {
+
+            }
+        }
+        switchSKYN.isChecked();
+        str_COF = sp_catfarmer.getSelectedItem().toString();
+        str_Land_Under_Veg = et_acres.getText().toString();
+        str_Veg_Grown = strvg;
+        str_Crop_New_Hybrid = strnh;
+        str_IsDemoTaken = sp_demotaken.getSelectedItem().toString();
+        str_CompnanyDemoSown = strcd;
+        str_FarmersAdopted = et_adoptedfarmer.getText().toString();
+        str_Mahyco_Exp = et_mahycoproduct.getText().toString();
+        str_OtherBrands = strob;
+        try {
+            finalJsonObject.put("IsSamrudhKisan", switchSKYN.isChecked());
+            finalJsonObject.put("COF", sp_catfarmer.getSelectedItem().toString());
+            finalJsonObject.put("Land_Under_Veg", et_acres.getText().toString());
+            finalJsonObject.put("Veg_Grown", strvg);
+            finalJsonObject.put("Crop_New_Hybrid", strnh);
+            finalJsonObject.put("IsDemoTaken", sp_demotaken.getSelectedItem().toString());
+            finalJsonObject.put("CompnanyDemoSown", strcd);
+            finalJsonObject.put("FarmersAdopted", et_adoptedfarmer.getText().toString());
+            finalJsonObject.put("Mahyco_Exp", et_mahycoproduct.getText().toString());
+            finalJsonObject.put("OtherBrands", strob);
+
+            JSONObject fjson = new JSONObject();
+
+            fjson.put("Model", finalJsonObject);
+
+            Log.i("Final Json", fjson.toString());
+            skData = fjson.toString().trim();
+
+
+        } catch (Exception e) {
+
+        }
+    }
+
+    boolean validateSKFields() {
+        getSkValues();
+        int cnt = 0;
+        str_COF = sp_catfarmer.getSelectedItem().toString();
+        str_Land_Under_Veg = et_acres.getText().toString();
+        str_Veg_Grown = strvg;
+        str_Crop_New_Hybrid = strnh;
+        str_IsDemoTaken = sp_demotaken.getSelectedItem().toString();
+        str_CompnanyDemoSown = strcd;
+        str_FarmersAdopted = et_adoptedfarmer.getText().toString();
+        str_Mahyco_Exp = et_mahycoproduct.getText().toString();
+        str_OtherBrands = strob;
+        str_vali_message = "";
+        if (str_COF.trim().equals("") || str_COF.trim().toLowerCase().contains("select")) {
+            str_vali_message += "* Select Categorization of Farmer.\n";
+            cnt++;
+        }
+        if (str_Land_Under_Veg.trim().equals("")) {
+            str_vali_message += "* Enter Land under vegitable cultivation.\n";
+            cnt++;
+        }
+        if (hs_vg.isEmpty()) {
+            str_vali_message += "* Select Vegetable grown.\n";
+            cnt++;
+        }
+        if (hs_cd.isEmpty()) {
+            if (sp_demotaken.getSelectedItem().toString().trim().toLowerCase().equals("yes")) {
+                str_vali_message += "* Select which company's demo you have sown?.\n";
+                cnt++;
+            }
+        }
+        if (str_IsDemoTaken.trim().equals("") || str_IsDemoTaken.trim().toLowerCase().contains("Select")) {
+            str_vali_message += "* Select have you taken any demos.\n";
+            cnt++;
+        }
+        if (hs_nh.isEmpty()) {
+            str_vali_message += "* Select which of following crop new hybrid have you sown in the last 3 years?.\n";
+            cnt++;
+        }
+        if (str_FarmersAdopted.trim().equals("")) {
+            str_vali_message += "* Enter how many farmers adopted your advice.\n";
+            cnt++;
+        }
+        if (str_Mahyco_Exp.trim().equals("")) {
+            str_vali_message += "* Enter how long you have been using Mahyco's product?.\n";
+            cnt++;
+        }
+        if (hs_ob.isEmpty()) {
+            str_vali_message += "* Enter what are the other brands that you have sown?.\n";
+            cnt++;
+        }
+        if (switchcdother.isChecked()) {
+            if (et_othercd.getText().toString().trim().equals("")) {
+                str_vali_message += "* Enter other company demo?.\n";
+                et_othercd.setError("");
+                cnt++;
+            }
+        }
+        if (switchNHOther.isChecked()) {
+            if (et_othernh.getText().toString().trim().equals("")) {
+                str_vali_message += "* Enter other new hybrid?.\n";
+                et_othernh.setError("");
+                cnt++;
+            }
+        }
+        if (switchobOther.isChecked()) {
+            if (et_otherob.getText().toString().trim().equals("")) {
+                str_vali_message += "* Enter other brand?.\n";
+                et_otherob.setError("");
+                cnt++;
+            }
+        }
+        if (switchVGOther.isChecked()) {
+            if (et_othervg.getText().toString().trim().equals("")) {
+                str_vali_message += "* Enter other Vegetable grown?.\n";
+                et_othervg.setError("");
+                cnt++;
+            }
+        }
+
+
+        if (cnt == 0) {
+            return true;
+        } else
+            return false;
+    }
+
 
 }
 

@@ -519,7 +519,7 @@
                             android:layout_height="wrap_content"
                             android:ems="10"
                             android:hint="Comments *"
-                            android:inputType="text"
+                            android:inputType="textMultiLine"
                             android:maxLength="500"
                             android:textAllCaps="true" />
 

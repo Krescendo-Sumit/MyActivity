@@ -1047,7 +1047,7 @@ public class orderfromTBM extends AppCompatActivity {
         protected void onPreExecute() {
             // pd = new ProgressDialog(context);
             pd.setTitle("Wait ...");
-            pd.setMessage("Please wait.");
+            pd.setMessage("Please wait depot.");
             // pd.setCancelable(false);
             // pd.setIndeterminate(true);
             pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -1064,6 +1064,9 @@ public class orderfromTBM extends AppCompatActivity {
             //       "&division="+division+"&cmbDistributor="+cmbDistributor;
             String Urlpath1= cx.MDOurlpath+"?usercode="+usercode+"&saleorg="+saleorg+"" +
                     "&division="+division+"&cmbDistributor="+cmbDistributor;
+            Log.i("URLDepot",Urlpath1);
+            Log.i("URLDepotParam",postParameters.toString());
+
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {

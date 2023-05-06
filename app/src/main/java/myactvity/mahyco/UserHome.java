@@ -546,6 +546,24 @@ id=item.getItemId();
             }
 
             return true;
+        }if (id == R.id.action_rbmdownload) {
+            /*ToDo comment later, before upload, 6th Sept 2021*/
+
+            /*Intent i = new Intent(this, AndroidDatabaseManager.class);
+            startActivity(i);*/
+
+            try{
+                //clearApplicationData();
+
+                Intent intent=new Intent(context,DownloadMasterdataRBM.class);
+                startActivity(intent);
+
+            }catch (Exception e)
+            {
+
+            }
+
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

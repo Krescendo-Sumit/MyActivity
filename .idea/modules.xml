@@ -2,11 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyActivity.iml" filepath="$PROJECT_DIR$/.idea/modules/MyActivity.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MyActivity.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MyActivity.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/feedbacklib/MyActivity.feedbacklib.iml" filepath="$PROJECT_DIR$/.idea/modules/feedbacklib/MyActivity.feedbacklib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/MyActivity.library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/MyActivity.library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/picasso-2.5.2/MyActivity.picasso-2.5.2.iml" filepath="$PROJECT_DIR$/.idea/modules/picasso-2.5.2/MyActivity.picasso-2.5.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyActivityLive.iml" filepath="$PROJECT_DIR$/.idea/modules/MyActivityLive.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MyActivityLive.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MyActivityLive.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/feedbacklib/MyActivityLive.feedbacklib.iml" filepath="$PROJECT_DIR$/.idea/modules/feedbacklib/MyActivityLive.feedbacklib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/MyActivityLive.library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/MyActivityLive.library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/picasso-2.5.2/MyActivityLive.picasso-2.5.2.iml" filepath="$PROJECT_DIR$/.idea/modules/picasso-2.5.2/MyActivityLive.picasso-2.5.2.iml" />
     </modules>
   </component>
 </project>

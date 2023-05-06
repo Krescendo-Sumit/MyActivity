@@ -7,8 +7,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Build;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -44,7 +46,7 @@ import myactvity.mahyco.helper.SqliteDatabase;
 
 public class saleOrderDashboard extends AppCompatActivity {
     private Context context;
-    Button btncreatesaleorder,btnapprovalsaleprder,btnsalesorder,btnsalesreturnorderApp;
+    Button btncreatesaleorder, btnapprovalsaleprder, btnsalesorder, btnsalesreturnorderApp;
     Config config;
     private SqliteDatabase mDatabase;
     public CommonExecution cx;
@@ -52,6 +54,7 @@ public class saleOrderDashboard extends AppCompatActivity {
     SharedPreferences.Editor editor;
     Intent intent;
     public Messageclass msclass;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,24 +64,25 @@ public class saleOrderDashboard extends AppCompatActivity {
 
         config = new Config(this); //Here the context is passing
         mDatabase = SqliteDatabase.getInstance(this);
-        cx=new CommonExecution(this);
+        cx = new CommonExecution(this);
         pref = context.getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = pref.edit();
         msclass = new Messageclass(this);
         logSalesOrderData();
-        btnsalesreturnorderApp=(Button)findViewById(R.id.btnsalesreturnorderApp);
-        btncreatesaleorder=(Button)findViewById(R.id.btncreatesaleorder);
-        btnapprovalsaleprder=(Button)findViewById(R.id.btnapprovalsaleprder);
-        btnsalesorder=(Button)findViewById(R.id.btnsalesorder);
-        if(pref.getString("unit", null).contains("VCBU"))
-        {
+        btnsalesreturnorderApp = (Button) findViewById(R.id.btnsalesreturnorderApp);
+        btncreatesaleorder = (Button) findViewById(R.id.btncreatesaleorder);
+        btnapprovalsaleprder = (Button) findViewById(R.id.btnapprovalsaleprder);
+        btnsalesorder = (Button) findViewById(R.id.btnsalesorder);
+
+        Log.i("UserType", pref.getString("RoleID", null));
+        Log.i("UserUnit", pref.getString("unit", null));
+
+        if (pref.getString("unit", null).contains("VCBU")) {
             btnsalesreturnorderApp.setVisibility(View.VISIBLE);
             btnsalesorder.setVisibility(View.VISIBLE);
             //btnsalesreturnorderApp.setVisibility(View.GONE);
             //btnsalesorder.setVisibility(View.GONE);
-        }
-        else
-        {
+        } else {
             btnsalesreturnorderApp.setVisibility(View.GONE);
             btnsalesorder.setVisibility(View.GONE);
         }
@@ -87,36 +91,28 @@ public class saleOrderDashboard extends AppCompatActivity {
         btncreatesaleorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try
-                {
-                    if (pref.getString("RoleID",null).equals("4")) {
+                try {
+                    if (pref.getString("RoleID", null).equals("4")) {
                         intent = new Intent(context.getApplicationContext(), orderfromTBM.class);
                         //intent= new Intent(context.getApplicationContext(),TestImage.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         //intent.putExtra("Pagetype", "PlotVisit");
                         context.startActivity(intent);
-                    }
-                    else
-                    {   // RBM
-                        if (pref.getString("RoleID",null).equals("2")) {
+                    } else {   // RBM
+                        if (pref.getString("RoleID", null).equals("2")) {
                             intent = new Intent(context.getApplicationContext(), orderfromRBM.class);
                             //intent= new Intent(context.getApplicationContext(),TestImage.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             //intent.putExtra("Pagetype", "PlotVisit");
                             context.startActivity(intent);
-                        }
-                        else
-                        {
+                        } else {
                             Toast.makeText(context, "Your are not authorized to access this tab.", Toast.LENGTH_SHORT).show();
                         }
                     }
 
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                     // msclass.showMessage(ex.getMessage());
                 }
-
 
 
             }
@@ -126,26 +122,20 @@ public class saleOrderDashboard extends AppCompatActivity {
         btnsalesreturnorderApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try
-                {
+                try {
                     // 2 RBM  5 ZBM 7ZMM
-                    if (pref.getString("RoleID",null).equals("2")||
-                        pref.getString("RoleID",null).equals("5")||
-                        pref.getString("RoleID",null).equals("7")) {
+                    if (pref.getString("RoleID", null).equals("2") ||
+                            pref.getString("RoleID", null).equals("5") ||
+                            pref.getString("RoleID", null).equals("7")) {
                         intent = new Intent(context.getApplicationContext(), saleOrderReturnApproved.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(context, "Your are not authorized to access this tab.", Toast.LENGTH_SHORT).show();
                     }
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                     // msclass.showMessage(ex.getMessage());
                 }
-
 
 
             }
@@ -153,31 +143,25 @@ public class saleOrderDashboard extends AppCompatActivity {
         btnapprovalsaleprder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try
-                {
+                try {
 
                     // 2 RBM  5 ZBM 7 -ZMM
-                    if (pref.getString("RoleID",null).equals("2")||
-                            pref.getString("RoleID",null).equals("5")||
-                            pref.getString("RoleID",null).equals("7")) {
-                        intent = new Intent(context.getApplicationContext(),saleorderpending.class);
+                    if (pref.getString("RoleID", null).equals("2") ||
+                            pref.getString("RoleID", null).equals("5") ||
+                            pref.getString("RoleID", null).equals("7")) {
+                        intent = new Intent(context.getApplicationContext(), saleorderpending.class);
                         //intent= new Intent(context.getApplicationContext(),TestImage.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         //intent.putExtra("Pagetype", "PlotVisit");
                         context.startActivity(intent);
-                    }
-                    else
-                    {
+                    } else {
                         Toast.makeText(context, "Your are not authorized to access this tab.", Toast.LENGTH_SHORT).show();
                     }
 
 
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                     // msclass.showMessage(ex.getMessage());
                 }
-
 
 
             }
@@ -185,76 +169,70 @@ public class saleOrderDashboard extends AppCompatActivity {
         btnsalesorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try
-                {
-                        Intent intent = new Intent(context.getApplicationContext(), saleOrderReturn.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        context.startActivity(intent);
+                try {
+                    Intent intent = new Intent(context.getApplicationContext(), saleOrderReturn.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    context.startActivity(intent);
 
-                }
-                catch(Exception ex)
-                {
+                } catch (Exception ex) {
                     msclass.showMessage(ex.getMessage());
                 }
-
 
 
             }
         });
     }
-    public String  MDO_POGData()
-    {
+
+    public String MDO_POGData() {
         //if(config.NetworkConnection()) {
         // dialog.setMessage("Loading. Please wait...");
         //dialog.show();
-        String str= null;
-        String returnvalue="";
-        String Imagestring1="";
-        String Imagestring2="";
-        String ImageName="";
-        Cursor cursor=null;
-        String searchQuery="";
-        int count=0;
+        String str = null;
+        String returnvalue = "";
+        String Imagestring1 = "";
+        String Imagestring2 = "";
+        String ImageName = "";
+        Cursor cursor = null;
+        String searchQuery = "";
+        int count = 0;
         searchQuery = "select * from RetailerPOGTable  where  Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = cursor.getCount();
         cursor.close();
 
         searchQuery = "select * from RetailerNextBtPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
 
         searchQuery = "select * from RetailerCompetitatorPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
 
         searchQuery = "select * from DistributorPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
         searchQuery = "select * from DistributorNextBtPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
 
 
         searchQuery = "select * from DistributorCompetitatorPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
 
         searchQuery = "select * from DistributorAsRetailerPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
         searchQuery = "select * from DistributorAsRetailerCompetitatorPOGTable where Status='0'";
-        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null );
-        count=count+cursor.getCount();
+        cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        count = count + cursor.getCount();
         cursor.close();
-
-
 
 
         if (count > 0) {
@@ -290,26 +268,24 @@ public class saleOrderDashboard extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                returnvalue= syncPOGdata("MDO_POGData", objAsBytes, Imagestring1, Imagestring2, ImageName, "",cx.MDOurlpath);
-
+                returnvalue = syncPOGdata("MDO_POGData", objAsBytes, Imagestring1, Imagestring2, ImageName, "", cx.MDOurlpath);
 
 
             } catch (Exception ex) {
                 // msclass.showMessage(ex.getMessage());
 
             }
-        }
-        else
-        {
+        } else {
             // msclass.showMessage("Uploading data not available");
 
         }
         return returnvalue;
     }
-    public synchronized String  syncPOGdata(String Funname, byte[] objAsBytes,String Imagestring1,String Imagestring2,String ImageName,String Intime,String urls) {
+
+    public synchronized String syncPOGdata(String Funname, byte[] objAsBytes, String Imagestring1, String Imagestring2, String ImageName, String Intime, String urls) {
 
 
-        String encodeImage = Base64.encodeToString(objAsBytes,Base64.DEFAULT);
+        String encodeImage = Base64.encodeToString(objAsBytes, Base64.DEFAULT);
         HttpClient httpclient = new DefaultHttpClient();
         StringBuilder builder = new StringBuilder();
         List<NameValuePair> postParameters = new ArrayList<NameValuePair>(2);
@@ -317,7 +293,7 @@ public class saleOrderDashboard extends AppCompatActivity {
 
         postParameters.add(new BasicNameValuePair("Type", Funname));
         postParameters.add(new BasicNameValuePair("encodedData", encodeImage));
-        String Urlpath=urls+"?appName=Myactivity";
+        String Urlpath = urls + "?appName=Myactivity";
         Log.d("mahi", "doInBackground: " + Urlpath);
         Log.d("mahi", "doInBackground:params::: " + postParameters);
         HttpPost httppost = new HttpPost(Urlpath);
@@ -364,13 +340,15 @@ public class saleOrderDashboard extends AppCompatActivity {
 
     class SyncPOGData_Async extends AsyncTask<Void, Void, String> {
         //  ProgressDialog progressDialog;
-        String tag,classname;
+        String tag, classname;
         String returnvalue;
         ProgressDialog progressDialog;
+
         public SyncPOGData_Async(String tag, String classname) {
             this.tag = tag;
-            this.classname =classname;
+            this.classname = classname;
         }
+
         protected void onPreExecute() {
             progressDialog = new ProgressDialog(context);
             progressDialog.setTitle("Data Uploading ...");
@@ -384,9 +362,10 @@ public class saleOrderDashboard extends AppCompatActivity {
         @Override
         protected String doInBackground(Void... params) {
 
-            returnvalue=MDO_POGData();
+            returnvalue = MDO_POGData();
             return returnvalue;
         }
+
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
         protected void onPostExecute(String result) {
 
@@ -417,7 +396,7 @@ public class saleOrderDashboard extends AppCompatActivity {
 
 
                 }
-                Intent intent=null;
+                Intent intent = null;
                 if (classname.toString().contains("DistributorAsRetailer3")) {
                     intent = new Intent(context.getApplicationContext(), DistributorAsRetailerPOG.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -435,9 +414,7 @@ public class saleOrderDashboard extends AppCompatActivity {
                 }
 
 
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 Toast.makeText(context, ex.toString(),
                         Toast.LENGTH_SHORT).show();
@@ -446,13 +423,13 @@ public class saleOrderDashboard extends AppCompatActivity {
         }
     }
 
-    private void logSalesOrderData(){
-        if(pref!=null){
-            String userId="", displayName="";
-            if (pref.getString("UserID", null) != null && pref.getString("Displayname", null) != null ){
+    private void logSalesOrderData() {
+        if (pref != null) {
+            String userId = "", displayName = "";
+            if (pref.getString("UserID", null) != null && pref.getString("Displayname", null) != null) {
                 userId = pref.getString("UserID", "");
                 displayName = pref.getString("Displayname", "");
-                FirebaseAnalyticsHelper.getInstance(this).callSaleOrderEvent(userId,displayName);
+                FirebaseAnalyticsHelper.getInstance(this).callSaleOrderEvent(userId, displayName);
             }
         }
     }

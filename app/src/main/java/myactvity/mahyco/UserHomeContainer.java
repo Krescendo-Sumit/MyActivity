@@ -130,15 +130,15 @@ public  class UserHomeContainer  extends Fragment {
 
                         prgmNameList = new String[]{"MY ACTIVITY RECORDING", "MY TRAVEL",
                                 "SALES ORDER", "UPLOAD DATA", "DOWNLOAD MASTER DATA", "REPORT"
-                                , "BCF CALL LOG(TBM)", "IPMF", "POG", "VOF", "WOW","Retailer Profiling Survey","VOFP"
+                                , "BCF CALL LOG(TBM)", "IPMF", "POG", "VOF", "WOW"//,"Retailer Profiling Survey","VOFP"
                         };// Changing VOCP to Retailer Profiling Survey
                         ImageList = new String[]{"actvity.png", "journey.png",
                                 "saleorder.png", "upload.png", "download.png", "report.png",
-                                "field.png", "ipmf.png", "pog.png", "voiceofcustomer.png", "wow.png","actvity.png","actvity.png"
+                                "field.png", "ipmf.png", "pog.png", "voiceofcustomer.png", "wow.png"//,"actvity.png","actvity.png"
                         };
                         ActivityName = new String[]{"Myactivity", "MyTravel", "SalesOrder",
                                 "UploadData", "DownloadData", "Report", "BCFCALLTBM", "IPMF", "POG", "VOF",
-                                "WOW","VEGVOCP","VEGVOCP1"
+                                "WOW"//,"VEGVOCP","VEGVOCP1"
                         };
 
                 }

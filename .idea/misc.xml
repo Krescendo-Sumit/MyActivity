@@ -14,6 +14,31 @@
         <entry key="..\:/KT_Mahendra/MyActivityAppLIVE/mahycomyactivity/app/src/main/res/layout/activity_retailer_call_activity.xml" value="0.22" />
         <entry key="..\:/KT_Mahendra/MyActivityAppLIVE/mahycomyactivity/app/src/main/res/layout/activity_upload_data.xml" value="0.5" />
         <entry key="..\:/KT_Mahendra/MyActivityAppLIVE/mahycomyactivity/app/src/main/res/layout/retailernurseryaddpop.xml" value="0.33" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_bcfcall_tbm.xml" value="0.1" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_distributorpogupdate_detail.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_download_masterdata.xml" value="0.17074275362318841" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_download_masterdata_rbm.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_innovation.xml" value="0.5" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_kisan_club.xml" value="0.22" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_live_plant_display_retail_counter.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_live_plant_display_retail_counter_online.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_live_plant_display_village.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_myactivity_recording_new.xml" value="0.33" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_orderfrom_rbm.xml" value="0.16847826086956522" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_orderfrom_tbm.xml" value="0.25" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_orderlist.xml" value="0.16847826086956522" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_popdisplay.xml" value="0.17481884057971014" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_projector_meeting.xml" value="0.17481884057971014" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_sale_order_dashboard.xml" value="0.33" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_sale_order_return.xml" value="0.1" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_sale_order_return_approved.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_saleorderpending.xml" value="0.16847826086956522" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_salesreturnorderlist.xml" value="0.19947916666666668" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_samruddha_kisan_validation.xml" value="0.25" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_upload_data.xml" value="0.5" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_voiceofchanelpartner_be.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/popup_bcf_sk.xml" value="0.25" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/menu/home.xml" value="0.20416666666666666" />
         <entry key="..\:/VAPT_Changes_2020/17_June_2021_MAA_Copy/LASTUpdateMyactivity/mahycomyactivity/app/src/main/res/drawable-v21/ic_menu_camera.xml" value="0.20989583333333334" />
         <entry key="..\:/VAPT_Changes_2020/17_June_2021_MAA_Copy/LASTUpdateMyactivity/mahycomyactivity/app/src/main/res/drawable-v21/ic_menu_gallery.xml" value="0.20989583333333334" />
         <entry key="..\:/VAPT_Changes_2020/17_June_2021_MAA_Copy/LASTUpdateMyactivity/mahycomyactivity/app/src/main/res/drawable/btn_shape.xml" value="0.21354166666666666" />
@@ -299,7 +324,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
