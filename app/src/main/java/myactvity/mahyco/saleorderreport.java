@@ -388,6 +388,10 @@ public class saleorderreport extends AppCompatActivity {
                     "&fromdt="+fromdt+"&todate="+todate;
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
+
+            Log.i("Sales Order Report API",Urlpath1);
+            Log.i("Sales Order Param",postParameters.toString());
+
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParameters));
                 UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(postParameters);

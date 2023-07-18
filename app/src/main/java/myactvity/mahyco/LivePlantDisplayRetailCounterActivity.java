@@ -100,6 +100,7 @@ public class LivePlantDisplayRetailCounterActivity extends AppCompatActivity imp
         GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback
         , IPickResult,View.OnClickListener
 {
+
     Context context;
 
     private static final String TAG = "LivePlantDisplayVillage";

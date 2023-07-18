@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="cc_form_color_primary">#007B32</color>
+    <color name="cc_form_white">#FFFFFFFF</color>
+    <color name="cc_form_black_color">#000000</color>
+    <color name="cc_form_btn_color">#007B32</color>
+    <color name="cc_form_background_color">#FFFFFF</color>
+    <color name="cc_form_link_color_code">#0645AD</color>
+    <color name="ccf_form_white">#FFFFFF</color>
+    <color name="ccf_hint_text_color">#696969</color>
+    <color name="ccf_cardview_bg_color">#F9F9F9</color>
+    <color name="ccf_cardview_stroke_color">#E7E7E7</color>
+    <color name="ccf_status_color">#006409</color>
+
+</resources>

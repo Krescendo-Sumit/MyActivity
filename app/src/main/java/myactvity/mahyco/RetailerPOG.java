@@ -1413,7 +1413,13 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
             String Urlpath1=cx.MDOurlpath +"?usercode="+usercode+"&saleorg="+saleorg+"" +
                     "&division="+division+"&cmbDistributor="+cmbDistributor;
             HttpPost httppost = new HttpPost(Urlpath1);
+
+            Log.i("URLS",Urlpath1);
+            Log.i("Param",""+postParameters);
+
+
             httppost.setParams(httpParameters);
+
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParameters));
@@ -1459,7 +1465,7 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
             String weatherInfo="Weather Report  is: \n";
             try{
                 // JSONObject jsonObject = new JSONObject(result);
-
+                  Log.i("Result",result);
                 pd.dismiss();
                 // if (result.contains("True")) {
                 if (action.equals("1"))

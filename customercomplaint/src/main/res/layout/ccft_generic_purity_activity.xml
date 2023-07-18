@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cc_form_background_color"
+    android:orientation="vertical">
+
+    <include layout="@layout/ccf_tool_bar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="?android:actionBarSize"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toTopOf="@id/ccf_form_tgp_version_code"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ccf_tgp_heading_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/cc_form_black_color"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/ccf_cardview_bg_color"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/cc_form_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/ccf_product_information" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CCFLoginTextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#FFFFFF">
+
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/ccf_tgp_lot_number_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="@string/ccf_enter_lot_number"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:padding="10dp"
+                            android:textColor="@color/cc_form_black_color"
+                            android:textColorHint="@color/ccf_hint_text_color" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- <androidx.appcompat.widget.AppCompatButton
+                         android:layout_width="match_parent"
+                         android:layout_height="40dp"
+                         android:layout_gravity="center"
+                         android:layout_marginLeft="25dp"
+                         android:layout_marginTop="10dp"
+                         android:layout_marginRight="25dp"
+                         android:background="@drawable/download_btn"
+                         android:drawableEnd="@drawable/download"
+                         android:gravity="center"
+                         android:padding="10dp"
+                         android:text="@string/get_lot_detail"
+                         android:textColor="@color/cc_form_white" />
+ -->
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginLeft="25dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="25dp"
+                        android:background="@drawable/ccf_download_btn">
+
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/ccf_tgp_download_data"
+                            style="@style/Widget.AppCompat.Button.Borderless"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="40dp"
+                            android:gravity="center"
+                            android:text="@string/ccf_get_lot_detail"
+                            android:textColor="@color/cc_form_white" />
+
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="15dp"
+                            android:src="@drawable/ccf_download" />
+                    </RelativeLayout>
+
+                    <com.mahyco.customercomplaint.ccfspinner.CCFSerachSpinner
+                        android:id="@+id/ccf_tgp_market_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/cc_form_spinner_style_white"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ccf_tgp_bu_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/ccf_rectangle_black"
+                        android:gravity="center_vertical"
+                        android:hint="@string/ccf_bu"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textColor="@color/cc_form_black_color"
+                        android:textColorHint="@color/ccf_hint_text_color" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ccf_tgp_crop_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/ccf_rectangle_black"
+                        android:gravity="center_vertical"
+                        android:hint="@string/ccf_crop"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textColor="@color/cc_form_black_color"
+                        android:textColorHint="@color/ccf_hint_text_color" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ccf_tgp_hybrid_variety_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/ccf_rectangle_black"
+                        android:gravity="center_vertical"
+                        android:hint="@string/ccf_hybrid_varieties"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textColor="@color/cc_form_black_color"
+                        android:textColorHint="@color/ccf_hint_text_color" />
+
+                    <!-- <com.google.android.material.textfield.TextInputLayout
+                         style="@style/LoginTextInputLayoutStyle"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:layout_marginTop="15dp">-->
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ccf_tgp_packing_size_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/ccf_rectangle_black"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:hint="@string/ccf_enter_packing_size"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textColor="@color/cc_form_black_color"
+                        android:textColorHint="@color/ccf_hint_text_color" />
+                    <!-- </com.google.android.material.textfield.TextInputLayout>-->
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ccf_tgp_lot_quantity_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/ccf_rectangle_black"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:hint="@string/ccf_lot_quantity"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textColor="@color/cc_form_black_color"
+                        android:textColorHint="@color/ccf_hint_text_color"
+                        android:visibility="gone" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ccf_tgp_no_pkts_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/ccf_rectangle_black"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:hint="@string/ccf_no_of_packets"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textColor="@color/cc_form_black_color"
+                        android:textColorHint="@color/ccf_hint_text_color"
+                        android:visibility="gone" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ccf_tgp_TotalLotQty"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/ccf_rectangle_black"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:hint="@string/ccf_no_TotalLotQty"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textColor="@color/cc_form_black_color"
+                        android:textColorHint="@color/ccf_hint_text_color"
+                        android:visibility="gone" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ccf_tgp_TotalNoOfPkts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/ccf_rectangle_black"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:hint="@string/ccf_no_TotalNoOfPkts"
+                        android:maxLines="1"
+                        android:padding="10dp"
+                        android:textColor="@color/cc_form_black_color"
+                        android:textColorHint="@color/ccf_hint_text_color"
+                        android:visibility="gone" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/ccf_tgp_admixture_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/ccf_cardview_bg_color"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/cc_form_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/ccf_admixture_details" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CCFLoginTextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#FFFFFF">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/ccf_tgp_admixture_type_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 &#33; &#34; &#35; &#36; &#37; &#38;	 &#39;	 &#40;	 &#41;	 &#42;	 &#43;	 &#44;	 &#45;	 &#46;	 &#47;	 &#58;	 &#59;	 &#60;	 &#61;	 &#62;	 &#63;	 &#64;	 &#91;	&#x20AC; &#8364; &#x20B9;  &#93; &#94; &#95; &#96;	 &#123;	 &#124;	 &#125;	 &#126; &#215; &#247; &#163; &#8482; &#8353; &#182; &#169; &#162; &#176;"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="@string/ccf_enter_admixture_type"
+                            android:inputType="textMultiLine"
+                            android:padding="10dp"
+                            android:textColor="@color/cc_form_black_color"
+                            android:textColorHint="@color/ccf_hint_text_color" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CCFLoginTextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#FFFFFF">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/ccf_tgp_admixture_percent_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="@string/ccf_enter_admixture_percent"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:padding="10dp"
+                            android:textColor="@color/cc_form_black_color"
+                            android:textColorHint="@color/ccf_hint_text_color" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/ccf_tgp_offtype_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:cardBackgroundColor="@color/ccf_cardview_bg_color"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/cc_form_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/ccf_offtype_details" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CCFLoginTextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#FFFFFF">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/ccf_tgp_offtype_type_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 &#33; &#34; &#35; &#36; &#37; &#38;	 &#39;	 &#40;	 &#41;	 &#42;	 &#43;	 &#44;	 &#45;	 &#46;	 &#47;	 &#58;	 &#59;	 &#60;	 &#61;	 &#62;	 &#63;	 &#64;	 &#91;	&#x20AC; &#8364; &#x20B9;  &#93; &#94; &#95; &#96;	 &#123;	 &#124;	 &#125;	 &#126; &#215; &#247; &#163; &#8482; &#8353; &#182; &#169; &#162; &#176;"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="@string/ccf_enter_off_type_type"
+                            android:inputType="textMultiLine"
+                            android:padding="10dp"
+                            android:textColor="@color/cc_form_black_color"
+                            android:textColorHint="@color/ccf_hint_text_color" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CCFLoginTextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#FFFFFF">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/ccf_tgp_offtype_percent_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="@string/ccf_enter_off_type_percent"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:padding="10dp"
+                            android:textColor="@color/cc_form_black_color"
+                            android:textColorHint="@color/ccf_hint_text_color" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/ccf_cardview_bg_color"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/cc_form_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/ccf_registration" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CCFLoginTextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#FFFFFF">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/ccf_tgp_farmer_name_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ &#46; &#45; &#95; "
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="@string/ccf_enter_farmer_name"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="@color/cc_form_black_color"
+                            android:textColorHint="@color/ccf_hint_text_color" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CCFLoginTextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="#FFFFFF">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/ccf_tgp_mobile_no_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="@string/ccf_enter_mobile_no"
+                            android:inputType="number"
+                            android:maxLength="10"
+                            android:maxLines="1"
+                            android:padding="10dp"
+                            android:textColor="@color/cc_form_black_color"
+                            android:textColorHint="@color/ccf_hint_text_color" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <!--    <com.mahyco.customercomplaint.ccfspinner.CCFSerachSpinner
+                            android:id="@+id/ccf_tgp_market_spinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="43dp"
+                            android:layout_marginTop="15dp"
+                            android:background="@drawable/cc_form_spinner_style_white"
+                            android:gravity="center_vertical"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp" />-->
+
+                    <com.mahyco.customercomplaint.ccfspinner.CCFSerachSpinner
+                        android:id="@+id/ccf_tgp_state_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/cc_form_spinner_style_white"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+
+                    <com.mahyco.customercomplaint.ccfspinner.CCFSerachSpinner
+                        android:id="@+id/ccf_tgp_district_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/cc_form_spinner_style_white"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+
+                    <com.mahyco.customercomplaint.ccfspinner.CCFSerachSpinner
+                        android:id="@+id/ccf_tgp_taluka_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/cc_form_spinner_style_white"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CCFLoginTextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:background="#FFFFFF">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/ccf_tgp_village_edittext"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 &#33; &#34; &#35; &#36; &#37; &#38;	 &#39;	 &#40;	 &#41;	 &#42;	 &#43;	 &#44;	 &#45;	 &#46;	 &#47;	 &#58;	 &#59;	 &#60;	 &#61;	 &#62;	 &#63;	 &#64;	 &#91;	&#x20AC; &#8364; &#x20B9;  &#93; &#94; &#95; &#96;	 &#123;	 &#124;	 &#125;	 &#126; &#215; &#247; &#163; &#8482; &#8353; &#182; &#169; &#162; &#176;"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="@string/ccf_enter_village"
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:padding="10dp"
+                            android:singleLine="true"
+                            android:textColor="@color/cc_form_black_color"
+                            android:textColorHint="@color/ccf_hint_text_color" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/cc_form_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/ccf_complaint_date"
+                        android:visibility="gone" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ccf_tgp_complaint_date"
+                        style="@style/cc_form_without_bold_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/cc_form_edittext_bg"
+                        android:gravity="center_vertical"
+                        android:hint="@string/ccf_enter_complaint_date"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:visibility="gone" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/cc_form_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/ccf_tbm_rbm_date"
+                        android:visibility="gone" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ccf_tgp_tbm_rbm_date"
+                        style="@style/cc_form_without_bold_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/cc_form_edittext_bg"
+                        android:gravity="center_vertical"
+                        android:hint="@string/ccf_enter_complaint_date"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:cardBackgroundColor="@color/ccf_cardview_bg_color"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/cc_form_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="@string/ccf_field_validation" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/cc_form_textview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/ccf_sowing_date" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/ccf_tgp_sowing_date"
+                        style="@style/cc_form_without_bold_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/ccf_rectangle_black"
+                        android:gravity="center_vertical"
+                        android:hint="@string/ccf_enter_sowing_date"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp"
+                        android:textColor="@color/cc_form_black_color"
+                        android:textColorHint="@color/ccf_hint_text_color" />
+
+                    <com.mahyco.customercomplaint.ccfspinner.CCFSerachSpinner
+                        android:id="@+id/ccf_tgp_crop_stage_spinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="43dp"
+                        android:layout_marginTop="15dp"
+                        android:background="@drawable/cc_form_spinner_style_white"
+                        android:entries="@array/ccf_crop_stage_array"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:paddingEnd="10dp" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/CCFLoginTextInputLayoutStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:visibility="gone">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/ccf_tgp_other_farmer_detailed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 &#33; &#34; &#35; &#36; &#37; &#38;	 &#39;	 &#40;	 &#41;	 &#42;	 &#43;	 &#44;	 &#45;	 &#46;	 &#47;	 &#58;	 &#59;	 &#60;	 &#61;	 &#62;	 &#63;	 &#64;	 &#91;	&#x20AC; &#8364; &#x20B9;  &#93; &#94; &#95; &#96;	 &#123;	 &#124;	 &#125;	 &#126; &#215; &#247; &#163; &#8482; &#8353; &#182; &#169; &#162; &#176;"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:hint="@string/ccf_other_farmers_details"
+                            android:inputType="textMultiLine"
+                            android:padding="10dp"
+                            android:textColor="@color/cc_form_black_color" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/ccf_tgp_first_photo_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:layout_marginTop="10dp"
+                android:drawableStart="@drawable/cc_form_ic_baseline_camera_24"
+                android:drawablePadding="5dp"
+                android:gravity="start|center"
+                android:text="@string/ccf_upload_complaint_photo_first"
+                android:textColor="@color/cc_form_link_color_code"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ccf_tgp_first_photo_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/ccf_tgp_second_photo_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:drawableStart="@drawable/cc_form_ic_baseline_camera_24"
+                android:drawablePadding="5dp"
+                android:gravity="start|center"
+                android:text="@string/ccf_upload_complaint_photo_second"
+                android:textColor="@color/cc_form_link_color_code"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ccf_tgp_second_photo_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/ccf_tgp_third_photo_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:drawableStart="@drawable/cc_form_ic_baseline_camera_24"
+                android:drawablePadding="5dp"
+                android:gravity="start|center"
+                android:text="@string/ccf_upload_complaint_photo_third"
+                android:textColor="@color/cc_form_link_color_code"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ccf_tgp_third_photo_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/ccf_tgp_fourth_photo_btn"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:drawableStart="@drawable/cc_form_ic_baseline_camera_24"
+                android:drawablePadding="5dp"
+                android:gravity="start|center"
+                android:text="@string/ccf_upload_complaint_photo_fourth"
+                android:textColor="@color/cc_form_link_color_code"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ccf_tgp_fourth_photo_image_view"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ccf_tgp_label_for_other"
+                style="@style/cc_form_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/ccf_label"
+                android:visibility="gone" />
+
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/cc_form_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/ccf_remarks_other_input_optional"
+                android:visibility="gone" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/CCFLoginTextInputLayoutStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:background="#FFFFFF">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/ccf_tgp_remarks_other_input_edittext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789 &#33; &#34; &#35; &#36; &#37; &#38;	 &#39;	 &#40;	 &#41;	 &#42;	 &#43;	 &#44;	 &#45;	 &#46;	 &#47;	 &#58;	 &#59;	 &#60;	 &#61;	 &#62;	 &#63;	 &#64;	 &#91;	&#x20AC; &#8364; &#x20B9;  &#93; &#94; &#95; &#96;	 &#123;	 &#124;	 &#125;	 &#126; &#215; &#247; &#163; &#8482; &#8353; &#182; &#169; &#162; &#176;"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:hint="@string/ccf_enter_remarks_other_input"
+                    android:inputType="textMultiLine"
+                    android:padding="10dp"
+                    android:textColor="@color/cc_form_black_color"
+                    android:textColorHint="@color/ccf_hint_text_color" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/ccf_tgp_submit_btn"
+                android:layout_width="match_parent"
+                android:layout_height="43dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/cc_form_rectangle_btn"
+                android:gravity="center"
+                android:text="@string/ccf_register_complaint"
+                android:textColor="@color/cc_form_white" />
+        </LinearLayout>
+    </ScrollView>
+
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ccf_form_tgp_version_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:padding="5dp"
+        android:textColor="@color/cc_form_btn_color"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

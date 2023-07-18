@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="cc_form_AppTheme.NoActionBar" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+        <!--change all activities status bar color use -->
+        <!--<item name="android:statusBarColor">@color/home_screen_header</item>-->
+    </style>
+
+    <style name="cc_form_textview" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/cc_form_black_color</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="cc_form_without_bold_style" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/cc_form_black_color</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="cc_form_AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/cc_form_color_primary</item>
+    </style>
+
+    <style name="CCFLoginTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">#D1CCCC</item>
+        <item name="boxStrokeWidth">1dp</item>
+        <item name="boxCornerRadiusTopEnd">5dp</item>
+        <item name="boxCornerRadiusTopStart">5dp</item>
+        <item name="boxCornerRadiusBottomStart">5dp</item>
+        <item name="boxCornerRadiusBottomEnd">5dp</item>
+        <item name="color">@color/cc_form_background_color</item>
+        <item name="hintTextColor">@color/ccf_hint_text_color</item>
+    </style>
+
+</resources>

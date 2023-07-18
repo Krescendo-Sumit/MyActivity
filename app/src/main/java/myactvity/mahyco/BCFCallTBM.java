@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
 import android.os.AsyncTask;
@@ -18,14 +19,20 @@ import android.os.SystemClock;
 
 import com.google.android.material.textfield.TextInputLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityCompat;
 
+import android.provider.Settings;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -42,6 +49,7 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -84,15 +92,38 @@ import myactvity.mahyco.app.Config;
 import myactvity.mahyco.app.GeneralMaster;
 import myactvity.mahyco.app.HttpUtils;
 import myactvity.mahyco.app.MultiSelectionSpinner;
+import myactvity.mahyco.app.MultiSpinner;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.MySpinnerAdapter;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SearchableSpinner2;
 import myactvity.mahyco.helper.SqliteDatabase;
 
+import android.location.Geocoder;
+import android.location.Location;
+
+import android.location.LocationManager;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
+
+import com.google.android.gms.location.FusedLocationProviderApi;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.firebase.crash.FirebaseCrash;
+
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
-public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
+public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, ResultCallback, LocationListener {
     private static final String TAG = "RetailerPOG";
 
     public EditText txtIrrigationdt, txtirrigation,
@@ -200,11 +231,38 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
     String str_OtherBrands = "";
     String str_vali_message = "";
 
-    LinearLayout llnh, llvg, llcd, llob,llswitchSK;
+    LinearLayout llnh, llvg, llcd, llob, llswitchSK;
     EditText et_othernh, et_othervg, et_othercd, et_otherob;
     CardView card_demotaken;
     TextView txt_demotaken;
     double skmin = 0.0, skmax = 0.0;
+
+    String
+            str_et_exp,
+            str_et_avgvolume,
+            str_et_contersale,
+            str_et_estimatedseedsold,
+
+    str_et_bhindione,
+            str_et_bhinditwo,
+            str_et_chillione,
+            str_et_chillitwo,
+            str_et_brinjalone,
+            str_et_brinjaltwo,
+            str_et_bguardone,
+            str_et_bguardtwo,
+            str_et_calione,
+            str_et_calitwo,
+            str_et_othername,
+            str_et_otherone,
+            str_et_othertwo,
+            str_et_otherseedname,
+            str_distributors, str_switches;
+
+    String allDistributtor[];
+    boolean isAllDistributors[];
+    HashSet hs_distributors = new HashSet();
+    TextView txt_distributors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -332,7 +390,6 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                 }
 
 
-
                 //check3 = check3 + 1;
                 //if (check3 > 1)
                 {
@@ -357,13 +414,11 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                 try {
                     retailerCategory = gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
 
-                    Toast.makeText(context, ""+spRetailerCategory.getSelectedItem().toString().toUpperCase(), Toast.LENGTH_SHORT).show();
-                    if(spRetailerCategory.getSelectedItem().toString().toUpperCase().contains("FARMER CALL")){
+                    Toast.makeText(context, "" + spRetailerCategory.getSelectedItem().toString().toUpperCase(), Toast.LENGTH_SHORT).show();
+                    if (spRetailerCategory.getSelectedItem().toString().toUpperCase().contains("FARMER CALL")) {
                         llswitchSK.setVisibility(View.VISIBLE);
 
-                    }
-                    else
-                    {
+                    } else {
                         llswitchSK.setVisibility(View.GONE);
 
                     }
@@ -673,21 +728,17 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
 
             @Override
             public void afterTextChanged(Editable s) {
-                           if(s.toString().trim().equals(""))
-                           {
-                               et_mahycoproduct.setError("REQUIRED");
-                           }else
-                           {
-                             int a=Integer.parseInt(s.toString().trim());
-                             if(a>0 && a<60)
-                             {
+                if (s.toString().trim().equals("")) {
+                    et_mahycoproduct.setError("REQUIRED");
+                } else {
+                    int a = Integer.parseInt(s.toString().trim());
+                    if (a > 0 && a < 60) {
 
-                             }else
-                             {
-                                 et_mahycoproduct.setText("");
-                                 et_mahycoproduct.setError("Years should not be more than 60.");
-                             }
-                           }
+                    } else {
+                        et_mahycoproduct.setText("");
+                        et_mahycoproduct.setError("Years should not be more than 60.");
+                    }
+                }
             }
         });
 
@@ -1237,6 +1288,108 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
             final TextView lblretailerfirmname = (TextView) dialog.findViewById(R.id.lblretailerfirmname);
 
             final EditText txtretailermobileno = (EditText) dialog.findViewById(R.id.txtretailermobileno);
+           txt_distributors = (TextView) dialog.findViewById(R.id.txt_distributors);
+
+            Spinner sp_distributor_retailer = dialog.findViewById(R.id.sp_distributorretailer);
+            bindDistributorNewRetailer();
+
+            txt_distributors.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selectMultipleDistributors();
+                }
+            });
+
+
+            EditText
+                    et_exp,
+                    et_avgvolume,
+                    et_contersale,
+                    et_estimatedseedsold,
+
+                    et_bhindione,
+                    et_bhinditwo,
+                    et_chillione,
+                    et_chillitwo,
+                    et_brinjalone,
+                    et_brinjaltwo,
+                    et_bguardone,
+                    et_bguardtwo,
+                    et_calione,
+                    et_calitwo,
+                    et_othername,
+                    et_otherone,
+                    et_othertwo,
+                    et_otherseedname;
+
+            Switch
+                    switchPesticides,
+                    switchFertilizer,
+                    switchOther;
+            LinearLayout ll_otherSeedSale;
+
+
+            et_exp = dialog.findViewById(R.id.et_exp);
+            et_avgvolume = dialog.findViewById(R.id.et_avgvolume);
+            et_contersale = dialog.findViewById(R.id.et_contersale);
+            et_estimatedseedsold = dialog.findViewById(R.id.et_estimatedseedsold);
+
+            et_bhindione = dialog.findViewById(R.id.et_bhindione);
+            et_bhinditwo = dialog.findViewById(R.id.et_bhinditwo);
+            et_chillione = dialog.findViewById(R.id.et_chillione);
+            et_chillitwo = dialog.findViewById(R.id.et_chillitwo);
+            et_brinjalone = dialog.findViewById(R.id.et_brinjalone);
+            et_brinjaltwo = dialog.findViewById(R.id.et_brinjaltwo);
+            et_bguardone = dialog.findViewById(R.id.et_bguardone);
+            et_bguardtwo = dialog.findViewById(R.id.et_bguardtwo);
+            et_calione = dialog.findViewById(R.id.et_calione);
+            et_calitwo = dialog.findViewById(R.id.et_calitwo);
+            et_othername = dialog.findViewById(R.id.et_othername);
+            et_otherone = dialog.findViewById(R.id.et_otherone);
+            et_othertwo = dialog.findViewById(R.id.et_othertwo);
+            et_otherseedname = dialog.findViewById(R.id.et_otherseedname);
+
+            switchPesticides = dialog.findViewById(R.id.switchPesticides);
+            switchFertilizer = dialog.findViewById(R.id.switchFertilizer);
+            switchOther = dialog.findViewById(R.id.switchOther);
+            ll_otherSeedSale = dialog.findViewById(R.id.ll_otherSeedSale);
+
+            HashSet hashSetRetailer = new HashSet();
+            switchPesticides.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked)
+                        hashSetRetailer.add("Pesticides");
+                    else
+
+                        hashSetRetailer.remove("Pesticides");
+                }
+            });
+            switchFertilizer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked)
+                        hashSetRetailer.add("Fertilizer");
+                    else
+
+                        hashSetRetailer.remove("Fertilizer");
+                }
+            });
+            switchOther.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        hashSetRetailer.add("Other");
+                        ll_otherSeedSale.setVisibility(View.VISIBLE);
+                    } else {
+
+                        hashSetRetailer.remove("Other");
+                        ll_otherSeedSale.setVisibility(View.GONE);
+                    }
+                }
+            });
+
+
             if (spRetailerCategory.getSelectedItem().toString().contains("NURSERY CALL")) {
                 lblretailername.setText("CONTACT PERSON NAME");
                 lblretailerfirmname.setText("NURSERY NAME");
@@ -1247,6 +1400,7 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                 @Override
                 public void onClick(View v) {
                     dialog.dismiss();
+                    selectMultipleDistributors();
                 }
             });
             String[] array = null;
@@ -1261,6 +1415,35 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                 @Override
                 public void onClick(View v) {
                     try {
+
+                        str_et_exp = et_exp.getText().toString().trim();
+                        str_et_avgvolume = et_avgvolume.getText().toString().trim();
+                        str_et_contersale = et_contersale.getText().toString().trim();
+                        str_et_estimatedseedsold = et_estimatedseedsold.getText().toString().trim();
+
+                        str_et_bhindione = et_bhindione.getText().toString().trim();
+                        str_et_bhinditwo = et_bhinditwo.getText().toString().trim();
+                        str_et_chillione = et_chillione.getText().toString().trim();
+                        str_et_chillitwo = et_chillitwo.getText().toString().trim();
+                        str_et_brinjalone = et_brinjalone.getText().toString().trim();
+                        str_et_brinjaltwo = et_brinjaltwo.getText().toString().trim();
+                        str_et_bguardone = et_bguardone.getText().toString().trim();
+                        str_et_bguardtwo = et_bguardtwo.getText().toString().trim();
+                        str_et_calione = et_calione.getText().toString().trim();
+                        str_et_calitwo = et_calitwo.getText().toString().trim();
+                        str_et_othername = et_othername.getText().toString().trim();
+                        str_et_otherone = et_otherone.getText().toString().trim();
+                        str_et_othertwo = et_othertwo.getText().toString().trim();
+                        str_et_otherseedname = et_otherseedname.getText().toString().trim();
+
+                        str_distributors = hs_distributors.toString();
+
+
+                        str_switches = hashSetRetailer.toString();
+                        if (str_switches.contains("Other")) {
+                            str_switches = str_switches.replace("Other", "Other (" + et_otherseedname.getText().toString() + ")");
+                        }
+
 
                         // call Save Retailer Api
                         if (spState.getSelectedItem().toString().toLowerCase().equals("select state")) {
@@ -1292,16 +1475,240 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                             Utility.showAlertDialog("Info", "Please Enter Valid Mobile Number", context);
                             return;
                         }
+                        JSONObject jsonObject = new JSONObject();
+                        try {
+                            String data = "";
+                            if (str_et_exp.toString().trim().equals("")) {
+                                et_exp.setError("");
+                                return;
+                            } else {
+                                double d = Double.parseDouble(str_et_exp.toString().trim());
+                                if (d > 0 && d < 60) {
+
+                                } else {
+                                    msclass.showMessage("Enter your experience in between 1 to 60 ");
+                                    return;
+                                }
+                            }
+
+                            if (str_et_avgvolume.toString().trim().equals("")) {
+                                et_avgvolume.setError("");
+                                return;
+                            }
+                            if (str_et_contersale.toString().trim().equals("")) {
+                                et_contersale.setError("");
+                                return;
+                            }else
+                            {
+                                int a=Integer.parseInt(str_et_contersale.trim());
+                                if(a>0&&a<=100)
+                                {
+
+                                }else
+                                {
+                                    et_contersale.setError("must be in between 1-100.");
+
+                                }
+                                //=et_exp.getText().toString().trim();
+                            }
+                            if (str_et_estimatedseedsold.toString().trim().equals("")) {
+                                et_estimatedseedsold.setError("");
+                                return;
+                            }
+                            else
+                            {
+                                double est=Double.parseDouble(str_et_estimatedseedsold.trim());
+                                double avg=Double.parseDouble(str_et_avgvolume.trim());
+                                  if(avg<est) {
+                                      et_estimatedseedsold.setError("The value entered in Average Volume should always be less than or equal to the value entered under the 'Average volume of Hybrid Vegetable seed sold, as estimated (in Kgs) ' ");
+                                      msclass.showMessage("The value entered in Average Volume should always be less than or equal to the value entered under the '\tAverage volume of Hybrid Vegetable seed sold, as estimated (in Kgs) ' ");
+                                      return;
+                                  }
+                                //=et_exp.getText().toString().trim();
+                            }
+
+                            if (str_et_bhindione.toString().trim().equals("")) {
+                                et_bhindione.setError("");
+                                return;
+                            }//=et_exp.getText().toString().trim();
+                            if (str_et_bhinditwo.toString().trim().equals("")) {
+                                et_bhinditwo.setError("");
+                                return;
+
+                            }//=et_exp.getText().toString().trim();
+                            if (str_et_chillione.toString().trim().equals("")) {
+                                et_chillione.setError("");
+                                return;
+                            }// =et_exp.getText().toString().trim();
+                            if (str_et_chillitwo.toString().trim().equals("")) {
+                                et_chillitwo.setError("");
+                                return;
+                            }// =et_exp.getText().toString().trim();
+                            if (str_et_brinjalone.toString().trim().equals("")) {
+                                et_brinjalone.setError("");
+                            }// =et_exp.getText().toString().trim();
+                            if (str_et_brinjaltwo.toString().trim().equals("")) {
+                                et_brinjaltwo.setError("");
+                                return;
+                            }//=et_exp.getText().toString().trim();
+                            if (str_et_bguardone.toString().trim().equals("")) {
+                                et_bguardone.setError("");
+                                return;
+                            }//=et_exp.getText().toString().trim();
+                            if (str_et_bguardtwo.toString().trim().equals("")) {
+                                et_bguardtwo.setError("");
+                                return;
+                            }// =et_exp.getText().toString().trim();
+                            if (str_et_calione.toString().trim().equals("")) {
+                                et_calione.setError("");
+                                return;
+                            }// =et_exp.getText().toString().trim();
+                            if (str_et_calitwo.toString().trim().equals("")) {
+                                et_calitwo.setError("");
+                                return;
+                            }//=et_exp.getText().toString().trim();
+                            if (str_et_othername.toString().trim().equals("")) {
+                                et_othername.setError("");
+                                return;
+                            }//=et_exp.getText().toString().trim();
+                            if (str_et_otherone.toString().trim().equals("")) {
+                                et_otherone.setError("");
+                                return;
+                            }// =et_exp.getText().toString().trim();
+                            if (str_et_othertwo.toString().trim().equals("")) {
+                                et_othertwo.setError("");
+                                return;
+                            }//=et_exp.getText().toString().trim();
+                            if (str_switches.trim().contains("Other"))
+                                if (str_et_otherseedname.toString().trim().equals("")) {
+                                    et_otherseedname.setError("");
+                                    return;
+                                }//=et_exp.getText().toString().trim();
+
+                            if (hs_distributors.isEmpty()) {
+                                Toast.makeText(BCFCallTBM.this, "Please select distributor", Toast.LENGTH_SHORT).show();
+                                return;
+                            }//=sp_distributor_retailer.getSelectedItem().toString().trim();
+                            if (hashSetRetailer.isEmpty()) {
+                                Toast.makeText(BCFCallTBM.this, "Please select business other than seeds.", Toast.LENGTH_SHORT).show();
+                                return;
+                            }//=hashSetRetailer.toString();
+
+                            double d = 0.0;
+                            try {
+                                double mmahyco = Double.parseDouble(str_et_estimatedseedsold.trim());
+                                double m1 = Double.parseDouble(str_et_bhinditwo.trim());
+                                double m2 = Double.parseDouble(str_et_chillitwo.trim());
+                                double m3 = Double.parseDouble(str_et_brinjaltwo.trim());
+                                double m4 = Double.parseDouble(str_et_bguardtwo.trim());
+                                double m5 = Double.parseDouble(str_et_calitwo.trim());
+                                double m6 = Double.parseDouble(str_et_othertwo.trim());
+                                double sum = m1 + m2 + m3 + m4 + m5 + m6;
+
+                                double m11 = Double.parseDouble(str_et_bhindione.trim());
+                                double m22 = Double.parseDouble(str_et_chillione.trim());
+                                double m33 = Double.parseDouble(str_et_brinjalone.trim());
+                                double m44 = Double.parseDouble(str_et_bguardone.trim());
+                                double m55 = Double.parseDouble(str_et_calione.trim());
+                                double m66 = Double.parseDouble(str_et_otherone.trim());
+                                double sumTotal = m11 + m22 + m33 + m44 + m55 + m66;
+
+
+                                if(m11<m1)
+                                {
+                                    et_bhinditwo.setError("Must be less than total sale.");
+                                    return;
+                                }
+
+                                if(m22<m2)
+                                {
+                                    et_chillitwo.setError("Must be less than total sale.");
+                                    return;
+                                }
+
+                                if(m33<m3)
+                                {
+                                    et_brinjaltwo.setError("Must be less than total sale.");
+                                    return;
+                                }
+
+                                if(m44<m4)
+                                {
+                                    et_bguardtwo.setError("Must be less than total sale.");
+                                    return;
+                                }
+
+                                if(m55<m5)
+                                {
+                                    et_calitwo.setError("Must be less than total sale.");
+                                    return;
+                                }
+
+                                if(m66<m6)
+                                {
+                                    et_othertwo.setError("Must be less than total sale.");
+                                    return;
+                                }
+
+
+
+                                if (mmahyco < sum) {
+                                    msclass.showMessage("Estimated average volume of MPL's Hybrid Vegetable seed sold, as estimated (in Kgs) is Exceeding the limit .");
+                                    return;
+                                }
+
+                                if (sumTotal < sum) {
+                                    msclass.showMessage("Average Volume of hybrid vegtable sold as Estimated value is not matching with total Estimated Sales volume of major hybrid veg crops sold,as Estimated.");
+                                    return;
+                                }
+
+
+                            } catch (NumberFormatException e) {
+
+                            }
+
+
+                            jsonObject.put("MahycoExp", str_et_exp);
+                            jsonObject.put("Distributors", str_distributors);
+                            jsonObject.put("AvgVolume", str_et_avgvolume);
+                            jsonObject.put("SaleHybridPer", str_et_contersale);
+                            jsonObject.put("AvgVolMPL", str_et_estimatedseedsold);
+                            jsonObject.put("EstVolumeBhendi", "" + str_et_bhindione + "," + str_et_bhinditwo);
+                            jsonObject.put("EstVolumeChilli", "" + str_et_chillione + "," + str_et_chillitwo);
+                            jsonObject.put("EstVolumeBrinjal", "" + str_et_brinjalone + "," + str_et_brinjaltwo);
+                            jsonObject.put("EstVolumeBottleGuard", "" + str_et_bguardone + "," + str_et_bguardtwo);
+                            jsonObject.put("EstVolumeCaliflower", "" + str_et_calione + "," + str_et_calitwo);
+                            jsonObject.put("EstVolumeOther", "" + str_et_otherone + "," + str_et_othertwo + "," + str_et_othername);
+                            jsonObject.put("OtherBussiness", str_switches);
+                            jsonObject.put("Address", address);
+                            jsonObject.put("Lat", lati);
+                            jsonObject.put("Long", longi);
+
+
+                            Log.i("Datat su", jsonObject.toString());
+                        } catch (Exception e) {
+                            Log.i("Error is ", e.getMessage());
+                        }
+
 
                         retailerfirmname = txtretailerfirmname.getText().toString().trim();
                         RetailerName = txtretailername.getText().toString().trim();
                         mobileno = txtretailermobileno.getText().toString().trim();
+//String nedata="";
+//                        byte[] encodeValue = Base64.encode(jsonObject.toString().getBytes(), Base64.DEFAULT);
+//                        nedata=new String(encodeValue);
+                        //Passing Data in Base64
+                        //    RetailerName = RetailerName + " ~ " + nedata;
+                        //Paasing String Formate data
+                        RetailerName = RetailerName + " ~ " + jsonObject.toString();
                         String str = addPOGretaill();
+                        // String str = "False";
                         if (str.contains("True")) {
                             txtretailername.setText("");
                             txtretailermobileno.setText("");
                             txtretailerfirmname.setText("");
                             msclass.showMessage("data saved successfully");
+                            dialog.dismiss();
                             BindRetailerList_online(str);
                         } else {
                             msclass.showMessage(str);
@@ -1772,6 +2179,77 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
 
     }
 
+    public void bindDistributorNewRetailer(Spinner spinner) {
+        try {
+            spinner.setAdapter(null);
+            String searchQuery = "";
+            List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+            Cursor cursor;
+            Croplist.add(new GeneralMaster("0",
+                    "SELECT DISTRIBUTOR"));
+            searchQuery = "SELECT distinct RetailerName  FROM RetailerMaster " +
+                    "where activity='Distributor' " +
+                    " order by  RetailerName ";
+            cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false) {
+                Croplist.add(new GeneralMaster(cursor.getString(0),
+                        cursor.getString(0).toUpperCase()));
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+
+            MySpinnerAdapter<GeneralMaster> adapter = new MySpinnerAdapter<GeneralMaster>
+                    (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+
+            dialog.dismiss();
+        } catch (Exception ex) {
+            msclass.showMessage(ex.getMessage());
+            ex.printStackTrace();
+            dialog.dismiss();
+        }
+
+    }
+
+    public void bindDistributorNewRetailer() {
+        try {
+
+            String searchQuery = "";
+            List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+            Cursor cursor;
+            Croplist.add(new GeneralMaster("0",
+                    "SELECT DISTRIBUTOR"));
+            searchQuery = "SELECT distinct RetailerName  FROM RetailerMaster " +
+                    "where activity='Distributor' " +
+                    " order by  RetailerName ";
+            cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+            cursor.moveToFirst();
+            allDistributtor = new String[cursor.getCount()];
+            isAllDistributors = new boolean[cursor.getCount()];
+            int i = 0;
+            while (cursor.isAfterLast() == false) {
+
+                allDistributtor[i] = cursor.getString(0).toUpperCase();
+                if (hs_distributors.contains(cursor.getString(0).toUpperCase()))
+                    isAllDistributors[i] = true;
+                i++;
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+
+            dialog.dismiss();
+        } catch (Exception ex) {
+            msclass.showMessage(ex.getMessage());
+            ex.printStackTrace();
+            dialog.dismiss();
+        }
+
+    }
+
     public void BindActivityCategory() {
         try {
             spRetailerCategory.setAdapter(null);
@@ -2033,6 +2511,10 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
 
             String Urlpath1 = cx.MDOurlpath;
             HttpPost httppost = new HttpPost(Urlpath1);
+            Log.i("URL ", Urlpath1);
+            Log.i("Param", postParameters.toString());
+
+
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParameters));
@@ -2074,7 +2556,7 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
             String weatherInfo = "Weather Report  is: \n";
             try {
                 // JSONObject jsonObject = new JSONObject(result);
-
+Log.i("Result",result);
                 pd.dismiss();
                 // if (result.contains("True")) {
                 if (action.equals("1")) {
@@ -2563,12 +3045,6 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
     }
 
 
-}
-
-
-
-   /*
-
     @Override
     protected void onPause() {
         super.onPause();
@@ -2602,6 +3078,7 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
 
 
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -2613,6 +3090,7 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
             Utility.showAlertDialog("Error", "Funtion name :onresume" + ex.getMessage(), context);
         }
     }
+
     private void manageGeoTag() {
         if (cordinates != null && !cordinates.contains("null")) {
 
@@ -2654,7 +3132,7 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
             List<android.location.Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
             if (addresses != null) {
                 address = addresses.get(0).getAddressLine(0);
-                strAdd=addresses.get(0).getAddressLine(0);
+                strAdd = addresses.get(0).getAddressLine(0);
             }
 
         } catch (Exception e) {
@@ -2695,7 +3173,7 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                 GpsEnabled = true;
 
             } else {
-                android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BCFCallTBM .this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(BCFCallTBM.this);
 
                 builder.setTitle("MyActivity");
                 builder.setMessage("Please enable location and Gps");
@@ -2718,7 +3196,7 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                     }
                 });
 
-                android.support.v7.app.AlertDialog alert = builder.create();
+                AlertDialog alert = builder.create();
                 alert.show();
             }
         } catch (Exception ex) {
@@ -2806,7 +3284,9 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
             address = getCompleteAddressString(lati, longi);
 
             Log.d(TAG, "onlocation" + cordinates);
+
             manageGeoTag();
+            stopFusedApi();
 
         } catch (Exception e) {
             Log.d(TAG, "onLocationChanged: " + e.toString());
@@ -2815,6 +3295,41 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
         }
 
     }
-*/
+
+    public void selectMultipleDistributors() {
+        try {
+
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+            // set title
+            builder.setTitle("Select Distributors");
+
+            // set dialog non cancelable
+            builder.setCancelable(false);
+            builder.setMultiChoiceItems(allDistributtor, isAllDistributors, new DialogInterface.OnMultiChoiceClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                    if (isChecked)
+                        hs_distributors.add(allDistributtor[which]);
+                    else
+                        hs_distributors.remove(allDistributtor[which]);
+
+                    txt_distributors.setText(Html.fromHtml(hs_distributors.toString().replace("[","<ol><li>").replace("]","</ol>").replace(",","</li><li>")));
+                }
+            });
+            builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.show();
+
+        } catch (Exception e) {
+
+        }
+    }
+}
 
 

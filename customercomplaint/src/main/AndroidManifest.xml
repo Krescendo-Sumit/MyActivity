@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.mahyco.customercomplaint">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <queries>
+        <intent>
+            <action android:name="android.media.action.IMAGE_CAPTURE" />
+        </intent>
+    </queries>
+
+    <application>
+
+        <activity
+            android:name=".CCFFirstActivity"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ccfactivities.ccftechnical.CCFTGermination"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ccfactivities.CCFComplaintTypesActivity"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ccfactivities.ccftechnical.CCFTGeneticPurity"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ccfactivities.ccftechnical.CCFTPhysicalPurity"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ccfactivities.ccftechnical.CCFTPhysicalAppear"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ccfactivities.ccftechnical.CCFTSeedHealth"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ccfactivities.ccftechnical.CCFTPoorGrading"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ccfactivities.ccftechnical.CCFTCropPerfmnce"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ccfactivities.ccfoperational.CCFOperCmplntActivity"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ccfactivities.ccftechnical.CCFTRainDamage"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".ccfactivities.ccftechnical.CCFTMtrlQuality"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+
+        <activity
+            android:name=".CCFViewComplaint"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar" />
+
+        <!--<activity
+            android:name=".CCFPendingRbmCmplnt"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustPan" />-->
+
+        <activity
+            android:name=".CCFNewRbmPendingCmplnt"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".CCFSubmitPendingCmplnt"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden"/>
+
+        <!--<activity
+            android:name=".CCFTempGPActivity"
+            android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/cc_form_AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+-->
+        <!--at the time of given module to integrate in my activity then comment below library-->
+       <!-- <provider
+            android:name="com.vansuita.pickimage.provider.PickImageFileProvider"
+            android:authorities="${applicationId}.com.vansuita.pickimage.provider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/picker_provider_paths" />
+        </provider>-->
+    </application>
+</manifest>

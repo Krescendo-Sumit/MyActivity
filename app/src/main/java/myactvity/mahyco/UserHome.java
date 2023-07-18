@@ -29,6 +29,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
+import com.mahyco.customercomplaint.CCFFirstActivity;
 import com.mahyco.feedbacklib.view.DialogFeedback;
 
 import androidx.core.view.GravityCompat;
@@ -557,6 +558,19 @@ id=item.getItemId();
 
                 Intent intent=new Intent(context,DownloadMasterdataRBM.class);
                 startActivity(intent);
+
+                //   CCF 2.0 Module code for Integration
+             /*   Intent intent = new Intent(this, CCFFirstActivity.class);
+                intent.putExtra("ccfUserId", "1");
+                intent.putExtra("ccfToken", "addd");
+                intent.putExtra("ccfContactNo", "9420181669");
+                intent.putExtra("ccfTBMOrRBMCode", "97260647");
+//ccfUserRoleID == 2 RBM, ccfUserRoleID == 4 TBM ,
+// ccfUserRoleID == 5 ZBM, ccfUserRoleID == 7 ZMM
+                intent.putExtra("ccfUserRoleID", "4");
+                startActivity(intent);*/
+
+
 
             }catch (Exception e)
             {

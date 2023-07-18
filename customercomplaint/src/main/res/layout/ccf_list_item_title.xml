@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginHorizontal="15dp"
+        android:gravity="start|center"
+        android:textStyle="bold"
+        android:textSize="15sp"
+        android:textColor="@color/cc_form_black_color"
+        android:layout_marginStart="15dp"
+        android:paddingStart="15dp" />
+
+</LinearLayout>

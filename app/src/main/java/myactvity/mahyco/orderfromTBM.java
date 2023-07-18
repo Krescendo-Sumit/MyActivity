@@ -840,6 +840,9 @@ public class orderfromTBM extends AppCompatActivity {
             String Urlpath1= saleorderurl+"?usercode="+usercode+"&saleorg="+saleorg+"" +
                     "&division="+division+"&cmbDistributor="+cmbDistributor;
             HttpPost httppost = new HttpPost(Urlpath1);
+            Log.i("Urls",Urlpath1);
+            Log.i("Param",postParameters.toString());
+
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {
                 httppost.setEntity(new UrlEncodedFormEntity(postParameters));

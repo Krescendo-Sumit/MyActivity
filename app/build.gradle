@@ -32,8 +32,8 @@ android {
         applicationId 'myactvity.mahyco'
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 195
-        versionName "8.6.4"
+        versionCode 196
+        versionName "8.6.5"
         /* Versioncode updated on 24nd feb 2022 */
         /* Versioncode updated after getting Prograud rule Applied on 21 feb 2022 */
         /* Versioncode updated after changing the save button for Samrudhikisan on 24 feb 2022 */
@@ -86,6 +86,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-messaging:20.2.4'
     implementation 'com.google.firebase:firebase-crash:16.2.1'
     implementation project(path: ':feedbacklib')
+    implementation project(path: ':customercomplaint')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation files('libs/picasso-2.5.2.jar')
     implementation 'androidx.constraintlayout:constraintlayout:2.0.1'

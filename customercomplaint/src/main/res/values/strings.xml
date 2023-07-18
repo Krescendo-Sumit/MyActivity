@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ccfCurrentVersion">1.0.0</string>
+    <string name="ccf_technical_complaint">TECHNICAL FEEDBACK</string>
+    <string name="ccf_view_new_complaint">View Or Create New Feedback </string>
+    <string name="ccf_pending_complaint">Pending Feedback </string>
+    <string name="ccf_submit_complaint">Submit Feedback </string>
+    <string name="ccf_view_complaint">View Feedback </string>
+    <string name="ccf_operational_complaint">OPERATIONAL FEEDBACK</string>
+    <string name="ccf_complaint_types">Feedback Types</string>
+    <string name="ccf_technical_generic_purity">Genetic Purity- %s</string>
+    <string name="ccf_complaint_type_details">Feedback Type And Details</string>
+    <string name="ccf_select_main_complaint_category">Select Main Feedback Category</string>
+    <string name="ccf_select_sub_category">Select Sub Category</string>
+    <string name="ccf_proceed">Proceed</string>
+    <string name="ccf_version_code"> Version: 1.0.0</string>
+    <string name="ccf_select_complaint_type">Select Feedback Type</string>
+    <string name="ccf_registration">Farmer Details</string>
+    <string name="ccf_farmer_name">Farmer Name</string>
+    <string name="ccf_enter_farmer_name">Enter Farmer Name</string>
+    <string name="ccf_please_enter_farmer_name">Please Enter Farmer Name</string>
+    <string name="ccf_village">Village</string>
+    <string name="ccf_enter_village">Enter Village</string>
+    <string name="ccf_please_enter_village">Please Enter Village</string>
+    <string name="ccf_taluka">Taluka</string>
+    <string name="ccf_enter_taluka">Enter Taluka</string>
+    <string name="ccf_please_enter_taluka">Please Enter Taluka</string>
+    <string name="ccf_dist">District</string>
+    <string name="ccf_enter_dist">Enter District</string>
+    <string name="ccf_please_enter_dist">Please Enter District</string>
+    <string name="ccf_state">State</string>
+    <string name="ccf_enter_state">Enter State</string>
+    <string name="ccf_please_enter_state">Please Enter State</string>
+    <string name="ccf_complaint_date">Date Of Complaint<font color='#FF0000'>*</font></string>
+    <string name="ccf_enter_complaint_date">Enter Date Of Complaint</string>
+    <string name="ccf_please_enter_complaint_date">Please Enter Date Of Complaint</string>
+    <string name="ccf_tbm_rbm_date">TBM/RBM Date<font color='#FF0000'>*</font></string>
+    <string name="ccf_product_information">Product Information</string>
+    <string name="ccf_market_depot">Market Depot<font color='#FF0000'>*</font></string>
+    <string name="ccf_submit">Submit</string>
+    <string name="ccf_crop">Crop</string>
+    <string name="ccf_crop_stage">Crop Stage<font color='#FF0000'>*</font></string>
+    <string name="ccf_crop_stage_for_view_complaint">Crop Stage</string>
+    <string name="ccf_cotton">Cotton</string>
+    <string name="ccf_vegetables">Vegetables</string>
+    <string name="ccf_field_crops">Field Crops</string>
+    <string name="ccf_hybrid_variety">Hybrid/Variety<font color='#FF0000'>*</font></string>
+    <string name="ccf_lot_number">Lot Number<font color='#FF0000'>*</font></string>
+    <string name="ccf_enter_lot_number">Enter Lot Number</string>
+    <string name="ccf_packing_size">Packing Size<font color='#FF0000'>*</font></string>
+    <string name="ccf_enter_packing_size">Packing Size</string>
+    <string name="ccf_no_of_defect_pkts">No Of Defect Pkts</string>
+    <string name="ccf_enter_no_of_defect_pkts">Enter No Of Defect Pkts</string>
+    <string name="ccf_sowing_date">Sowing Date<font color='#FF0000'>*</font></string>
+    <string name="ccf_sowing_date_for_view_complaint">Sowing Date</string>
+    <string name="ccf_sowing_days_for_view_complaint">Sowing Days</string>
+    <string name="ccf_enter_sowing_date">Enter Sowing Date</string>
+    <string name="ccf_sowing_details">Sowing Details</string>
+    <string name="ccf_vegetative">Vegetative</string>
+    <string name="ccf_pre_flowering">Pre Flowering</string>
+    <string name="ccf_flowering">Flowering</string>
+    <string name="ccf_pre_harvesting">Pre Harvesting</string>
+    <string name="ccf_harvesting">Harvesting</string>
+    <string name="ccf_remarks_other_input_optional">Remarks/Other Input Optional</string>
+    <string name="ccf_label">Provide More Information About District And Taluka<font color='#FF0000'>*</font></string>
+    <string name="ccf_enter_remarks_other_input">Enter Remarks/Other Input</string>
+    <string name="ccf_enter_comment">Enter Comment</string>
+    <string name="ccf_upload_complaint_photo_first">Upload Feedback Photo 1st</string>
+    <string name="ccf_upload_complaint_photo_second">Upload Feedback Photo 2nd</string>
+    <string name="ccf_upload_complaint_photo_third">Upload Feedback Photo 3rd</string>
+    <string name="ccf_upload_complaint_photo_fourth">Upload Feedback Photo 4th</string>
+    <string name="ccf_register_complaint">Register Feedback</string>
+    <string name="ccf_enter_admixture_type">Enter Admixture Description</string>
+    <string name="ccf_enter_off_type_type">Enter Off Type Description</string>
+    <string name="ccf_admixture_type">Admixture Type<font color='#FF0000'>*</font></string>
+    <string name="ccf_enter_admixture_percent">Enter Admixture Percent</string>
+    <string name="ccf_enter_off_type_percent">Enter Off Type Percent</string>
+
+    <string name="ccf_went_wrong">Something went wrong.</string>
+    <string name="ccf_server_error">Server Error.</string>
+    <string name="ccf_photo_not_captured">Photo Not Captured</string>
+
+    <string name="ccf_err_internet">Please check your internet connection!</string>
+
+    <string name="ccf_crop_age">Crop Age<font color='#FF0000'>*</font></string>
+    <string name="ccf_enter_crop_age">Enter Crop Age</string>
+    <string name="ccf_germination_below_std">Enter Germination Below Std. Details</string>
+    <string name="ccf_enter_late_germination">Enter Late Germination Details</string>
+    <string name="ccf_enter_germ_percent">Enter GERM Percent</string>
+    <string name="ccf_germ_percent">Enter GERM Percent</string>
+
+
+    <string name="ccf_technical_germination">Germination- %s</string>
+    <string name="ccf_technical_physical_purity">Physical Purity- %s</string>
+    <string name="ccf_technical_seed_health">Seed Health- %s</string>
+    <string name="ccf_technical_poor_grading">Poor Grading- %s</string>
+    <string name="ccf_technical_crop_perm">Crop Performance- %s</string>
+    <string name="ccf_technical_damage_seed">Rain/Water Damaged Seed- %s</string>
+    <string name="ccf_technical_pkg_quality">Packing Material Quality- %s</string>
+    <string name="ccf_technical_physical_appearance">Physical Appearance- %s</string>
+
+    <string name="ccf_depot">Depot</string>
+    <string name="ccf_enter_depot">Enter Depot</string>
+
+    <string name="ccf_operational_cmplnt">Operational- %s</string>
+    <string name="ccf_view_my_compliants">View My Feedbacks</string>
+    <string name="ccf_pending_with_rbm">Pending With RBM</string>
+    <string name="ccf_new_complaint">Register New Query</string>
+    <string name="ccf_get_lot_detail">Get Lot Information</string>
+    <string name="ccf_crops">Crop</string>
+    <string name="ccf_hybrid_varieties">Hybrid/Variety</string>
+    <string name="ccf_field_validation">Field Validation</string>
+    <string name="ccf_other_farmers_details">Enter Other Farmers Details</string>
+    <string name="ccf_days_after_sowing">Enter Days After Sowing</string>
+    <string name="ccf_enter_pest_attack_comment">Enter Pest Attack Details</string>
+    <string name="ccf_enter_disease_infestation_comment">Enter Disease Infestation Details</string>
+    <string name="ccf_admixture_details">Admixture Details</string>
+    <string name="ccf_offtype_details">Off Type Details</string>
+    <string name="ccf_late_germination_details">Late Germination Details</string>
+    <string name="ccf_below_std_germination_details">Germination Below Std. Details</string>
+    <string name="ccf_enter_other_details">Enter Other Details</string>
+    <string name="ccf_other_details">Other Details</string>
+    <string name="ccf_disease_infestation_details">Disease Infestation Details</string>
+    <string name="ccf_pest_attack_details">Pest Attack Details</string>
+    <string name="ccf_enter_mobile_no">Enter Mobile No.</string>
+    <string name="ccf_farmer_mobile_no">Farmer Mobile No.</string>
+
+    <string name="ccf_remarks">Remarks/Other Input</string>
+    <string name="ccf_err_common">Please try again!</string>
+    <string name="ccf_complaint_status">Feedback Status</string>
+    <string name="ccf_complaint_tbm_code">TBM Code</string>
+    <string name="ccf_complaint_tbm_contact">TBM Contact No.</string>
+    <string name="ccf_complnt_date">Date Of Feedback</string>
+    <string name="ccf_complaint_type">Type</string>
+    <string name="ccf_complaint_main_category">Main Category</string>
+    <string name="ccf_complaint_sub_category">Sub Category</string>
+    <string name="ccf_lot_no">Lot No.</string>
+    <string name="ccf_complaint_no">Feedback No.</string>
+    <string name="ccf_select_sub_cateroies">Select Sub Categories</string>
+    <string name="ccf_bu">BU</string>
+    <string name="ccf_lot_quantity">Lot Quantity</string>
+    <string name="ccf_no_of_packets">No. Of Packets</string>
+    <string name="ccf_no_TotalLotQty">Total Lot Qty</string>
+    <string name="ccf_no_TotalNoOfPkts">Total No. Of Pkts</string>
+    <string name="ccf_business_unit">Business Unit</string>
+    <string name="ccf_admixture_desc">Admixture Description</string>
+    <string name="ccf_admixture_percent">Admixture Percent</string>
+    <string name="ccf_off_type_desc">Off Type Description</string>
+    <string name="ccf_off_type_percent">Off Type Percent</string>
+    <string name="ccf_germ_percents">GERM Percent</string>
+    <string name="ccf_late_germ_details">Late Germination Details</string>
+    <string name="ccf_session_expired">401 Unauthorized error<!--Your session has expired and you need to login again.--></string>
+    <string name="ccf_comment">Comment<font color='#FF0000'>*</font></string>
+    <string name="ccf_forward">Forward</string>
+    <string name="ccf_reject">Reject</string>
+
+    <!--<string-array name="cc_form_technical_complaint_category_type">
+        <item>Select Main Complaint Category</item>
+        <item>Genetic Purity</item>
+        <item>Germination</item>
+        <item>Physical Purity</item>
+        <item>Seed Health(SHL)</item>
+        <item>Poor Grading</item>
+        <item>Crop Performance</item>
+        <item>Rain/Water Damaged Seeds</item>
+        <item>Packing Material Quality</item>
+        <item>Physical Appearance</item>
+    </string-array>
+
+    <string-array name="cc_form_technical_sub_category0">
+        <item>Select Sub Category</item>
+    </string-array>
+
+    <string-array name="cc_form_technical_sub_category1">
+        <item>Select Sub Category</item>
+        <item>Off Types</item>
+        <item>Admixture</item>
+    </string-array>
+
+    <string-array name="cc_form_technical_sub_category2">
+        <item>Select Sub Category</item>
+        <item>Germination Below Std</item>
+        <item>Late Germination</item>
+    </string-array>
+
+    <string-array name="cc_form_technical_sub_category3">
+        <item>Select Sub Category</item>
+        <item>Inert Matter-Chaffy Seed</item>
+        <item>Plant Parts.</item>
+        <item>Soil/Stones</item>
+        <item>OCS/Weed Seed</item>
+        <item>Broken/Cut Seed</item>
+        <item>Broken Pellets/Unpelleted Seeds</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="cc_form_technical_sub_category4">
+        <item>Select Sub Category</item>
+        <item>Pin Hole</item>
+        <item>Live Weevil</item>
+        <item>Dead Weevil</item>
+        <item>Powder Form</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="cc_form_technical_sub_category5">
+        <item>Select Sub Category</item>
+        <item>Undersized/Uneven Seed</item>
+    </string-array>
+
+    <string-array name="cc_form_technical_sub_category6">
+        <item>Select Sub Category</item>
+        <item>Multicob/Multihead</item>
+        <item>Poor Seed Setting</item>
+        <item>Pest Attack</item>
+        <item>Disease Infestation</item>
+        <item>Bolting</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="cc_form_technical_sub_category7">
+        <item>Select Sub Category</item>
+        <item>Lump/Wet Seeds</item>
+        <item>Germinated Seed/Seedling Inside Bag</item>
+    </string-array>
+
+    <string-array name="cc_form_technical_sub_category8">
+        <item>Select Sub Category</item>
+        <item>Two Layer</item>
+        <item>Delamination</item>
+        <item>Wrinkles</item>
+        <item>Specifications out of tolerance limit</item>
+        <item>Others</item>
+    </string-array>
+
+
+    <string-array name="cc_form_technical_sub_category9">
+        <item>Select Sub Category</item>
+        <item>Different Colour Seeds</item>
+        <item>Uneven Treatment</item>
+    </string-array>
+
+    <string-array name="cc_form_operational_complaint_category_type">
+        <item>Operational</item>
+    </string-array>
+
+    <string-array name="cc_form_hybrid_variety_array">
+        <item>Select Hybrid/Variety</item>
+        <item>BT COTTON MRC 6918 XXL BG-II 450G</item>
+        <item>BT COTTON MRC 7399 BG-II 450G</item>
+        <item>BT COTTON SHAKTI 9 (PARINDA)BG-II 450G</item>
+        <item>BT COTTON MRC 6918 BT 450G</item>
+    </string-array>
+
+    <string-array name="cc_form_operational_sub_category_type">
+        <item>Select Sub Category</item>
+        <item>Packet Without Tag</item>
+        <item>Supply Of Expiry Material</item>
+        <item>Wrong printing</item>
+        <item>Damaged Packet</item>
+        <item>Poor Stitching</item>
+        <item>Barcode Not Readable</item>
+        <item>Wrong MRP</item>
+        <item>Over Weight/Under Weight Pkts</item>
+        <item>Unsealed Pkts/Open Pkt/Improper Sealing</item>
+        <item>Improper Printing Of Content(Not legible)</item>
+        <item>Less Packets</item>
+        <item>Empty Pouches</item>
+        <item>Two Types Of Packets Designs In One Sec Bag</item>
+        <item>Pkts Of Different Hybrids In Sec Bag</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="cc_form_crop_array">
+        <item>Select Crop Stage</item>
+        <item>Cotton</item>
+        <item>Vegetables</item>
+        <item>Field Crops</item>
+    </string-array>-->
+
+    <string-array name="ccf_crop_stage_array">
+        <item>Select Crop Stage</item>
+        <item>Nursery Stage</item>  <!--added 7/11/2023-->
+        <item>Vegetative</item>
+        <!--<item>Pre Flowering</item>--><!--commented 7/11/2023-->
+        <item>Flowering</item>
+        <item>Pre Harvesting</item>
+        <item>Harvesting</item>
+    </string-array>
+
+    <string-array name="ccf_select_feedback_type">
+        <item>Select Feedback Severity</item>
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+    </string-array>
+
+    <string-array name="cc_form_market_array">
+        <item>Select Market Depot</item>
+        <item>Jalna</item>
+    </string-array>
+
+    <!--<string-array name="cc_form_district_array">
+        <item>Select District</item>
+        <item>Jalna</item>
+    </string-array>
+
+    <string-array name="cc_form_taluka_array">
+        <item>Select Taluka</item>
+        <item>Ambad</item>
+        <item>Badnapur</item>
+        <item>Bhokardan</item>
+        <item>Jalna</item>
+    </string-array>-->
+
+    <!--<string-array name="states">
+        <item>Select State</item>
+        <item>Andhra Pradesh"</item>
+        <item>Arunachal Pradesh"</item>
+        <item>Assam"</item>
+        <item>Bihar"</item>
+        <item>Chhattisgarh"</item>
+        <item>Goa"</item>
+        <item>Gujarat"</item>
+        <item>Haryana"</item>
+        <item>Himachal Pradesh"</item>
+        <item>Jharkhand"</item>
+        <item>Karnataka"</item>
+        <item>Kerala"</item>
+        <item>Madhya Pradesh"</item>
+        <item>Maharashtra"</item>
+        <item>Manipur"</item>
+        <item>Meghalaya"</item>
+        <item>Mizoram"</item>
+        <item>Nagaland"</item>
+        <item>Odisha"</item>
+        <item>Punjab"</item>
+        <item>Rajasthan"</item>
+        <item>Sikkim"</item>
+        <item>Tamil Nadu"</item>
+        <item>Telangana"</item>
+        <item>Tripura"</item>
+        <item>Uttar Pradesh"</item>
+        <item>Uttarakhand"</item>
+        <item>West Bengal"</item>
+    </string-array>-->
+
+</resources>
