@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mahyco.customercomplaint.CCFFirstActivity;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -481,6 +484,23 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
 
                                 intent= new Intent(context.getApplicationContext(), HDPSCouponDashboardActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                context.startActivity(intent);
+                            }
+//  Adding this code for CCF 2.0 Form For RBM and TBM .
+                            if (ActivityName[position].contains( "CCF")) {
+
+
+                                 intent = new Intent(context, CCFFirstActivity.class);
+                                intent.putExtra("ccfUserId", "1");
+                                intent.putExtra("ccfToken", "addd");
+                                intent.putExtra("ccfContactNo", "9420181669");
+                                intent.putExtra("ccfTBMOrRBMCode", pref.getString("UserID", null));
+//ccfUserRoleID == 2 RBM, ccfUserRoleID == 4 TBM ,
+// ccfUserRoleID == 5 ZBM, ccfUserRoleID == 7 ZMM
+                                intent.putExtra("ccfUserRoleID", pref.getString("RoleID",null));
+                                Toast.makeText(context, pref.getString("UserID", null)+" / "+pref.getString("RoleID", null), Toast.LENGTH_SHORT).show();
+                                Log.i("User Details",pref.getString("UserID", null)+" / "+pref.getString("RoleID", null));
+
                                 context.startActivity(intent);
                             }
 
