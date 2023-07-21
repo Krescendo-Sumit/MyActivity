@@ -32,8 +32,8 @@ android {
         applicationId 'myactvity.mahyco'
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 196
-        versionName "8.6.5"
+        versionCode 198
+        versionName "8.6.6"
         /* Versioncode updated on 24nd feb 2022 */
         /* Versioncode updated after getting Prograud rule Applied on 21 feb 2022 */
         /* Versioncode updated after changing the save button for Samrudhikisan on 24 feb 2022 */

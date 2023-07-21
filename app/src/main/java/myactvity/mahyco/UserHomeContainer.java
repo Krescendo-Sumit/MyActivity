@@ -130,15 +130,15 @@ public  class UserHomeContainer  extends Fragment {
 
                         prgmNameList = new String[]{"MY ACTIVITY RECORDING", "MY TRAVEL",
                                 "SALES ORDER", "UPLOAD DATA", "DOWNLOAD MASTER DATA", "REPORT"
-                                , "BCF CALL LOG(TBM)", "IPMF", "POG", "VOF", "WOW"//,"Retailer Profiling Survey","VOFP"
+                                , "BCF CALL LOG(TBM)", "IPMF", "POG", "VOF", "WOW","CFF"//,"Retailer Profiling Survey","VOFP"
                         };// Changing VOCP to Retailer Profiling Survey
                         ImageList = new String[]{"actvity.png", "journey.png",
                                 "saleorder.png", "upload.png", "download.png", "report.png",
-                                "field.png", "ipmf.png", "pog.png", "voiceofcustomer.png", "wow.png"//,"actvity.png","actvity.png"
+                                "field.png", "ipmf.png", "pog.png", "voiceofcustomer.png", "wow.png","ccf.png"//,"actvity.png","actvity.png"
                         };
                         ActivityName = new String[]{"Myactivity", "MyTravel", "SalesOrder",
                                 "UploadData", "DownloadData", "Report", "BCFCALLTBM", "IPMF", "POG", "VOF",
-                                "WOW"//,"VEGVOCP","VEGVOCP1"
+                                "WOW","CCF"//,"VEGVOCP","VEGVOCP1"
                         };
 
                 }
@@ -177,7 +177,7 @@ public  class UserHomeContainer  extends Fragment {
                            "UPLOAD DATA", "DOWNLOAD MASTER DATA",//"MY ACTIVITY RECORDING",
                            "MY TRAVEL & ACTIVITY RECORDING", "TRADE MAPPING & TAGGING "
                            ,"SALES ORDER" , "MFDC", "DAS",
-                           "REPORT","POG","IPMF","VCP","HDPS\\NEW PRODUCT","SAMRUDDHA KISAN VALIDATION","CCF"
+                           "REPORT","POG","IPMF","VCP","HDPS\\NEW PRODUCT","SAMRUDDHA KISAN VALIDATION","CFF"
                            //"BOOKING AGAINST COUPON"
                            //"SAMRUDDHA KISAN REGISTRATION","JUMBO FIELD / INNOVATION DAY"//,"Voice Of Customer","POG",
                            //"Retailer Survey" //"Kisan Club (MAGiK)"
@@ -193,7 +193,7 @@ public  class UserHomeContainer  extends Fragment {
                            ,"saleorder.png","discount.png", "voiceofcustomer.png"
                            //,"user.png","innovation.png"//," ,"pog.png",voiceofcustomer.png"
                            , "report.png"//, "field.png"//,"field.png"
-                           , "pog.png","ipmf.png","vcp.png","discount.png" ,"field.png","field.png"
+                           , "pog.png","ipmf.png","vcp.png","discount.png" ,"field.png","ccf.png"
                    };
 //               ,"leave.png"
                    ActivityName = new String[]{//"Myactivity"//,"FIELD VISITS(Demo/Model/Jumbo/Farmer Feild)"

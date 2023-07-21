@@ -33,7 +33,7 @@
     <string name="ccf_please_enter_state">Please Enter State</string>
     <string name="ccf_complaint_date">Date Of Complaint<font color='#FF0000'>*</font></string>
     <string name="ccf_enter_complaint_date">Enter Date Of Complaint</string>
-    <string name="ccf_please_enter_complaint_date">Please Enter Date Of Complaint</string>
+    <string name="ccf_please_enter_complaint_date">Please Enter Date Of Feedback</string>
     <string name="ccf_tbm_rbm_date">TBM/RBM Date<font color='#FF0000'>*</font></string>
     <string name="ccf_product_information">Product Information</string>
     <string name="ccf_market_depot">Market Depot<font color='#FF0000'>*</font></string>
@@ -105,7 +105,7 @@
     <string name="ccf_operational_cmplnt">Operational- %s</string>
     <string name="ccf_view_my_compliants">View My Feedbacks</string>
     <string name="ccf_pending_with_rbm">Pending With RBM</string>
-    <string name="ccf_new_complaint">Register New Query</string>
+    <string name="ccf_new_complaint">Register New Feedback</string>
     <string name="ccf_get_lot_detail">Get Lot Information</string>
     <string name="ccf_crops">Crop</string>
     <string name="ccf_hybrid_varieties">Hybrid/Variety</string>

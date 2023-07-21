@@ -498,7 +498,7 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
 //ccfUserRoleID == 2 RBM, ccfUserRoleID == 4 TBM ,
 // ccfUserRoleID == 5 ZBM, ccfUserRoleID == 7 ZMM
                                 intent.putExtra("ccfUserRoleID", pref.getString("RoleID",null));
-                                Toast.makeText(context, pref.getString("UserID", null)+" / "+pref.getString("RoleID", null), Toast.LENGTH_SHORT).show();
+                            //    Toast.makeText(context, pref.getString("UserID", null)+" / "+pref.getString("RoleID", null), Toast.LENGTH_SHORT).show();
                                 Log.i("User Details",pref.getString("UserID", null)+" / "+pref.getString("RoleID", null));
 
                                 context.startActivity(intent);
