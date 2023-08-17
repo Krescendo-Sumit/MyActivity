@@ -21,7 +21,7 @@
     <item
         android:id="@+id/action_exportdata"
         android:orderInCategory="100"
-        android:title="Export Data"
+        android:title="Export CSV Data"
         app:showAsAction="never" />
 
 </menu>
