@@ -177,6 +177,7 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                         try {
 
                             if (ActivityName[position].toString() == "Myactivity") {
+
                                 // TBM and MDO it can login Opfline form
                                 String myTable = "Table1";//Set name of your table
                                 String searchQuery = "SELECT  *  FROM VillageLevelMaster";
@@ -267,8 +268,6 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
-
-
 
                             if (ActivityName[position].toString() == "UploadData") {
                                 intent= new Intent(context.getApplicationContext(),UploadData.class);
@@ -438,11 +437,11 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             }
 
                             if (ActivityName[position].contains( "DAS")) {
-
-                                intent= new Intent(context.getApplicationContext(), daslogin.class);
-                                // intent= new Intent(context.getApplicationContext(), DSActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                context.startActivity(intent);
+                                Toast.makeText(context, "Not Active", Toast.LENGTH_SHORT).show();
+//                                intent= new Intent(context.getApplicationContext(), daslogin.class);
+//                                // intent= new Intent(context.getApplicationContext(), DSActivity.class);
+//                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                context.startActivity(intent);
                             }
                             if (ActivityName[position].contains( "VOF")) {
 
@@ -472,11 +471,11 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             }
 
                             if (ActivityName[position].contains( "VCP")) {
+                                Toast.makeText(context, "Not Active", Toast.LENGTH_SHORT).show();
 
-
-                                intent= new Intent(context.getApplicationContext(), voiceofchanelpartner_be.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                context.startActivity(intent);
+//                                intent= new Intent(context.getApplicationContext(), voiceofchanelpartner_be.class);
+//                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                context.startActivity(intent);
                             }
 
                             if (ActivityName[position].contains( "HDPSCouponDashboardActivity")) {

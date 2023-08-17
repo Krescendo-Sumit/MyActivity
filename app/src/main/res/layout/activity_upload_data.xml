@@ -54,7 +54,7 @@
                 android:layout_marginTop="20dp"
                 android:text="My Activity Data"
 
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/lblfarmer"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Farmer Data"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
 
             <RadioGroup
@@ -300,37 +300,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:textStyle="bold"
+                android:text="UPLOAD INNOVATION DATA"
 
-                android:text="UPLOAD INNOVATION DATA" />
+                android:textStyle="bold" />
 
             <RadioGroup
-                android:layout_width="wrap_content" android:orientation="vertical"
                 android:id="@+id/radGrp55"
-                android:layout_height="wrap_content">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <RadioButton
                     android:id="@+id/rndinnovation"
-                    android:text="Pending Innovation Daata"
-                    android:enabled="false"
-                    android:layout_marginLeft="10dp"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="false"
+                    android:text="Pending Innovation Daata" />
 
 
             </RadioGroup>
 
             <Button
+                android:id="@+id/btnUpload5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:id="@+id/btnUpload5"
                 android:layout_marginBottom="20dp"
-                android:textColor="@color/QRCodeBlackColor"
                 android:background="@drawable/rbutton"
-                android:text="UPLOAD INNOVATION DATA" />
-
-
+                android:text="UPLOAD INNOVATION DATA"
+                android:textColor="@color/QRCodeBlackColor" />
 
 
             <!--Upload postseason-->
@@ -502,6 +501,7 @@
 
 
             </RadioGroup>
+
             <Button
                 android:id="@+id/btnUploadPreSeason"
                 android:layout_width="match_parent"
@@ -575,6 +575,7 @@
                     android:layout_marginLeft="10dp"
                     android:tag="@string/rndExhibition"
                     android:text="EXHIBITION" />
+
                 <RadioButton
                     android:id="@+id/rndMarketDay"
                     android:layout_width="wrap_content"
@@ -604,6 +605,7 @@
                 android:layout_marginTop="20dp"
                 android:text="UPLOAD GENERAL"
                 android:textStyle="bold" />
+
             <RadioGroup
                 android:id="@+id/radGrp8"
                 android:layout_width="wrap_content"
@@ -640,9 +642,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
-                    android:visibility="gone"
                     android:tag="@string/rndSamruddhaKisanVist"
-                    android:text="SAMRUDDHA KISAN VISITS" />
+                    android:text="SAMRUDDHA KISAN VISITS"
+                    android:visibility="gone" />
 
                 <RadioButton
                     android:id="@+id/rndAddressing"
@@ -651,14 +653,15 @@
                     android:layout_marginLeft="10dp"
                     android:tag="@string/rndAddressing"
                     android:text="ADDRESSING COMPLAINTS" />
+
                 <RadioButton
                     android:id="@+id/rndReviewMeeting"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:tag="@string/rndReviewMeeting"
-                    android:visibility="visible"
-                    android:text="REVIEW MEETING" />
+                    android:text="REVIEW MEETING"
+                    android:visibility="visible" />
             </RadioGroup>
 
             <Button

@@ -123,6 +123,44 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/lblretailerWAmobileno"
+                    android:layout_width="match_parent"
+
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:text="WHATSAPP MOBILE NUMBER "
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:textStyle="bold" />
+
+                <Switch
+                    android:id="@+id/switchyesno"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Same as above"
+                    android:textColor="#F44336"
+                    android:textOff="No"
+                    android:textOn="Yes" />
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/txtretailerWAmobileno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:hint=" WHATSAPP MOBILE NO(TYPE HERE)"
+                android:inputType="number"
+                android:maxLength="10"
+
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -210,104 +248,13 @@
                         android:textAllCaps="true" />
 
                 </com.google.android.material.textfield.TextInputLayout>
-
                 <TextView
                     android:layout_width="wrap_content"
 
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="2dp"
-                    android:text="Average volume of Hybrid Vegetable seed sold, as estimated (in Kgs)"
-                    android:textColor="@color/QRCodeBlackColor"
-                    android:textStyle="bold" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginTop="5dp">
-
-                    <EditText
-                        android:id="@+id/et_avgvolume"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Number *"
-                        android:inputType="numberSigned|number"
-
-
-                        android:textAllCaps="true" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="2dp"
-                    android:text="What % of the Hybrid sale made at the counter are wholesale sales"
-                    android:textColor="@color/QRCodeBlackColor"
-                    android:textStyle="bold" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginTop="5dp">
-
-                    <EditText
-                        android:id="@+id/et_contersale"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Number *"
-                        android:inputType="numberDecimal"
-
-
-                        android:textAllCaps="true" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="2dp"
-                    android:text="Estimated average volume of MPL's Hybrid Vegetable seed sold, as estimated (in Kgs)"
-                    android:textColor="@color/QRCodeBlackColor"
-                    android:textStyle="bold" />
-
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:layout_marginTop="5dp">
-
-                    <EditText
-                        android:id="@+id/et_estimatedseedsold"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:ems="10"
-                        android:hint="Number *"
-                        android:inputType="numberDecimal"
-
-
-                        android:textAllCaps="true" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:layout_width="wrap_content"
-
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginTop="2dp"
-                    android:text="Estimated volume of major Hybrid Vegetable crops sold, as estimated (in Kgs)"
+                    android:text="Estimated volume of major Hybrid Vegetable crops sold, as estimated (in lakhs)"
                     android:textColor="@color/QRCodeBlackColor"
                     android:textStyle="bold" />
 
@@ -343,7 +290,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:padding="5dp"
-                                android:text="Hybrid Name"
+                                android:text="Crop Name"
                                 android:textColor="@color/QRCodeBlackColor" />
 
                             <TextView
@@ -570,7 +517,83 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:padding="5dp"
-                                android:text="Other"
+                                android:text="Tomato"
+                                android:textColor="@color/QRCodeBlackColor" />
+
+
+                            <EditText
+                                android:id="@+id/et_tomatoone"
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/border"
+                                android:ems="10"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:text="0" />
+
+                            <EditText
+                                android:id="@+id/et_tomatotwo"
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/border"
+                                android:ems="10"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:text="0" />
+
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="5dp"
+                                android:text="Radish"
+                                android:textColor="@color/QRCodeBlackColor" />
+
+
+                            <EditText
+                                android:id="@+id/et_radishone"
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/border"
+                                android:ems="10"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:text="0" />
+
+                            <EditText
+                                android:id="@+id/et_radishtwo"
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/border"
+                                android:ems="10"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:text="0" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:background="@color/lightgray"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="5dp"
+                                android:text="Other Crops"
                                 android:textColor="@color/QRCodeBlackColor" />
 
 
@@ -578,7 +601,7 @@
                                 android:id="@+id/et_othername"
                                 android:text="Other"
                                 android:layout_width="60dp"
-                                android:layout_height="match_parent"
+                                android:layout_height="0dp"
                                 android:background="@drawable/border"
                                 android:ems="10"
                                 android:inputType="text"
@@ -605,11 +628,149 @@
                                 android:text="0" />
 
                         </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:padding="5dp"
+                                android:text="Grand Total"
+                                android:textColor="@color/QRCodeBlackColor"
+                                android:textStyle="bold" />
+
+
+                            <EditText
+                                android:id="@+id/et_grandtotal"
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/border"
+                                android:ems="10"
+                                android:enabled="false"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:text="0"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                            <EditText
+                                android:id="@+id/et_grandmahyco"
+                                android:layout_width="60dp"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/border"
+                                android:ems="10"
+                                android:enabled="false"
+                                android:inputType="numberDecimal"
+                                android:padding="5dp"
+                                android:text="0"
+                                android:textSize="14sp"
+                                android:textStyle="bold" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
 
                 </androidx.cardview.widget.CardView>
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="2dp"
+                    android:text="Average volume of Hybrid Vegetable seed sold, as estimated (in lakhs)"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:textStyle="bold" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="5dp">
+
+                    <EditText
+                        android:id="@+id/et_avgvolume"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:enabled="false"
+
+
+                        android:hint="Number *"
+                        android:inputType="number|numberDecimal"
+                        android:textAllCaps="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="2dp"
+                    android:text="What % of the Hybrid sale made at the counter are wholesale sales"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:textStyle="bold" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="5dp">
+
+                    <EditText
+                        android:id="@+id/et_contersale"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:ems="10"
+                        android:hint="Number *"
+                        android:inputType="numberDecimal"
+
+
+                        android:text="0"
+                        android:textAllCaps="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="2dp"
+                    android:text="Estimated average volume of MPL's Hybrid Vegetable seed sold, as estimated (in lakhs)"
+                    android:textColor="@color/QRCodeBlackColor"
+                    android:textStyle="bold" />
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="5dp">
+
+                    <EditText
+                        android:id="@+id/et_estimatedseedsold"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:enabled="false"
+
+
+                        android:hint="Number *"
+                        android:inputType="numberDecimal"
+                        android:textAllCaps="true" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
 
                 <TextView

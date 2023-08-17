@@ -2517,7 +2517,8 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
                 }
                 else {
                     if (spMyactvity.getSelectedItem().toString().toLowerCase().equals("retailer visit")) {
-                        searchQuery = "SELECT distinct RetailerName  FROM RetailerMaster where activity='Retailer' and  taluka='" + taluka.toUpperCase() + "' order by  RetailerName ";
+                        searchQuery = "SELECT distinct RetailerName  FROM RetailerMaster where activity='Retailer' and   upper(taluka)='" + taluka.toUpperCase() + "' order by  RetailerName ";
+                      Log.i("Query",searchQuery);
                        // cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
                         Croplist.add(new GeneralMaster("SELECT RETAILER",
                                 "SELECT RETAILER"));

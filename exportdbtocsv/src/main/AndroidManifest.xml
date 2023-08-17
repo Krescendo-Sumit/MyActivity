@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.mahyco.exportdbtocsv">
+
+<!--    <uses-permission android:name="android.permission.INTERNET" />-->
+<!--    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+<!--    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application>
+<!--    <activity-->
+<!--        android:name=".ExportToCSVActivity"-->
+<!--        android:configChanges="orientation|keyboard|screenLayout|screenSize|keyboardHidden"-->
+<!--        android:exported="false"-->
+<!--        android:screenOrientation="portrait"-->
+<!--        android:theme="@style/maa_master_AppTheme.NoActionBar"-->
+<!--        android:windowSoftInputMode="stateHidden" />-->
+    </application>
+
+</manifest>

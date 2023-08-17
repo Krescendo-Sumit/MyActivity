@@ -123,7 +123,7 @@ import com.google.firebase.crash.FirebaseCrash;
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
 public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, ResultCallback, LocationListener {
+        GoogleApiClient.OnConnectionFailedListener, ResultCallback, LocationListener,TextWatcher {
     private static final String TAG = "RetailerPOG";
 
     public EditText txtIrrigationdt, txtirrigation,
@@ -256,8 +256,41 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
             str_et_othername,
             str_et_otherone,
             str_et_othertwo,
+            str_et_tomatotwo,
+            str_et_radishtwo,
+            str_et_tomatoone,
+            str_et_radishone,
             str_et_otherseedname,
             str_distributors, str_switches;
+
+
+
+    EditText
+            et_exp,
+            et_avgvolume,
+            et_contersale,
+            et_estimatedseedsold,
+
+    et_bhindione,
+            et_bhinditwo,
+            et_chillione,
+            et_chillitwo,
+            et_brinjalone,
+            et_brinjaltwo,
+            et_bguardone,
+            et_bguardtwo,
+            et_calione,
+            et_calitwo,
+            et_othername,
+            et_otherone,
+            et_othertwo,
+            et_otherseedname, et_tomatotwo, et_radishtwo, et_tomatoone, et_radishone, et_grandmahyco, et_grandtotal;
+
+    Switch
+            switchPesticides,
+            switchFertilizer,
+            switchOther;
+    LinearLayout ll_otherSeedSale;
 
     String allDistributtor[];
     boolean isAllDistributors[];
@@ -1137,6 +1170,86 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
         // dialog.dismiss();
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+       try {
+           // double mmahyco = Double.parseDouble(et_estimatedseedsold.getText().toString().trim());
+           double m1 = et_bhinditwo.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_bhinditwo.getText().toString().trim());
+           double m2 = et_chillitwo.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_chillitwo.getText().toString().trim());
+           double m3 = et_brinjaltwo.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_brinjaltwo.getText().toString().trim());
+           double m4 = et_bguardtwo.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_bguardtwo.getText().toString().trim());
+           double m5 = et_calitwo.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_calitwo.getText().toString().trim());
+           double m6 = et_othertwo.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_othertwo.getText().toString().trim());
+           double m7 = et_tomatotwo.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_tomatotwo.getText().toString().trim());
+           double m8 = et_radishtwo.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_radishtwo.getText().toString().trim());
+           double sum = m1 + m2 + m3 + m4 + m5 + m6 + m7 + m8;
+           et_grandmahyco.setText("" + sum);
+           et_estimatedseedsold.setText("" + sum);
+           double m11 = et_bhindione.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_bhindione.getText().toString().trim());
+           double m22 = et_chillione.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_chillione.getText().toString().trim());
+           double m33 = et_brinjalone.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_brinjalone.getText().toString().trim());
+           double m44 = et_bguardone.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_bguardone.getText().toString().trim());
+           double m55 = et_calione.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_calione.getText().toString().trim());
+           double m66 = et_otherone.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_otherone.getText().toString().trim());
+           double m77 = et_tomatoone.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_tomatoone.getText().toString().trim());
+           double m88 = et_radishone.getText().toString().trim().equals("") ? 0.0 : Double.parseDouble(et_radishone.getText().toString().trim());
+           double sumTotal = m11 + m22 + m33 + m44 + m55 + m66 + m77 + m88;
+
+           et_grandtotal.setText("" + sumTotal);
+           et_avgvolume.setText("" + sumTotal);
+           if (m11 < m1) {
+               et_bhinditwo.setError("Must be less than total sale.");
+               return;
+           }
+
+           if (m22 < m2) {
+               et_chillitwo.setError("Must be less than total sale.");
+               return;
+           }
+
+           if (m33 < m3) {
+               et_brinjaltwo.setError("Must be less than total sale.");
+               return;
+           }
+
+           if (m44 < m4) {
+               et_bguardtwo.setError("Must be less than total sale.");
+               return;
+           }
+
+           if (m55 < m5) {
+               et_calitwo.setError("Must be less than total sale.");
+               return;
+           }
+
+           if (m66 < m6) {
+               et_othertwo.setError("Must be less than total sale.");
+               return;
+           }
+           if (m77 < m7) {
+               et_tomatotwo.setError("Must be less than total sale.");
+               return;
+           }
+           if (m88 < m8) {
+               et_radishtwo.setError("Must be less than total sale.");
+               return;
+           }
+       }catch(Exception e)
+       {
+           Toast.makeText(context, "Please enter valid entry.", Toast.LENGTH_SHORT).show();
+       }
+    }
+
 
     public class uploadbcfcall extends AsyncTask<String, String, String> {
 
@@ -1286,9 +1399,10 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
 
             final TextView lblretailername = (TextView) dialog.findViewById(R.id.lblretailername);
             final TextView lblretailerfirmname = (TextView) dialog.findViewById(R.id.lblretailerfirmname);
-
+            final Switch switchyesno = (Switch) dialog.findViewById(R.id.switchyesno);
             final EditText txtretailermobileno = (EditText) dialog.findViewById(R.id.txtretailermobileno);
-           txt_distributors = (TextView) dialog.findViewById(R.id.txt_distributors);
+            final EditText txtretailerWAmobileno = (EditText) dialog.findViewById(R.id.txtretailerWAmobileno);
+            txt_distributors = (TextView) dialog.findViewById(R.id.txt_distributors);
 
             Spinner sp_distributor_retailer = dialog.findViewById(R.id.sp_distributorretailer);
             bindDistributorNewRetailer();
@@ -1299,34 +1413,18 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                     selectMultipleDistributors();
                 }
             });
+            switchyesno.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        txtretailerWAmobileno.setText(txtretailermobileno.getText().toString().trim());
+                    } else {
+                        txtretailerWAmobileno.setText("");
+                    }
+                }
+            });
 
 
-            EditText
-                    et_exp,
-                    et_avgvolume,
-                    et_contersale,
-                    et_estimatedseedsold,
-
-                    et_bhindione,
-                    et_bhinditwo,
-                    et_chillione,
-                    et_chillitwo,
-                    et_brinjalone,
-                    et_brinjaltwo,
-                    et_bguardone,
-                    et_bguardtwo,
-                    et_calione,
-                    et_calitwo,
-                    et_othername,
-                    et_otherone,
-                    et_othertwo,
-                    et_otherseedname;
-
-            Switch
-                    switchPesticides,
-                    switchFertilizer,
-                    switchOther;
-            LinearLayout ll_otherSeedSale;
 
 
             et_exp = dialog.findViewById(R.id.et_exp);
@@ -1347,7 +1445,36 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
             et_othername = dialog.findViewById(R.id.et_othername);
             et_otherone = dialog.findViewById(R.id.et_otherone);
             et_othertwo = dialog.findViewById(R.id.et_othertwo);
+            et_tomatoone = dialog.findViewById(R.id.et_tomatoone);
+            et_tomatotwo = dialog.findViewById(R.id.et_tomatotwo);
+            et_radishone = dialog.findViewById(R.id.et_radishone);
+            et_radishtwo = dialog.findViewById(R.id.et_radishtwo);
             et_otherseedname = dialog.findViewById(R.id.et_otherseedname);
+            et_grandmahyco = dialog.findViewById(R.id.et_grandmahyco);
+            et_grandtotal = dialog.findViewById(R.id.et_grandtotal);
+
+
+            et_bhindione.addTextChangedListener(this);
+            et_bhinditwo .addTextChangedListener(this);
+            et_chillione .addTextChangedListener(this);
+            et_chillitwo .addTextChangedListener(this);
+            et_brinjalone .addTextChangedListener(this);
+            et_brinjaltwo .addTextChangedListener(this);
+            et_bguardone .addTextChangedListener(this);
+            et_bguardtwo.addTextChangedListener(this);
+            et_calione.addTextChangedListener(this);
+            et_calitwo.addTextChangedListener(this);
+            et_othername.addTextChangedListener(this);
+            et_otherone.addTextChangedListener(this);
+            et_othertwo.addTextChangedListener(this);
+            et_tomatoone.addTextChangedListener(this);
+            et_tomatotwo.addTextChangedListener(this);
+            et_radishone.addTextChangedListener(this);
+            et_radishtwo.addTextChangedListener(this);
+
+
+
+
 
             switchPesticides = dialog.findViewById(R.id.switchPesticides);
             switchFertilizer = dialog.findViewById(R.id.switchFertilizer);
@@ -1434,6 +1561,10 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                         str_et_othername = et_othername.getText().toString().trim();
                         str_et_otherone = et_otherone.getText().toString().trim();
                         str_et_othertwo = et_othertwo.getText().toString().trim();
+                        str_et_tomatotwo = et_tomatotwo.getText().toString().trim();
+                        str_et_radishtwo = et_radishtwo.getText().toString().trim();
+                        str_et_tomatoone = et_tomatoone.getText().toString().trim();
+                        str_et_radishone = et_radishone.getText().toString().trim();
                         str_et_otherseedname = et_otherseedname.getText().toString().trim();
 
                         str_distributors = hs_distributors.toString();
@@ -1498,14 +1629,11 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                             if (str_et_contersale.toString().trim().equals("")) {
                                 et_contersale.setError("");
                                 return;
-                            }else
-                            {
-                                int a=Integer.parseInt(str_et_contersale.trim());
-                                if(a>0&&a<=100)
-                                {
+                            } else {
+                                int a = Integer.parseInt(str_et_contersale.trim());
+                                if (a > 0 && a <= 100) {
 
-                                }else
-                                {
+                                } else {
                                     et_contersale.setError("must be in between 1-100.");
 
                                 }
@@ -1514,16 +1642,14 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                             if (str_et_estimatedseedsold.toString().trim().equals("")) {
                                 et_estimatedseedsold.setError("");
                                 return;
-                            }
-                            else
-                            {
-                                double est=Double.parseDouble(str_et_estimatedseedsold.trim());
-                                double avg=Double.parseDouble(str_et_avgvolume.trim());
-                                  if(avg<est) {
-                                      et_estimatedseedsold.setError("The value entered in Average Volume should always be less than or equal to the value entered under the 'Average volume of Hybrid Vegetable seed sold, as estimated (in Kgs) ' ");
-                                      msclass.showMessage("The value entered in Average Volume should always be less than or equal to the value entered under the '\tAverage volume of Hybrid Vegetable seed sold, as estimated (in Kgs) ' ");
-                                      return;
-                                  }
+                            } else {
+                                double est = Double.parseDouble(str_et_estimatedseedsold.trim());
+                                double avg = Double.parseDouble(str_et_avgvolume.trim());
+                                if (avg < est) {
+                                    et_estimatedseedsold.setError("The value entered in Average Volume should always be less than or equal to the value entered under the 'Average volume of Hybrid Vegetable seed sold, as estimated (in Kgs) ' ");
+                                    msclass.showMessage("The value entered in Average Volume should always be less than or equal to the value entered under the '\tAverage volume of Hybrid Vegetable seed sold, as estimated (in Kgs) ' ");
+                                    return;
+                                }
                                 //=et_exp.getText().toString().trim();
                             }
 
@@ -1578,7 +1704,26 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                             if (str_et_othertwo.toString().trim().equals("")) {
                                 et_othertwo.setError("");
                                 return;
-                            }//=et_exp.getText().toString().trim();
+                            }
+                            if (str_et_tomatoone.toString().trim().equals("")) {
+                                et_tomatoone.setError("");
+                                return;
+                            }// =et_exp.getText().toString().trim();
+                            if (str_et_tomatotwo.toString().trim().equals("")) {
+                                et_tomatotwo.setError("");
+                                return;
+                            }
+                            if (str_et_radishone.toString().trim().equals("")) {
+                                et_radishone.setError("");
+                                return;
+                            }// =et_exp.getText().toString().trim();
+                            if (str_et_radishtwo.toString().trim().equals("")) {
+                                et_radishtwo.setError("");
+                                return;
+                            }
+
+
+                            //=et_exp.getText().toString().trim();
                             if (str_switches.trim().contains("Other"))
                                 if (str_et_otherseedname.toString().trim().equals("")) {
                                     et_otherseedname.setError("");
@@ -1603,54 +1748,58 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                                 double m4 = Double.parseDouble(str_et_bguardtwo.trim());
                                 double m5 = Double.parseDouble(str_et_calitwo.trim());
                                 double m6 = Double.parseDouble(str_et_othertwo.trim());
-                                double sum = m1 + m2 + m3 + m4 + m5 + m6;
-
+                                double m7 = Double.parseDouble(str_et_tomatotwo.trim());
+                                double m8 = Double.parseDouble(str_et_radishtwo.trim());
+                                double sum = m1 + m2 + m3 + m4 + m5 + m6 + m7 + m8;
+                                et_grandmahyco.setText("" + sum);
                                 double m11 = Double.parseDouble(str_et_bhindione.trim());
                                 double m22 = Double.parseDouble(str_et_chillione.trim());
                                 double m33 = Double.parseDouble(str_et_brinjalone.trim());
                                 double m44 = Double.parseDouble(str_et_bguardone.trim());
                                 double m55 = Double.parseDouble(str_et_calione.trim());
                                 double m66 = Double.parseDouble(str_et_otherone.trim());
-                                double sumTotal = m11 + m22 + m33 + m44 + m55 + m66;
+                                double m77 = Double.parseDouble(str_et_tomatoone.trim());
+                                double m88 = Double.parseDouble(str_et_radishone.trim());
+                                double sumTotal = m11 + m22 + m33 + m44 + m55 + m66 + m77 + m88;
 
-
-                                if(m11<m1)
-                                {
+                                et_grandtotal.setText("" + sumTotal);
+                                if (m11 < m1) {
                                     et_bhinditwo.setError("Must be less than total sale.");
                                     return;
                                 }
 
-                                if(m22<m2)
-                                {
+                                if (m22 < m2) {
                                     et_chillitwo.setError("Must be less than total sale.");
                                     return;
                                 }
 
-                                if(m33<m3)
-                                {
+                                if (m33 < m3) {
                                     et_brinjaltwo.setError("Must be less than total sale.");
                                     return;
                                 }
 
-                                if(m44<m4)
-                                {
+                                if (m44 < m4) {
                                     et_bguardtwo.setError("Must be less than total sale.");
                                     return;
                                 }
 
-                                if(m55<m5)
-                                {
+                                if (m55 < m5) {
                                     et_calitwo.setError("Must be less than total sale.");
                                     return;
                                 }
 
-                                if(m66<m6)
-                                {
+                                if (m66 < m6) {
                                     et_othertwo.setError("Must be less than total sale.");
                                     return;
                                 }
-
-
+                                if (m77 < m7) {
+                                    et_othertwo.setError("Must be less than total sale.");
+                                    return;
+                                }
+                                if (m88 < m8) {
+                                    et_othertwo.setError("Must be less than total sale.");
+                                    return;
+                                }
 
                                 if (mmahyco < sum) {
                                     msclass.showMessage("Estimated average volume of MPL's Hybrid Vegetable seed sold, as estimated (in Kgs) is Exceeding the limit .");
@@ -1678,8 +1827,11 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
                             jsonObject.put("EstVolumeBrinjal", "" + str_et_brinjalone + "," + str_et_brinjaltwo);
                             jsonObject.put("EstVolumeBottleGuard", "" + str_et_bguardone + "," + str_et_bguardtwo);
                             jsonObject.put("EstVolumeCaliflower", "" + str_et_calione + "," + str_et_calitwo);
+                            jsonObject.put("EstVolumeTomato", "" + str_et_tomatoone + "," + str_et_tomatotwo);
+                            jsonObject.put("EstVolumeRadish", "" + str_et_radishone + "," + str_et_radishtwo);
                             jsonObject.put("EstVolumeOther", "" + str_et_otherone + "," + str_et_othertwo + "," + str_et_othername);
                             jsonObject.put("OtherBussiness", str_switches);
+                            jsonObject.put("WhatsappNumber", txtretailerWAmobileno.getText().toString().trim());
                             jsonObject.put("Address", address);
                             jsonObject.put("Lat", lati);
                             jsonObject.put("Long", longi);
@@ -2556,7 +2708,7 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
             String weatherInfo = "Weather Report  is: \n";
             try {
                 // JSONObject jsonObject = new JSONObject(result);
-Log.i("Result",result);
+                Log.i("Result", result);
                 pd.dismiss();
                 // if (result.contains("True")) {
                 if (action.equals("1")) {
@@ -3315,7 +3467,7 @@ Log.i("Result",result);
                     else
                         hs_distributors.remove(allDistributtor[which]);
 
-                    txt_distributors.setText(Html.fromHtml(hs_distributors.toString().replace("[","<ol><li>").replace("]","</ol>").replace(",","</li><li>")));
+                    txt_distributors.setText(Html.fromHtml(hs_distributors.toString().replace("[", "<ol><li>").replace("]", "</ol>").replace(",", "</li><li>")));
                 }
             });
             builder.setPositiveButton("Close", new DialogInterface.OnClickListener() {

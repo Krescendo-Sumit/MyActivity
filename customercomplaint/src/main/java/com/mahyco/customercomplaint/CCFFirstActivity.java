@@ -92,9 +92,9 @@ public class CCFFirstActivity extends CCFBaseActivity implements View.OnClickLis
                 mPendingWithRbmCardView.setVisibility(View.GONE);
             } else if (extras != null && extras.getString("ccfUserRoleID") != null &&
                     Objects.requireNonNull(extras.getString("ccfUserRoleID")).equalsIgnoreCase("2")) {
-                mTitleTextView.setText(getString(R.string.ccf_pending_complaint));
-                mViewComplaintCardView.setVisibility(View.GONE);
-                mNewComplaintCardView.setVisibility(View.GONE);
+                mTitleTextView.setText(getString(R.string.ccf_pending_new_complaint));
+                mViewComplaintCardView.setVisibility(View.VISIBLE);
+                mNewComplaintCardView.setVisibility(View.VISIBLE);
                 mPendingWithRbmCardView.setVisibility(View.VISIBLE);
             }
 
@@ -104,9 +104,9 @@ public class CCFFirstActivity extends CCFBaseActivity implements View.OnClickLis
                 mNewComplaintCardView.setVisibility(View.VISIBLE);
                 mPendingWithRbmCardView.setVisibility(View.GONE);
             } else if (extras == null && CCFStoreData.getString(mContext, CCFConstantValues.CCF_USER_ROLE_ID).equalsIgnoreCase("2")) {
-                mTitleTextView.setText(getString(R.string.ccf_pending_complaint));
-                mViewComplaintCardView.setVisibility(View.GONE);
-                mNewComplaintCardView.setVisibility(View.GONE);
+                mTitleTextView.setText(getString(R.string.ccf_pending_new_complaint));
+                mViewComplaintCardView.setVisibility(View.VISIBLE);
+                mNewComplaintCardView.setVisibility(View.VISIBLE);
                 mPendingWithRbmCardView.setVisibility(View.VISIBLE);
             }
 

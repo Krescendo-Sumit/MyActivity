@@ -14,6 +14,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
@@ -30,6 +31,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.navigation.NavigationView;
 import com.mahyco.customercomplaint.CCFFirstActivity;
+import com.mahyco.exportdbtocsv.ExportDbToCsv;
 import com.mahyco.feedbacklib.view.DialogFeedback;
 
 import androidx.core.view.GravityCompat;
@@ -121,6 +123,10 @@ public class UserHome extends AppCompatActivity
     private Handler handler = new Handler();
     String userId;
     Dialog dialog1;
+    private ExportDbToCsv mExportDbToCsv;
+
+
+    private SQLiteOpenHelper dbHelper = null;
     // private DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -541,6 +547,18 @@ id=item.getItemId();
             try{
                 //clearApplicationData();
                 clearAppData();
+            }catch (Exception e)
+            {
+
+            }
+
+            return true;
+        }if (id == R.id.action_exportdata) {
+                  try{
+
+                      ExportDbToCsv mExportDbToCsv = new ExportDbToCsv();
+                      mExportDbToCsv.exportWholeDb(context,new SqliteDatabase(context),"MDOApps");
+           //           dbHelper = new  mExportDbToCsv.exportWholeDb(UserHome.this, null, "1#myactivitydb#");
             }catch (Exception e)
             {
 

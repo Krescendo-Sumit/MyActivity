@@ -153,6 +153,7 @@
     <string name="ccf_comment">Comment<font color='#FF0000'>*</font></string>
     <string name="ccf_forward">Forward</string>
     <string name="ccf_reject">Reject</string>
+    <string name="ccf_pending_new_complaint">Create New/View/Pending Feedback </string>
 
     <!--<string-array name="cc_form_technical_complaint_category_type">
         <item>Select Main Complaint Category</item>
