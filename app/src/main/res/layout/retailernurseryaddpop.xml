@@ -248,13 +248,14 @@
                         android:textAllCaps="true" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
                 <TextView
                     android:layout_width="wrap_content"
 
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="2dp"
-                    android:text="Estimated volume of major Hybrid Vegetable crops sold, as estimated (in lakhs)"
+                    android:text="Estimated value of major Hybrid Vegetable crops sold, as estimated (in lakhs)"
                     android:textColor="@color/QRCodeBlackColor"
                     android:textStyle="bold" />
 
@@ -685,7 +686,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="2dp"
-                    android:text="Average volume of Hybrid Vegetable seed sold, as estimated (in lakhs)"
+                    android:text="Average value of Hybrid Vegetable seed sold, as estimated (in lakhs)"
                     android:textColor="@color/QRCodeBlackColor"
                     android:textStyle="bold" />
 
@@ -747,7 +748,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="2dp"
-                    android:text="Estimated average volume of MPL's Hybrid Vegetable seed sold, as estimated (in lakhs)"
+                    android:text="Estimated average value of MPL's Hybrid Vegetable seed sold, as estimated (in lakhs)"
                     android:textColor="@color/QRCodeBlackColor"
                     android:textStyle="bold" />
 
