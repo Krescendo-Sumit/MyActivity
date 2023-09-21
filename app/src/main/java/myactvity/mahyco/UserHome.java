@@ -287,7 +287,13 @@ public class UserHome extends AppCompatActivity
         if(config.NetworkConnection())
         {
             try {
-                new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco");
+                String IME=msclass.getDeviceIMEI();
+                SharedPreferences sp = getApplicationContext().getSharedPreferences("MyPref", 0);
+                String userCode = sp.getString("UserID", null);
+                userCode=userCode.replace(" ","%20");
+                IME=IME.replace(" ","%20");
+
+                new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
             } catch (Exception e) {
 
             }
@@ -1855,6 +1861,31 @@ id=item.getItemId();
                         if (!(vcode.trim().equals(jsonVersionDetails.getString("AppVersion").trim()))) {
                             showUpdateDialog();
                         }
+                        if (jsonVersionDetails.getInt("UserStatus")==0) {
+
+                            new androidx.appcompat.app.AlertDialog.Builder(UserHome.this)
+                                    .setMessage("Session Expired . Please login again.")
+                                    .setTitle("Information")
+                                    .setPositiveButton("Login Again", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            editor.putString("UserID", null);
+                                            editor.commit();
+                                            //finish();
+                                            //System.exit(0);
+                                            logLogOutEvent();
+                                            Intent intent = new Intent(UserHome.this, LoginActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(intent);
+                                        }
+                                    })
+                                    .setCancelable(false)
+                                    .show();
+                            return;
+                        }
+
+
+
                         if (jsonVersionDetails.getBoolean("IsFeedbackStatus")) {
                           //  showUpdateDialog();
                           //  Toast.makeText(context, "CheckFeedback Given.", Toast.LENGTH_SHORT).show();

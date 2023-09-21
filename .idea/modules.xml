@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/feedbacklib/MyActivityLive.feedbacklib.iml" filepath="$PROJECT_DIR$/.idea/modules/feedbacklib/MyActivityLive.feedbacklib.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/MyActivityLive.library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/MyActivityLive.library.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/picasso-2.5.2/MyActivityLive.picasso-2.5.2.iml" filepath="$PROJECT_DIR$/.idea/modules/picasso-2.5.2/MyActivityLive.picasso-2.5.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/zoomimagelib/MyActivityLive.zoomimagelib.iml" filepath="$PROJECT_DIR$/.idea/modules/zoomimagelib/MyActivityLive.zoomimagelib.iml" />
     </modules>
   </component>
 </project>

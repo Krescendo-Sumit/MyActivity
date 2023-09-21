@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/feedbacklib" />
             <option value="$PROJECT_DIR$/library" />
             <option value="$PROJECT_DIR$/picasso-2.5.2" />
+            <option value="$PROJECT_DIR$/zoomimagelib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

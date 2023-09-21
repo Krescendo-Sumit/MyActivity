@@ -15,6 +15,11 @@
         <entry key="..\:/KT_Mahendra/MyActivityAppLIVE/mahycomyactivity/app/src/main/res/layout/activity_upload_data.xml" value="0.5" />
         <entry key="..\:/KT_Mahendra/MyActivityAppLIVE/mahycomyactivity/app/src/main/res/layout/retailernurseryaddpop.xml" value="0.33" />
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_bcfcall_tbm.xml" value="0.25" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_crop_show.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_demo_model_list.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_demo_model_plot_visit.xml" value="0.20102564102564102" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_demo_model_record_screen.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_demo_validate_list.xml" value="0.20102564102564102" />
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_distributor_pog.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_distributorpogupdate_detail.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_download_masterdata.xml" value="0.17074275362318841" />
@@ -24,7 +29,9 @@
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_live_plant_display_retail_counter.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_live_plant_display_retail_counter_online.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_live_plant_display_village.xml" value="0.20416666666666666" />
-        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_my_field_actvity.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_mdoweekly_plan_report.xml" value="0.20102564102564102" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_my_field_actvity.xml" value="0.25" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_my_travel.xml" value="0.20102564102564102" />
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_myactivity_recording_new.xml" value="0.33" />
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_orderfrom_rbm.xml" value="0.16847826086956522" />
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/app/src/main/res/layout/activity_orderfrom_tbm.xml" value="0.25" />
@@ -60,6 +67,7 @@
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/customercomplaint/src/main/res/layout/ccf_first_activity.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/customercomplaint/src/main/res/layout/ccf_view_complaints.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/customercomplaint/src/main/res/layout/ccft_complaint_type_activity.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/MYTINAUR001/AndroidStudioProjects/MyActivityLive/zoomimagelib/src/main/res/layout/lib_zoom_image.xml" value="0.1" />
         <entry key="..\:/VAPT_Changes_2020/17_June_2021_MAA_Copy/LASTUpdateMyactivity/mahycomyactivity/app/src/main/res/drawable-v21/ic_menu_camera.xml" value="0.20989583333333334" />
         <entry key="..\:/VAPT_Changes_2020/17_June_2021_MAA_Copy/LASTUpdateMyactivity/mahycomyactivity/app/src/main/res/drawable-v21/ic_menu_gallery.xml" value="0.20989583333333334" />
         <entry key="..\:/VAPT_Changes_2020/17_June_2021_MAA_Copy/LASTUpdateMyactivity/mahycomyactivity/app/src/main/res/drawable/btn_shape.xml" value="0.21354166666666666" />

@@ -1,10 +1,13 @@
 package myactvity.mahyco;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,8 +24,10 @@ import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
@@ -93,11 +98,31 @@ public class DownloadMasterdata extends AppCompatActivity {
         // String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
         InTime = new SimpleDateFormat("dd-MM-yyyy").format(entrydate);
         context=DownloadMasterdata.this;
-
+        preferences = getSharedPreferences("MyPref", 0);
+        editor=preferences.edit();
         if(sp.getString("unit", null).contains("VCBU")) {
             btncoupondata.setVisibility(View.GONE);
             btnDemoplot.setVisibility(View.GONE);
             btnhdps.setVisibility(View.GONE);
+        }
+
+
+        if(config.NetworkConnection())
+        {
+            try {
+                String IME=msclass.getDeviceIMEI();
+                SharedPreferences sp = getApplicationContext().getSharedPreferences("MyPref", 0);
+                String userCode = sp.getString("UserID", null);
+                userCode=userCode.replace(" ","%20");
+                IME=IME.replace(" ","%20");
+
+                new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
+            } catch (Exception e) {
+
+            }
+        }else
+        {
+
         }
 
         btnDownload.setOnClickListener(new View.OnClickListener() {
@@ -767,6 +792,7 @@ public class DownloadMasterdata extends AppCompatActivity {
             postParameters.add(new BasicNameValuePair("Type", "MDOMyplotDataDownload"));
             String Urlpath1 = MDOurlpath + "?userCode=" + username + "";
             Log.i("Url",Urlpath1);
+            Log.i("PARAM",postParameters.toString());
             HttpPost httppost = new HttpPost(Urlpath1);
 
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
@@ -969,7 +995,155 @@ public class DownloadMasterdata extends AppCompatActivity {
             }
         }
 
+    }   SharedPreferences.Editor editor;
+
+
+    private class CheckVersion extends AsyncTask<String, Void, Void> {
+
+        private final HttpClient Client = new DefaultHttpClient();
+        private String Content;
+        private String Error = null;
+        private ProgressDialog Dialog = new ProgressDialog(context);
+
+
+        protected void onPreExecute() {
+            // NOTE: You can call UI Element here.
+
+            //UI Element
+            //   uiUpdate.setText("Output : ");
+            //  Dialog.setMessage("Please Wait..");
+            // Dialog.show();
+            //pb.setVisibility(View.VISIBLE);
+        }
+
+        // Call after onPreExecute method
+        protected Void doInBackground(String... urls) {
+            try {
+
+                Log.d("Url", urls[0]);
+                Log.d("Url", urls[0]);
+                // Call long running operations here (perform background computation)
+                // NOTE: Don't call UI Element here.
+
+                // Server url call by GET method
+                HttpPost httpget = new HttpPost(urls[0]);
+                //     httpget.setHeader("Authorization", "Bearer " + mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
+                ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                Content = Client.execute(httpget, responseHandler);
+
+            } catch (ClientProtocolException e) {
+                Error = e.getMessage();
+                cancel(true);
+            } catch (IOException e) {
+                Error = e.getMessage();
+                cancel(true);
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(Void unused) {
+            // NOTE: You can call UI Element here.
+             editor=preferences.edit();
+            // Close progress dialog
+            //Dialog.dismiss();
+
+            if (Error != null) {
+
+                //  uiUpdate.setText("Output : "+Error);
+
+            } else {
+                //pb.setVisibility(View.GONE);
+                //   uiUpdate.setText("Output : "+Content);
+                // loadFromServer(Content.toString().trim());
+                Log.i("Details123", "" + Content);
+                //   Toast.makeText(getApplicationContext(), ""+Content, Toast.LENGTH_SHORT).show();
+
+                try {
+
+                    JSONObject jsonVersionDetails = new JSONObject(Content.trim());
+                    String vcode = BuildConfig.VERSION_NAME;
+
+                    if (jsonVersionDetails.getBoolean("success")) {
+
+                        if (!(vcode.trim().equals(jsonVersionDetails.getString("AppVersion").trim()))) {
+                            showUpdateDialog();
+                        }
+                        if (jsonVersionDetails.getInt("UserStatus")==0) {
+
+                            new androidx.appcompat.app.AlertDialog.Builder(DownloadMasterdata.this)
+                                    .setMessage("Session Expired . Please login again.")
+                                    .setTitle("Information")
+                                    .setPositiveButton("Login Again", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            editor.putString("UserID", null);
+                                            editor.commit();
+                                            //finish();
+                                            //System.exit(0);
+                                            logLogOutEvent();
+                                            Intent intent = new Intent(DownloadMasterdata.this, LoginActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(intent);
+                                        }
+                                    })
+                                    .setCancelable(false)
+                                    .show();
+                            return;
+                        }
+
+
+
+
+                    } else  //  Coming False from the Version API
+                    {
+                        Toast.makeText(context, "" + jsonVersionDetails.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    Log.i("Error is ", e.getMessage());
+                }
+            }
+        }
+
     }
+    SharedPreferences preferences;
+
+    private void logLogOutEvent(){
+        preferences = getSharedPreferences("MyPref", 0);
+        editor = preferences.edit();
+        if(preferences!=null){
+            String userId="", displayName="";
+            if (preferences.getString("UserID", null) != null && preferences.getString("Displayname", null) != null ){
+                userId = preferences.getString("UserID", "");
+                displayName = preferences.getString("Displayname", "");
+                FirebaseAnalyticsHelper.getInstance(this).callLogoutEvent(userId,displayName);
+            }
+        }
+    }
+    private void showUpdateDialog() {
+        final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("A new update is available.");
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
+                        ("https://play.google.com/store/apps/details?id=myactvity.mahyco")));
+                dialog.dismiss();
+            }
+        });
+
+        /*builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //background.start();
+            }
+        });*/
+
+        builder.setCancelable(false); //Update 17 Jan. 2022
+        dialog1 = builder.show();
+    }
+    Dialog dialog1;
 
 }
 

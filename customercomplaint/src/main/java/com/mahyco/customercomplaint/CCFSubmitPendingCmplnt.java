@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Base64;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ import com.mahyco.customercomplaint.ccfnetwork.CCFBaseApiResponse;
 import com.mahyco.customercomplaint.ccfpresenter.CCFSbmtPenCmplntPresenter;
 import com.mahyco.customercomplaint.ccfspinner.CCFSerachSpinner;
 import com.mahyco.customercomplaint.ccfstoredata.CCFStoreData;
+import com.mahyco.zoomimagelib.LibShowZoomDialog;
 
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -140,7 +142,43 @@ public class CCFSubmitPendingCmplnt extends CCFBaseActivity implements CCFCommon
 
             AppCompatTextView sowingDays = findViewById(R.id.ccf_pen_submit_sowing_days);
             AppCompatEditText editText = findViewById(R.id.ccf_pen_submit_remarks_input_edittext);
+            /*added on 7/9/2023*/
+            photoFirstLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (photoFirstImageView.getDrawable() != null) {
+                        LibShowZoomDialog.showZoomDialog(((BitmapDrawable) photoFirstImageView.getDrawable()).getBitmap(), mContext);
+                    }
+                }
+            });
 
+            photoSecondLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (photoSecondImageView.getDrawable() != null) {
+                        LibShowZoomDialog.showZoomDialog(((BitmapDrawable) photoSecondImageView.getDrawable()).getBitmap(), mContext);
+                    }
+                }
+            });
+
+            photoThirdLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (photoThirdImageView.getDrawable() != null) {
+                        LibShowZoomDialog.showZoomDialog(((BitmapDrawable) photoThirdImageView.getDrawable()).getBitmap(), mContext);
+                    }
+                }
+            });
+
+            photoFourthLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (photoFourthImageView.getDrawable() != null) {
+                        LibShowZoomDialog.showZoomDialog(((BitmapDrawable) photoFourthImageView.getDrawable()).getBitmap(), mContext);
+                    }
+                }
+            });
+            /*added ended here on 7/9/2023*/
             mForwardButton = findViewById(R.id.ccf_pen_forward_btn);
             mForwardButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -493,7 +531,9 @@ public class CCFSubmitPendingCmplnt extends CCFBaseActivity implements CCFCommon
         if (mDialog != null && mDialog.isShowing()) {
             mDialog.dismiss();
         }
-
+        /*added on 7/9/2023*/
+        LibShowZoomDialog.hideZoomDialog();
+        /*added on 7/9/2023 ended here*/
         hideKeyboard(mContext);
         hideProgressDialog();
         dismissDialog();
