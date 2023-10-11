@@ -503,6 +503,7 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
                 boolean resultfalg = false;
                 //redirecttoRegisterActivity(resultout);
                 try {
+                    Log.i("Api Response",result);
                     JSONObject jsonObject = new JSONObject(result);
                     if (jsonObject.has("ResultFlag")) {
 

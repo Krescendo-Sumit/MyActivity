@@ -443,7 +443,7 @@
                             android:ems="10"
                             android:hint="TOTAL NO. OF RETAILER'S WHO PARTICIPATED *"
                             android:inputType="phone"
-                            android:maxLength="3"
+                            android:maxLength="4"
                             android:textAllCaps="true" />
 
                     </com.google.android.material.textfield.TextInputLayout>

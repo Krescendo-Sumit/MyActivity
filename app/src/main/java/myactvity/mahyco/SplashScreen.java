@@ -264,7 +264,25 @@ public class SplashScreen extends AppCompatActivity {
                         boolean WRITEEXTERNALSTORAGE = grantResults[5] == PackageManager.PERMISSION_GRANTED;
                         boolean CameraPermission = grantResults[6] == PackageManager.PERMISSION_GRANTED;
                         boolean READPHONESTATE = grantResults[7] == PackageManager.PERMISSION_GRANTED;
+                        String str="";
 
+                                str=str+ "1-"+READEXTERNALSTORAGE;
+                                str=str+ "2-"+ACCESS_FINE_LOCATION;
+                                str=str+ "3-"+ACCESSCOARSELOCATION;
+                                str=str+ "4-"+INTERNET;
+                                str=str+ "5-"+ACCESSNOTIFICATIONPOLICY;
+                                str=str+ "6-"+WRITEEXTERNALSTORAGE;
+                                str=str+ "7-"+CameraPermission;
+                                str=str+ "8-"+READPHONESTATE;
+                        Log.i("Result ",str);
+
+                        int version = android.os.Build.VERSION.SDK_INT;
+                        Log.i("Version ",""+version);
+                        if(version>30)
+                        {
+                            READEXTERNALSTORAGE=true;
+                            WRITEEXTERNALSTORAGE=true;
+                        }
                         if (CameraPermission && READEXTERNALSTORAGE
                                 && ACCESSCOARSELOCATION && ACCESS_FINE_LOCATION && INTERNET
                                 && ACCESSNOTIFICATIONPOLICY && WRITEEXTERNALSTORAGE && READPHONESTATE) {

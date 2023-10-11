@@ -243,6 +243,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
 
         userCode = mPref.getString(AppConstant.USER_CODE_TAG, "");
         userCode = pref.getString("UserID", null);
+        Toast.makeText(context, "Hiii", Toast.LENGTH_SHORT).show();
         bindState();
         bindFocussedVillages();
 

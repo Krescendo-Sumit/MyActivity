@@ -293,7 +293,7 @@ public class UserHome extends AppCompatActivity
                 userCode=userCode.replace(" ","%20");
                 IME=IME.replace(" ","%20");
 
-                new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
+            //    new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
             } catch (Exception e) {
 
             }
