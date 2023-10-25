@@ -1614,8 +1614,6 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
             Log.i("Host is::", "" + http);
             HttpURLConnection urlConnection = null;
             try {
-
-
                 Log.i("pass", "2");
                 URL url = new URL(http);
 

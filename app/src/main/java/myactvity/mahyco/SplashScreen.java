@@ -29,6 +29,9 @@ import static android.Manifest.permission.ACCESS_NOTIFICATION_POLICY;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.INTERNET;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
+import static android.Manifest.permission.READ_MEDIA_AUDIO;
+import static android.Manifest.permission.READ_MEDIA_IMAGES;
+import static android.Manifest.permission.READ_MEDIA_VIDEO;
 import static android.Manifest.permission.READ_PHONE_STATE;
 import static android.Manifest.permission.READ_SMS;
 import static android.Manifest.permission.RECEIVE_SMS;
@@ -230,7 +233,13 @@ public class SplashScreen extends AppCompatActivity {
                             , ACCESS_NOTIFICATION_POLICY,
                             WRITE_EXTERNAL_STORAGE,
                             CAMERA,
-                             READ_PHONE_STATE
+                             READ_PHONE_STATE,
+                            READ_MEDIA_IMAGES,
+                            READ_MEDIA_AUDIO,
+                            READ_MEDIA_VIDEO
+
+
+
                     }, RequestPermissionCode);
         }
         catch (Exception ex)
@@ -264,6 +273,10 @@ public class SplashScreen extends AppCompatActivity {
                         boolean WRITEEXTERNALSTORAGE = grantResults[5] == PackageManager.PERMISSION_GRANTED;
                         boolean CameraPermission = grantResults[6] == PackageManager.PERMISSION_GRANTED;
                         boolean READPHONESTATE = grantResults[7] == PackageManager.PERMISSION_GRANTED;
+                        READEXTERNALSTORAGE= grantResults[8] == PackageManager.PERMISSION_GRANTED;;
+                        WRITEEXTERNALSTORAGE= grantResults[9] == PackageManager.PERMISSION_GRANTED;;
+                        WRITEEXTERNALSTORAGE= grantResults[10] == PackageManager.PERMISSION_GRANTED;;
+
                         String str="";
 
                                 str=str+ "1-"+READEXTERNALSTORAGE;
@@ -278,10 +291,16 @@ public class SplashScreen extends AppCompatActivity {
 
                         int version = android.os.Build.VERSION.SDK_INT;
                         Log.i("Version ",""+version);
-                        if(version>30)
+                        if(version>32)
                         {
-                            READEXTERNALSTORAGE=true;
-                            WRITEEXTERNALSTORAGE=true;
+                            READEXTERNALSTORAGE= grantResults[8] == PackageManager.PERMISSION_GRANTED;;
+                            WRITEEXTERNALSTORAGE= grantResults[9] == PackageManager.PERMISSION_GRANTED;;
+                            WRITEEXTERNALSTORAGE= grantResults[10] == PackageManager.PERMISSION_GRANTED;;
+                        }else
+                        {
+                            READEXTERNALSTORAGE = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                            WRITEEXTERNALSTORAGE = grantResults[5] == PackageManager.PERMISSION_GRANTED;
+
                         }
                         if (CameraPermission && READEXTERNALSTORAGE
                                 && ACCESSCOARSELOCATION && ACCESS_FINE_LOCATION && INTERNET

@@ -513,21 +513,19 @@ public class UploadData extends AppCompatActivity {
         logUploadDataEvent();
 
 
-        if(config.NetworkConnection())
-        {
+        if (config.NetworkConnection()) {
             try {
-                String IME=msclass.getDeviceIMEI();
+                String IME = msclass.getDeviceIMEI();
                 SharedPreferences sp = getApplicationContext().getSharedPreferences("MyPref", 0);
                 String userCode = sp.getString("UserID", null);
-                userCode=userCode.replace(" ","%20");
-                IME=IME.replace(" ","%20");
+                userCode = userCode.replace(" ", "%20");
+                IME = IME.replace(" ", "%20");
 
-                new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
+                new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode=" + userCode + "&IMEICode=" + IME + "");
             } catch (Exception e) {
 
             }
-        }else
-        {
+        } else {
 
         }
 
@@ -1499,21 +1497,20 @@ public class UploadData extends AppCompatActivity {
 
             searchQuery = "select  *  from RetailerVisitsData where  isSynced ='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
-            while(cursor.moveToNext())
-            {
-                String  row=cursor.getString(0)+"-"+
-                        cursor.getString(1)+"-"+
-                        cursor.getString(2)+"-"+
-                        cursor.getString(3)+"-"+
-                        cursor.getString(4)+"-"+
-                        cursor.getString(5)+"-"+
-                        cursor.getString(6)+"-"+
-                        cursor.getString(7)+"-"+
-                        cursor.getString(8)+"-"+
-                        cursor.getString(9)+"-"+
-                        cursor.getString(10)+"-"+
-                        cursor.getString(11)+"-";
-                Log.i("Valu",row);
+            while (cursor.moveToNext()) {
+                String row = cursor.getString(0) + "-" +
+                        cursor.getString(1) + "-" +
+                        cursor.getString(2) + "-" +
+                        cursor.getString(3) + "-" +
+                        cursor.getString(4) + "-" +
+                        cursor.getString(5) + "-" +
+                        cursor.getString(6) + "-" +
+                        cursor.getString(7) + "-" +
+                        cursor.getString(8) + "-" +
+                        cursor.getString(9) + "-" +
+                        cursor.getString(10) + "-" +
+                        cursor.getString(11) + "-";
+                Log.i("Valu", row);
             }
             count4 = count4 + cursor.getCount();
             cursor.close();
@@ -5223,10 +5220,10 @@ public class UploadData extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 returnvalue = syncDemandAssementdata("MDO_demandassesmentservey", objAsBytes, Imagestring1, Imagestring2, ImageName, "", cx.MDOurlpath);
-                Log.i("Return Values is ",returnvalue);
+                Log.i("Return Values is ", returnvalue);
 
             } catch (Exception ex) {
-                 msclass.showMessage(ex.getMessage());
+                msclass.showMessage(ex.getMessage());
                 dialog.dismiss();
             }
         } else {
@@ -5284,14 +5281,14 @@ public class UploadData extends AppCompatActivity {
                         searchQuery = "select * from mdo_Retaileranddistributordata where Status='0'";
                         object.put("Table4", mDatabase.getResults(searchQuery));
 
-                        Log.i("Retailer Data:",""+mDatabase.getResults(searchQuery).length());
+                        Log.i("Retailer Data:", "" + mDatabase.getResults(searchQuery).length());
                         searchQuery = "select * from mdo_retailerproductdetail where Status='0'";
                         object.put("Table5", mDatabase.getResults(searchQuery));
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                     try {
-                        Log.i("Object is :",object.toString());
+                        Log.i("Object is :", object.toString());
                         objAsBytes = object.toString().getBytes("UTF-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -5302,11 +5299,11 @@ public class UploadData extends AppCompatActivity {
 
 
                 } catch (Exception ex) {
-                     msclass.showMessage(ex.getMessage());
+                    msclass.showMessage(ex.getMessage());
 
                 }
             } else {
-                 msclass.showMessage("Uploading data not available");
+                msclass.showMessage("Uploading data not available");
 
             }
         } catch (Exception ex) {
@@ -5942,7 +5939,7 @@ public class UploadData extends AppCompatActivity {
                             try {
                                 ImageName = cursor.getString(cursor.getColumnIndex("imgname"));
                                 Imagestring1 = mDatabase.getImageDatadetail(cursor.getString(cursor.getColumnIndex("imgpath")));
-                                Log.i("Img64",Imagestring1);
+                                Log.i("Img64", Imagestring1);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -6402,9 +6399,14 @@ public class UploadData extends AppCompatActivity {
             postParameters.add(new BasicNameValuePair("input2", Imagestring2));
 
             //String Urlpath=urls[0];
+            if (ImageName.contains(" "))
+                ImageName = ImageName.replace(" ", "%20");
 
+            if (Imagestring2.contains(" "))
+                Imagestring2 = Imagestring2.replace(" ", "%20");
             String Urlpath = urls[0] + "?ImageName=" + ImageName + "&ImageName2=" + ImageName2;
-Log.i("Urls_img_upld",Urlpath);
+            Log.i("Urls_img_upld", Urlpath);
+
             HttpPost httppost = new HttpPost(Urlpath);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
 
@@ -6449,6 +6451,8 @@ Log.i("Urls_img_upld",Urlpath);
                 String resultout = result.trim();
                 if (resultout.contains("True")) {
                     // msclass.showMessage("Data uploaded successfully.");
+                    Toast.makeText(UploadData.this,"Image Upload : "+resultout,Toast.LENGTH_SHORT).show();
+
                     pd.dismiss();
                     if (Funname.equals("tagdatauploadMDONew_Testold")) {
 
@@ -6607,7 +6611,7 @@ Log.i("Urls_img_upld",Urlpath);
             e.printStackTrace();
 
         }
-        Log.i("Return string is ",builder.toString());
+        Log.i("Return string is ", builder.toString());
         return builder.toString();
     }
 
@@ -6704,7 +6708,7 @@ Log.i("Urls_img_upld",Urlpath);
                     progressDialog.dismiss();
 
                 }
-                Log.i("Results is ",result);
+                Log.i("Results is ", result);
                 if (result.contains("True")) {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                     Date d = new Date();
@@ -6724,9 +6728,8 @@ Log.i("Urls_img_upld",Urlpath);
                     rnd2.setText("Pending retailer and distributor data=0");
 
 
-                }else
-                {
-                    Toast.makeText(context, "Error is -"+result,
+                } else {
+                    Toast.makeText(context, "Error is -" + result,
                             Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception ex) {
@@ -6759,7 +6762,7 @@ Log.i("Urls_img_upld",Urlpath);
 
         @Override
         protected String doInBackground(Void... params) {
-            Log.i("Upload Start","Go too");
+            Log.i("Upload Start", "Go too");
             if (tag.equals("mdo_starttravel"))
                 uploadstart(tag, cx.MDOurlpath);
             else if (tag.equals("mdo_endtravel")) {
@@ -9199,7 +9202,7 @@ Log.i("Urls_img_upld",Urlpath);
                         if (!(vcode.trim().equals(jsonVersionDetails.getString("AppVersion").trim()))) {
                             showUpdateDialog();
                         }
-                        if (jsonVersionDetails.getInt("UserStatus")==0) {
+                        if (jsonVersionDetails.getInt("UserStatus") == 0) {
 
                             new androidx.appcompat.app.AlertDialog.Builder(UploadData.this)
                                     .setMessage("Session Expired . Please login again.")
@@ -9223,8 +9226,6 @@ Log.i("Urls_img_upld",Urlpath);
                         }
 
 
-
-
                     } else  //  Coming False from the Version API
                     {
                         Toast.makeText(context, "" + jsonVersionDetails.getString("message"), Toast.LENGTH_SHORT).show();
@@ -9237,20 +9238,22 @@ Log.i("Urls_img_upld",Urlpath);
         }
 
     }
+
     SharedPreferences preferences;
 
-    private void logLogOutEvent(){
+    private void logLogOutEvent() {
         preferences = getSharedPreferences("MyPref", 0);
         editor = preferences.edit();
-        if(preferences!=null){
-            String userId="", displayName="";
-            if (preferences.getString("UserID", null) != null && preferences.getString("Displayname", null) != null ){
+        if (preferences != null) {
+            String userId = "", displayName = "";
+            if (preferences.getString("UserID", null) != null && preferences.getString("Displayname", null) != null) {
                 userId = preferences.getString("UserID", "");
                 displayName = preferences.getString("Displayname", "");
-                FirebaseAnalyticsHelper.getInstance(this).callLogoutEvent(userId,displayName);
+                FirebaseAnalyticsHelper.getInstance(this).callLogoutEvent(userId, displayName);
             }
         }
     }
+
     private void showUpdateDialog() {
         final android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
         builder.setTitle("A new update is available.");
@@ -9273,6 +9276,7 @@ Log.i("Urls_img_upld",Urlpath);
         builder.setCancelable(false); //Update 17 Jan. 2022
         dialog1 = builder.show();
     }
+
     Dialog dialog1;
 
     /*End ---------------------------------------------------------------- */

@@ -25,10 +25,13 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
+
 import androidx.annotation.RequiresApi;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.navigation.NavigationView;
 import com.mahyco.customercomplaint.CCFFirstActivity;
 import com.mahyco.exportdbtocsv.ExportDbToCsv;
@@ -39,6 +42,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
@@ -117,7 +121,7 @@ public class UserHome extends AppCompatActivity
     Config config;
     private Context context;
     String Intime = "";
-    TextView lblwelcome,myTextProgress;
+    TextView lblwelcome, myTextProgress;
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     private Handler handler = new Handler();
@@ -127,6 +131,7 @@ public class UserHome extends AppCompatActivity
 
 
     private SQLiteOpenHelper dbHelper = null;
+
     // private DrawerLayout drawerLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,7 +143,7 @@ public class UserHome extends AppCompatActivity
         getSupportActionBar().setTitle("MY ACTIVITY HOME PAGE");
         createcustometitlebar();
         // Always call the superclass so it can restore the view hierarchy
-      //  super.onRestoreInstanceState(savedInstanceState);
+        //  super.onRestoreInstanceState(savedInstanceState);
 
         // Restore state members from saved instance
         //mCurrentScore = savedInstanceState.getInt(STATE_SCORE);
@@ -156,12 +161,10 @@ public class UserHome extends AppCompatActivity
         msclass = new Messageclass(this);
         //DB Crration
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            AppConstant.dbnamepath =this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)+"/SQLiteDB/MDOApps.db";
-            Log.d("Rajshri","DB_PATH : "+this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)+"/SQLiteDB/MDOApps.db");
-        }
-        else
-        {
-            AppConstant.dbnamepath="/mnt/sdcard/MDOApps.db";
+            AppConstant.dbnamepath = this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/SQLiteDB/MDOApps.db";
+            Log.d("Rajshri", "DB_PATH : " + this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/SQLiteDB/MDOApps.db");
+        } else {
+            AppConstant.dbnamepath = "/mnt/sdcard/MDOApps.db";
         }
         mDatabase = SqliteDatabase.getInstance(this);
 
@@ -243,8 +246,8 @@ public class UserHome extends AppCompatActivity
                             public void run() {
 
                                 new UploadDataONServernew("").execute();
-                               // UploadFarmerData("MDOFarmerMasterdataInsertNew");
-                               // downloadphotopath("mdo_photoupdate");
+                                // UploadFarmerData("MDOFarmerMasterdataInsertNew");
+                                // downloadphotopath("mdo_photoupdate");
                             }
                         });
 
@@ -282,23 +285,21 @@ public class UserHome extends AppCompatActivity
         //testCrash();
 
         /*TODO Uncomment when App Feedback Module required.*/
-       // showUserFeedbackScreen(userId);
+        // showUserFeedbackScreen(userId);
 
-        if(config.NetworkConnection())
-        {
+        if (config.NetworkConnection()) {
             try {
-                String IME=msclass.getDeviceIMEI();
+                String IME = msclass.getDeviceIMEI();
                 SharedPreferences sp = getApplicationContext().getSharedPreferences("MyPref", 0);
                 String userCode = sp.getString("UserID", null);
-                userCode=userCode.replace(" ","%20");
-                IME=IME.replace(" ","%20");
+                userCode = userCode.replace(" ", "%20");
+                IME = IME.replace(" ", "%20");
 
-            //    new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
+                //  new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
             } catch (Exception e) {
 
             }
-        }else
-        {
+        } else {
 
         }
 
@@ -307,7 +308,7 @@ public class UserHome extends AppCompatActivity
 
     private void showUserFeedbackScreen(String user) {
         Prefs mPref = Prefs.with(UserHome.this);
-        String userId=user.trim();
+        String userId = user.trim();
         boolean isFeedDone = mPref.getBoolean(Constants.LOCAL_CHECK_ISFEED_GIVEN, false);
         Log.d("AppFeed_MAA", "GET PREF SAVED AS : " + mPref.getBoolean(Constants.LOCAL_CHECK_ISFEED_GIVEN, false));
 
@@ -353,7 +354,7 @@ public class UserHome extends AppCompatActivity
     }
 
 
-    void testCrash(){
+    void testCrash() {
         Button crashButton = new Button(this);
         crashButton.setText("Crash!");
         crashButton.setOnClickListener(new View.OnClickListener() {
@@ -387,6 +388,7 @@ public class UserHome extends AppCompatActivity
         // container.setEnabled(true);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
     }
+
     public void createcustometitlebar() {
         // Get the ActionBar
         androidx.appcompat.app.ActionBar ab = getSupportActionBar();
@@ -499,8 +501,8 @@ public class UserHome extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = 2 ;//item.getItemId();
-id=item.getItemId();
+        int id = 2;//item.getItemId();
+        id = item.getItemId();
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             /*ToDo comment later, before upload, 6th Sept 2021*/
@@ -508,37 +510,50 @@ id=item.getItemId();
             /*Intent i = new Intent(this, AndroidDatabaseManager.class);
             startActivity(i);*/
 
-            try{
-                try
-                {
-                    Context c=UserHome.this;
+            try {
+                try {
+                    Context c = UserHome.this;
                     File sd = Environment.getExternalStorageDirectory();
                     File data = Environment.getDataDirectory();
+                    File exportDir = context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS);
+
 
                     String currentDBPath = "//data//myactvity.mahyco//databases//MDOApps.db";
-                    String userid=preferences.getString("UserID", null);
+                    String userid = preferences.getString("UserID", null);
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH_mm_ss");
                     LocalDateTime now = LocalDateTime.now();
                     System.out.println(dtf.format(now));
-                    String backupDBPath = userid+"_"+dtf.format(now)+"_MDAPP.db";
+                    String backupDBPath = userid + "_" + dtf.format(now) + "_MDAPP.db";
                     File currentDB = new File(data, currentDBPath);
-                    File backupDB = new File(sd, backupDBPath);
+                    File backupDB = new File(exportDir, backupDBPath);
 
                     FileChannel src = new FileInputStream(currentDB).getChannel();
                     FileChannel dst = new FileOutputStream(backupDB).getChannel();
                     dst.transferFrom(src, 0, src.size());
                     src.close();
                     dst.close();
-
+                    Log.i("File Path ", backupDB.getAbsolutePath());
+                    try {
+                        File file = backupDB;
+                        if (file.exists()) {
+                            Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".com.vansuita.pickimage.provider", file);
+                            Intent intent = new Intent(Intent.ACTION_SEND);
+                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                            intent.setType("*/*");
+                            intent.putExtra(Intent.EXTRA_STREAM, uri);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent);
+                        }
+                    } catch (Exception e) {
+                        Log.i("Error in Sharing ",e.getMessage());
+                    }
                     Toast.makeText(c, "Exported", Toast.LENGTH_SHORT).show();
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     Toast.makeText(this, "Not Exported", Toast.LENGTH_SHORT).show();
                     Log.d("Main", e.toString());
                 }
 
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
 
             }
 
@@ -550,37 +565,37 @@ id=item.getItemId();
             /*Intent i = new Intent(this, AndroidDatabaseManager.class);
             startActivity(i);*/
 
-            try{
+            try {
                 //clearApplicationData();
                 clearAppData();
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
 
             }
 
             return true;
-        }if (id == R.id.action_exportdata) {
-                  try{
+        }
+        if (id == R.id.action_exportdata) {
+            try {
 
-                      ExportDbToCsv mExportDbToCsv = new ExportDbToCsv();
-                      mExportDbToCsv.exportWholeDb(context,new SqliteDatabase(context),"MDOApps");
-           //           dbHelper = new  mExportDbToCsv.exportWholeDb(UserHome.this, null, "1#myactivitydb#");
-            }catch (Exception e)
-            {
+                ExportDbToCsv mExportDbToCsv = new ExportDbToCsv();
+                mExportDbToCsv.exportWholeDb(context, new SqliteDatabase(context), "MDOApps");
+                //           dbHelper = new  mExportDbToCsv.exportWholeDb(UserHome.this, null, "1#myactivitydb#");
+            } catch (Exception e) {
 
             }
 
             return true;
-        }if (id == R.id.action_rbmdownload) {
+        }
+        if (id == R.id.action_rbmdownload) {
             /*ToDo comment later, before upload, 6th Sept 2021*/
 
             /*Intent i = new Intent(this, AndroidDatabaseManager.class);
             startActivity(i);*/
 
-            try{
+            try {
                 //clearApplicationData();
 
-                Intent intent=new Intent(context,DownloadMasterdataRBM.class);
+                Intent intent = new Intent(context, DownloadMasterdataRBM.class);
                 startActivity(intent);
 
                 //   CCF 2.0 Module code for Integration
@@ -595,9 +610,7 @@ id=item.getItemId();
                 startActivity(intent);*/
 
 
-
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
 
             }
 
@@ -605,15 +618,16 @@ id=item.getItemId();
         }
         return super.onOptionsItemSelected(item);
     }
+
     public void clearApplicationData() {
         File cache = getCacheDir();
         File appDir = new File(cache.getParent());
-        if(appDir.exists()){
+        if (appDir.exists()) {
             String[] children = appDir.list();
-            for(String s : children){
-                if(!s.equals("lib")){
+            for (String s : children) {
+                if (!s.equals("lib")) {
                     deleteDir(new File(appDir, s));
-                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s +" DELETED");
+                    Log.i("TAG", "File /data/data/APP_PACKAGE/" + s + " DELETED");
                 }
             }
         }
@@ -637,11 +651,11 @@ id=item.getItemId();
         try {
             // clearing app data
             if (Build.VERSION_CODES.KITKAT <= Build.VERSION.SDK_INT) {
-                ((ActivityManager)getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData(); // note: it has a return value!
+                ((ActivityManager) getSystemService(ACTIVITY_SERVICE)).clearApplicationUserData(); // note: it has a return value!
             } else {
                 String packageName = getApplicationContext().getPackageName();
                 Runtime runtime = Runtime.getRuntime();
-                runtime.exec("pm clear "+packageName);
+                runtime.exec("pm clear " + packageName);
             }
 
         } catch (Exception e) {
@@ -650,13 +664,13 @@ id=item.getItemId();
     }
 
     private void createDB() {
-        SQLiteDatabase sampleDB =  this.openOrCreateDatabase("Sumit_MyActivity.db", MODE_PRIVATE, null);
+        SQLiteDatabase sampleDB = this.openOrCreateDatabase("Sumit_MyActivity.db", MODE_PRIVATE, null);
         sampleDB.execSQL("CREATE TABLE IF NOT EXISTS mahycoDev (LastName VARCHAR, FirstName VARCHAR," +
                 " Rank VARCHAR);");
         sampleDB.execSQL("INSERT INTO mahycoDev Values ('Kirk','James, T','Captain');");
         sampleDB.close();
         sampleDB.getPath();
-        Toast.makeText(this, "DB Created @ "+sampleDB.getPath(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "DB Created @ " + sampleDB.getPath(), Toast.LENGTH_LONG).show();
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -689,7 +703,7 @@ id=item.getItemId();
 
             } else if (id == R.id.nav_share) {
 
-               // Intent i = new Intent(UserHome.this, AndroidDatabaseManager.class);
+                // Intent i = new Intent(UserHome.this, AndroidDatabaseManager.class);
                 //startActivity(i);
                 logAboutAppEvent();
                 Toast.makeText(getApplicationContext(), "Working Progress", Toast.LENGTH_SHORT).show();
@@ -1411,7 +1425,7 @@ id=item.getItemId();
         @Override
         protected void onPostExecute(String result) {
 
-           progressBarVisibility();
+            progressBarVisibility();
             super.onPostExecute(result);
             try {
                 JSONObject object = new JSONObject(result);
@@ -1441,6 +1455,7 @@ id=item.getItemId();
         public UploadDataONServernew(String tag) {
             this.tag = tag;
         }
+
         protected void onPreExecute() {
         }
 
@@ -1455,8 +1470,7 @@ id=item.getItemId();
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
         protected void onPostExecute(String result) {
             progressBarVisibility();
-            try
-            {
+            try {
               /*  relPRogress.setVisibility(View.VISIBLE);
                 myTextProgress.setText("Wait");
                 relPRogress.setOnTouchListener(new View.OnTouchListener() {
@@ -1468,9 +1482,7 @@ id=item.getItemId();
                 });*/
                 progressBar.setIndeterminate(true);
                 downloadphotopath("mdo_photoupdate");
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 progressBarVisibility();
             }
         }
@@ -1725,47 +1737,47 @@ id=item.getItemId();
         }
     }
 
-    private void logAppOpenEvent(){
-        if(preferences!=null){
-        String userId="", displayName="";
-        if (preferences.getString("UserID", null) != null && preferences.getString("Displayname", null) != null ){
-            userId = preferences.getString("UserID", "");
-            displayName = preferences.getString("Displayname", "");
-            FirebaseAnalyticsHelper.getInstance(this).callOnLoadEvent(userId,displayName);
-        }
-        }
-    }
-
-    private void logProfileEvent(){
-        if(preferences!=null){
-            String userId="", displayName="";
-        if (preferences.getString("UserID", null) != null && preferences.getString("Displayname", null) != null ){
-            userId = preferences.getString("UserID", "");
-            displayName = preferences.getString("Displayname", "");
-            FirebaseAnalyticsHelper.getInstance(this).callViewProfileEvent(userId,displayName);
-        }
+    private void logAppOpenEvent() {
+        if (preferences != null) {
+            String userId = "", displayName = "";
+            if (preferences.getString("UserID", null) != null && preferences.getString("Displayname", null) != null) {
+                userId = preferences.getString("UserID", "");
+                displayName = preferences.getString("Displayname", "");
+                FirebaseAnalyticsHelper.getInstance(this).callOnLoadEvent(userId, displayName);
+            }
         }
     }
 
-    private void logAboutAppEvent(){
-        if(preferences!=null){
-            String userId="", displayName="";
-        if (preferences.getString("UserID", null) != null && preferences.getString("Displayname", null) != null ){
-            userId = preferences.getString("UserID", "");
-            displayName = preferences.getString("Displayname", "");
-            FirebaseAnalyticsHelper.getInstance(this).callAboutAppEvent(userId,displayName);
-        }
+    private void logProfileEvent() {
+        if (preferences != null) {
+            String userId = "", displayName = "";
+            if (preferences.getString("UserID", null) != null && preferences.getString("Displayname", null) != null) {
+                userId = preferences.getString("UserID", "");
+                displayName = preferences.getString("Displayname", "");
+                FirebaseAnalyticsHelper.getInstance(this).callViewProfileEvent(userId, displayName);
+            }
         }
     }
 
-    private void logLogOutEvent(){
-        if(preferences!=null){
-            String userId="", displayName="";
-        if (preferences.getString("UserID", null) != null && preferences.getString("Displayname", null) != null ){
-            userId = preferences.getString("UserID", "");
-            displayName = preferences.getString("Displayname", "");
-            FirebaseAnalyticsHelper.getInstance(this).callLogoutEvent(userId,displayName);
+    private void logAboutAppEvent() {
+        if (preferences != null) {
+            String userId = "", displayName = "";
+            if (preferences.getString("UserID", null) != null && preferences.getString("Displayname", null) != null) {
+                userId = preferences.getString("UserID", "");
+                displayName = preferences.getString("Displayname", "");
+                FirebaseAnalyticsHelper.getInstance(this).callAboutAppEvent(userId, displayName);
+            }
         }
+    }
+
+    private void logLogOutEvent() {
+        if (preferences != null) {
+            String userId = "", displayName = "";
+            if (preferences.getString("UserID", null) != null && preferences.getString("Displayname", null) != null) {
+                userId = preferences.getString("UserID", "");
+                displayName = preferences.getString("Displayname", "");
+                FirebaseAnalyticsHelper.getInstance(this).callLogoutEvent(userId, displayName);
+            }
         }
     }
 
@@ -1819,7 +1831,7 @@ id=item.getItemId();
 
                 // Server url call by GET method
                 HttpPost httpget = new HttpPost(urls[0]);
-           //     httpget.setHeader("Authorization", "Bearer " + mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
+                //     httpget.setHeader("Authorization", "Bearer " + mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
                 ResponseHandler<String> responseHandler = new BasicResponseHandler();
                 Content = Client.execute(httpget, responseHandler);
 
@@ -1861,7 +1873,7 @@ id=item.getItemId();
                         if (!(vcode.trim().equals(jsonVersionDetails.getString("AppVersion").trim()))) {
                             showUpdateDialog();
                         }
-                        if (jsonVersionDetails.getInt("UserStatus")==0) {
+                        if (jsonVersionDetails.getInt("UserStatus") == 0) {
 
                             new androidx.appcompat.app.AlertDialog.Builder(UserHome.this)
                                     .setMessage("Session Expired . Please login again.")
@@ -1885,29 +1897,24 @@ id=item.getItemId();
                         }
 
 
-
                         if (jsonVersionDetails.getBoolean("IsFeedbackStatus")) {
-                          //  showUpdateDialog();
-                          //  Toast.makeText(context, "CheckFeedback Given.", Toast.LENGTH_SHORT).show();
+                            //  showUpdateDialog();
+                            //  Toast.makeText(context, "CheckFeedback Given.", Toast.LENGTH_SHORT).show();
                             Calendar calendar = Calendar.getInstance();
                             int year = calendar.get(Calendar.YEAR);
                             CommonExecution cxx = new CommonExecution(context);
-                            String json = cxx.new CheckFeedbackStatus(1, userId,""+year).execute().get();
-                            Log.i("Feedback Status",json+" Year:"+year);
+                            String json = cxx.new CheckFeedbackStatus(1, userId, "" + year).execute().get();
+                            Log.i("Feedback Status", json + " Year:" + year);
                             try {
                                 JSONObject jsonObject = new JSONObject(json.trim());
-                                if(jsonObject.getBoolean("success"))
-                                {
-                                    if(!(jsonObject.getBoolean("IsFeedbackGiven")))
-                                    {
+                                if (jsonObject.getBoolean("success")) {
+                                    if (!(jsonObject.getBoolean("IsFeedbackGiven"))) {
                                         showFeedbackScreen(userId);
                                     }
-                                }else
-                                {
-                                    Toast.makeText(context, ""+jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(context, "" + jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
                                 }
-                            }catch(Exception e)
-                            {
+                            } catch (Exception e) {
 
                             }
                         }
@@ -1987,7 +1994,7 @@ id=item.getItemId();
                                     btn_close.setText("Close");
                                     btn_close.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_close_24, 0);
                                     btn_close.setEnabled(true);
-                                   // dialog.dismiss();
+                                    // dialog.dismiss();
                                 }
                             }.start();
 
@@ -2006,6 +2013,7 @@ id=item.getItemId();
         }
 
     }
+
     private void showUpdateDialog() {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("A new update is available.");

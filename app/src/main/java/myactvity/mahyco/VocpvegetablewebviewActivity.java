@@ -135,6 +135,7 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
         progressDialog.setCancelable(false);
         usercode = pref.getString("UserID", null);
         FormName=getIntent().getExtras().getString("FormName");
+
         if(FormName!=null)
           FormName=getIntent().getExtras().getString("FormName");
 
@@ -171,7 +172,7 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
                     newlat = ""+location.getLatitude();
                     newlng = ""+location.getLongitude();
 
-                     //     Toast.makeText(context, "Location Latitude : " + location.getLatitude() + " Longitude :" + location.getLongitude(), Toast.LENGTH_SHORT).show();
+                         // Toast.makeText(context, "Location Latitude : " + location.getLatitude() + " Longitude :" + location.getLongitude(), Toast.LENGTH_SHORT).show();
                     //  edGeoTagging.setText(location.getLatitude() + "," + location.getLongitude());
                 }
             }
@@ -198,6 +199,7 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
         webView.getSettings().setDomStorageEnabled(true);
 
         String encyptusercode = mPref.getString(Constants.userencrytion, "false");
+        webView.addJavascriptInterface(new JavaScriptInterface(newlat, newlng, this), "Android");
 
         webView.loadUrl(Urls);
         //  OLD CODE COMMENTED
@@ -207,8 +209,8 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
         webView.setWebChromeClient(new WebChromeClient() {
         });
 
-
-        webView.addJavascriptInterface(new JavaScriptInterface(newlat, newlng, this), "Android");
+        Toast.makeText(context, "Location in "+newlat+","+newlng, Toast.LENGTH_SHORT).show();
+      // webView.addJavascriptInterface(new JavaScriptInterface(newlat,newlng,context),"Android");
 
     }
 
@@ -338,7 +340,7 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
             newlng = String.valueOf(Longitude);
 
             if (newlat != null && newlng != null) {
-                //  Toast.makeText(MainActivity.this, "Android newLatt: " + newlat + " newLnggg:: " + newlng, Toast.LENGTH_LONG).show();
+                  Toast.makeText(VocpvegetablewebviewActivity.this, "Android newLatt: " + newlat + " newLnggg:: " + newlng, Toast.LENGTH_LONG).show();
             }
 
             if (isFirstTime != true && isNewLatLng != true) {
@@ -583,7 +585,7 @@ class JavaScriptInterface {
                 ar[0] = ((VocpvegetablewebviewActivity) mContext).newlat;
                 ar[1] = ((VocpvegetablewebviewActivity) mContext).newlng;
 
-                Toast.makeText(mContext, "newLatt: " + ar[0] + " newLnggg:: " + ar[1], Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "Inside newLatt: " + ar[0] + " newLnggg:: " + ar[1], Toast.LENGTH_LONG).show();
 
             } else {
                 Toast.makeText(mContext, "There is some issue in fetching location", Toast.LENGTH_LONG).show();
@@ -593,6 +595,7 @@ class JavaScriptInterface {
             Log.d("JAVA newLat ", ar[0] + " lng: " + ar[1]);
 
         } catch (Exception ex) {
+            Toast.makeText(mContext, "Error is "+ ex.getMessage(), Toast.LENGTH_SHORT).show();
             ex.printStackTrace();
         }
         return Arrays.toString(ar);
