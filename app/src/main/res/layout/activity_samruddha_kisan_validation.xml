@@ -69,6 +69,8 @@
 
                     <!-- TBM-->
                     <androidx.cardview.widget.CardView
+
+                        android:id="@+id/cardtbm"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginLeft="1dp"
@@ -105,6 +107,7 @@
 
                     <!--MDO-->
                     <androidx.cardview.widget.CardView
+                        android:id="@+id/cardmdo"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
                         android:layout_marginLeft="1dp"
@@ -242,8 +245,8 @@
                         android:id="@+id/llOtherVillages"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="gone">
 
                         <TextView
 
@@ -355,7 +358,7 @@
                         <TextView
                             android:layout_width="wrap_content"
 
-                            android:layout_height="0dp"
+                            android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:layout_marginTop="2dp"
                             android:text="VILLAGE *"
@@ -364,8 +367,7 @@
 
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:visibility="gone"
+                            android:layout_height="40dp"
                             android:layout_marginLeft="1dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="1dp"

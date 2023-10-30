@@ -536,13 +536,19 @@ public class UserHome extends AppCompatActivity
                     try {
                         File file = backupDB;
                         if (file.exists()) {
-                            Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".com.vansuita.pickimage.provider", file);
-                            Intent intent = new Intent(Intent.ACTION_SEND);
-                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            intent.setType("*/*");
-                            intent.putExtra(Intent.EXTRA_STREAM, uri);
-                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startActivity(intent);
+                        //    Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".com.vansuita.pickimage.provider", file);
+//                          Intent intent = new Intent(Intent.ACTION_SEND);
+//                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                            intent.setType("*/*");
+//                            intent.putExtra(Intent.EXTRA_STREAM, uri);
+//                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                            startActivity(intent);
+
+                            Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                            Uri screenshotUri = Uri.parse(file.getAbsolutePath());
+                            sharingIntent.setType("*/*");
+                            sharingIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                            startActivity(Intent.createChooser(sharingIntent, "Share using"));
                         }
                     } catch (Exception e) {
                         Log.i("Error in Sharing ",e.getMessage());

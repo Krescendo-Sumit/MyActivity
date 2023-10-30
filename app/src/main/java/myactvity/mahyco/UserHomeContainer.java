@@ -153,7 +153,7 @@ public  class UserHomeContainer  extends Fragment {
                            "MY TRAVEL & ACTIVITY RECORDING",
                            "TRADE MAPPING & TAGGING "
                            ,"SALES ORDER" /*,"MFDC"*/,"MDO SURVEY",
-                           "REPORT","POG",/*"HDPS\\NEW PRODUCT","SAMRUDDHA KISAN VALIDATION"*/ //,"IPMF"//,"DAS"//,"SAMRUDDHA KISAN VALIDATION"
+                           "REPORT","POG","SAMRUDDHA KISAN VALIDATION"/*"HDPS\\NEW PRODUCT","SAMRUDDHA KISAN VALIDATION"*/ //,"IPMF"//,"DAS"//,"SAMRUDDHA KISAN VALIDATION"
 
                    };
                    ImageList = new String[]{
@@ -161,14 +161,14 @@ public  class UserHomeContainer  extends Fragment {
                            "journey.png", "retailermap.png"
                            , "saleorder.png"/*, "discount.png"*/,
                            "mdoservey.png" ,
-                           "report.png","pog.png",/*"discount.png","field.png"*///,"ipmf.png"///, "voiceofcustomer.png"// ,"field.png"
+                           "report.png","pog.png","field.png"/*"discount.png","field.png"*///,"ipmf.png"///, "voiceofcustomer.png"// ,"field.png"
 
                    };
                    ActivityName = new String[]{
                            "UploadData", "DownloadData",
                            "MyTravel", "RetailerTag",
                            "SalesOrder",/* "COUPON",*/"MDOSURVEY",
-                           "Report","POG",/*"HDPSCouponDashboardActivity","samruddhakisanvalidation"*///"IPMF"//,"DAS"//,"samruddhakisanvalidation"
+                           "Report","POG","samruddhakisanvalidation"/*"HDPSCouponDashboardActivity","samruddhakisanvalidation"*///"IPMF"//,"DAS"//,"samruddhakisanvalidation"
 
                    };
                }

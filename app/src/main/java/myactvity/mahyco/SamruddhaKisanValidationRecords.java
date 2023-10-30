@@ -218,7 +218,7 @@ public class SamruddhaKisanValidationRecords extends AppCompatActivity {
 
         // focussedVillage
         if (!focussedVillage.equals("")) {
-            sb.append("focussedVillage = '" + focussedVillage.toUpperCase() + "'");
+            sb.append("upper(focussedVillage) = '" + focussedVillage.toUpperCase() + "'");
             sb.append(" AND ");
         }
 
@@ -232,26 +232,26 @@ public class SamruddhaKisanValidationRecords extends AppCompatActivity {
         // state
         if ((state !=null) &&  !state.equals("")) {
 
-            sb.append(" state = '" + state.toUpperCase() + "'");
+            sb.append(" upper(state) = '" + state.toUpperCase() + "'");
             sb.append(" AND ");
         }
 
 
         // district
         if ((district !=null ) &&!district.equals("")) {
-            sb.append(" district = '" + district.toUpperCase() + "'");
+            sb.append(" upper(district) = '" + district.toUpperCase() + "'");
             sb.append(" AND ");
         }
 
         // taluka
         if ( (taluka !=null) && !taluka.equals("") ) {
-            sb.append(" taluka = '" + taluka.toUpperCase() + "'");
+            sb.append(" upper(taluka) = '" + taluka.toUpperCase() + "'");
             sb.append(" AND ");
         }
 
         // village
         if (  (village !=null) && !village.equals("") ) {
-            sb.append(" village = '" + village.toUpperCase() + "'");
+            sb.append(" upper(village) = '" + village.toUpperCase() + "'");
             sb.append(" AND ");
         }
 
@@ -266,7 +266,7 @@ public class SamruddhaKisanValidationRecords extends AppCompatActivity {
         }
 
         sb.delete(sb.length() - 4, sb.length());
-
+       Log.i("Query Generated",sb.toString() + " order by farmerName");
         return sb.toString() + " order by farmerName" ;
     }
     private void getRecordsFromDB(String searchText) {

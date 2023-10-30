@@ -138,7 +138,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
     Button btn_refresh_tbm_list;
     int flag_load = 0;
     int cnt = 0;
-
+    SharedPreferences pref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -187,10 +187,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
         userCode = mPref.getString(AppConstant.USER_CODE_TAG, "");
         msclass = new Messageclass(this);
 
-        if (flag_load == 0) {
-            bindTBM();
-            flag_load = 1;
-        }
+
         // mdo="";
         //tbm="";
         bindStatus();
@@ -239,6 +236,41 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
 
             }
         });
+
+        pref = SamruddhaKisanValidation.this.getSharedPreferences("MyPref", 0);
+        if(pref.getString("RoleID", null).contains("0"))
+        {
+            Toast.makeText(context, "MDO", Toast.LENGTH_SHORT).show();
+            List<GeneralMaster> tbmlist = new ArrayList<GeneralMaster>();
+            tbmlist.add(0, new GeneralMaster("SELECT TBM",
+                    "SELECT TBM"));
+            spTBM.setAdapter(null);
+            ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                    (context, android.R.layout.simple_spinner_dropdown_item, tbmlist);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spTBM.setAdapter(adapter);
+
+            spMDO.setAdapter(null);
+            List<GeneralMaster> mdoList = new ArrayList<GeneralMaster>();
+            mdoList.add(0, new GeneralMaster("SELECT USERNAME",
+                    "SELECT USERNAME"));
+            ArrayAdapter<GeneralMaster> adapter1 = new ArrayAdapter<GeneralMaster>
+                    (context, android.R.layout.simple_spinner_dropdown_item, mdoList);
+            adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spMDO.setAdapter(adapter1);
+
+            findViewById(R.id.cardmdo).setVisibility(View.INVISIBLE);;
+            findViewById(R.id.cardtbm).setVisibility(View.INVISIBLE);
+
+        }
+        else
+        {
+            if (flag_load == 0) {
+                bindTBM();
+                flag_load = 1;
+            }
+            Toast.makeText(context, "Not MDO", Toast.LENGTH_SHORT).show();
+        }
 
 
         if (checkPlayServices()) {
@@ -639,6 +671,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
         }
 
         protected void onPreExecute() {
+            Log.i("Start","Yes");
         }
 
         @Override
@@ -649,7 +682,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
         protected void onPostExecute(String result) {
             try {
                 String resultout = result.trim();
-                Log.d("Response", resultout);
+                Log.i("Response", resultout);
                 JSONObject jsonObject = new JSONObject(resultout);
                 if (jsonObject.has("success")) {
                     if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
@@ -704,6 +737,14 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
     private String getValidationData(String samruddhaKisanData) {
         String str = "";
         try {
+Log.i("Pass ","2");
+            pref = SamruddhaKisanValidation.this.getSharedPreferences("MyPref", 0);
+            if(pref.getString("RoleID", null).trim().contains("0")) {
+                mdo =pref.getString("UserID", null).trim();
+                Log.i("Direct MDO",mdo+" Data Downloading..");
+            }
+
+
             JSONObject jsonObject = new JSONObject();
 
             JSONObject obj = new JSONObject();
@@ -713,7 +754,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
             jsonObject.put("Table", obj);
             Log.d("samruddhaKisanData", SERVER + "+++++" + jsonObject.toString());
             str = syncSamruddhaKisanValidationData(samruddhaKisanData, SERVER, jsonObject);
-
+            Log.i("Pass ","3");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -724,8 +765,13 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
 
 
     private String syncSamruddhaKisanValidationData(String samruddhaKisanData, String server, JSONObject jsonObject) {
-        return HttpUtils.POSTJSON(server, jsonObject, mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
-
+       try {
+           Log.i("Pass ","2.1");
+           return HttpUtils.POSTJSON(server, jsonObject, mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
+       }catch(Exception e)
+       {
+           return e.getMessage();
+       }
     }
 
 
@@ -1323,10 +1369,8 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
     public void bindVillage(String taluka) {
         spVillage.setAdapter(null);
 
-
         String str = null;
         try {
-
 
             String searchQuery = "";
             List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();

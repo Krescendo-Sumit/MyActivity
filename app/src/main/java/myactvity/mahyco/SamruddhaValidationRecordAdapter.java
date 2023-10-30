@@ -218,8 +218,10 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                     demoModelViewHolder.btnStatus.setBackgroundResource(R.drawable.gradient_error);
                     break;
             }
-
-
+          //  pref = context.getSharedPreferences("MyPref", 0);
+            if(pref.getString("RoleID", null).contains("0")) {
+                demoModelViewHolder.btnStatus.setVisibility(View.GONE);
+            }
             demoModelViewHolder.imgEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
