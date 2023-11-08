@@ -24,4 +24,9 @@
         android:title="Export CSV Data"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_newupload"
+        android:orderInCategory="100"
+        android:title="Upload Data (New)"
+        app:showAsAction="never" />
 </menu>

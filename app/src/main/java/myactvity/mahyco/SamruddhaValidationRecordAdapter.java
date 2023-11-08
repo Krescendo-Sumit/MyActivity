@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
@@ -27,10 +28,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,10 +93,11 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
     String SERVER = "https://packhouse.mahyco.com/api/generalactivity/samruddhaKisanValidation";
     //test URL
     //String SERVER = "http://10.80.50.153/MAAPackHouseTest/api/generalactivity/samruddhaKisanValidation";
-  //  String SERVER_IMAGE = "http://10.80.50.153/MAAPackHouseTest/UploadSamfuddhaKisanFarmerPhoto/";
+    //  String SERVER_IMAGE = "http://10.80.50.153/MAAPackHouseTest/UploadSamfuddhaKisanFarmerPhoto/";
     String SERVER_IMAGE = "https://packhouse.mahyco.com/UploadSamfuddhaKisanFarmerPhoto/";
 
     int mYear, mMonth, mDay;
+    String taggedAddress="";
 
     public SamruddhaValidationRecordAdapter(Context context, List<SamruddhaKisanModel> mlist, SqliteDatabase mDatabase) {
         this.context = context;
@@ -128,8 +132,6 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
             final SamruddhaKisanModel samruddhaKisanModel = mlist.get(i);
 
 
-
-
             demoModelViewHolder.et_dob.setEnabled(false);
             demoModelViewHolder.et_dob.setClickable(false);
             demoModelViewHolder.et_annivaesarydate.setEnabled(false);
@@ -149,13 +151,6 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
             demoModelViewHolder.et_pincode.setBackgroundResource(R.drawable.no_border_line);
             demoModelViewHolder.et_currentlocation.setBackgroundResource(R.drawable.no_border_line);
             demoModelViewHolder.txt_capure_image.setBackgroundResource(R.drawable.no_border_line);
-
-
-
-
-
-
-
 
 
             demoModelViewHolder.txtFarmerName.setText(samruddhaKisanModel.getFarmerName());
@@ -190,6 +185,15 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
             demoModelViewHolder.txtCrop.setText(samruddhaKisanModel.getCrop());
             samruddhaKisanModel.setStr_aniversarydate(samruddhaKisanModel.getFarmer_anniversarydate());
             samruddhaKisanModel.setStr_dob(samruddhaKisanModel.getFarmer_dob());
+            if (samruddhaKisanModel.getFarmer_dob().trim().equals("") || samruddhaKisanModel.getFarmer_dob().contains("1900")) {
+                demoModelViewHolder.txt_status.setText("Please Updated SK Data");
+                demoModelViewHolder.txt_status.setTextColor(Color.RED);
+                demoModelViewHolder.txt_status.setTextSize(15);
+            } else {
+                demoModelViewHolder.txt_status.setText(Html.fromHtml("<b style='color:GREEN;font-size:15;'>Data is updated.<br> Status : "+samruddhaKisanModel.getAction()+"</b>"));
+                demoModelViewHolder.txt_status.setTextColor(Color.GREEN);
+                demoModelViewHolder.txt_status.setTextSize(15);
+            }
 
             String finalDate = ConvertDateFormat(samruddhaKisanModel.getEntryDt());
             demoModelViewHolder.txtDate.setText(finalDate);
@@ -218,8 +222,8 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                     demoModelViewHolder.btnStatus.setBackgroundResource(R.drawable.gradient_error);
                     break;
             }
-          //  pref = context.getSharedPreferences("MyPref", 0);
-            if(pref.getString("RoleID", null).contains("0")) {
+            //  pref = context.getSharedPreferences("MyPref", 0);
+            if (pref.getString("RoleID", null).contains("0")) {
                 demoModelViewHolder.btnStatus.setVisibility(View.GONE);
             }
             demoModelViewHolder.imgEdit.setOnClickListener(new View.OnClickListener() {
@@ -234,10 +238,23 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
             demoModelViewHolder.imgSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    String ssph = mPref.getString("CapturedImage", "");
                     if (demoModelViewHolder.et_dob.getText().toString().trim().equals("")) {
                         demoModelViewHolder.et_dob.setError("Invalid Date");
                         Toast.makeText(context, "Choose Birth Date.", Toast.LENGTH_SHORT).show();
+                    }  else if (demoModelViewHolder.et_landmark.getText().toString().trim().equals("")) {
+                        demoModelViewHolder.et_landmark.setError("Enter Landmark");
+                        Toast.makeText(context, "Choose Birth Date.", Toast.LENGTH_SHORT).show();
                     } else if (demoModelViewHolder.et_pincode.length() < 6) {
+                        demoModelViewHolder.et_pincode.setError("Pincode must be 6 digits");
+                    } else if (demoModelViewHolder.et_currentlocation.getText().toString().trim().equals("") || demoModelViewHolder.et_currentlocation.getText().toString().trim().length() < 5) {
+                        demoModelViewHolder.et_currentlocation.setError("Tag Address");
+                    } else if (samruddhaKisanModel.getFarmer_house_latlong().trim().equals("")) {
+                        Toast.makeText(context, "Gio Location Not Found.", Toast.LENGTH_SHORT).show();
+                    } else if (ssph.trim().equals("")) {
+                        Toast.makeText(context, "Take Farmer's Photo.", Toast.LENGTH_SHORT).show();
+                    }else if (demoModelViewHolder.et_pincode.length() < 6) {
                         demoModelViewHolder.et_pincode.setError("Pincode must be 6 digits");
                     } else {
                         setVisibleTextField(demoModelViewHolder);
@@ -266,7 +283,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
 
                         //  mlist.get(i).setTaggedAddress(demoModelViewHolder.edGeoTag.getText().toString());
                         try {
-                            updateToDB(mlist.get(i));
+                          //  updateToDB(mlist.get(i), 1);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -306,9 +323,12 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                             else
                                 ssd = "" + selectedday;
 
-                            String dd = selectedyear + "-" + (ssm) + "-" + ssd+"T00:00:00" ;
+                            String dd = selectedyear + "-" + (ssm) + "-" + ssd + "T00:00:00";
                             demoModelViewHolder.et_dob.setText(dd);
                             samruddhaKisanModel.setStr_dob(dd);
+                            String dd1 = ssd + "-" + (ssm) + "-" + selectedyear;
+                            demoModelViewHolder.et_dob.setText(dd1);
+                            //demoModelViewHolder.et_annivaesarydate.setText(ConvertDateFormatDDMMYY(dd));
                             // et_age.setText(getAge(selectedyear,selectedmonth,selectedday));
                         }
                     }, mYear, mMonth, mDay);
@@ -341,9 +361,12 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                             else
                                 ssd = "" + selectedday;
 
-                            String dd = selectedyear + "-" + (ssm) + "-" + ssd+"T00:00:00" ;
+                            String dd = selectedyear + "-" + (ssm) + "-" + ssd + "T00:00:00";
                             demoModelViewHolder.et_annivaesarydate.setText(dd);
                             samruddhaKisanModel.setStr_aniversarydate(dd);
+                            String dd1 = ssd + "-" + (ssm) + "-" + selectedyear;
+                            demoModelViewHolder.et_annivaesarydate.setText(dd1);
+                           // demoModelViewHolder.et_annivaesarydate.setText(ConvertDateFormatDDMMYY(dd));
                             // et_age.setText(getAge(selectedyear,selectedmonth,selectedday));
                         }
                     }, mYear, mMonth, mDay);
@@ -361,12 +384,18 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
             } else {
                 demoModelViewHolder.txt_capure_image.setText("View / Take Photo");
             }
+
+
             if (samruddhaKisanModel.getFarmer_dob() != null || !samruddhaKisanModel.getFarmer_dob().trim().equals("null")) {
                 try {
                     // Log.i("Time :",ConvertDateFormat(samruddhaKisanModel.getFarmer_dob()));
-                    if (samruddhaKisanModel.getFarmer_dob() != null || !samruddhaKisanModel.getFarmer_dob().trim().equals("null") || !samruddhaKisanModel.getFarmer_dob().trim().equals(""))
-                        demoModelViewHolder.et_dob.setText(ConvertDateFormat(samruddhaKisanModel.getFarmer_dob()) != null ? ConvertDateFormat(samruddhaKisanModel.getFarmer_dob()) : "");
-                    //  demoModelViewHolder.et_dob.setText(samruddhaKisanModel.getFarmer_dob());
+                    if (samruddhaKisanModel.getFarmer_dob() != null || !samruddhaKisanModel.getFarmer_dob().trim().equals("null") || !samruddhaKisanModel.getFarmer_dob().trim().equals("")) {
+                        demoModelViewHolder.et_dob.setText(ConvertDateFormatDDMMYY(samruddhaKisanModel.getFarmer_dob()) != null ? ConvertDateFormatDDMMYY(samruddhaKisanModel.getFarmer_dob()) : "");
+                        //  demoModelViewHolder.et_dob.setText(samruddhaKisanModel.getFarmer_dob());
+
+
+                    }
+
                 } catch (Exception e) {
 
                 }
@@ -377,7 +406,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                 //    demoModelViewHolder.et_annivaesarydate.setText(ConvertDateFormat(samruddhaKisanModel.getFarmer_anniversarydate()));
 
                 if (samruddhaKisanModel.getFarmer_anniversarydate() != null || !samruddhaKisanModel.getFarmer_anniversarydate().trim().equals("null") || !samruddhaKisanModel.getFarmer_anniversarydate().trim().equals(""))
-                    demoModelViewHolder.et_annivaesarydate.setText(ConvertDateFormat(samruddhaKisanModel.getFarmer_anniversarydate()) != null ? ConvertDateFormat(samruddhaKisanModel.getFarmer_anniversarydate()) : "");
+                    demoModelViewHolder.et_annivaesarydate.setText(ConvertDateFormatDDMMYY(samruddhaKisanModel.getFarmer_anniversarydate()) != null ? ConvertDateFormatDDMMYY(samruddhaKisanModel.getFarmer_anniversarydate()) : "");
 
             } else
                 demoModelViewHolder.et_annivaesarydate.setText("");
@@ -386,11 +415,11 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                 demoModelViewHolder.et_landmark.setText(samruddhaKisanModel.getFarmer_landmark());
             else
                 demoModelViewHolder.et_landmark.setText("");
-            if (samruddhaKisanModel.getFarmer_pincode() != null||!samruddhaKisanModel.getFarmer_pincode().trim().equals("null"))
+            if (samruddhaKisanModel.getFarmer_pincode() != null || !samruddhaKisanModel.getFarmer_pincode().trim().equals("null"))
                 demoModelViewHolder.et_pincode.setText(samruddhaKisanModel.getFarmer_pincode());
             else
                 demoModelViewHolder.et_pincode.setText("");
-            if (samruddhaKisanModel.getFarmer_house_address() != null||!samruddhaKisanModel.getFarmer_house_address ().trim().equals("null"))
+            if (samruddhaKisanModel.getFarmer_house_address() != null || !samruddhaKisanModel.getFarmer_house_address().trim().equals("null"))
                 demoModelViewHolder.et_currentlocation.setText(samruddhaKisanModel.getFarmer_house_address());
             else
                 demoModelViewHolder.et_currentlocation.setText("");
@@ -401,34 +430,42 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                 demoModelViewHolder.txt_capure_image.setText("NA6");
       */
 
+
             demoModelViewHolder.txt_getlocation.setText(Html.fromHtml("<u>Get Location (SK's House)</u>"));
             demoModelViewHolder.txt_getlocation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    taggedAddress="";
+                    samruddhaKisanModel.setFarmer_house_latlong("");
                     String s = mPref.getString("currentLocation", "");
                     if (s != null && !(s.toString().trim().equals(""))) {
                         samruddhaKisanModel.setFarmer_house_latlong(s.toLowerCase().toString().trim());
                         String cords[] = s.split("-");
                         try {
                             s = getAddress(Double.parseDouble(cords[0].trim()), Double.parseDouble(cords[1].trim()));
-                        }catch(NumberFormatException e)
-                        {
-                            s="";
+                        } catch (NumberFormatException e) {
+                            s = "";
                         }
+                        taggedAddress=s;
                     }
-                    demoModelViewHolder.et_currentlocation.setText("" + s);
+                    if (s.toLowerCase().contains("not found")) {
+                        demoModelViewHolder.et_currentlocation.setHint("Enter Address.");
+                        demoModelViewHolder.et_currentlocation.setText("");
+                        taggedAddress="Not Found";
+                    } else
+                        demoModelViewHolder.et_currentlocation.setText("" + s);
+
                 }
             });
-            String photoPath=SERVER_IMAGE + "" + samruddhaKisanModel.getFarmer_photo_name();
-            try{
-                if(photoPath!=null) {
-                    if( !photoPath.contains("/null")&& photoPath.contains(".jpg"))
+            String photoPath = SERVER_IMAGE + "" + samruddhaKisanModel.getFarmer_photo_name();
+            try {
+                if (photoPath != null) {
+                    if (!photoPath.contains("/null") && photoPath.contains(".jpg"))
                         Glide.with(context)
                                 .load(photoPath)
                                 .into(demoModelViewHolder.imgSk_Photo);
                 }
-            }catch(Exception e)
-            {
+            } catch (Exception e) {
 
             }
 
@@ -445,7 +482,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                                 public void onPickResult(PickResult r) {
                                     //TODO: do what you have to...
                                     demoModelViewHolder.imgSk_Photo.setImageBitmap(r.getBitmap());
-                                    mPref.save("CapturedImage",mDatabase.getImageDatadetail(r.getPath()));
+                                    mPref.save("CapturedImage", mDatabase.getImageDatadetail(r.getPath()));
                                 }
                             })
                             .setOnPickCancel(new IPickCancel() {
@@ -454,7 +491,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                                     //TODO: do what you have to if user clicked cancel
                                 }
                             }).show((SamruddhaKisanValidationRecords) context);
-                 }
+                }
             });
 
             if (samruddhaKisanModel.getFarmer_dob().contains("1900"))
@@ -464,48 +501,86 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                 demoModelViewHolder.et_annivaesarydate.setText("");
 
 
-              demoModelViewHolder.btn_savechanges.setOnClickListener(new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
-                      if (demoModelViewHolder.et_dob.getText().toString().trim().equals("")) {
-                          demoModelViewHolder.et_dob.setError("Invalid Date");
-                          Toast.makeText(context, "Choose Birth Date.", Toast.LENGTH_SHORT).show();
-                      } else if (demoModelViewHolder.et_pincode.length() < 6) {
-                          demoModelViewHolder.et_pincode.setError("Pincode must be 6 digits");
-                      } else {
-                          setVisibleTextField(demoModelViewHolder);
-                          mlist.get(i).setFarmerName(demoModelViewHolder.edFarmerName.getText().toString());
-                          mlist.get(i).setMobileNumber(demoModelViewHolder.edMobileNum.getText().toString());
-                          mlist.get(i).setWhatsappNumber(demoModelViewHolder.edWANum.getText().toString());
-                          mlist.get(i).setMdoDesc(demoModelViewHolder.edMDO.getText().toString());
-                          mlist.get(i).setDistrict(demoModelViewHolder.edDist.getText().toString());
-                          mlist.get(i).setTaluka(demoModelViewHolder.edTaluka.getText().toString());
-                          mlist.get(i).setVillage(demoModelViewHolder.edVillage.getText().toString());
-                          mlist.get(i).setTotalLand(demoModelViewHolder.edLand.getText().toString());
-                          mlist.get(i).setCrop(demoModelViewHolder.edCrop.getText().toString());
-                          mlist.get(i).setFarmer_dob(samruddhaKisanModel.getStr_dob());
-                          mlist.get(i).setFarmer_anniversarydate(samruddhaKisanModel.getStr_aniversarydate());
-                          mlist.get(i).setFarmer_landmark(demoModelViewHolder.et_landmark.getText().toString());
-                          mlist.get(i).setFarmer_house_address(demoModelViewHolder.et_currentlocation.getText().toString());
-                          mlist.get(i).setFarmer_house_latlong(samruddhaKisanModel.getFarmer_house_latlong());
-                          mlist.get(i).setFarmer_pincode(demoModelViewHolder.et_pincode.getText().toString());
-                          //   String serverDate =  ConvertToServerDateFormat(demoModelViewHolder.edDate.getText().toString());
-                          mlist.get(i).setEntryDt(demoModelViewHolder.edDate.getText().toString());
+            demoModelViewHolder.btn_savechanges.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Config config = new Config(context);
+                    if (config.NetworkConnection()) {
+                        String ssph = mPref.getString("CapturedImage", "");
+                        if (demoModelViewHolder.et_dob.getText().toString().trim().equals("")) {
+                            demoModelViewHolder.et_dob.setError("Invalid Date");
+                            Toast.makeText(context, "Choose Birth Date.", Toast.LENGTH_SHORT).show();
+                        } else if (demoModelViewHolder.et_landmark.getText().toString().trim().equals("")) {
+                            demoModelViewHolder.et_landmark.setError("Enter Landmark");
+                            Toast.makeText(context, "Choose Birth Date.", Toast.LENGTH_SHORT).show();
+                        } else if (demoModelViewHolder.et_pincode.length() < 6) {
+                            demoModelViewHolder.et_pincode.setError("Pincode must be 6 digits");
+                        } else if (demoModelViewHolder.et_currentlocation.getText().toString().trim().equals("") || demoModelViewHolder.et_currentlocation.getText().toString().trim().length() < 5) {
+                            demoModelViewHolder.et_currentlocation.setError("Tag Address by clicking bellow link.");
+                            new AlertDialog.Builder(context) .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).setMessage("Please click on bellow link GET Location ").show();
+                        } else if (samruddhaKisanModel.getFarmer_house_latlong().trim().equals("")) {
+                            Toast.makeText(context, "Gio Location Not Found.", Toast.LENGTH_SHORT).show();
+                            new AlertDialog.Builder(context).setTitle("Gio Location Not Found.")
+                                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    })
+                                    .setMessage("Please click on bellow link GET Location ").show();
 
-                          String ss = mPref.getString("CapturedImage", "");
+                        } else if (ssph.trim().equals("")) {
+                            Toast.makeText(context, "Take Farmer's Photo.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            setVisibleTextField(demoModelViewHolder);
+                            mlist.get(i).setFarmerName(demoModelViewHolder.edFarmerName.getText().toString());
+                            mlist.get(i).setMobileNumber(demoModelViewHolder.edMobileNum.getText().toString());
+                            mlist.get(i).setWhatsappNumber(demoModelViewHolder.edWANum.getText().toString());
+                            mlist.get(i).setMdoDesc(demoModelViewHolder.edMDO.getText().toString());
+                            mlist.get(i).setDistrict(demoModelViewHolder.edDist.getText().toString());
+                            mlist.get(i).setTaluka(demoModelViewHolder.edTaluka.getText().toString());
+                            mlist.get(i).setVillage(demoModelViewHolder.edVillage.getText().toString());
+                            mlist.get(i).setTotalLand(demoModelViewHolder.edLand.getText().toString());
+                            mlist.get(i).setCrop(demoModelViewHolder.edCrop.getText().toString());
+                            mlist.get(i).setFarmer_dob(samruddhaKisanModel.getStr_dob());
+                            mlist.get(i).setFarmer_anniversarydate(samruddhaKisanModel.getStr_aniversarydate());
+                            mlist.get(i).setFarmer_landmark(demoModelViewHolder.et_landmark.getText().toString());
+                            mlist.get(i).setFarmer_house_address(demoModelViewHolder.et_currentlocation.getText().toString());
+                            mlist.get(i).setFarmer_house_latlong(samruddhaKisanModel.getFarmer_house_latlong());
+                            mlist.get(i).setFarmer_pincode(demoModelViewHolder.et_pincode.getText().toString());
+                            //   String serverDate =  ConvertToServerDateFormat(demoModelViewHolder.edDate.getText().toString());
+                            mlist.get(i).setEntryDt(demoModelViewHolder.edDate.getText().toString());
 
-                          mlist.get(i).setFarmer_photo_name("");
-                          mlist.get(i).setFarmer_photo_path(ss);
+                            String ss = mPref.getString("CapturedImage", "");
 
-                          //  mlist.get(i).setTaggedAddress(demoModelViewHolder.edGeoTag.getText().toString());
-                          try {
-                              updateToDB(mlist.get(i));
-                          } catch (Exception e) {
-                              e.printStackTrace();
-                          }
-                      }
-                  }
-              });
+                            mlist.get(i).setFarmer_photo_name("");
+                            mlist.get(i).setFarmer_photo_path(ss);
+
+                            //  mlist.get(i).setTaggedAddress(demoModelViewHolder.edGeoTag.getText().toString());
+                            try {
+                                updateToDB(mlist.get(i), 1);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    } else {
+                        new AlertDialog.Builder(context)
+                                .setMessage("Internet not found.")
+                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).show();
+                    }
+
+                }
+            });
 
             demoModelViewHolder.btn_savechanges.setEnabled(false);
             demoModelViewHolder.btn_savechanges.setClickable(false);
@@ -566,50 +641,72 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (spApproval.getSelectedItem().toString().trim().toLowerCase().contains("select")) {
+                    new AlertDialog.Builder(context)
+                            .setMessage("Please Choose Reason")
+                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+                } else {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                builder.setTitle("MyActivity");
-                builder.setMessage("Are You Confirmed ?");
-                builder.setCancelable(false);
+                    builder.setTitle("MyActivity");
+                    builder.setMessage("Are You Confirmed ?");
+                    builder.setCancelable(false);
 
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 
-                    public void onClick(DialogInterface alertdialog, int which) {
+                        public void onClick(DialogInterface alertdialog, int which) {
+                            Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
+                            if (spApproval.getSelectedItem().toString().trim().toLowerCase().contains("select")) {
+                                new AlertDialog.Builder(context)
+                                        .setMessage("Please Choose Reason")
+                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        }).show();
+                            } else {
+                                mlist.get(position).setAction("PENDING");
+                                if (radApproved.isChecked()) {
+
+                                    mlist.get(position).setAction("APPROVE");
+                                    mlist.get(position).setReasons(spApproval.getSelectedItem().toString());
+
+                                } else if (radReject.isChecked()) {
+
+                                    mlist.get(position).setAction("REJECT");
+                                    mlist.get(position).setReasons(spRejection.getSelectedItem().toString());
+                                }
+                                try {
+                                    updateToDB(mlist.get(position), 2);
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                dialog.dismiss();
 
 
-                        if (radApproved.isChecked()) {
-
-                            mlist.get(position).setAction("APPROVE");
-                            mlist.get(position).setReasons(spApproval.getSelectedItem().toString());
-
-                        } else if (radReject.isChecked()) {
-
-                            mlist.get(position).setAction("REJECT");
-                            mlist.get(position).setReasons(spRejection.getSelectedItem().toString());
+                            }
                         }
-                        try {
-                            updateToDB(mlist.get(position));
+                    });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface alertdialog, int which) {
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                            alertdialog.dismiss();
+
                         }
+                    });
 
-                        dialog.dismiss();
-
-
-                    }
-                });
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface alertdialog, int which) {
-
-                        alertdialog.dismiss();
-
-                    }
-                });
-
-                AlertDialog alert = builder.create();
-                alert.show();
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
 
             }
         });
@@ -713,6 +810,46 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
 
         return finalDate;
     }
+    private String ConvertDateFormatDDMMYY(String entryDt) {
+
+        Date myDate = null;
+        String finalDate = "";
+        SimpleDateFormat dateFormat;
+
+        if (entryDt != null) {
+
+            try {
+
+                dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                myDate = dateFormat.parse(entryDt);
+
+            } catch (Exception e) {
+
+                try {
+                    dateFormat = new SimpleDateFormat("dd-mm-Y");
+                    myDate = dateFormat.parse(entryDt);
+
+                } catch (ParseException e1) {
+
+                    dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+                    try {
+                        myDate = dateFormat.parse(entryDt);
+                    } catch (ParseException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+            }
+            try {
+                SimpleDateFormat timeFormat = new SimpleDateFormat("dd-mm-Y");
+                finalDate = timeFormat.format(myDate);
+            } catch (Exception e) {
+                return "NA";
+            }
+        }
+
+        return finalDate;
+    }
 
     private String ConvertToServerDateFormat(String entryDt) {
 
@@ -754,9 +891,18 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
     }
 
 
-    private void updateToDB(SamruddhaKisanModel samruddhaKisanModel) throws JSONException {
+    private void updateToDB(SamruddhaKisanModel samruddhaKisanModel, int st) throws JSONException {
 
         Gson gson = new Gson();
+        if (st == 2)
+            samruddhaKisanModel.setFarmer_photo_path("");
+
+        String address=samruddhaKisanModel.getFarmer_house_address();
+        String userCode = mPref.getString(AppConstant.USER_CODE_TAG, "");
+
+        String data="~"+BuildConfig.VERSION_NAME+"~"+mPref.getString("currentLocation", "")+"~"+userCode;
+        samruddhaKisanModel.setFarmer_house_address(address+data);
+        samruddhaKisanModel.setComment(taggedAddress+data);
         String json = gson.toJson(samruddhaKisanModel);
         JSONObject obj = new JSONObject(json);
         try {
@@ -1020,6 +1166,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
         EditText edFarmerName, edMobileNum, edWANum, edMDO, edDist, edTaluka,
                 edVillage, edLand, edCrop, edDate, edGeoTag;
         ImageView imgSk_Photo;
+        GridLayout rl;
 
         int position;
 
@@ -1028,7 +1175,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
         EditText et_dob, et_annivaesarydate, et_landmark, et_pincode, et_currentlocation;
         TextView txt_capure_image, txt_getlocation;
         Button btn_savechanges;
-
+        TextView txt_status;
 
         SamruddhaValidateRecord(@NonNull View itemView) {
             super(itemView);
@@ -1061,6 +1208,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
             imgSave = (ImageView) itemView.findViewById(R.id.imgSave);
             imgEdit = (ImageView) itemView.findViewById(R.id.imgEdit);
             btnStatus = (Button) itemView.findViewById(R.id.btnStatus);
+            rl = (GridLayout) itemView.findViewById(R.id.rl);
 
             // New samruddhi Changes
 
@@ -1073,6 +1221,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
             txt_getlocation = itemView.findViewById(R.id.txt_getlocation);
             imgSk_Photo = itemView.findViewById(R.id.imgSk_Photo);
             btn_savechanges = itemView.findViewById(R.id.btn_savechanges);
+            txt_status = itemView.findViewById(R.id.txtStatus);
 
         }
     }

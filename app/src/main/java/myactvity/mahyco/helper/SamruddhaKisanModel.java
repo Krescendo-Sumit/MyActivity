@@ -89,6 +89,18 @@ public class SamruddhaKisanModel implements Serializable {
     @Expose
     private String tbmDesc;
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    @SerializedName("comment")
+    @Expose
+    private String comment;
+
 
     public String getFarmer_photo_name() {
         return farmer_photo_name;

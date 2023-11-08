@@ -7764,6 +7764,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
             contentValues.put("reasons", jsonObject.getString("reasons"));
             contentValues.put("EntryDt", jsonObject.getString("EntryDt"));
             contentValues.put("isSynced", jsonObject.getString("isSynced"));
+            contentValues.put("comment", jsonObject.getString("comment"));
 //New Parameters Addition for samruddhi Kisan
             contentValues.put("farmer_dob", jsonObject.getString("farmer_dob"));
             contentValues.put("farmer_anniversarydate", jsonObject.getString("farmer_anniversarydate"));

@@ -171,6 +171,9 @@
             android:name=".UploadData"
             android:exported="true" />
         <activity
+            android:name=".newupload.UploadDataNew"
+            android:exported="true" />
+        <activity
             android:name=".DownloadMasterdata"
             android:exported="false" />
         <activity

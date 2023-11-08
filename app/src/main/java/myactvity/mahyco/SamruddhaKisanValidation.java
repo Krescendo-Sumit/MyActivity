@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -36,9 +37,11 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.gson.Gson;
 
 import org.apache.http.client.HttpClient;
@@ -139,7 +142,7 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
     int flag_load = 0;
     int cnt = 0;
     SharedPreferences pref;
-
+    boolean IsGPSEnabled=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,6 +189,21 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
         container = (ScrollView) findViewById(R.id.container);
         userCode = mPref.getString(AppConstant.USER_CODE_TAG, "");
         msclass = new Messageclass(this);
+
+        LocationManager manager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            IsGPSEnabled = true;
+        } else {
+            IsGPSEnabled = false;
+        }
+
+        if(IsGPSEnabled==false)
+        {
+            IsGPSEnabled = false;
+            buildAlertMessageNoGps();
+
+        }
+
 
 
         // mdo="";
@@ -1816,6 +1834,20 @@ Log.i("Pass ","2");
             }
         }
 
+    }
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+                .setCancelable(false)
+                .setPositiveButton("Go to Settings", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+
+              ;
+        final AlertDialog alert = builder.create();
+        alert.show();
     }
 
 

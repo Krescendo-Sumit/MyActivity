@@ -32,8 +32,8 @@ android {
         applicationId 'myactvity.mahyco'
         minSdkVersion 21
         targetSdkVersion 33
-        versionCode 203  //199
-        versionName "8.7.0"
+        versionCode 206  //199
+        versionName "8.7.3"
         /* Versioncode updated on 24nd feb 2022 */
         /* Versioncode updated after getting Prograud rule Applied on 21 feb 2022 */
         /* Versioncode updated after changing the save button for Samrudhikisan on 24 feb 2022 */
@@ -146,6 +146,11 @@ dependencies {
     //implementation 'com.jrummyapps:colorpicker:2.0.4'
     /*Added on 8th Nov 2021*/
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
+
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.9.0'
+    implementation 'com.squareup.retrofit2:converter-scalars:2.1.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.2'
 
 }
 apply plugin: 'com.google.gms.google-services'
