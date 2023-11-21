@@ -3730,6 +3730,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
             contentValues.put("NoofFormer", NoofFormer);
             contentValues.put("InTime", InTime);
             contentValues.put("Comments", Comments);
+            Log.i("Status Log",""+Status);
             contentValues.put("Status", Status);
             contentValues.put("Dist", Dist);
             contentValues.put("Taluka", Taluka);

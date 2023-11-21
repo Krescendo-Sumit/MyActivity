@@ -521,7 +521,7 @@ public class UploadData extends AppCompatActivity {
                 userCode = userCode.replace(" ", "%20");
                 IME = IME.replace(" ", "%20");
 
-                new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode=" + userCode + "&IMEICode=" + IME + "");
+             //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode=" + userCode + "&IMEICode=" + IME + "");
             } catch (Exception e) {
 
             }
@@ -5320,6 +5320,7 @@ public class UploadData extends AppCompatActivity {
             String searchQuery = "select  *  from TagData where Status='0'";
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count = cursor.getCount();
+            Log.i("MyActivityCNT",""+count);
             rndmyactvity.setText("Pending upload my activity data=" + String.valueOf(count));
             totalcount = totalcount + count;
             cursor.close();

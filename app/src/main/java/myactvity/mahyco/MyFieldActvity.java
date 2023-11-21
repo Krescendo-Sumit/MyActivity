@@ -1526,6 +1526,8 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
 
     private  void Savedata(final String myactvity, String state, String dist, String taluka, String village)
    {
+       Toast.makeText(MyFieldActvity.this, "Test Message", Toast.LENGTH_SHORT).show();
+
        try
        {
            pref.getString("UserID", null);
@@ -1559,7 +1561,7 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
 
                public void onClick(DialogInterface dialog, int which) {
                    // Do do my action here
-
+                   Toast.makeText(MyFieldActvity.this, "Hiii", Toast.LENGTH_SHORT).show();
                    String crop="";
                    String product="";
                    if (spCropType.getSelectedItem().toString().toLowerCase().equals("select crop")) {

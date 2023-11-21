@@ -97,7 +97,8 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
     String SERVER_IMAGE = "https://packhouse.mahyco.com/UploadSamfuddhaKisanFarmerPhoto/";
 
     int mYear, mMonth, mDay;
-    String taggedAddress="";
+    String taggedAddress = "";
+    String selectedDOB="",selectedAniversary="";
 
     public SamruddhaValidationRecordAdapter(Context context, List<SamruddhaKisanModel> mlist, SqliteDatabase mDatabase) {
         this.context = context;
@@ -190,7 +191,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                 demoModelViewHolder.txt_status.setTextColor(Color.RED);
                 demoModelViewHolder.txt_status.setTextSize(15);
             } else {
-                demoModelViewHolder.txt_status.setText(Html.fromHtml("<b style='color:GREEN;font-size:15;'>Data is updated.<br> Status : "+samruddhaKisanModel.getAction()+"</b>"));
+                demoModelViewHolder.txt_status.setText(Html.fromHtml("<b style='color:GREEN;font-size:15;'>Data is updated.<br> Status : " + samruddhaKisanModel.getAction() + "</b>"));
                 demoModelViewHolder.txt_status.setTextColor(Color.GREEN);
                 demoModelViewHolder.txt_status.setTextSize(15);
             }
@@ -243,7 +244,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                     if (demoModelViewHolder.et_dob.getText().toString().trim().equals("")) {
                         demoModelViewHolder.et_dob.setError("Invalid Date");
                         Toast.makeText(context, "Choose Birth Date.", Toast.LENGTH_SHORT).show();
-                    }  else if (demoModelViewHolder.et_landmark.getText().toString().trim().equals("")) {
+                    } else if (demoModelViewHolder.et_landmark.getText().toString().trim().equals("")) {
                         demoModelViewHolder.et_landmark.setError("Enter Landmark");
                         Toast.makeText(context, "Choose Birth Date.", Toast.LENGTH_SHORT).show();
                     } else if (demoModelViewHolder.et_pincode.length() < 6) {
@@ -254,7 +255,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                         Toast.makeText(context, "Gio Location Not Found.", Toast.LENGTH_SHORT).show();
                     } else if (ssph.trim().equals("")) {
                         Toast.makeText(context, "Take Farmer's Photo.", Toast.LENGTH_SHORT).show();
-                    }else if (demoModelViewHolder.et_pincode.length() < 6) {
+                    } else if (demoModelViewHolder.et_pincode.length() < 6) {
                         demoModelViewHolder.et_pincode.setError("Pincode must be 6 digits");
                     } else {
                         setVisibleTextField(demoModelViewHolder);
@@ -283,7 +284,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
 
                         //  mlist.get(i).setTaggedAddress(demoModelViewHolder.edGeoTag.getText().toString());
                         try {
-                          //  updateToDB(mlist.get(i), 1);
+                            //  updateToDB(mlist.get(i), 1);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -325,9 +326,10 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
 
                             String dd = selectedyear + "-" + (ssm) + "-" + ssd + "T00:00:00";
                             demoModelViewHolder.et_dob.setText(dd);
+                            selectedDOB=dd;
                             samruddhaKisanModel.setStr_dob(dd);
                             String dd1 = ssd + "-" + (ssm) + "-" + selectedyear;
-                            demoModelViewHolder.et_dob.setText(dd1);
+                            demoModelViewHolder.et_dob.setText(ConvertDateFormatDDMMYY(dd));
                             //demoModelViewHolder.et_annivaesarydate.setText(ConvertDateFormatDDMMYY(dd));
                             // et_age.setText(getAge(selectedyear,selectedmonth,selectedday));
                         }
@@ -363,10 +365,11 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
 
                             String dd = selectedyear + "-" + (ssm) + "-" + ssd + "T00:00:00";
                             demoModelViewHolder.et_annivaesarydate.setText(dd);
+                            selectedAniversary=dd;
                             samruddhaKisanModel.setStr_aniversarydate(dd);
                             String dd1 = ssd + "-" + (ssm) + "-" + selectedyear;
-                            demoModelViewHolder.et_annivaesarydate.setText(dd1);
-                           // demoModelViewHolder.et_annivaesarydate.setText(ConvertDateFormatDDMMYY(dd));
+                            demoModelViewHolder.et_annivaesarydate.setText(ConvertDateFormatDDMMYY(dd));
+                            // demoModelViewHolder.et_annivaesarydate.setText(ConvertDateFormatDDMMYY(dd));
                             // et_age.setText(getAge(selectedyear,selectedmonth,selectedday));
                         }
                     }, mYear, mMonth, mDay);
@@ -435,7 +438,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
             demoModelViewHolder.txt_getlocation.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    taggedAddress="";
+                    taggedAddress = "";
                     samruddhaKisanModel.setFarmer_house_latlong("");
                     String s = mPref.getString("currentLocation", "");
                     if (s != null && !(s.toString().trim().equals(""))) {
@@ -446,12 +449,12 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                         } catch (NumberFormatException e) {
                             s = "";
                         }
-                        taggedAddress=s;
+                        taggedAddress = s;
                     }
                     if (s.toLowerCase().contains("not found")) {
                         demoModelViewHolder.et_currentlocation.setHint("Enter Address.");
                         demoModelViewHolder.et_currentlocation.setText("");
-                        taggedAddress="Not Found";
+                        taggedAddress = "Not Found";
                     } else
                         demoModelViewHolder.et_currentlocation.setText("" + s);
 
@@ -517,7 +520,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                             demoModelViewHolder.et_pincode.setError("Pincode must be 6 digits");
                         } else if (demoModelViewHolder.et_currentlocation.getText().toString().trim().equals("") || demoModelViewHolder.et_currentlocation.getText().toString().trim().length() < 5) {
                             demoModelViewHolder.et_currentlocation.setError("Tag Address by clicking bellow link.");
-                            new AlertDialog.Builder(context) .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            new AlertDialog.Builder(context).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     dialogInterface.dismiss();
@@ -641,71 +644,145 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (spApproval.getSelectedItem().toString().trim().toLowerCase().contains("select")) {
-                    new AlertDialog.Builder(context)
-                            .setMessage("Please Choose Reason")
-                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
+                if (radApproved.isChecked()) {
+                    if (spApproval.getSelectedItem().toString().trim().toLowerCase().contains("select")) {
+                        new AlertDialog.Builder(context)
+                                .setMessage("Please Choose Reason")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).show();
+                    } else {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                        builder.setTitle("MyActivity");
+                        builder.setMessage("Are You Confirmed ?");
+                        builder.setCancelable(false);
+
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface alertdialog, int which) {
+
+                                if (spApproval.getSelectedItem().toString().trim().toLowerCase().contains("select")) {
+                                    new AlertDialog.Builder(context)
+                                            .setMessage("Please Choose Reason")
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            }).show();
+                                } else {
+                                    mlist.get(position).setAction("PENDING");
+                                    if (radApproved.isChecked()) {
+
+                                        mlist.get(position).setAction("APPROVE");
+                                        mlist.get(position).setReasons(spApproval.getSelectedItem().toString());
+
+                                    } else if (radReject.isChecked()) {
+
+                                        mlist.get(position).setAction("REJECT");
+                                        mlist.get(position).setReasons(spRejection.getSelectedItem().toString());
+                                    }
+                                    try {
+                                        updateToDB(mlist.get(position), 2);
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    dialog.dismiss();
+
+
                                 }
-                            }).show();
-                } else {
+                            }
+                        });
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface alertdialog, int which) {
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
-                    builder.setTitle("MyActivity");
-                    builder.setMessage("Are You Confirmed ?");
-                    builder.setCancelable(false);
-
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-
-                        public void onClick(DialogInterface alertdialog, int which) {
-                            Toast.makeText(context, "", Toast.LENGTH_SHORT).show();
-                            if (spApproval.getSelectedItem().toString().trim().toLowerCase().contains("select")) {
-                                new AlertDialog.Builder(context)
-                                        .setMessage("Please Choose Reason")
-                                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                dialogInterface.dismiss();
-                                            }
-                                        }).show();
-                            } else {
-                                mlist.get(position).setAction("PENDING");
-                                if (radApproved.isChecked()) {
-
-                                    mlist.get(position).setAction("APPROVE");
-                                    mlist.get(position).setReasons(spApproval.getSelectedItem().toString());
-
-                                } else if (radReject.isChecked()) {
-
-                                    mlist.get(position).setAction("REJECT");
-                                    mlist.get(position).setReasons(spRejection.getSelectedItem().toString());
-                                }
-                                try {
-                                    updateToDB(mlist.get(position), 2);
-
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-
-                                dialog.dismiss();
-
+                                alertdialog.dismiss();
 
                             }
-                        }
-                    });
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface alertdialog, int which) {
+                        });
 
-                            alertdialog.dismiss();
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
 
-                        }
-                    });
+                }
 
-                    AlertDialog alert = builder.create();
-                    alert.show();
+
+                if (radReject.isChecked()) {
+                    if (spRejection.getSelectedItem().toString().trim().toLowerCase().contains("select")) {
+                        new AlertDialog.Builder(context)
+                                .setMessage("Please Choose Reason")
+                                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).show();
+                    } else {
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+                        builder.setTitle("MyActivity");
+                        builder.setMessage("Are You Confirmed ?");
+                        builder.setCancelable(false);
+
+                        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface alertdialog, int which) {
+
+                                if (spRejection.getSelectedItem().toString().trim().toLowerCase().contains("select")) {
+                                    new AlertDialog.Builder(context)
+                                            .setMessage("Please Choose Reason")
+                                            .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                }
+                                            }).show();
+                                } else {
+                                    mlist.get(position).setAction("PENDING");
+                                    if (radApproved.isChecked()) {
+
+                                        mlist.get(position).setAction("APPROVE");
+                                        mlist.get(position).setReasons(spApproval.getSelectedItem().toString());
+
+                                    } else if (radReject.isChecked()) {
+
+                                        mlist.get(position).setAction("REJECT");
+                                        mlist.get(position).setReasons(spRejection.getSelectedItem().toString());
+                                    }
+                                    try {
+                                        updateToDB(mlist.get(position), 2);
+
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                    dialog.dismiss();
+
+
+                                }
+                            }
+                        });
+                        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface alertdialog, int which) {
+
+                                alertdialog.dismiss();
+
+                            }
+                        });
+
+                        AlertDialog alert = builder.create();
+                        alert.show();
+                    }
+
                 }
 
             }
@@ -810,6 +887,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
 
         return finalDate;
     }
+
     private String ConvertDateFormatDDMMYY(String entryDt) {
 
         Date myDate = null;
@@ -827,7 +905,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
             } catch (Exception e) {
 
                 try {
-                    dateFormat = new SimpleDateFormat("dd-mm-Y");
+                    dateFormat = new SimpleDateFormat("dd-MMM-yyyy");
                     myDate = dateFormat.parse(entryDt);
 
                 } catch (ParseException e1) {
@@ -841,7 +919,7 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
                 }
             }
             try {
-                SimpleDateFormat timeFormat = new SimpleDateFormat("dd-mm-Y");
+                SimpleDateFormat timeFormat = new SimpleDateFormat("dd-MMM-yyyy");
                 finalDate = timeFormat.format(myDate);
             } catch (Exception e) {
                 return "NA";
@@ -897,17 +975,18 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
         if (st == 2)
             samruddhaKisanModel.setFarmer_photo_path("");
 
-        String address=samruddhaKisanModel.getFarmer_house_address();
+        String address = samruddhaKisanModel.getFarmer_house_address();
         String userCode = mPref.getString(AppConstant.USER_CODE_TAG, "");
 
-        String data="~"+BuildConfig.VERSION_NAME+"~"+mPref.getString("currentLocation", "")+"~"+userCode;
-        samruddhaKisanModel.setFarmer_house_address(address+data);
-        samruddhaKisanModel.setComment(taggedAddress+data);
+        String data = "~" + BuildConfig.VERSION_NAME + "~" + mPref.getString("currentLocation", "") + "~" + userCode+"~DOB:"+selectedDOB+"~"+selectedAniversary;
+        samruddhaKisanModel.setFarmer_house_address(address + data);
+        samruddhaKisanModel.setComment(taggedAddress + data);
         String json = gson.toJson(samruddhaKisanModel);
         JSONObject obj = new JSONObject(json);
         try {
             Log.i("JsonUpdate:", obj.toString());
-
+            selectedAniversary="";
+            selectedDOB="";
             handleDataSyncResponse("KisanValidationData", obj.toString());
 
 
