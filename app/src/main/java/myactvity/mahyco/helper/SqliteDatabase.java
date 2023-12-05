@@ -7784,7 +7784,39 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         }
         return true;
     }
+    public SkFarmerCountModel getSkFarmerCounts()
+    {
+        try{
+            SkFarmerCountModel skFarmerCountModel=new SkFarmerCountModel();
+            SQLiteDatabase db=this.getReadableDatabase();
+            String query="  select \n" +
+                    " (select count(*) from SamruddhaKisanValidationData where upper(action)='PENDING' or upper(action)='')as pending,\n" +
+                    " (select count(*) from SamruddhaKisanValidationData where upper(action)='APPROVE') as approve,\n" +
+                    " (select count(*) from SamruddhaKisanValidationData where upper(action)='REJECT') as reject,\n" +
+                    " (select count(*) from SamruddhaKisanValidationData where farmer_house_latlong='')as notvalidate,\n" +
+                    " (select count(*) from SamruddhaKisanValidationData where farmer_house_latlong!='' ) as validate,\n" +
+                    " (select count(*) from SamruddhaKisanValidationData) as total";
 
+            Cursor cursor=db.rawQuery(query,null);
+            if(cursor.moveToNext())
+            {
+                skFarmerCountModel.setPending(cursor.getInt(0));
+                skFarmerCountModel.setApprove(cursor.getInt(1));
+                skFarmerCountModel.setReject(cursor.getInt(2));
+                skFarmerCountModel.setNotvalidate(cursor.getInt(3));
+                skFarmerCountModel.setValidate(cursor.getInt(4));
+                skFarmerCountModel.setTotal(cursor.getInt(5));
+            }
+
+            return skFarmerCountModel;
+
+        }catch (Exception e)
+        {
+            Log.i("Error getSkFarmerCounts()",e.getMessage());
+             return null;
+        }
+
+    }
 
     public void updateSamruddhaKisanUploadData(String isNotSynced, String isSynced, JSONObject jsonObject) throws JSONException {
         SQLiteDatabase db = getWritableDatabase();

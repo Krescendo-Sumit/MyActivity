@@ -71,6 +71,7 @@ import myactvity.mahyco.app.MultiSelectionSpinner;
 import myactvity.mahyco.app.Prefs;
 import myactvity.mahyco.helper.SamruddhaKisanModel;
 import myactvity.mahyco.helper.SearchableSpinner;
+import myactvity.mahyco.helper.SkFarmerCountModel;
 import myactvity.mahyco.helper.SqliteDatabase;
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.CropSeminarActivity;
 
@@ -975,13 +976,20 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
         if (st == 2)
             samruddhaKisanModel.setFarmer_photo_path("");
 
+
         String address = samruddhaKisanModel.getFarmer_house_address();
         String userCode = mPref.getString(AppConstant.USER_CODE_TAG, "");
 
         String data = "~" + BuildConfig.VERSION_NAME + "~" + mPref.getString("currentLocation", "") + "~" + userCode+"~DOB:"+selectedDOB+"~"+selectedAniversary;
         samruddhaKisanModel.setFarmer_house_address(address + data);
         samruddhaKisanModel.setComment(taggedAddress + data);
+     /*   if(samruddhaKisanModel.getFarmer_photo_name().trim().equals(""))
+        {
+            Toast.makeText(context, ""+samruddhaKisanModel.getFarmer_photo_name(), Toast.LENGTH_SHORT).show();
+            samruddhaKisanModel.setFarmer_photo_name(" ");
+        }*/
         String json = gson.toJson(samruddhaKisanModel);
+        Log.i("Json ",json);
         JSONObject obj = new JSONObject(json);
         try {
             Log.i("JsonUpdate:", obj.toString());
@@ -991,10 +999,14 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
 
 
         } catch (JSONException e) {
+            Toast.makeText(context, "Error is"+e.getMessage(), Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
         notifyDataSetChanged();
     }
+
+
+
 
     public void handleDataSyncResponse(String function, String resultout) throws JSONException {
         if (function.equals("KisanValidationData")) {

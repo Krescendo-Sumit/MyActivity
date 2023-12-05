@@ -79,6 +79,7 @@ import myactvity.mahyco.app.Prefs;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SamruddhaKisanModel;
 import myactvity.mahyco.helper.SearchableSpinner;
+import myactvity.mahyco.helper.SkFarmerCountModel;
 import myactvity.mahyco.helper.SqliteDatabase;
 
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.AddFarmerListCropSeminarAdapter;
@@ -143,6 +144,10 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
     int cnt = 0;
     SharedPreferences pref;
     boolean IsGPSEnabled=false;
+
+    TextView txtTagged,txtNotTagged,txtApprove,txtPending,txtTotal,txtRejected;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -187,6 +192,54 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
         progressBar = (ProgressBar) findViewById(R.id.myProgress);
         relPRogress = (RelativeLayout) findViewById(R.id.relPRogress);
         container = (ScrollView) findViewById(R.id.container);
+
+        txtTagged=findViewById(R.id.txtTagged);
+                txtNotTagged=findViewById(R.id.txtNotTagged);
+        txtApprove=findViewById(R.id.txtApprove);
+                txtPending=findViewById(R.id.txtPending);
+                txtRejected=findViewById(R.id.txtReject);
+        txtTotal=findViewById(R.id.txtTotal);
+
+        showSkCount();
+
+        txtTotal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showActionRecords("TOTAL");
+            }
+        });
+        txtPending.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showActionRecords("PENDING");
+            }
+        });
+        txtApprove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showActionRecords("APPROVE");
+            }
+        });
+        txtTagged.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showActionRecords("TAGGED");
+            }
+        });
+        txtNotTagged.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showActionRecords("NOTTAGGED");
+            }
+        });
+        txtRejected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showActionRecords("REJECT");
+            }
+        });
+
+
         userCode = mPref.getString(AppConstant.USER_CODE_TAG, "");
         msclass = new Messageclass(this);
 
@@ -628,6 +681,51 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
         });
     }
 
+    public void showActionRecords(String status)
+    {
+        try{
+
+            Intent intent = new Intent(SamruddhaKisanValidation.this, SamruddhaKisanValidationRecords.class);
+              intent.putExtra("tbm", "");
+                intent.putExtra("mdo", "");
+                intent.putExtra("status", status);
+                intent.putExtra("focussedVillage", "");
+                intent.putExtra("district", "");
+                intent.putExtra("taluka", "");
+                intent.putExtra("village", "");
+                          intent.putExtra("farmerDetail", "");
+
+
+            startActivity(intent);
+
+
+
+        }catch (Exception e)
+        {
+
+        }
+
+    }
+
+    private void showSkCount() {
+        try{
+            SkFarmerCountModel skFarmerCountModel=mDatabase.getSkFarmerCounts();
+            if(skFarmerCountModel!=null)
+            {
+                txtTagged.setText(""+skFarmerCountModel.getValidate());
+                txtNotTagged.setText(""+skFarmerCountModel.getNotvalidate());
+                txtApprove.setText(""+skFarmerCountModel.getApprove());
+                txtPending.setText(""+skFarmerCountModel.getPending());
+                txtRejected.setText(""+skFarmerCountModel.getReject());
+                txtTotal.setText(""+skFarmerCountModel.getTotal());
+            }
+
+        }catch (Exception e)
+        {
+
+        }
+    }
+
 
     /**
      * <P>//Download data for validation according to TBM/MDO</P>
@@ -952,12 +1050,12 @@ Log.i("Pass ","2");
 
 
     private void checkForItemInsert(Boolean f1) {
-
+        showSkCount();
         if (f1) {
             AlertDialog.Builder builder = new AlertDialog.Builder(SamruddhaKisanValidation.this);
 
             builder.setTitle("MyActivity");
-            builder.setMessage("Data Download Successfully");
+            builder.setMessage("Data Download Successfully ");
             builder.setCancelable(false);
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
@@ -1487,7 +1585,7 @@ Log.i("Pass ","2");
     @Override
     protected void onResume() {
         super.onResume();
-
+        showSkCount();
         if (!checkPlayServices()) {
             Toast.makeText(context, "Please install Google Play services.", Toast.LENGTH_SHORT).show();
             //latLng.setText("Please install Google Play services.");

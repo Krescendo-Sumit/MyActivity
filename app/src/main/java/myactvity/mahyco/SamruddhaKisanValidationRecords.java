@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -113,14 +114,13 @@ public class SamruddhaKisanValidationRecords extends AppCompatActivity {
 
         try {
             ArrayList<SamruddhaKisanModel> samruddhaKisanModelList = new ArrayList<SamruddhaKisanModel>();
-
-
             String searchQuery = getQuery();
                    Log.i("Query ",searchQuery);
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
 
             int count = cursor.getCount();
             JSONArray jsonArray = new JSONArray();
+            Toast.makeText(context, "Total Records Found "+count, Toast.LENGTH_SHORT).show();
             if (count > 0) {
 
                 JSONObject jsonObject = new JSONObject();
@@ -267,7 +267,28 @@ public class SamruddhaKisanValidationRecords extends AppCompatActivity {
 
         sb.delete(sb.length() - 4, sb.length());
        Log.i("Query Generated",sb.toString() + " order by farmerName");
-        return sb.toString() + " order by farmerName" ;
+
+       if(status.equals("TAGGED"))
+       {
+           Toast.makeText(context, "Tagged Farmer List.", Toast.LENGTH_SHORT).show();
+         String s="select * from SamruddhaKisanValidationData where farmer_house_latlong!='' order by farmerName";
+         return s;
+       }else if(status.equals("NOTTAGGED"))
+       {
+           Toast.makeText(context, "Not Tagged Farmer List.", Toast.LENGTH_SHORT).show();
+           String s="select * from SamruddhaKisanValidationData where farmer_house_latlong='' order by farmerName";
+           return s;
+       }
+       else if(status.equals("TOTAL"))
+       {
+           Toast.makeText(context, "Total Farmer List.", Toast.LENGTH_SHORT).show();
+           String s="select * from SamruddhaKisanValidationData order by farmerName";
+           return s;
+       }
+       else {
+           return sb.toString() + " order by farmerName";
+       }
+
     }
     private void getRecordsFromDB(String searchText) {
 
@@ -319,6 +340,7 @@ public class SamruddhaKisanValidationRecords extends AppCompatActivity {
                     samruddhaKisanModel.setFarmer_house_latlong(jsonArray.getJSONObject(i).getString("farmer_house_latlong"));
                     samruddhaKisanModel.setFarmer_house_address(jsonArray.getJSONObject(i).getString("farmer_house_address"));
                     samruddhaKisanModel.setFarmer_photo_path(jsonArray.getJSONObject(i).getString("farmer_photo_path"));
+                    samruddhaKisanModel.setFarmer_photo_name(jsonArray.getJSONObject(i).getString("farmer_photo_name"));
 
 
 

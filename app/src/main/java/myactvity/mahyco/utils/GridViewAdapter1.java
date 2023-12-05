@@ -437,11 +437,10 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             }
 
                             if (ActivityName[position].contains( "DAS")) {
-                                Toast.makeText(context, "Not Active", Toast.LENGTH_SHORT).show();
-//                                intent= new Intent(context.getApplicationContext(), daslogin.class);
-//                                // intent= new Intent(context.getApplicationContext(), DSActivity.class);
-//                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                context.startActivity(intent);
+                               // Toast.makeText(context, "Not Active", Toast.LENGTH_SHORT).show();
+                                intent= new Intent(context.getApplicationContext(), daslogin.class);
+                               // intent= new Intent(context.getApplicationContext(), DSActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);context.startActivity(intent);
                             }
                             if (ActivityName[position].contains( "VOF")) {
 
