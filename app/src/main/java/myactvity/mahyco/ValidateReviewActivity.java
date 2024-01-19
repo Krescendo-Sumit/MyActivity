@@ -1011,7 +1011,11 @@ public class ValidateReviewActivity extends AppCompatActivity implements GoogleA
             cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
 
 
-            address = getCompleteAddressString(lati, longi);
+            if(address.equals("")) {
+                if (config.NetworkConnection()) {
+                    address = getCompleteAddressString(lati, longi);
+                }
+            }
 
 
         } catch (

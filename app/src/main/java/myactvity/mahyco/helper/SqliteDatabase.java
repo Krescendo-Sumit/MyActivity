@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
@@ -41,8 +42,11 @@ import myactvity.mahyco.app.AppConstant;
 
 import static android.content.ContentValues.TAG;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 public class SqliteDatabase extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 39; /*Updated on 7th September 2021*/
+    private static final int DATABASE_VERSION = 40;/* Update version 40 for Shelling Day and Utpadan Mohatsav*/ /*Updated on 7th September 2021*/
     /* last 33 16-08-2021 */
     private static final String DATABASE_NAME = "MDOApps";
     private static final String TABLE_PRODUCTS = "UserMaster";
@@ -130,6 +134,10 @@ public class SqliteDatabase extends SQLiteOpenHelper {
     // Merging data
     // User feedback status
     private static final String TABLE_FEEDBACK = "MDO_UserFeedBackStatus"; // Mahendra
+
+    // Create this table for Shellingday Activity
+    private static final String TABLE_SHELLINGDAY = "tbl_shellingday"; // sumit
+    private static final String TABLE_UTPADANMOHATSAV = "tbl_utpadanmohatsavdata"; // sumit
 
 
     private static final String COLUMN_ID = "_id";
@@ -999,9 +1007,76 @@ public class SqliteDatabase extends SQLiteOpenHelper {
                 break;
             case 39:
                 alterSamrudhhaKisanTable(db);   // Added on 2nd Feb 2022
+                addshellingandutpadantable(db);
+                break;
+            case 40:
+               // Added on 17/01/2024  for shelling day activity.
+                addshellingandutpadantable(db);
                 break;
             default:
                 break;
+        }
+    }
+    void addshellingandutpadantable(SQLiteDatabase db) {
+        try{
+            // Shelling Day
+            String CREATE_SHELLINGDAYTABLE = "Create table IF NOT EXISTS tbl_shellingday(" +
+                    "    ID INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                    "    UserCode TEXT," +
+                    "    State TEXT," +
+                    "    District TEXT," +
+                    "    Taluka TEXT," +
+                    "    VillageCode TEXT," +
+                    "    VillageName TEXT," +
+                    "    Crop TEXT," +
+                    "    Product TEXT," +
+                    "    NoOfFarmer TEXT," +
+                    "    NoOfRetailer TEXT," +
+                    "    PhotoName TEXT," +
+                    "    PhotoString TEXT," +
+                    "    Status TEXT," +
+                    "    VersionName TEXT," +
+                    "    LatLong TEXT," +
+                    "    CreatedDate TEXT," +
+                    "UplaodStatus INTEGER," +
+                    "Extra1 TEXT," +
+                    "Extra2 TEXT" +
+                    ")";
+            db.execSQL(CREATE_SHELLINGDAYTABLE);
+
+            String CREATE_UTPADANMOHATSAVTABLE = "Create table IF NOT EXISTS tbl_utpadanmohatsavdata(" +
+                    "    ID INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                    "    UserCode TEXT," +
+                    "    State TEXT," +
+                    "    District TEXT," +
+                    "    Taluka TEXT," +
+                    "    VillageCode TEXT," +
+                    "    VillageName TEXT," +
+                    "    Crop TEXT," +
+                    "    Product TEXT," +
+                    "    HostFarmerName  TEXT," +
+                    "    FarmerMobile TEXT," +
+                    "    FarmerArea TEXT," +
+                    "    FarmerYeild  TEXT," +
+                    "    NumberOfFarmerFelisited  TEXT," +
+                    "    NumberOfFarmer  TEXT," +
+                    "    NumberOfRetailer TEXT," +
+                    "    PhotoName TEXT," +
+                    "    PhotoString TEXT," +
+                    "    Status TEXT," +
+                    "    VersionName TEXT," +
+                    "    LatLong TEXT," +
+                    "    CreatedDate TEXT," +
+                    "UplaodStatus INTEGER," +
+                    "Extra1 TEXT," +
+                    "Extra2 TEXT" +
+                    ")";
+            db.execSQL(CREATE_UTPADANMOHATSAVTABLE);
+
+
+        }catch (Exception w)
+        {
+
         }
     }
 
@@ -1973,6 +2048,70 @@ public class SqliteDatabase extends SQLiteOpenHelper {
                 "comments TEXT, taggedAddress TEXT, taggedCordinates TEXT, isSynced TEXT, EntryDt DATETIME DEFAULT (datetime('now','localtime')))";
         db.execSQL(CREATE_TABLE_REVIEW_MEETING);
 
+
+
+// Shelling Day
+        String CREATE_SHELLINGDAYTABLE = "Create table IF NOT EXISTS tbl_shellingday(" +
+                "    ID INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                "    UserCode TEXT," +
+                "    State TEXT," +
+                "    District TEXT," +
+                "    Taluka TEXT," +
+                "    VillageCode TEXT," +
+                "    VillageName TEXT," +
+                "    Crop TEXT," +
+                "    Product TEXT," +
+                "    NoOfFarmer TEXT," +
+                "    NoOfRetailer TEXT," +
+                "    PhotoName TEXT," +
+                "    PhotoString TEXT," +
+                "    Status TEXT," +
+                "    VersionName TEXT," +
+                "    LatLong TEXT," +
+                "    CreatedDate TEXT," +
+                "UplaodStatus INTEGER," +
+                "Extra1 TEXT," +
+                "Extra2 TEXT" +
+                ")";
+        db.execSQL(CREATE_SHELLINGDAYTABLE);
+
+        String CREATE_UTPADANMOHATSAVTABLE = "Create table IF NOT EXISTS tbl_utpadanmohatsavdata(" +
+                "    ID INTEGER PRIMARY KEY AUTOINCREMENT ," +
+                "    UserCode TEXT," +
+                "    State TEXT," +
+                "    District TEXT," +
+                "    Taluka TEXT," +
+                "    VillageCode TEXT," +
+                "    VillageName TEXT," +
+                "    Crop TEXT," +
+                "    Product TEXT," +
+                "    HostFarmerName  TEXT," +
+                "    FarmerMobile TEXT," +
+                "    FarmerArea TEXT," +
+                "    FarmerYeild  TEXT," +
+                "    NumberOfFarmerFelisited  TEXT," +
+                "    NumberOfFarmer  TEXT," +
+                "    NumberOfRetailer TEXT," +
+                "    PhotoName TEXT," +
+                "    PhotoString TEXT," +
+                "    Status TEXT," +
+                "    VersionName TEXT," +
+                "    LatLong TEXT," +
+                "    CreatedDate TEXT," +
+                "UplaodStatus INTEGER," +
+                "Extra1 TEXT," +
+                "Extra2 TEXT" +
+                ")";
+        db.execSQL(CREATE_UTPADANMOHATSAVTABLE);
+
+
+
+
+        // db.close();
+
+
+
+
     }
 
 
@@ -2910,6 +3049,59 @@ public class SqliteDatabase extends SQLiteOpenHelper {
 
     }
 
+    public JsonArray getResultsRetro(String Query) {
+        SQLiteDatabase db = getReadableDatabase();
+        JsonArray resultSet = new JsonArray();
+        try {
+
+
+            String myTable = "Table1";//Set name of your table
+            String searchQuery = Query;
+            Cursor cursor = db.rawQuery(searchQuery, null);
+
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false) {
+
+                int totalColumn = cursor.getColumnCount();
+                JsonObject rowObject = new JsonObject();
+
+                for (int i = 0; i < totalColumn; i++) {
+                    if (cursor.getColumnName(i) != null) {
+                        try {
+                            // img.setImageBitmap(getImageFromBLOB(cursor.getBlob(cursor.getColumnIndex("image"))));
+                            if (i == 19 || i == 21) {
+                                if (cursor.getBlob(i) != null) {
+                                    // rowObject.put(cursor.getColumnName(i), cursor.getBlob(i).toString());
+                                    // String str=Base64.encodeToString(cursor.getBlob(i),Base64.DEFAULT);
+                                    // rowObject.put(cursor.getColumnName(i), Base64.encodeToString(cursor.getBlob(i),Base64.DEFAULT));
+                                    rowObject.addProperty(cursor.getColumnName(i), cursor.getString(i));
+                                } else {
+                                    rowObject.addProperty(cursor.getColumnName(i), cursor.getString(i));
+                                }
+                            } else {
+                                if (cursor.getString(i) != null) {
+                                    Log.d("TAG_NAME", cursor.getString(i));
+                                    rowObject.addProperty(cursor.getColumnName(i), cursor.getString(i));
+                                } else {
+                                    rowObject.addProperty(cursor.getColumnName(i), "");
+                                }
+                            }
+                        } catch (Exception e) {
+                            Log.d("TAG_NAME", e.getMessage());
+                        }
+                    }
+                }
+                resultSet.add(rowObject);
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        //db.close();
+        return resultSet;
+    }
     public synchronized JSONArray getResults(String Query) {
         SQLiteDatabase db = getReadableDatabase();
         JSONArray resultSet = new JSONArray();
@@ -2963,7 +3155,6 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         //db.close();
         return resultSet;
     }
-
     public synchronized JSONArray getResultsVillageDetails(String Query) {
         SQLiteDatabase db = getReadableDatabase();
         JSONArray resultSet = new JSONArray();
@@ -7525,6 +7716,9 @@ public class SqliteDatabase extends SQLiteOpenHelper {
     }
 
     public void updateDistributerVisitsData(String isNotSynced, String isSynced, String id) {
+
+
+
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("isSynced", isSynced);
@@ -7536,6 +7730,22 @@ public class SqliteDatabase extends SQLiteOpenHelper {
 
         db.close();
     }
+
+    public void updateDistributerVisitsDataNewUpload(String isNotSynced, String isSynced, String id) {
+
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("isSynced", isSynced);
+        String whereClause = " isSynced = '0'";
+        db.update(TABLE_DISTRIBUTOR_VISIT_DATA, contentValues, whereClause, null);
+
+
+        //db.update(TABLE_DISTRIBUTOR_VISIT_DATA, contentValues, "isSynced='" + isNotSynced + "'", null);
+
+        db.close();
+    }
+
+
 
     public boolean insertReviewMeeitngData(String userCode, String state, String district, String taluka, String meetingPlace,
                                            String meetingPurpose, String comments, String taggedAddress,
@@ -8344,5 +8554,173 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         return result;
 
     }
+
+
+    public  boolean insertShellingDay(
+            String  UserCode,String State,String  District,String Taluka,String  VillageCode,String VillageName,String Crop,String Product,String NoOfFarmer,String NoOfRetailer,String PhotoName,String PhotoString,String  Status,String VersionName,String  LatLong,String CreatedDate,String UplaodStatus ,String Extra1,String Extra2 )
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues initialValues = new ContentValues();
+        initialValues.put("UserCode",UserCode);
+        initialValues.put("State",State);
+        initialValues.put("District",District);
+        initialValues.put("Taluka",Taluka);
+        initialValues.put("VillageCode",VillageCode);
+        initialValues.put("VillageName",VillageName);
+        initialValues.put("Crop",Crop);
+        initialValues.put("Product",Product);
+        initialValues.put("NoOfFarmer",NoOfFarmer);
+        initialValues.put("NoOfRetailer",NoOfRetailer);
+        initialValues.put("PhotoName",PhotoName);
+        initialValues.put("PhotoString",PhotoString);
+        initialValues.put("Status",Status);
+        initialValues.put("VersionName",VersionName);
+        initialValues.put("LatLong",LatLong);
+        initialValues.put("CreatedDate",CreatedDate);
+        initialValues.put("UplaodStatus",UplaodStatus);
+        initialValues.put("Extra1",Extra1);
+        initialValues.put("Extra2",Extra2);
+        boolean result = db.insert(TABLE_SHELLINGDAY,null, initialValues)>0;
+
+        db.close();
+        return result;
+    }
+
+    public  ArrayList<HashMap> getShellingDays()
+    {
+        ArrayList<HashMap> list =new ArrayList();
+        SQLiteDatabase db = getWritableDatabase();
+        String sql="select * from "+TABLE_SHELLINGDAY+" where UplaodStatus=0";
+        Cursor cursor=db.rawQuery(sql,null,null);
+        while(cursor.moveToNext())
+        {
+            HashMap hashmap=new HashMap();
+            hashmap.put("ID",cursor.getString(0));
+            hashmap.put("UserCode",cursor.getString(1));
+            hashmap.put("State",cursor.getString(2));
+            hashmap.put("District",cursor.getString(3));
+            hashmap.put("Taluka",cursor.getString(4));
+            hashmap.put("VillageCode",cursor.getString(5));
+            hashmap.put("VillageName",cursor.getString(6));
+            hashmap.put("Crop",cursor.getString(7));
+            hashmap.put("Product",cursor.getString(8));
+            hashmap.put("NoOfFarmer",cursor.getString(9));
+            hashmap.put("NoOfRetailer",cursor.getString(10));
+            hashmap.put("PhotoName",cursor.getString(11));
+            hashmap.put("PhotoString",cursor.getString(12));
+            hashmap.put("Status",cursor.getString(13));
+            hashmap.put("VersionName",cursor.getString(14));
+            hashmap.put("LatLong",cursor.getString(15));
+            hashmap.put("CreatedDate",cursor.getString(16));
+            hashmap.put("UplaodStatus",cursor.getString(17));
+            hashmap.put("Extra1",cursor.getString(18));
+            hashmap.put("Extra2",cursor.getString(19));
+            list.add(hashmap);
+        }
+        db.close();
+        return list;
+    }
+
+    public  boolean insertUtpadanMohatsav(String UserCode,String State,String District,String Taluka,String VillageCode,String VillageName,String Crop,String Product,String HostFarmerName,String FarmerMobile,String FarmerArea,String FarmerYeild,String NumberOfFarmerFelisited,String NumberOfFarmer,String NumberOfRetailer,String LatLong,String PhotoName,String PhotoString,String CreatedDate,String Status,String VersionName,String UplaodStatus,String Extra1,String Extra2)
+    {
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues initialValues = new ContentValues();
+        initialValues.put("UserCode",UserCode);
+        initialValues.put("State",State);
+        initialValues.put("District",District);
+        initialValues.put("Taluka",Taluka);
+        initialValues.put("VillageCode",VillageCode);
+        initialValues.put("VillageName",VillageName);
+        initialValues.put("Crop",Crop);
+        initialValues.put("Product",Product);
+        initialValues.put("HostFarmerName",HostFarmerName);
+        initialValues.put("FarmerMobile",FarmerMobile);
+        initialValues.put("FarmerArea",FarmerArea);
+        initialValues.put("FarmerYeild",FarmerYeild);
+        initialValues.put("NumberOfFarmerFelisited",NumberOfFarmerFelisited);
+        initialValues.put("NumberOfFarmer",NumberOfFarmer);
+        initialValues.put("NumberOfRetailer",NumberOfRetailer);
+        initialValues.put("LatLong",LatLong);
+        initialValues.put("PhotoName",PhotoName);
+        initialValues.put("PhotoString",PhotoString);
+        initialValues.put("CreatedDate",CreatedDate);
+        initialValues.put("Status",Status);
+        initialValues.put("VersionName",VersionName);
+        initialValues.put("UplaodStatus",UplaodStatus);
+        initialValues.put("Extra1",Extra1);
+        initialValues.put("Extra2",Extra2);
+        boolean result = db.insert(TABLE_UTPADANMOHATSAV,null, initialValues)>0;
+
+        db.close();
+        return result;
+    }
+
+    public  ArrayList<HashMap> getUtpadanMohatsav()
+    {
+        ArrayList<HashMap> list =new ArrayList();
+        SQLiteDatabase db = getWritableDatabase();
+        String sql="select * from "+TABLE_UTPADANMOHATSAV+" where UplaodStatus=0";
+        Cursor cursor=db.rawQuery(sql,null,null);
+        while(cursor.moveToNext())
+        {
+            HashMap hashmap=new HashMap();
+            hashmap.put("ID",cursor.getString(0));
+            hashmap.put("UserCode",cursor.getString(1));
+            hashmap.put("State",cursor.getString(2));
+            hashmap.put("District",cursor.getString(3));
+            hashmap.put("Taluka",cursor.getString(4));
+            hashmap.put("VillageCode",cursor.getString(5));
+            hashmap.put("VillageName",cursor.getString(6));
+            hashmap.put("Crop",cursor.getString(7));
+            hashmap.put("Product",cursor.getString(8));
+            hashmap.put("HostFarmerName",cursor.getString(9));
+            hashmap.put("FarmerMobile",cursor.getString(10));
+            hashmap.put("FarmerArea",cursor.getString(11));
+            hashmap.put("FarmerYeild",cursor.getString(12));
+            hashmap.put("NumberOfFarmerFelisited",cursor.getString(13));
+            hashmap.put("NumberOfFarmer",cursor.getString(14));
+            hashmap.put("NumberOfRetailer",cursor.getString(15));
+            hashmap.put("PhotoName",cursor.getString(16));
+            hashmap.put("PhotoString",cursor.getString(17));
+            hashmap.put("Status",cursor.getString(18));
+            hashmap.put("VersionName",cursor.getString(19));
+            hashmap.put("LatLong",cursor.getString(20));
+            hashmap.put("CreatedDate",cursor.getString(21));
+            hashmap.put("UplaodStatus",cursor.getString(22));
+            hashmap.put("Extra1",cursor.getString(23));
+            hashmap.put("Extra2",cursor.getString(24));
+            list.add(hashmap);
+        }
+        db.close();
+        return list;
+    }
+
+    public  int getVillageCount()
+    {
+        int cnt=0;
+        SQLiteDatabase db = getWritableDatabase();
+        String sql="select count(*)as cnt from VillageLevelMaster";
+        Cursor cursor=db.rawQuery(sql,null,null);
+        if(cursor.moveToNext())
+        {
+           cnt=cursor.getInt(0);
+        }
+        db.close();
+        return cnt;
+    }
+
+    public boolean UpdateStatus(String q)
+    {
+        try{
+            SQLiteDatabase db=getWritableDatabase();
+            db.execSQL(q);
+            return true;
+
+        }catch (Exception e)
+        {
+            return false;
+        }
+    }
+
 
 }

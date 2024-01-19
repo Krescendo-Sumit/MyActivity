@@ -1377,7 +1377,11 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
             location = arg0;
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
             cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
-            address = getCompleteAddressString(lati, longi);
+            if(address.equals("")) {
+                if (config.NetworkConnection()) {
+                    address = getCompleteAddressString(lati, longi);
+                }
+            }
             tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
             Log.d(TAG, "onlocation" + cordinates);
 

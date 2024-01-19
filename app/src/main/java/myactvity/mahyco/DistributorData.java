@@ -83,6 +83,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import myactvity.mahyco.app.Config;
 import myactvity.mahyco.app.GeneralMaster;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
@@ -599,7 +600,11 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
             location=arg0;
             Log.d(TAG, "onLocationChanged: "+String.valueOf(longi));
             cordinate = String.valueOf(lati)+"-"+String.valueOf(longi);
-            address = getCompleteAddressString(lati, longi);
+            if(address.equals("")) {
+                if (new Config(context).NetworkConnection()) {
+                    address = getCompleteAddressString(lati, longi);
+                }
+            }
             //accuracy = String.valueOf(arg0.getAccuracy());
            // Toast.makeText(context, cordinate+"S", Toast.LENGTH_SHORT).show();
             // locationInsertTime = arg0.getTime();

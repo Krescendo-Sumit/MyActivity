@@ -221,7 +221,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
         editor = pref.edit();
         usercode= pref.getString("UserID", null);
 
-        Toast.makeText(context, ""+preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(context, ""+preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
         if(preferences.getString("unit", null).contains("VCBU")) {
          //   spvehicletype.setEnabled(false);
             chktag.setChecked(true);
@@ -534,9 +534,13 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             location=arg0;
             Log.d(TAG, "onLocationChanged: "+String.valueOf(longi));
             cordinate = String.valueOf(lati)+"-"+String.valueOf(longi);
-            address = getCompleteAddressString(lati, longi);
-            //accuracy = String.valueOf(arg0.getAccuracy());
-            Toast.makeText(context, cordinate+"S", Toast.LENGTH_SHORT).show();
+           if(address.equals("")) {
+               if (confing.NetworkConnection()) {
+                   address = getCompleteAddressString(lati, longi);
+               }
+           }
+               //accuracy = String.valueOf(arg0.getAccuracy());
+          //  Toast.makeText(context, cordinate+"S", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "onlocation"+cordinate);
             // locationInsertTime = arg0.getTime();
             //LocationBearing = arg0.getBearing();
@@ -1337,7 +1341,6 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                         txtkm.setText("");
                         txtlocation.setText("");
                         btnstUpdate.setVisibility(View.INVISIBLE);
-
                     }
                     else
                     {

@@ -58,6 +58,19 @@
             android:exported="true"
             android:screenOrientation="portrait">
         </activity>
+
+        <activity
+            android:name="myactvity.mahyco.ShellingDayActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="myactvity.mahyco.UtpadanMohatsavActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".ProjectorMeetingActivity"
             android:exported="true"

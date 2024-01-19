@@ -148,7 +148,7 @@ public class SearchableSpinner extends androidx.appcompat.widget.AppCompatSpinne
         }
         selectedItem = getItemAtPosition(position).toString();
 
-        Toast.makeText(getContext(), "You selected " + selectedItem, Toast.LENGTH_LONG).show();
+      //  Toast.makeText(getContext(), "You selected " + selectedItem, Toast.LENGTH_LONG).show();
 
     }
 

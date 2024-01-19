@@ -1152,7 +1152,11 @@ public class OfflineActivity extends AppCompatActivity
             location=arg0;
             Log.d(TAG, "onLocationChanged: "+String.valueOf(longi));
             cordinate = String.valueOf(lati)+"-"+String.valueOf(longi);
-            address = getCompleteAddressString(lati, longi);
+            if(address.equals("")) {
+                if (config.NetworkConnection()) {
+                    address = getCompleteAddressString(lati, longi);
+                }
+            }
             //accuracy = String.valueOf(arg0.getAccuracy());
            // Toast.makeText(this, cordinate+"Of", Toast.LENGTH_SHORT).show();
             // locationInsertTime = arg0.getTime();

@@ -1237,7 +1237,11 @@ public class MarketDayActivity extends AppCompatActivity implements GoogleApiCli
             location = arg0;
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
             cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
-            address = getCompleteAddressString(lati, longi);
+            if(address.equals("")) {
+                if (config.NetworkConnection()) {
+                    address = getCompleteAddressString(lati, longi);
+                }
+            }
             tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
             tvAddress.setText(address + "\n" + cordinates);
             Log.d(TAG, "onlocation" + cordinates);

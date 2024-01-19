@@ -2,14 +2,14 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyActivityLive.iml" filepath="$PROJECT_DIR$/.idea/modules/MyActivityLive.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MyActivityLive.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MyActivityLive.app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/customercomplaint/MyActivityLive.customercomplaint.iml" filepath="$PROJECT_DIR$/.idea/modules/customercomplaint/MyActivityLive.customercomplaint.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/exportdbtocsv/MyActivityLive.exportdbtocsv.iml" filepath="$PROJECT_DIR$/.idea/modules/exportdbtocsv/MyActivityLive.exportdbtocsv.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/feedbacklib/MyActivityLive.feedbacklib.iml" filepath="$PROJECT_DIR$/.idea/modules/feedbacklib/MyActivityLive.feedbacklib.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/MyActivityLive.library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/MyActivityLive.library.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/picasso-2.5.2/MyActivityLive.picasso-2.5.2.iml" filepath="$PROJECT_DIR$/.idea/modules/picasso-2.5.2/MyActivityLive.picasso-2.5.2.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/zoomimagelib/MyActivityLive.zoomimagelib.iml" filepath="$PROJECT_DIR$/.idea/modules/zoomimagelib/MyActivityLive.zoomimagelib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyActivityLiveNewVersion.iml" filepath="$PROJECT_DIR$/.idea/modules/MyActivityLiveNewVersion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/MyActivityLiveNewVersion.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/MyActivityLiveNewVersion.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/customercomplaint/MyActivityLiveNewVersion.customercomplaint.iml" filepath="$PROJECT_DIR$/.idea/modules/customercomplaint/MyActivityLiveNewVersion.customercomplaint.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/exportdbtocsv/MyActivityLiveNewVersion.exportdbtocsv.iml" filepath="$PROJECT_DIR$/.idea/modules/exportdbtocsv/MyActivityLiveNewVersion.exportdbtocsv.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/feedbacklib/MyActivityLiveNewVersion.feedbacklib.iml" filepath="$PROJECT_DIR$/.idea/modules/feedbacklib/MyActivityLiveNewVersion.feedbacklib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/library/MyActivityLiveNewVersion.library.iml" filepath="$PROJECT_DIR$/.idea/modules/library/MyActivityLiveNewVersion.library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/picasso-2.5.2/MyActivityLiveNewVersion.picasso-2.5.2.iml" filepath="$PROJECT_DIR$/.idea/modules/picasso-2.5.2/MyActivityLiveNewVersion.picasso-2.5.2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/zoomimagelib/MyActivityLiveNewVersion.zoomimagelib.iml" filepath="$PROJECT_DIR$/.idea/modules/zoomimagelib/MyActivityLiveNewVersion.zoomimagelib.iml" />
     </modules>
   </component>
 </project>

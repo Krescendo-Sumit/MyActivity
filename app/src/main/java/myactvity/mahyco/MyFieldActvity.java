@@ -711,7 +711,11 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
             location=arg0;
             Log.d(TAG, "onLocationChanged: "+String.valueOf(longi));
             cordinate = String.valueOf(lati)+"-"+String.valueOf(longi);
-            address = getCompleteAddressString(lati, longi);
+            if(address.equals("")) {
+                if (config.NetworkConnection()) {
+                    address = getCompleteAddressString(lati, longi);
+                }
+            }
             //accuracy = String.valueOf(arg0.getAccuracy());
             //Toast.makeText(this, cordinate+"S", Toast.LENGTH_SHORT).show();
             // locationInsertTime = arg0.getTime();

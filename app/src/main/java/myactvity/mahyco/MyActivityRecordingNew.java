@@ -1,12 +1,14 @@
 package myactvity.mahyco;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -68,7 +70,7 @@ public class MyActivityRecordingNew extends AppCompatActivity {
     String userCode;
     String activityType = "1";
     String screenName = "";
-    String activityName ="1";
+    String activityName = "1";
     Config config;
     Context context;
     Intent intent;
@@ -80,7 +82,7 @@ public class MyActivityRecordingNew extends AppCompatActivity {
     SharedPreferences locdata, pref;
     SharedPreferences.Editor loceditor, editor;
     RadioGroup radGroup;
-    RadioButton radPost, radPre, radAlt, radGeneral,radDigital;
+    RadioButton radPost, radPre, radAlt, radGeneral, radDigital;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -264,7 +266,23 @@ public class MyActivityRecordingNew extends AppCompatActivity {
         });
 
        */
+        // adding this code to redirect the user download master data if data is not downloaded.
+        int dbcount = mDatabase.getVillageCount();
+        if (dbcount <= 0) {
+            new AlertDialog.Builder(context)
+                    .setMessage("It seems master data is not downloaded. Please download master data .")
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                            Intent intent = new Intent(context, DownloadMasterdata.class);
+                            startActivity(intent);
 
+                        }
+                    })
+
+                    .show();
+        }
 
         radGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -273,24 +291,24 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                     case R.id.radPost:
                         if (radPost.isChecked()) {
                             activityType = "1";
-                            activityName="1";
+                            activityName = "1";
                             bindSpinnerData(activityType);
                         } else if (radPre.isChecked()) {
                             activityType = "2";
-                            activityName="2";
+                            activityName = "2";
                             bindSpinnerData(activityType);
                         } else if (radAlt.isChecked()) {
                             activityType = "3";
-                            activityName="3";
+                            activityName = "3";
                             bindSpinnerData(activityType);
-                        } else if (radGeneral.isChecked()){
+                        } else if (radGeneral.isChecked()) {
                             activityType = "4";
-                            activityName="4";
+                            activityName = "4";
                             bindSpinnerData(activityType);
 
-                        }else {
+                        } else {
                             activityType = "5";
-                            activityName="5";
+                            activityName = "5";
                             bindSpinnerData(activityType);
 
                         }
@@ -302,24 +320,24 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                     case R.id.radPre:
                         if (radPre.isChecked()) {
                             activityType = "2";
-                            activityName="2";
+                            activityName = "2";
                             bindSpinnerData(activityType);
                         } else if (radPost.isChecked()) {
                             activityType = "1";
-                            activityName="1";
+                            activityName = "1";
                             bindSpinnerData(activityType);
                         } else if (radAlt.isChecked()) {
                             activityType = "3";
-                            activityName="3";
+                            activityName = "3";
                             bindSpinnerData(activityType);
-                        } else if (radGeneral.isChecked()){
+                        } else if (radGeneral.isChecked()) {
                             activityType = "4";
-                            activityName="4";
+                            activityName = "4";
                             bindSpinnerData(activityType);
 
-                        }else {
+                        } else {
                             activityType = "5";
-                            activityName="5";
+                            activityName = "5";
                             bindSpinnerData(activityType);
 
                         }
@@ -331,24 +349,24 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                     case R.id.radAlt:
                         if (radAlt.isChecked()) {
                             activityType = "3";
-                            activityName="3";
+                            activityName = "3";
                             bindSpinnerData(activityType);
                         } else if (radPost.isChecked()) {
                             activityType = "1";
-                            activityName="1";
+                            activityName = "1";
                             bindSpinnerData(activityType);
                         } else if (radPre.isChecked()) {
                             activityType = "2";
-                            activityName="2";
+                            activityName = "2";
                             bindSpinnerData(activityType);
-                        }else if (radGeneral.isChecked()){
+                        } else if (radGeneral.isChecked()) {
                             activityType = "4";
-                            activityName="4";
+                            activityName = "4";
                             bindSpinnerData(activityType);
 
-                        }else {
+                        } else {
                             activityType = "5";
-                            activityName="5";
+                            activityName = "5";
                             bindSpinnerData(activityType);
 
                         }
@@ -360,24 +378,24 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                     case R.id.radGeneral:
                         if (radGeneral.isChecked()) {
                             activityType = "4";
-                            activityName="4";
+                            activityName = "4";
                             bindSpinnerData(activityType);
                         } else if (radPost.isChecked()) {
                             activityType = "1";
-                            activityName="1";
+                            activityName = "1";
                             bindSpinnerData(activityType);
                         } else if (radPre.isChecked()) {
                             activityType = "2";
-                            activityName="2";
+                            activityName = "2";
                             bindSpinnerData(activityType);
                         } else if (radAlt.isChecked()) {
                             activityType = "3";
-                            activityName="3";
+                            activityName = "3";
                             bindSpinnerData(activityType);
 
-                        }else {
+                        } else {
                             activityType = "5";
-                            activityName="5";
+                            activityName = "5";
                             bindSpinnerData(activityType);
 
                         }
@@ -389,20 +407,20 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                     case R.id.radDigital:
                         if (radDigital.isChecked()) {
                             activityType = "5";
-                            activityName="5";
+                            activityName = "5";
                             bindSpinnerData(activityType);
 
                         } else if (radGeneral.isChecked()) {
                             activityType = "4";
-                            activityName="4";
+                            activityName = "4";
                             bindSpinnerData(activityType);
                         } else if (radPost.isChecked()) {
                             activityType = "1";
-                            activityName="1";
+                            activityName = "1";
                             bindSpinnerData(activityType);
                         } else if (radPre.isChecked()) {
                             activityType = "2";
-                            activityName="2";
+                            activityName = "2";
                             bindSpinnerData(activityType);
                         } else if (radAlt.isChecked()) {
                             activityType = "3";
@@ -431,11 +449,11 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                if (!screenName.isEmpty() && !(screenName.contains("SELECT POST SEASON ACTIVITY")||
+                if (!screenName.isEmpty() && !(screenName.contains("SELECT POST SEASON ACTIVITY") ||
                         screenName.contains("SELECT PRE SEASON ACTIVITY") ||
                         screenName.contains("SELECT ATL ACTIVITY") ||
                         screenName.contains("SELECT GENERAL ACTIVITY") ||
-                        screenName.contains("SELECT DIGITAL MARKETING")||
+                        screenName.contains("SELECT DIGITAL MARKETING") ||
                         screenName.contains("SELECT ACTIVITY"))) {
 
                     if (activityType.equalsIgnoreCase("1")) {
@@ -446,7 +464,7 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                         navigateToATLScreen(screenName);
                     } else if (activityType.equalsIgnoreCase("4")) {
                         navigateToGeneralScreen(screenName);
-                    }else if (activityType.equalsIgnoreCase("5")) {
+                    } else if (activityType.equalsIgnoreCase("5")) {
                         navigateToDigitalscreen(screenName);
                     }
                 }
@@ -460,15 +478,13 @@ public class MyActivityRecordingNew extends AppCompatActivity {
 
     }
 
-    private void navigateToDigitalscreen(String screenName)
-    {
+    private void navigateToDigitalscreen(String screenName) {
 
-        if (pref.getString("RoleID",null).equals("2")
-                || pref.getString("RoleID",null).equals("9")
-                ||pref.getString("RoleID",null).equals("7")
-                ||pref.getString("RoleID",null).equals("5")
-                ||pref.getString("RoleID",null).equals("8"))
-        {
+        if (pref.getString("RoleID", null).equals("2")
+                || pref.getString("RoleID", null).equals("9")
+                || pref.getString("RoleID", null).equals("7")
+                || pref.getString("RoleID", null).equals("5")
+                || pref.getString("RoleID", null).equals("8")) {
             if (screenName.equalsIgnoreCase("1")) {
                 intent = new Intent(context.getApplicationContext(), FarmerCallActivity.class);
 
@@ -496,19 +512,15 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }
-            else if (screenName.equalsIgnoreCase("6")) {
+            } else if (screenName.equalsIgnoreCase("6")) {
                 intent = new Intent(context.getApplicationContext(), CallValidation.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }
-
-            else {
+            } else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
+        } else {
             if (screenName.equalsIgnoreCase("1")) {
                 intent = new Intent(context.getApplicationContext(), FarmerCallActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -534,15 +546,12 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }
-            else if (screenName.equalsIgnoreCase("6")) {
+            } else if (screenName.equalsIgnoreCase("6")) {
                 intent = new Intent(context.getApplicationContext(), CallValidation.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }
-
-            else {
+            } else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
         }
@@ -563,7 +572,7 @@ public class MyActivityRecordingNew extends AppCompatActivity {
             String searchQuery = "SELECT activityNameCode,ActivityName   FROM MyActivityMaster where activityTypeCode='" + activityTypeCode + "' ";
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
 
-            switch (activityName){
+            switch (activityName) {
                 case "1":
                     list.add(new GeneralMaster("SELECT POST SEASON ACTIVITY",
                             "SELECT POST SEASON ACTIVITY"));
@@ -579,7 +588,8 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                 case "4":
                     list.add(new GeneralMaster("SELECT GENERAL ACTIVITY",
                             "SELECT GENERAL ACTIVITY"));
-                    break; case "5":
+                    break;
+                case "5":
                     list.add(new GeneralMaster("SELECT DIGITAL MARKETING",
                             "SELECT DIGITAL MARKETING"));
                     break;
@@ -589,9 +599,6 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                             "SELECT ACTIVITY"));
                     break;
             }
-
-
-
 
 
             cursor.moveToFirst();
@@ -615,16 +622,16 @@ public class MyActivityRecordingNew extends AppCompatActivity {
 
     /**
      * <P>Method to naviagte Post season screen to respective activity</P>
+     *
      * @param screenName
      */
     public void navigateToPostSeasonScreen(String screenName) {
 
-        if (pref.getString("RoleID",null).equals("2")
-                || pref.getString("RoleID",null).equals("9")
-                ||pref.getString("RoleID",null).equals("7")
-                ||pref.getString("RoleID",null).equals("5")
-                ||pref.getString("RoleID",null).equals("8"))
-        {
+        if (pref.getString("RoleID", null).equals("2")
+                || pref.getString("RoleID", null).equals("9")
+                || pref.getString("RoleID", null).equals("7")
+                || pref.getString("RoleID", null).equals("5")
+                || pref.getString("RoleID", null).equals("8")) {
 //        FARMER/PURCHASE LIST COLLECTION
             if (screenName.equalsIgnoreCase("8")) {
                 // intent = new Intent(context.getApplicationContext(), LivePlantDisplayRetailCounterActivityOnline.class);
@@ -676,7 +683,7 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }else if (screenName.equalsIgnoreCase("10")) {
+            } else if (screenName.equalsIgnoreCase("10")) {
                 intent = new Intent(context.getApplicationContext(), Mahakisan.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
@@ -684,8 +691,7 @@ public class MyActivityRecordingNew extends AppCompatActivity {
             } else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
+        } else {
 //        FARMER/PURCHASE LIST COLLECTION
             if (screenName.equalsIgnoreCase("8")) {
                 intent = new Intent(context.getApplicationContext(), LivePlantDisplayRetailCounterActivity.class);
@@ -747,6 +753,7 @@ public class MyActivityRecordingNew extends AppCompatActivity {
 
     /**
      * <P>Method to naviagte ATL season screen to respective activity</P>
+     *
      * @param screenName
      */
     private void navigateToATLScreen(String screenName) {
@@ -785,8 +792,7 @@ public class MyActivityRecordingNew extends AppCompatActivity {
             intent = new Intent(context.getApplicationContext(), ATLExhibitionActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
-        }
-        else if (screenName.equalsIgnoreCase("8")) {
+        } else if (screenName.equalsIgnoreCase("8")) {
             intent = new Intent(context.getApplicationContext(), MarketDayActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             context.startActivity(intent);
@@ -797,17 +803,17 @@ public class MyActivityRecordingNew extends AppCompatActivity {
 
     /**
      * <P>Method to naviagte pre season screen to respective activity</P>
+     *
      * @param screenName
      */
     private void navigateToPreSeasonScreen(String screenName) {
         // RBM 2 ,BU Head 9 ,NMM 8,ZBM 7
-        Toast.makeText(this, ""+screenName, Toast.LENGTH_SHORT).show();
-        if (pref.getString("RoleID",null).equals("2")
-                || pref.getString("RoleID",null).equals("9")
-                ||pref.getString("RoleID",null).equals("7")
-                ||pref.getString("RoleID",null).equals("5")
-                ||pref.getString("RoleID",null).equals("8"))
-        {
+        //  Toast.makeText(this, ""+screenName, Toast.LENGTH_SHORT).show();
+        if (pref.getString("RoleID", null).equals("2")
+                || pref.getString("RoleID", null).equals("9")
+                || pref.getString("RoleID", null).equals("7")
+                || pref.getString("RoleID", null).equals("5")
+                || pref.getString("RoleID", null).equals("8")) {
             if (screenName.equalsIgnoreCase("1")) {
                 // intent = new Intent(context.getApplicationContext(), TestimonialCollectionActivityOnline.class);
                 intent = new Intent(context.getApplicationContext(), TestimonialCollectionActivity.class);
@@ -845,12 +851,11 @@ public class MyActivityRecordingNew extends AppCompatActivity {
             } else if (screenName.equalsIgnoreCase("7")) {
 
                 //    Toast.makeText(getApplicationContext(), "Module under development", Toast.LENGTH_LONG).show();
-               intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
+                intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }
-            else if (screenName.equalsIgnoreCase("8")) {
+            } else if (screenName.equalsIgnoreCase("8")) {
 
                 //    Toast.makeText(getApplicationContext(), "Module under development", Toast.LENGTH_LONG).show();
                 //        intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
@@ -858,12 +863,10 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }
-            else {
+            } else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
+        } else {
             if (screenName.equalsIgnoreCase("1")) {
                 intent = new Intent(context.getApplicationContext(), TestimonialCollectionActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -897,13 +900,12 @@ public class MyActivityRecordingNew extends AppCompatActivity {
             } else if (screenName.equalsIgnoreCase("7")) {
 
                 //    Toast.makeText(getApplicationContext(), "Module under development", Toast.LENGTH_LONG).show();
-               intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
-             //   intent = new Intent(context.getApplicationContext(), ProjectorMeetingActivity.class);
+                intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
+                //   intent = new Intent(context.getApplicationContext(), ProjectorMeetingActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }
-            else if (screenName.equalsIgnoreCase("8")) {
+            } else if (screenName.equalsIgnoreCase("8")) {
 
                 //    Toast.makeText(getApplicationContext(), "Module under development", Toast.LENGTH_LONG).show();
                 //        intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
@@ -911,8 +913,7 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }
-            else {
+            } else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
         }
@@ -921,16 +922,16 @@ public class MyActivityRecordingNew extends AppCompatActivity {
 
     /**
      * <P>Method to naviagte general season screen to respective activity</P>
+     *
      * @param screenName
      */
     private void navigateToGeneralScreen(String screenName) {
 
-        if (pref.getString("RoleID",null).equals("2")
-                || pref.getString("RoleID",null).equals("9")
-                ||pref.getString("RoleID",null).equals("7")
-                ||pref.getString("RoleID",null).equals("5")
-                ||pref.getString("RoleID",null).equals("8"))
-        {
+        if (pref.getString("RoleID", null).equals("2")
+                || pref.getString("RoleID", null).equals("9")
+                || pref.getString("RoleID", null).equals("7")
+                || pref.getString("RoleID", null).equals("5")
+                || pref.getString("RoleID", null).equals("8")) {
             if (screenName.equalsIgnoreCase("1")) {
                 //intent = new Intent(context.getApplicationContext(), DistributerVisitsActivityOnline.class);
                 intent = new Intent(context.getApplicationContext(), DistributerVisitsActivity.class);
@@ -960,20 +961,15 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }
-
-            else if (screenName.equalsIgnoreCase("6")) {
+            } else if (screenName.equalsIgnoreCase("6")) {
                 intent = new Intent(context.getApplicationContext(), ReviewMeetingActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }
-
-            else {
+            } else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
-        }
-        else {
+        } else {
             if (screenName.equalsIgnoreCase("1")) {
                 intent = new Intent(context.getApplicationContext(), DistributerVisitsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -991,7 +987,7 @@ public class MyActivityRecordingNew extends AppCompatActivity {
             } else if (screenName.equalsIgnoreCase("4")) {
                 intent = new Intent(context.getApplicationContext(), RetailerandDistributorTag.class);
 
-               // intent = new Intent(context.getApplicationContext(), SamruddhaKisanVisitsActivity.class);
+                // intent = new Intent(context.getApplicationContext(), SamruddhaKisanVisitsActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
@@ -1000,15 +996,12 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }
-            else if (screenName.equalsIgnoreCase("6")) {
+            } else if (screenName.equalsIgnoreCase("6")) {
                 intent = new Intent(context.getApplicationContext(), ReviewMeetingActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            }
-
-            else {
+            } else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
         }

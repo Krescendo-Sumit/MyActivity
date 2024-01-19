@@ -32,6 +32,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -75,7 +78,7 @@ import myactvity.mahyco.app.WebService;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SqliteDatabase;
 
-public class UploadDataNew extends AppCompatActivity {
+public class UploadDataNew extends AppCompatActivity implements NewUploadListener {
     private static final String TAG = "UploadData";
     public Button btnUpload, btnUpload2, btnUpload3, btnUpload5, btnUpload4, btnUploadRetailerdata,
             btnUploadPostSeason, btnUploadPreSeason, btnUploadATL, btnUploadGen;
@@ -108,6 +111,7 @@ public class UploadDataNew extends AppCompatActivity {
     String Intime = "";
     RadioGroup radGrp5, radGrp6, radGrp7, radGrp8;
     String userCode;
+     NewUplaodAPI api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +130,7 @@ public class UploadDataNew extends AppCompatActivity {
         context = this;
         cx = new CommonExecution(this);
         SERVER = cx.MDOurlpath;
+        api=new NewUplaodAPI(context,this);
         wx = new WebService();
         mPref = Prefs.with(this);
         pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
@@ -521,7 +526,7 @@ public class UploadDataNew extends AppCompatActivity {
                 userCode = userCode.replace(" ", "%20");
                 IME = IME.replace(" ", "%20");
 
-                new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode=" + userCode + "&IMEICode=" + IME + "");
+              //  new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode=" + userCode + "&IMEICode=" + IME + "");
             } catch (Exception e) {
 
             }
@@ -544,7 +549,7 @@ public class UploadDataNew extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        relPRogress.setVisibility(View.VISIBLE);
+                  /*      relPRogress.setVisibility(View.VISIBLE);
                         relPRogress.setOnTouchListener(new View.OnTouchListener() {
                             @Override
                             public boolean onTouch(View v, MotionEvent event) {
@@ -555,7 +560,9 @@ public class UploadDataNew extends AppCompatActivity {
                         doworkGeneral();
                         getWindow().setFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
                         container.setEnabled(false);
-                        container.setClickable(false);
+                        container.setClickable(false);*/
+
+                        saveGenToServer();
 
                     }
                 });
@@ -725,12 +732,38 @@ public class UploadDataNew extends AppCompatActivity {
         if (config.NetworkConnection()) {
 
             try {
-                new uploadFarmerVisitDataServer(functionName, context).execute(Constants.FARMERVISITS_SERVER_API).get();
+                uploadFarmerVisitData("");
+               // new uploadFarmerVisitDataServer(functionName, context).execute(Constants.FARMERVISITS_SERVER_API).get();
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    @Override
+    public void onResult(String result) {
+       // Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+        if(result!=null)
+        handleRetailerVisitsDataSyncResponse("Retailer", result);
+        else
+            msclass.showMessage("Something went Wrong "+result);
+    }
+
+    @Override
+    public void onResultFarmer(String result) {
+        if(result!=null)
+            handleFarmerVisitsDataSyncResponse("Farmer", result,"1");
+        else
+            msclass.showMessage("Something went Wrong "+result);
+    }
+
+    @Override
+    public void onResultDistributor(String result,String id) {
+        if(result!=null)
+            handleDistributorDataSyncResponse("DistributorData", result,id);
+        else
+            msclass.showMessage("Something went Wrong "+result);
     }
 
 
@@ -813,35 +846,36 @@ public class UploadDataNew extends AppCompatActivity {
         String searchQuery = "select  *  from FarmerVisitsData where  isSynced ='0'";
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
         int count = cursor.getCount();
-        JSONArray jsonArray = new JSONArray();
+
+        JsonArray jsonArray = new JsonArray();
         if (count > 0) {
 
             try {
 
-                JSONObject jsonObject = new JSONObject();
+                JsonObject jsonObject = new JsonObject();
                 try {
-                    jsonArray = mDatabase.getResults(searchQuery);
+                    jsonArray = mDatabase.getResultsRetro(searchQuery);
 
                     //  for (int i = 0; i < jsonArray.length(); i++) {
 
-                    jsonObject.put("Table", jsonArray);
+                    jsonObject.add("Table", jsonArray);
                     String id = "1";//jsonArray.getJSONObject(i).getString("_id");
 
-                    str = syncdFarmerVisitsData(funname, Constants.FARMERVISITS_SERVER_API, jsonObject);
-                    handleFarmerVisitsDataSyncResponse(funname, str, id);
+//                   str = syncdFarmerVisitsData(funname, Constants.FARMERVISITS_SERVER_API, jsonObject);
+                 //   handleFarmerVisitsDataSyncResponse(funname, str, id);
 
                     // }
 
                     Log.d("rhtt", "uploadFarmerVisitsData: " + jsonObject);
 
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
 
                 cursor.close();
-
+                api.UploadFarmer(jsonObject);
             } catch (Exception ex) {
                 ex.printStackTrace();
 
@@ -858,19 +892,28 @@ public class UploadDataNew extends AppCompatActivity {
 
     }
 
-    public void handleFarmerVisitsDataSyncResponse(String function, String resultout, String id) throws JSONException {
+    public void handleFarmerVisitsDataSyncResponse(String function, String resultout, String id) {
         //if (function.equals(function)) {
-        JSONObject jsonObject = new JSONObject(resultout);
-        if (jsonObject.has("success")) {
-            if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
+        try {
+            JSONObject jsonObject = new JSONObject(resultout);
+            if (jsonObject.has("success")) {
+                if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
 
-                mDatabase.updateFarmerVisitsData("0", "1", id);
-            } else {
+                    mDatabase.updateFarmerVisitsData("0", "1", id);
+                    msclass.showMessage(""+jsonObject.getString("message"));
+                    rndFarmerVisit.setText("FARMER VISIT" + " 0" );
+
+                } else {
+                    msclass.showMessage("Farmer Visit Not Successfully.\n"+resultout);
+                }
+                //  }
             }
-            //  }
+            Log.d("FarmerVisitsData", "FarmerVisitsData: " + resultout);
+        }catch (Exception e)
+        {
+            msclass.showMessage("Farmer Visit Not Successfully.\n"+e.getMessage());
         }
-        Log.d("FarmerVisitsData", "FarmerVisitsData: " + resultout);
-    }
+        }
 
 
     public void uploadReviewMeetingData(String functionName) {
@@ -1013,7 +1056,8 @@ public class UploadDataNew extends AppCompatActivity {
         if (config.NetworkConnection()) {
 
             try {
-                new uploadRetailerVisitsDataServer(functionName, context).execute(Constants.RETAILERVIST_SERVER_API).get();
+                uploadRetailerData("");
+               // new uploadRetailerVisitsDataServer(functionName, context).execute(Constants.RETAILERVIST_SERVER_API).get();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1104,31 +1148,34 @@ public class UploadDataNew extends AppCompatActivity {
         String searchQuery = "select  *  from RetailerVisitsData where  isSynced ='0'";
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
         int count = cursor.getCount();
-        JSONArray jsonArray = new JSONArray();
+        JsonArray jsonArray = new JsonArray();
         if (count > 0) {
 
             try {
 
-                JSONObject jsonObject = new JSONObject();
+                JsonObject jsonObject = new JsonObject();
                 try {
-                    jsonArray = mDatabase.getResults(searchQuery);
+                    jsonArray = mDatabase.getResultsRetro(searchQuery);
 
-                    jsonObject.put("Table", jsonArray);
+                    jsonObject.add("Table", jsonArray);
 
                     Log.d("RetailerVisitsData", "uploadRetailerVisitsData: " + jsonObject);
 
 
-                } catch (JSONException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                str = syncdRetailerVisitsData(funname, Constants.RETAILERVIST_SERVER_API, jsonObject);
-                handleRetailerVisitsDataSyncResponse(funname, str);
-
                 cursor.close();
+                 api.UploadRetailer(jsonObject);
+        //        str = syncdRetailerVisitsData(funname, Constants.RETAILERVIST_SERVER_API, jsonObject);
+
+             //   handleRetailerVisitsDataSyncResponse(funname, str);
+
+
 
             } catch (Exception ex) {
                 ex.printStackTrace();
-
+                msclass.showMessage(ex.getMessage());
 
             }
         }
@@ -1141,19 +1188,38 @@ public class UploadDataNew extends AppCompatActivity {
 
     }
 
-    public void handleRetailerVisitsDataSyncResponse(String function, String resultout) throws JSONException {
-        if (function.equals(function)) {
-            JSONObject jsonObject = new JSONObject(resultout);
-            if (jsonObject.has("success")) {
-                if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
+    public void handleRetailerVisitsDataSyncResponse(String function, String resultout) {
+       try {
+           if (function.equals(function)) {
+               JSONObject jsonObject = new JSONObject(resultout);
+               if (jsonObject.has("success")) {
+                   if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
 
-                    mDatabase.updateRetailerVisitsData("0", "1");
-                } else {
-                }
-            }
-        }
-        Log.d("SamruddhaVistData", "SamruddhaVistData: " + resultout);
-    }
+                       mDatabase.updateRetailerVisitsData("0", "1");
+                       msclass.showMessage("Retailer Data Upload successfully.");
+                       rndRetailerVisit.setText("RETAILER VISIT" + " 0");
+
+
+                   } else {
+                       msclass.showMessage("Retailer Data Not Uploaded \n"+resultout);
+                   }
+               }
+           }
+           Log.d("SamruddhaVistData", "SamruddhaVistData: " + resultout);
+       }catch(Exception e)
+       {
+           new AlertDialog.Builder(context)
+                   .setTitle("Retailer Upload")
+                   .setMessage(""+resultout)
+                   .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                       @Override
+                       public void onClick(DialogInterface dialogInterface, int i) {
+                           dialogInterface.dismiss();
+                       }
+                   })
+                   .show();
+       }
+       }
 
 
     public void uploadSamruddhaKisanVisitsData(String functionName) {
@@ -1325,7 +1391,8 @@ public class UploadDataNew extends AppCompatActivity {
         if (config.NetworkConnection()) {
 
             try {
-                new uploadDistributerVisitsDataServer(distributerVisitsData, context).execute(Constants.DISTRIBUTORVIST_SERVER_API).get();
+                uploadDistributorData("DistributorData");
+              //  new uploadDistributerVisitsDataServer(distributerVisitsData, context).execute(Constants.DISTRIBUTORVIST_SERVER_API).get();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1413,30 +1480,40 @@ public class UploadDataNew extends AppCompatActivity {
         String searchQuery = "select  *  from DistributerVisitsData where  isSynced ='0'";
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
         int count = cursor.getCount();
-        JSONArray jsonArray = new JSONArray();
+        JsonArray jsonArray = new JsonArray();
         if (count > 0) {
 
-            try {
 
-                JSONObject jsonObject = new JSONObject();
+
+        /*        JsonObject jsonObject = new JsonObject();
                 try {
-                    jsonArray = mDatabase.getResults(searchQuery);
-                    for (int i = 0; i < jsonArray.length(); i++) {
+                    jsonArray = mDatabase.getResultsRetro(searchQuery);
 
-                        jsonObject.put("Table", jsonArray.getJSONObject(i));
-                        String id = jsonArray.getJSONObject(i).getString("_id");
+                    jsonObject.add("Table", jsonArray);
 
-                        str = syncATLMarketDayDataSingleImage(distributorData, Constants.DISTRIBUTORVIST_SERVER_API, jsonObject);
-                        handleDistributorDataSyncResponse("DistributorData", str, id);
+                    Log.d("RetailerVisitsData", "uploadRetailerVisitsData: " + jsonObject);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }*/
+
+                JsonObject jsonObject = new JsonObject();
+                try {
+                    jsonArray = mDatabase.getResultsRetro(searchQuery);
+                    for (int i = 0; i < jsonArray.size(); i++) {
+
+                        jsonObject.add("Table", jsonArray.get(i));
+                        JsonObject json=jsonArray.get(i).getAsJsonObject();
+                        String id = json.get("_id").toString();
+                        api.UploadDistributor(jsonObject,id);
+                       // str = syncATLMarketDayDataSingleImage(distributorData, Constants.DISTRIBUTORVIST_SERVER_API, jsonObject);
+
                     }
 
+              //  api.UploadDistributor(jsonObject);
                     Log.d("rhtt", "uploadDistributerVisitsData: " + jsonObject);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                cursor.close();
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -1453,17 +1530,28 @@ public class UploadDataNew extends AppCompatActivity {
 
     }
 
-    public void handleDistributorDataSyncResponse(String function, String resultout, String id) throws JSONException {
-        if (function.equals("DistributorData")) {
-            JSONObject jsonObject = new JSONObject(resultout);
-            if (jsonObject.has("success")) {
-                if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
+    public void handleDistributorDataSyncResponse(String function, String resultout, String id){
+       try {
+           if (function.equals("DistributorData")) {
+               JSONObject jsonObject = new JSONObject(resultout);
+               if (jsonObject.has("success")) {
+                   if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
 
-                    mDatabase.updateDistributerVisitsData("0", "1", id);
-                }
-            }
-        }
-        Log.d("DistributorData", "DistributorData: " + resultout);
+                       mDatabase.updateDistributerVisitsData("0", "1", id);
+                       msclass.showMessage(""+jsonObject.getString("message"));
+                       rndDistributorVisit.setText("DISTRIBUTOR VISIT" + " 0");
+
+                   }else
+                   {
+                       msclass.showMessage("Data not Uploaded \n"+resultout);
+                   }
+               }
+           }
+           Log.d("DistributorData", "DistributorData: " + resultout);
+       }catch (Exception e)
+       {
+           msclass.showMessage(""+e.getMessage());
+       }
     }
 
 

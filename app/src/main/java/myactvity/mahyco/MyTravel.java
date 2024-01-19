@@ -2,6 +2,7 @@ package myactvity.mahyco;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -10,6 +11,8 @@ import android.os.Build;
 import android.os.Handler;
 import androidx.annotation.RequiresApi;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -125,7 +128,7 @@ public class MyTravel extends AppCompatActivity {
             msclass = new Messageclass(this);
             btnStarttravel = (Button) findViewById(R.id.btnStarttravel);
             btnAddActivity = (Button) findViewById(R.id.btnAddActivity);
-            Toast.makeText(context, "User Unit Name : "+preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
+          //  Toast.makeText(context, "User Unit Name : "+preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
 
            // We are hiding Add Activity Button for Veg Users
             // Consern Person : Mr. Munjaji Sir / Nitish Kumar.
@@ -211,7 +214,25 @@ public class MyTravel extends AppCompatActivity {
             //  }
         }
          //MDO_TravelData();
+        // adding this code to redirect the user download master data if data is not downloaded.
+        int dbcount=mDatabase.getVillageCount();
+        if(dbcount<=0)
+        {
+            new AlertDialog.Builder(context)
+                    .setMessage("It seems master data is not downloaded. Please download master data .")
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                            Intent intent=new Intent(context,DownloadMasterdata.class);
+                            startActivity(intent);
 
+                        }
+                    })
+                    .setCancelable(false)
+
+                    .show();
+        }
         UploadData(); // new change -3-03-2021
 
        // new SyncMDOTravel_Async("").execute(); Comment  on 22-08-202

@@ -1350,7 +1350,11 @@ public class ATLExhibitionActivity extends AppCompatActivity implements
             location = arg0;
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
             cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
-            address = getCompleteAddressString(lati, longi);
+            if(address.equals("")) {
+                if (config.NetworkConnection()) {
+                    address = getCompleteAddressString(lati, longi);
+                }
+            }
             Log.d(TAG, "onlocation" + cordinates);
             tvCordinates.setText(cordinatesmsg + "\n" + address);
             tvAddress.setText(address + "\n" + cordinates);

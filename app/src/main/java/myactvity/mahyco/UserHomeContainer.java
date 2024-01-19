@@ -26,6 +26,7 @@ import myactvity.mahyco.utils.ItemOffsetDecoration;
 public  class UserHomeContainer  extends Fragment {
     View parentHolder;
     RecyclerView gridView;
+    TextView txt_version;
     private ArrayList<String> images;
     private ArrayList<String> names;
     //Tag values to read from json
@@ -76,6 +77,14 @@ public  class UserHomeContainer  extends Fragment {
                 new AnimationItem("Slide from bottom", R.anim.grid_layout_animation_from_bottom)};
 
         gridView = (RecyclerView)parentHolder.findViewById(R.id.gridView);
+        txt_version = (TextView)parentHolder.findViewById(R.id.txt_version);
+
+        try{
+            txt_version.setText("V "+BuildConfig.VERSION_NAME);
+        }catch (Exception E)
+        {
+
+        }
         gridView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         lblusername=(TextView) parentHolder.findViewById(R.id.lblusername);
         // lblusername.setText("Welcome: "+sp.getString("Displayname",null));

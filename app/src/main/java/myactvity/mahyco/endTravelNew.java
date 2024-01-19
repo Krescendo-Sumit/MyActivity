@@ -196,7 +196,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
         //Freeze the Vehicle Type for Veg Users
         // Given By : Mr Munjaji Sir,Nitesh Kumar
         // Developer: Sumit
-        Toast.makeText(context, "" + preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
+     //   Toast.makeText(context, "" + preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
         if (preferences.getString("unit", null).contains("VCBU")) {
             spvehicletype.setEnabled(false);
             chktag.setChecked(true);
@@ -527,7 +527,12 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
             location = arg0;
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
             cordinate = String.valueOf(lati) + "-" + String.valueOf(longi);
-            address = getCompleteAddressString(lati, longi);
+
+            if(address.equals("")) {
+                if (confing.NetworkConnection()) {
+                    address = getCompleteAddressString(lati, longi);
+                }
+            }
             //accuracy = String.valueOf(arg0.getAccuracy());
             // Toast.makeText(context, cordinate+"E", Toast.LENGTH_SHORT).show();
             // locationInsertTime = arg0.getTime();

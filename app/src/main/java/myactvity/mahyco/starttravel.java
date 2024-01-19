@@ -522,9 +522,13 @@ public class starttravel extends Fragment implements GoogleApiClient.ConnectionC
             location=arg0;
             Log.d(TAG, "onLocationChanged: "+String.valueOf(longi));
             cordinate = String.valueOf(lati)+"-"+String.valueOf(longi);
-            address = getCompleteAddressString(lati, longi);
+            if(address.equals("")) {
+                if (new Config(context).NetworkConnection()) {
+                    address = getCompleteAddressString(lati, longi);
+                }
+            }
             //accuracy = String.valueOf(arg0.getAccuracy());
-            Toast.makeText(context, cordinate+"S", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, cordinate+"S", Toast.LENGTH_SHORT).show();
             Log.d(TAG, "onlocation"+cordinate);
             // locationInsertTime = arg0.getTime();
             //LocationBearing = arg0.getBearing();

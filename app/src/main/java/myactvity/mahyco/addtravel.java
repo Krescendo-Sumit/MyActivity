@@ -89,6 +89,7 @@ import java.util.List;
 import java.util.Locale;
 
 import myactvity.mahyco.app.CommonExecution;
+import myactvity.mahyco.app.Config;
 import myactvity.mahyco.app.GeneralMaster;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SqliteDatabase;
@@ -324,7 +325,11 @@ public class addtravel  extends Fragment implements GoogleApiClient.ConnectionCa
             location=arg0;
             Log.d(TAG, "onLocationChanged: "+String.valueOf(longi));
             cordinate = String.valueOf(lati)+"-"+String.valueOf(longi);
-            address = getCompleteAddressString(lati, longi);
+            if(address.equals("")) {
+                if (new Config(context).NetworkConnection()) {
+                    address = getCompleteAddressString(lati, longi);
+                }
+            }
             //accuracy = String.valueOf(arg0.getAccuracy());
             // Toast.makeText(context, cordinate+"M", Toast.LENGTH_SHORT).show();
             // locationInsertTime = arg0.getTime();

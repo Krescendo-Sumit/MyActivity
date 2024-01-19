@@ -24,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_weight="1"
             android:numColumns="2">
 
         </myactvity.mahyco.utils.GridRecyclerView>
@@ -36,6 +37,15 @@
             android:textAllCaps="true"
             android:textColor="@color/Username"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/txt_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Version"
+            android:textSize="17sp" />
     </LinearLayout>
 
 </RelativeLayout>
