@@ -133,7 +133,7 @@
                             android:thicknessRatio="1.9"
                             app:cardCornerRadius="20dp">
 
-                            <myactvitytest.mahyco.helper.SearchableSpinner
+                            <myactvity.mahyco.helper.SearchableSpinner
                                 android:id="@+id/spFocusedVillages"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp" />
@@ -172,7 +172,7 @@
                             android:thicknessRatio="1.9"
                             app:cardCornerRadius="20dp">
 
-                            <myactvitytest.mahyco.helper.SearchableSpinner
+                            <myactvity.mahyco.helper.SearchableSpinner
 
                                 android:id="@+id/spState"
                                 android:layout_width="match_parent"
@@ -228,7 +228,7 @@
                             android:thicknessRatio="1.9"
                             app:cardCornerRadius="20dp">
 
-                            <myactvitytest.mahyco.helper.SearchableSpinner
+                            <myactvity.mahyco.helper.SearchableSpinner
                                 android:id="@+id/spDist"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp" />
@@ -261,7 +261,7 @@
                             android:thicknessRatio="1.9"
                             app:cardCornerRadius="20dp">
 
-                            <myactvitytest.mahyco.helper.SearchableSpinner
+                            <myactvity.mahyco.helper.SearchableSpinner
                                 android:id="@+id/spTaluka"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
@@ -297,7 +297,7 @@
 
                             >
 
-                            <myactvitytest.mahyco.helper.SearchableSpinner
+                            <myactvity.mahyco.helper.SearchableSpinner
                                 android:id="@+id/spVillage"
                                 android:layout_width="match_parent"
                                 android:layout_height="40dp"
@@ -346,7 +346,7 @@
 
                                 >
 
-                                <myactvitytest.mahyco.helper.SearchableSpinner
+                                <myactvity.mahyco.helper.SearchableSpinner
                                     android:id="@+id/spCropType"
                                     android:layout_width="match_parent"
                                     android:layout_height="40dp" />
@@ -383,7 +383,7 @@
                                 android:thicknessRatio="1.9"
                                 app:cardCornerRadius="20dp">
 
-                                <myactvitytest.mahyco.app.MultiSelectionSpinner
+                                <myactvity.mahyco.app.MultiSelectionSpinner
                                     android:id="@+id/spProductName"
                                     android:layout_width="match_parent"
                                     android:layout_height="40dp"

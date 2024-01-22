@@ -688,7 +688,23 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            } else {
+            }
+
+            else if (screenName.equalsIgnoreCase("11")) {
+                intent = new Intent(context.getApplicationContext(), ShellingDayActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+
+            }
+            else if (screenName.equalsIgnoreCase("12")) {
+                intent = new Intent(context.getApplicationContext(), UtpadanMohatsavActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+
+            }
+
+
+            else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -745,7 +761,23 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            } else {
+            }
+
+
+            else if (screenName.equalsIgnoreCase("11")) {
+                intent = new Intent(context.getApplicationContext(), ShellingDayActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+
+            }
+            else if (screenName.equalsIgnoreCase("12")) {
+                intent = new Intent(context.getApplicationContext(), UtpadanMohatsavActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+
+            }
+
+            else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
         }
@@ -863,7 +895,28 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            } else {
+            }
+            else if (screenName.equalsIgnoreCase("9")) {
+
+                //    Toast.makeText(getApplicationContext(), "Module under development", Toast.LENGTH_LONG).show();
+                //        intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
+                intent = new Intent(context.getApplicationContext(), ShellingDayActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+
+            }
+            else if (screenName.equalsIgnoreCase("10")) {
+
+                //    Toast.makeText(getApplicationContext(), "Module under development", Toast.LENGTH_LONG).show();
+                //        intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
+                intent = new Intent(context.getApplicationContext(), UtpadanMohatsavActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+
+            }
+
+
+            else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
         } else {
@@ -913,7 +966,27 @@ public class MyActivityRecordingNew extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 context.startActivity(intent);
 
-            } else {
+            }
+            else if (screenName.equalsIgnoreCase("9")) {
+
+                //    Toast.makeText(getApplicationContext(), "Module under development", Toast.LENGTH_LONG).show();
+                //        intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
+                intent = new Intent(context.getApplicationContext(), ShellingDayActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+
+            }
+            else if (screenName.equalsIgnoreCase("10")) {
+
+                //    Toast.makeText(getApplicationContext(), "Module under development", Toast.LENGTH_LONG).show();
+                //        intent = new Intent(context.getApplicationContext(), POPDisplayActivity.class);
+                intent = new Intent(context.getApplicationContext(), UtpadanMohatsavActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+
+            }
+
+            else {
                 Toast.makeText(context, "Screen not found", Toast.LENGTH_SHORT).show();
             }
         }
