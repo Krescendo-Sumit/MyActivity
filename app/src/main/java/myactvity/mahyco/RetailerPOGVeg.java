@@ -137,7 +137,7 @@ public class RetailerPOGVeg extends AppCompatActivity  implements GoogleApiClien
 
     //For GPs location
     String cordinates;
-    String address;
+    String address="";
     String croptype;
     String cordinatesmsg = "ADDRESS TAG : *";
     LinearLayout llOtherVillages;

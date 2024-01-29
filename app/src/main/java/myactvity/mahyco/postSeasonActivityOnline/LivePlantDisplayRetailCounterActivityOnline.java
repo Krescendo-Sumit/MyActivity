@@ -116,7 +116,7 @@ public class LivePlantDisplayRetailCounterActivityOnline extends AppCompatActivi
     ProgressDialog dialog;
     private long mLastClickTime = 0;
     String cordinates;
-    String address;
+    String address="";
     String croptype;
     String cordinatesmsg = "ADDRESS TAG : *";
     LinearLayout llOtherVillages, llFocussedVillages;

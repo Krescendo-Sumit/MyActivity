@@ -108,7 +108,7 @@ public class DistributerVisitsActivityOnline extends AppCompatActivity implement
     ProgressDialog dialog;
     private long mLastClickTime = 0;
     String cordinates;
-    String address;
+    String address="";
     String croptype;
     String cordinatesmsg = "ADDRESS TAG : *";
     LinearLayout llOtherVillages;

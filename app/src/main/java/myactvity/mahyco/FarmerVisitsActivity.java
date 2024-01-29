@@ -128,7 +128,7 @@ public class FarmerVisitsActivity extends AppCompatActivity implements
     String action = "1";
     LocationManager locationManager;
     String cordinatesmsg = "";
-    String address;
+    String address="";
     public String search = "";
     int imageselect;
     File photoFile = null;

@@ -118,7 +118,7 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
     private static final String IMAGE_DIRECTORY_NAME = "VISITPHOTO";
     SharedPreferences preferences;
     private static String cordinate;
-    private static String address;
+    private static String address="";
     public RadioGroup radGrp2;
 
              //variable for GPS

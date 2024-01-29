@@ -20,7 +20,7 @@ public class DemoModelReviewListModel {
         this.address = address;
     }
 
-    private String address;
+    private String address="";
 
     public String getReviewCount() {
         return reviewCount;

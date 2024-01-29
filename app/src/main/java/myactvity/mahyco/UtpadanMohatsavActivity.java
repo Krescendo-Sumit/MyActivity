@@ -136,7 +136,7 @@ public class UtpadanMohatsavActivity extends AppCompatActivity implements
     String action = "1";
     LocationManager locationManager;
     String cordinatesmsg = "TAG THE PLOT (2ND ROW INSIDE THE PLOT)* \n";
-    String address;
+    String address="";
     public String search = "";
     int imageselect;
     File photoFile = null;
@@ -219,6 +219,7 @@ public class UtpadanMohatsavActivity extends AppCompatActivity implements
         context = this;
         mPref = Prefs.with(this);
         mDatabase = SqliteDatabase.getInstance(this);
+        
         locdata = getApplicationContext().getSharedPreferences("locdata", 0); // 0 - for private mode
         loceditor = locdata.edit();
         pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode

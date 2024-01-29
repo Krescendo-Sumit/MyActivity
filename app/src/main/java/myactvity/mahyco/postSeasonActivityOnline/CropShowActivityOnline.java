@@ -138,7 +138,7 @@ public class CropShowActivityOnline extends AppCompatActivity implements
     String action = "1";
     LocationManager locationManager;
     String cordinatesmsg = "TAG THE PLOT (2ND ROW INSIDE THE PLOT)* \n";
-    String address;
+    String address="";
 
     public String search = "";
     int imageselect;

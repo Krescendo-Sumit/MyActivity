@@ -139,7 +139,7 @@ public class RetailerPOG extends AppCompatActivity  implements GoogleApiClient.C
 
      //For GPs location
      String cordinates;
-    String address;
+    String address="";
     String croptype;
     String cordinatesmsg = "ADDRESS TAG : *";
     LinearLayout llOtherVillages;

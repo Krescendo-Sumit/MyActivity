@@ -132,7 +132,7 @@ public class RetailerData extends Fragment implements GoogleApiClient.Connection
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     ImageView ivImage;
     public static String cordinate;
-    public static String address;
+    public static String address="";
     private static final String IMAGE_DIRECTORY_NAME = "VISITPHOTO";
     SharedPreferences preferences;
     ArrayAdapter<GeneralMaster> adapter3;

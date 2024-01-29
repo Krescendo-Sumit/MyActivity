@@ -114,7 +114,7 @@ public class ActivityRetailerSurvey extends AppCompatActivity implements GoogleA
     ProgressDialog dialog;
     private long mLastClickTime = 0;
     String cordinates;
-    String address;
+    String address="";
     String otherCompany;
     String unitType = "";
     String cordinatesmsg = "ADDRESS TAG : *";

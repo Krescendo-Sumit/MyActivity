@@ -115,7 +115,7 @@ public class VillageMeetingActivityOnline extends AppCompatActivity implements
     private Context context;
     String action = "1";
     String cordinatesmsg = "TAG THE PLOT (2ND ROW INSIDE THE PLOT)* \n";
-    String address;
+    String address="";
     public String search = "";
     int imageselect;
     File photoFile = null;

@@ -164,7 +164,7 @@ public class Innovation extends AppCompatActivity implements LocationListener,
     private static int FATEST_INTERVAL = 2000; // 5 sec
     private static int DISPLACEMENT = 10; // 10 meters
     private static String cordinate;
-    private static String address;
+    private static String address="";
     private String pictureImagePath = "";
     private Uri file1;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;

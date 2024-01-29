@@ -164,7 +164,7 @@ public class BCFCallTBM extends AppCompatActivity implements CompoundButton.OnCh
     EditText etArea, etWhatsappNumber, etFarmerName, etMobileNo, etComments;
     //For GPs location
     String cordinates;
-    String address;
+    String address="";
     String croptype;
     String cordinatesmsg = "ADDRESS TAG : *";
     LinearLayout llOtherVillages;

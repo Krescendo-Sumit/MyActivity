@@ -1017,7 +1017,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
                 break;
         }
     }
-    void addshellingandutpadantable(SQLiteDatabase db) {
+   public void addshellingandutpadantable(SQLiteDatabase db) {
         try{
             // Shelling Day
             String CREATE_SHELLINGDAYTABLE = "Create table IF NOT EXISTS tbl_shellingday(" +

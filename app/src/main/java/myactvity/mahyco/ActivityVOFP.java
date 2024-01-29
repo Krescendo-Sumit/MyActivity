@@ -122,7 +122,7 @@ public class ActivityVOFP extends AppCompatActivity implements
     CardView cvRating, cvFeedback;
     TextView lblheader, tvCordinates, tvAddress,tvVillage, tvTaluka,tvDist,tvState,myTextProgress;
     String cordinatesmsg = "TAG THE PLOT (2ND ROW INSIDE THE PLOT)* \n";
-    String address;
+    String address="";
     EditText etSearchText, etName, etPhone, etAcres, etComment, etOther, etOther1, etOther2, etOtherCompany,etOtherCompany1,etSuggestion, etNotAttend;
 
     //  String SERVER = "https://packhouse.mahyco.com/api/preseason/sanmanMela";

@@ -128,7 +128,7 @@ public class DemoModelReviewActivity extends AppCompatActivity implements Google
     private Context context;
     String date, uid, mobilenumber;
     String cordinatesmsg = "TAG THE PLOT (2ND ROW INSIDE THE PLOT) * \n";
-    String address;
+    String address="";
     String action = "1";
     int imageselect;
     File photoFile = null;
