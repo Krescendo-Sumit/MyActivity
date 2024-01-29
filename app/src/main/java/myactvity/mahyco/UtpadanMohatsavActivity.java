@@ -1867,8 +1867,8 @@ public class UtpadanMohatsavActivity extends AppCompatActivity implements
                                             jsonObject.addProperty("LatLong",data.get("LatLong").toString());
                                             jsonObject.addProperty("CreatedDate",data.get("CreatedDate").toString());
                                             jsonObject.addProperty("UplaodStatus",data.get("UplaodStatus").toString());
-                                            jsonObject.addProperty("Extra1",data.get("Extra1").toString());
-                                            jsonObject.addProperty("Extra2",data.get("Extra2").toString());
+                                            jsonObject.addProperty("info1",data.get("Extra1").toString());
+                                            jsonObject.addProperty("info2",data.get("Extra2").toString());
                                             jsonArray.add(jsonObject);
                                         }
                                         Log.i("JsonData", jsonArray.toString());

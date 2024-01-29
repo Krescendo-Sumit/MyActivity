@@ -441,7 +441,7 @@ public class ShellingDayActivity extends AppCompatActivity implements
         btnActivityPhoto.setOnClickListener(this);
 
 
-        bindcroptype(spCropType, "C");
+        bindcroptypeMaize(spCropType, "C");
 
 
     }
@@ -1095,7 +1095,46 @@ public class ShellingDayActivity extends AppCompatActivity implements
 
     }
 
+    private void bindcroptypeMaize(Spinner spCropType, String Croptype) {
+        try {
+            //st
+            List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+            String myTable = "Table1";//Set name of your table
+            String searchQuery = "";
+            if (Croptype.equals("V")) {
+                searchQuery = "SELECT distinct CropName,CropType  FROM CropMaster where CropType='" + Croptype + "' and upper(CropName) like '%BAJRA%' ";
 
+            } else {
+                //searchQuery = "SELECT distinct CropName,CropType  FROM CropMaster where CropType<>'V' ";
+                searchQuery = "SELECT distinct CropName,CropType  FROM CropMaster where upper(CropName) like '%MAIZE%' or  upper(CropName) like '%BAJRA%' ";
+
+            }
+
+            Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+            Croplist.add(new GeneralMaster("SELECT CROP",
+                    "SELECT CROP"));
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false) {
+
+                Croplist.add(new GeneralMaster(cursor.getString(1),
+                        cursor.getString(0)));
+
+                cursor.moveToNext();
+            }
+            cursor.close();
+            ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                    (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spCropType.setAdapter(adapter);
+        } catch (Exception ex) {
+            msclass.showMessage(ex.getMessage());
+            ex.printStackTrace();
+        }
+
+
+        //en
+
+    }
     private void bindcroptype(Spinner spCropType, String Croptype) {
         try {
             //st
@@ -1724,8 +1763,8 @@ public class ShellingDayActivity extends AppCompatActivity implements
                                                 jsonObject.addProperty("LatLong", data.get("LatLong").toString());
                                                 jsonObject.addProperty("CreatedDate", data.get("CreatedDate").toString());
                                                 jsonObject.addProperty("UplaodStatus", data.get("UplaodStatus").toString());
-                                                jsonObject.addProperty("Extra1", data.get("Extra1").toString());
-                                                jsonObject.addProperty("Extra2", data.get("Extra2").toString());
+                                                jsonObject.addProperty("info1", data.get("Extra1").toString());
+                                                jsonObject.addProperty("info2", data.get("Extra2").toString());
                                                 jsonArray.add(jsonObject);
                                             }
                                             Log.i("JsonData", jsonArray.toString());

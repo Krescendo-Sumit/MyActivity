@@ -9,6 +9,6 @@ public class RetroConstants {
     public static final String UploadDistributor = "generalactivity/distributorvisit";
 
     public static final String UplaodShellingDay = "generalactivity/uploadShellingDayModel";
-    public static final String UplaodUtpadanMohatsav = "generalactivity/UtpadanMohatsav";
+    public static final String UplaodUtpadanMohatsav = "generalactivity/uploadUtpadanMohatsav";
 
 }

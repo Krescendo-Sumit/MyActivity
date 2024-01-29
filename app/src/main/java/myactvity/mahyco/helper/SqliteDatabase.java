@@ -46,7 +46,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 public class SqliteDatabase extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 40;/* Update version 40 for Shelling Day and Utpadan Mohatsav*/ /*Updated on 7th September 2021*/
+    private static final int DATABASE_VERSION = 41;/* Update version 40 for Shelling Day and Utpadan Mohatsav*/ /*Updated on 7th September 2021*/
     /* last 33 16-08-2021 */
     private static final String DATABASE_NAME = "MDOApps";
     private static final String TABLE_PRODUCTS = "UserMaster";

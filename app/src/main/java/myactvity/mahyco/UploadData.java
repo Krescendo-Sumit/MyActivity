@@ -37,6 +37,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -62,6 +65,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -74,11 +78,12 @@ import myactvity.mahyco.app.Prefs;
 import myactvity.mahyco.app.WebService;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.newupload.ShellingDayAndUtpadanMohatsavAPI;
 
-public class UploadData extends AppCompatActivity {
+public class UploadData extends AppCompatActivity implements ShellingDayAndUtpadanMohatsavAPI.ShellingDayListener {
     private static final String TAG = "UploadData";
     public Button btnUpload, btnUpload2, btnUpload3, btnUpload5, btnUpload4, btnUploadRetailerdata,
-            btnUploadPostSeason, btnUploadPreSeason, btnUploadATL, btnUploadGen;
+            btnUploadPostSeason, btnUploadPreSeason, btnUploadATL, btnUploadGen, btnShelling;
     public ProgressDialog dialog, pd;
     public String SERVER = "";
     Prefs mPref;
@@ -101,14 +106,14 @@ public class UploadData extends AppCompatActivity {
             rndFieldPurchaseList, rndfieldVisit, rndRetailerVisitToField, rndCropShow, rndHarvestDay, rndFieldDay, rndLivePlantDataVillage, rndLivePlantDataRetailer,
             rndTestimonialCollection, rndSanmanMela, rndVillageMeeting, rndPromotionThroughEntertainment, rndCropSeminar, rndJeepCampaigning, rndPopDisplay,
             rndPostering, rndFieldBoard, rndFieldBanner, rndWallPainting, rndTrolleyPainting, rndExhibition, rndMarketDay,
-            rndDistributorVisit, rndinnovation, rndRetailerVisit, rndFarmerVisit, rndSamruddhaKisanVist, rndAddressing, rndReviewMeeting;
+            rndDistributorVisit, rndinnovation, rndRetailerVisit, rndFarmerVisit, rndSamruddhaKisanVist, rndAddressing, rndReviewMeeting, rndUtpadan, rndShelling;;
 
     SharedPreferences.Editor editor;
     private Context context;
     String Intime = "";
     RadioGroup radGrp5, radGrp6, radGrp7, radGrp8;
     String userCode;
-
+    public int type = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -141,6 +146,7 @@ public class UploadData extends AppCompatActivity {
         btnUploadPreSeason = (Button) findViewById(R.id.btnUploadPreSeason);
         btnUploadATL = (Button) findViewById(R.id.btnUploadATL);
         btnUploadGen = (Button) findViewById(R.id.btnUploadGen);
+        btnShelling = (Button) findViewById(R.id.btn_upload_shelling);
         radGrp5 = (RadioGroup) findViewById(R.id.radGrp5);
         radGrp6 = (RadioGroup) findViewById(R.id.radGrp6);
         radGrp7 = (RadioGroup) findViewById(R.id.radGrp7);
@@ -237,6 +243,9 @@ public class UploadData extends AppCompatActivity {
         rndAddressing = (RadioButton) findViewById(R.id.rndAddressing);
         rndinnovation = (RadioButton) findViewById(R.id.rndinnovation);
 
+        //Shelling Day Activity added
+        rndShelling = (RadioButton) findViewById(R.id.rndShelling);
+        rndUtpadan = (RadioButton) findViewById(R.id.rndUtpadan);
         pd = new ProgressDialog(context);
 
         // lblmyactvityrecord=(TextView)findViewById(R.id.lblmyactvityrecord);
@@ -272,6 +281,9 @@ public class UploadData extends AppCompatActivity {
         onPreSeasonBtnClicked();
         onATLBtnClicked();
         onGeneralBtnClicked();
+        //for shelling day activity
+        rowcountshelling();
+        onShellingButtonCliecked();
 
 
 //        radGrp5.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -531,6 +543,164 @@ public class UploadData extends AppCompatActivity {
 
 
     }
+    private void onShellingButtonCliecked() {
+        btnShelling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                type = 0;
+                if (rndShelling.isChecked()) {
+                    type = 1;
+                } else if (rndUtpadan.isChecked()) {
+                    type = 2;
+                } else {
+
+                    type = 0;
+                    new AlertDialog.Builder(context).
+                            setMessage("Please choose any one activity.")
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .show();
+                }
+                if (type != 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(UploadData.this);
+                    builder.setTitle("MyActivity");
+                    builder.setMessage("Are you sure to upload data");
+                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            if(type==1) {
+                                if (config.NetworkConnection()) {
+                                    JsonArray jsonArray = new JsonArray();
+                                    ArrayList<HashMap> list = mDatabase.getShellingDays();
+                                    if (list.size() > 0) {
+                                        for (int i = 0; i < list.size(); i++) {
+                                            JsonObject jsonObject = new JsonObject();
+                                            HashMap data = list.get(i);
+                                            jsonObject.addProperty("ID", data.get("ID").toString());
+                                            jsonObject.addProperty("UserCode", data.get("UserCode").toString());
+                                            jsonObject.addProperty("State", data.get("State").toString());
+                                            jsonObject.addProperty("District", data.get("District").toString());
+                                            jsonObject.addProperty("Taluka", data.get("Taluka").toString());
+                                            jsonObject.addProperty("VillageCode", data.get("VillageCode").toString());
+                                            jsonObject.addProperty("VillageName", data.get("VillageName").toString());
+                                            jsonObject.addProperty("Crop", data.get("Crop").toString());
+                                            jsonObject.addProperty("Product", data.get("Product").toString());
+                                            jsonObject.addProperty("NoOfFarmer", data.get("NoOfFarmer").toString());
+                                            jsonObject.addProperty("NoOfRetailer", data.get("NoOfRetailer").toString());
+                                            jsonObject.addProperty("PhotoName", data.get("PhotoName").toString());
+                                            jsonObject.addProperty("PhotoString", mDatabase.getImageDatadetail(data.get("PhotoString").toString()));
+                                            jsonObject.addProperty("Status", data.get("Status").toString());
+                                            jsonObject.addProperty("VersionName", data.get("VersionName").toString());
+                                            jsonObject.addProperty("LatLong", data.get("LatLong").toString());
+                                            jsonObject.addProperty("CreatedDate", data.get("CreatedDate").toString());
+                                            jsonObject.addProperty("UplaodStatus", data.get("UplaodStatus").toString());
+                                            jsonObject.addProperty("Extra1", data.get("Extra1").toString());
+                                            jsonObject.addProperty("Extra2", data.get("Extra2").toString());
+                                            jsonArray.add(jsonObject);
+                                        }
+                                        Log.i("JsonData", jsonArray.toString());
+                                        new ShellingDayAndUtpadanMohatsavAPI(context, UploadData.this).UploadShellingDay(jsonArray);
+                                    }
+                                    else {
+                                        new AlertDialog.Builder(context)
+                                                .setMessage("No Record Found")
+                                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                })
+                                                .show();
+                                    }
+                                }else {
+                                    Toast.makeText(UploadData.this, "No Internet Found.", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+
+                            if(type==2) {
+                                if (config.NetworkConnection()) {
+                                    JsonArray jsonArray = new JsonArray();
+                                    ArrayList<HashMap> list=new ArrayList<>();
+                                    list = mDatabase.getUtpadanMohatsav();
+                                    if (list.size() > 0) {
+                                        for (int i = 0; i < list.size(); i++) {
+                                            JsonObject jsonObject = new JsonObject();
+                                            HashMap data = list.get(i);
+                                            Log.i("Data :",data.toString());
+                                            jsonObject.addProperty("ID",data.get("ID").toString());
+                                            jsonObject.addProperty("UserCode",data.get("UserCode").toString());
+                                            jsonObject.addProperty("State",data.get("State").toString());
+                                            jsonObject.addProperty("District",data.get("District").toString());
+                                            jsonObject.addProperty("Taluka",data.get("Taluka").toString());
+                                            jsonObject.addProperty("VillageCode",data.get("VillageCode").toString());
+                                            jsonObject.addProperty("VillageName",data.get("VillageName").toString());
+                                            jsonObject.addProperty("Crop",data.get("Crop").toString());
+                                            jsonObject.addProperty("Product",data.get("Product").toString());
+                                            jsonObject.addProperty("HostFarmerName",data.get("HostFarmerName").toString());
+                                            jsonObject.addProperty("FarmerMobile",data.get("FarmerMobile").toString());
+                                            jsonObject.addProperty("FarmerArea",data.get("FarmerArea").toString());
+                                            jsonObject.addProperty("FarmerYeild",data.get("FarmerYeild").toString());
+                                            jsonObject.addProperty("NumberOfFarmerFelisited",data.get("NumberOfFarmerFelisited").toString());
+                                            jsonObject.addProperty("NumberOfFarmer",data.get("NumberOfFarmer").toString());
+                                            jsonObject.addProperty("NumberOfRetailer",data.get("NumberOfRetailer").toString());
+                                            jsonObject.addProperty("PhotoName",data.get("PhotoName").toString());
+                                            jsonObject.addProperty("PhotoString",mDatabase.getImageDatadetail(data.get("PhotoString").toString().trim()));
+                                            jsonObject.addProperty("Status",data.get("Status").toString());
+                                            jsonObject.addProperty("VersionName",data.get("VersionName").toString());
+                                            jsonObject.addProperty("LatLong",data.get("LatLong").toString());
+                                            jsonObject.addProperty("CreatedDate",data.get("CreatedDate").toString());
+                                            jsonObject.addProperty("UplaodStatus",data.get("UplaodStatus").toString());
+                                            jsonObject.addProperty("Extra1",data.get("Extra1").toString());
+                                            jsonObject.addProperty("Extra2",data.get("Extra2").toString());
+                                            jsonArray.add(jsonObject);
+                                        }
+                                        Log.i("JsonData", jsonArray.toString());
+                                        new ShellingDayAndUtpadanMohatsavAPI(context, UploadData.this).UploadUtpadanMohatsav(jsonArray);
+                                    }
+                                    else {
+                                        new AlertDialog.Builder(context)
+                                                .setMessage("No Record Found")
+                                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                })
+                                                .show();
+                                    }
+                                }else {
+                                    Toast.makeText(UploadData.this, "No Internet Found.", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+                        }
+                    });
+
+                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            // Do nothing
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            }
+
+        });
+    }
 
     private void onGeneralBtnClicked() {
         btnUploadGen.setOnClickListener(new View.OnClickListener() {
@@ -730,6 +900,106 @@ public class UploadData extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
+    }
+    void rowcountshelling() {
+        try{
+            rndShelling.setText("Shelling Day - "+mDatabase.getShellingDays().size());
+            rndUtpadan.setText("Utpadan Mohatsav - "+mDatabase.getUtpadanMohatsav().size());
+        }catch (Exception e)
+        {
+
+        }
+    }
+    @Override
+    public void onShellingDayUpload(String result) {
+        try {
+
+            JSONObject jsonObject = new JSONObject(result);
+            if (jsonObject.getBoolean("success")) {
+                mDatabase.UpdateStatus("Update tbl_shellingday set UplaodStatus='1' where UplaodStatus='0'");
+                rowcountshelling();
+                new AlertDialog.Builder(context)
+                        .setTitle("Upload Status : Success")
+                        .setMessage("" + jsonObject.getString("Message"))
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                dialogInterface.dismiss();
+                                finish();
+                            }
+                        })
+                        .show();
+            } else {
+                new AlertDialog.Builder(context)
+                        .setTitle("Upload Status : Fail")
+                        .setMessage("" + jsonObject.getString("Message"))
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        } catch (Exception e) {
+            new AlertDialog.Builder(context)
+                    .setTitle("Upload Status : Fail")
+                    .setMessage("Something went wrong \n\nResult :" + result)
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    @Override
+    public void onUtpadanMohatsavUpload(String result) {
+        try {
+
+            JSONObject jsonObject = new JSONObject(result);
+            if (jsonObject.getBoolean("success")) {
+                mDatabase.UpdateStatus("Update tbl_utpadanmohatsavdata set UplaodStatus='1' where UplaodStatus='0'");
+                rowcountshelling();
+                new AlertDialog.Builder(context)
+                        .setTitle("Upload Status : Success")
+                        .setMessage("" + jsonObject.getString("Message"))
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                dialogInterface.dismiss();
+                                finish();
+                            }
+                        })
+                        .show();
+            } else {
+                new AlertDialog.Builder(context)
+                        .setTitle("Upload Status : Fail")
+                        .setMessage("" + jsonObject.getString("Message"))
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        } catch (Exception e) {
+            new AlertDialog.Builder(context)
+                    .setTitle("Upload Status : Fail")
+                    .setMessage("Something went wrong \n\nResult :" + result)
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
         }
     }
 
@@ -6796,9 +7066,7 @@ public class UploadData extends AppCompatActivity {
                 Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
                 int count = cursor.getCount();
                 if (count > 0) {
-
                     try {
-
                         cursor.moveToFirst();
                         while (cursor.isAfterLast() == false) {
 
