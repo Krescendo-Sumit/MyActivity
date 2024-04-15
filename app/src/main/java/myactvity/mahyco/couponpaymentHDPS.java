@@ -479,8 +479,8 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
                             }*/
                             getFarmersListFromserver();
                             new androidx.appcompat.app.AlertDialog.Builder(context)
-                                    .setTitle("Payment Note ")
-                                    .setMessage("Please check note this Referece id for future transaction :\nNote :\nWhen you make payment through PhonePe,GPay or Any UPI Application , Please past this reference number as transaction note.\n Reference code for this transaction is "+rzpOrderId)
+                                    .setTitle("Coupon Added Successfully.")
+                                    .setMessage("\nReference code for this transaction is "+rzpOrderId+"\n\nPlease note this Referece id for future transaction.\n\nNote :\nWhen you make payment through PhonePe,GPay or Any UPI Application , Please paste this reference number as transaction note.")
                                     .setPositiveButton("Copy ", new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
