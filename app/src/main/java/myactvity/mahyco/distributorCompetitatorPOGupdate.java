@@ -666,6 +666,7 @@ public class distributorCompetitatorPOGupdate extends AppCompatActivity {
             postParameters.add(new BasicNameValuePair("encodedData",encodeImage));
             String Urlpath1= cx.MDOurlpath+"?action="+action+"&usercode="+usercode+"&Crop_Code="+Crop_Code+"" +
                     "&cropname="+cropname+"&distcode="+DistrCode+"";
+            Log.i("Url",Urlpath1+" PRAM:"+postParameters.toString());
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
             try {

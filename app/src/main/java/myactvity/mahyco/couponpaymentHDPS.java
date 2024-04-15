@@ -3,6 +3,8 @@ package myactvity.mahyco;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -44,6 +46,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Random;
 
 import myactvity.mahyco.app.AppConstant;
 import myactvity.mahyco.app.CommonExecution;
@@ -68,7 +72,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
      * Created by Admin on 04-05-2015.
      */
     SharedPreferences locdata;
-    //public String SERVER = "https://cmr.mahyco.com/farmmechHandler.ashx";
+    //public String SERVER = "http://10.80.50.153/maatest/farmmechHandler.ashx";
     public Messageclass msclass;
 
     static ImageView expandedImageView;
@@ -240,7 +244,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
             try {
                 dialog.setMessage("Loading....wait");
                 dialog.show();
-                RazorpayClient razorpay = new RazorpayClient(getResources().getString(R.string.rzp_key), getString(R.string.rzp_key_secret));
+                //   RazorpayClient razorpay = new RazorpayClient(getResources().getString(R.string.rzp_key), getString(R.string.rzp_key_secret));
 
                 JSONObject orderRequest = new JSONObject();
 
@@ -266,27 +270,32 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
                 orderRequest.put("payment_capture", 1);
 
                 Log.d("REQUESTED ORDERID", orderRequest.toString());
-                Order order = razorpay.orders.create(orderRequest);
-                JSONObject jsonObject = new JSONObject(String.valueOf(order));
+                //    Order order = razorpay.orders.create(orderRequest);
+                //   JSONObject jsonObject = new JSONObject(String.valueOf(order));
 
 
-                Log.d("FROM ORDERIDRZR", jsonObject.toString());
-                String id = jsonObject.getString("id");
+                //    Log.d("FROM ORDERIDRZR", jsonObject.toString());
+                // This String id is Commented to generate manual reference id  - Sumit Suradkar
+                // String id = jsonObject.getString("id");
+                Calendar calendar=Calendar.getInstance();
+                String id = usercode+"_hdps_"+calendar.getTimeInMillis();
+                id=usercode+"_"+getRandomString(9);
+
 
                 Log.d("REQUESTED ORDERID", id);
 
                 new initialOrderServerResponse(1, "orderCompletion", actualAmountInRupees, id, "", "").execute();
 
 
-            } catch (RazorpayException e) {
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
                 dialog.dismiss();
                 Utility.showAlertDialog("Error", e.getMessage(), context);
 
-            } catch (JSONException e) {
+            } /*catch (Exception e) {
                 e.printStackTrace();
                 dialog.dismiss();
-            }
+            }*/
         } else {
 
             Utility.showAlertDialog("Error", "Please Connect to Internet", context);
@@ -295,7 +304,14 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
         }
 
     }
-
+    private static final String ALLOWED_CHARACTERS ="0123456789qwertyuiopasdfghjklzxcvbnm";
+    private static String getRandomString(final int sizeOfRandomString)  {
+        final Random random=new Random();
+        final StringBuilder sb=new StringBuilder(sizeOfRandomString);
+        for(int i=0;i<sizeOfRandomString;++i)
+            sb.append(ALLOWED_CHARACTERS.charAt(random.nextInt(ALLOWED_CHARACTERS.length())));
+        return sb.toString();
+    }
     private class initialOrderServerResponse extends AsyncTask<String, String, String> {
         ProgressDialog pd;
         String function;
@@ -308,7 +324,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
 
         private int action;
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-
+        JSONObject jsonObject;
 
         public initialOrderServerResponse(int action, String function, String actualAmount, String rzpOrderId, String rzp_payment_status, String razorPaymentId) {
 
@@ -339,7 +355,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
             String result = "";
             /*Start API Call*/
             try {
-                JSONObject jsonObject = new JSONObject();
+                jsonObject = new JSONObject();
                 JSONObject jsonObjchild = new JSONObject();
                 jsonObjchild.put("action", "1");
                 jsonObjchild.put("usercode", usercode);
@@ -451,9 +467,33 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
                                 initialrzpOrderId = jObject.getString("rzpOrderId");
                                 Log.d("jObject", "onPostExecute: " + initialServerOrderId + "||" + initialrzpOrderId);
                             }
-                            if (!initialServerOrderId.isEmpty() && !initialrzpOrderId.isEmpty()) {
+                         /*
+                             // This code is commented to skip API which calling after data successfully added in database
+
+
+                          if (!initialServerOrderId.isEmpty() && !initialrzpOrderId.isEmpty()) {
                                 initiatePayment(initialServerOrderId, initialrzpOrderId);
-                            }
+                                JSONObject error = new JSONObject();
+                              //  new FinalOrderServerResponse(2, "orderCompletion", "success", "", "", error.toString(), initialServerOrderId, "{}").execute();
+
+                            }*/
+                            getFarmersListFromserver();
+                            new androidx.appcompat.app.AlertDialog.Builder(context)
+                                    .setTitle("Payment Note ")
+                                    .setMessage("Please check note this Referece id for future transaction :\nNote :\nWhen you make payment through PhonePe,GPay or Any UPI Application , Please past this reference number as transaction note.\n Reference code for this transaction is "+rzpOrderId)
+                                    .setPositiveButton("Copy ", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                                            ClipData clip = ClipData.newPlainText("label", usercode+" Reference Id "+rzpOrderId);
+                                            clipboard.setPrimaryClip(clip);
+                                            Toast.makeText(activity, "Reference id copied.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .show();
+
+
+
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -780,6 +820,192 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
         }
     }
 
+    private class FinalOrderServerResponseNew extends AsyncTask<String, String, String> {
+        ProgressDialog pd;
+        String function;
+        String rzp_payment_status;
+        String razorPaymentId;
+        String errorData;
+        String errorcode;
+        String response;
+        String data;
+
+        private int action;
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        JSONObject jsonObject;
+
+        public FinalOrderServerResponseNew(int action, JSONObject jsonObject) {
+
+            this.action = action;
+            this.function = function;
+            this.rzp_payment_status = rzp_payment_status;
+            this.razorPaymentId = razorPaymentId;
+            this.errorData = errorData;
+            this.errorcode = errorcode;
+            this.response = response;
+            this.data = data;
+            this.jsonObject=jsonObject;
+
+        }
+
+        protected void onPreExecute() {
+
+            pd = new ProgressDialog(context);
+            pd.setTitle("Processing...");
+            pd.setMessage("Please wait.");
+            pd.setCancelable(true);
+            pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pd.show();
+        }
+
+        @Override
+        protected String doInBackground(String... urls) {
+            /*Start API Call*/
+            String result = "";
+            try {
+
+                result = HttpUtils.POSTJSON(Constants.COUPON_ORDER_COMPLETION_HDPS_API, jsonObject, mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return result;
+            /*End API*/
+
+            /*HttpClient httpclient = new DefaultHttpClient();
+            StringBuilder builder = new StringBuilder();
+
+            List<NameValuePair> postParameters = new ArrayList<NameValuePair>(2);
+            postParameters.add(new BasicNameValuePair("Type", "orderCompletion"));
+            postParameters.add(new BasicNameValuePair("usercode", usercode));
+            postParameters.add(new BasicNameValuePair("farmersList", farmerListJsonArray.toString()));
+            postParameters.add(new BasicNameValuePair("rzpOrderId", rzpOrderId));
+            postParameters.add(new BasicNameValuePair("amount", actualAmountInRupees));
+            postParameters.add(new BasicNameValuePair("rzpPaymentStatus", rzp_payment_status));
+            postParameters.add(new BasicNameValuePair("rzpPaymentData", data));
+            postParameters.add(new BasicNameValuePair("error", errorData));
+
+            String Urlpath1 = cx.MDOurlpath + "?action=" + action;
+            HttpPost httppost = new HttpPost(Urlpath1);
+            httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
+            Log.d(TAG, "doInBackgroundFinalOrderServerResponse: " + postParameters.toString());
+
+            Log.d(TAG, "doInBackgroundFinalOrderUrl " + Urlpath1);
+            try {
+                httppost.setEntity(new UrlEncodedFormEntity(postParameters));
+                UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(postParameters);
+                httppost.setEntity(formEntity);
+                HttpResponse response = httpclient.execute(httppost);
+                StatusLine statusLine = response.getStatusLine();
+                int statusCode = statusLine.getStatusCode();
+                if (statusCode == 200) {
+                    HttpEntity entity = response.getEntity();
+                    InputStream content = entity.getContent();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(content));
+
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        builder.append(line).append("\n");
+                    }
+
+                }
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+
+                pd.dismiss();
+            } catch (Exception e) {
+
+                e.printStackTrace();
+                pd.dismiss();
+
+            }
+            // resp.setText("rtrtyr");
+
+            return builder.toString();*/
+        }
+
+        protected void onPostExecute(String result) {
+            try {
+                Log.d("SyncPaymentStatus", "onPostExecute: " + result);
+                pd.dismiss();
+
+                if (result.contains("Table") && rzp_payment_status.contains("success")) {
+                    Intent intent = new Intent(getApplicationContext(), PaymentCompletionActivity.class);
+                    intent.putExtra("usercode", usercode);
+                    intent.putExtra("rzpPaymentId", razorPaymentId);
+                    intent.putExtra("farmersIdList", farmerListJsonArray.toString());
+                    intent.putExtra("status", "1");
+                    intent.putExtra("amount", txt_total_with_tax.getText().toString());
+                    startActivity(intent);
+
+
+                } else if (result.contains("Node")) {
+                    String message = "";
+
+                    try {
+
+
+                        JSONObject object = new JSONObject(result);
+                        JSONArray jArray = object.getJSONArray("Node");
+
+                        for (int i = 0; i < jArray.length(); i++) {
+                            JSONObject jObject = jArray.getJSONObject(i);
+                            message = jObject.getString("Message");
+
+
+                        }
+                        Log.d("jObjectMessage", "onPostExecute:Message " + message);
+                        Utility.showAlertDialog("Sync Server failed", message, context);
+
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+
+                } else {
+
+                    if (rzp_payment_status.contains("failed")) {
+
+
+                        try {
+                            if (Checkout.NETWORK_ERROR == Integer.parseInt(errorcode)) {
+
+                                Toast.makeText(couponpaymentHDPS.this, "Payment failed: NETWORK_ERROR", Toast.LENGTH_SHORT).show();
+                                Utility.showAlertDialog("Payment failed: NETWORK_ERROR", response, context);
+                            } else if (Checkout.PAYMENT_CANCELED == Integer.parseInt(errorcode)) {
+
+                                Toast.makeText(couponpaymentHDPS.this, "Payment failed: CANCELLED", Toast.LENGTH_SHORT).show();
+                                Utility.showAlertDialog("Payment failed: CANCELLED", response, context);
+
+
+                            } else if (Checkout.TLS_ERROR == Integer.parseInt(errorcode)) {
+
+                                Toast.makeText(couponpaymentHDPS.this, "Payment failed: TLS_ERROR", Toast.LENGTH_SHORT).show();
+                                Utility.showAlertDialog("Payment failed: TLS_ERROR", result, context);
+
+
+                            } else {
+                                Toast.makeText(couponpaymentHDPS.this, "Payment failed: " + Integer.parseInt(errorcode) + " " + response, Toast.LENGTH_SHORT).show();
+                                Utility.showAlertDialog("Payment failed:" + Integer.parseInt(errorcode) + " ", response, context);
+
+                            }
+                        } catch (Exception e) {
+                            Log.e(TAG, "Exception in onPaymentError", e);
+                        }
+                    } else {
+                        Utility.showAlertDialog("Error", result, context);
+                    }
+                }
+
+            } catch (
+                    Exception e) {
+                e.printStackTrace();
+                Utility.showAlertDialog("Error1", result, context);
+                pd.dismiss();
+            }
+
+        }
+    }
 
     public void setListData() {
         Resources res = getResources();
@@ -887,6 +1113,8 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
             holder.txtNoOfCoupon = (TextView) vi.findViewById(R.id.txtNoOfCoupon);
             holder.txtVillage = (TextView) vi.findViewById(R.id.txtVillage);
             holder.txtProduct = (TextView) vi.findViewById(R.id.txtProduct);
+            holder.txtReference = (TextView) vi.findViewById(R.id.txtReference);
+            holder.txtcpyref = (TextView) vi.findViewById(R.id.txtcpyref);
 
 
             // holder.tv_image_used = (TextView) vi.findViewById(R.id.tv_image_used);
@@ -913,7 +1141,27 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
                 holder.txtSerial.setText(String.valueOf(position + 1));
                 holder.txtCardId.setText(tempValues.getCardId());
                 holder.txtProduct.setText(tempValues.getproduct());
+                holder.txtReference.setText(" Ref.Code :"+tempValues.getCouponcode()==null?"":tempValues.getCouponcode());
 
+                holder.txtcpyref.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if(tempValues.getCouponcode()!=null){
+                            ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                            ClipData clip = ClipData.newPlainText("label", holder.txtReference.getText().toString());
+                            clipboard.setPrimaryClip(clip);
+                            Toast.makeText(activity, "Reference code copied.", Toast.LENGTH_SHORT).show();
+                        }else
+                            Toast.makeText(activity, "No Reference code found.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                if(tempValues.getCouponcode()==null || tempValues.getCouponcode().trim().equals("") ||tempValues.getCouponcode().trim().toLowerCase().equals("null")) {
+                    holder.cb.setEnabled(true);
+//                    holder.txtcpyref.setVisibility(View.GONE);
+//                    holder.txtReference.setVisibility(View.GONE);
+                }
+                else
+                    holder.cb.setEnabled(false);
                 holder.txtMobilenumber.setText(tempValues.getmobileNumber());
                 holder.txtNoOfCoupon.setText(tempValues.gettotalCoupon());
                 holder.txtVillage.setText(tempValues.getvillagename());
@@ -966,7 +1214,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
          * Create a holder to contain inflated xml file elements
          *********/
         public class ViewHolder {
-            public TextView text, txtCardId, txtAmount, txtSerial, txtNoOfCoupon, txtVillage, txtMobilenumber, txtProduct;
+            public TextView text, txtCardId, txtAmount, txtSerial, txtNoOfCoupon, txtVillage, txtMobilenumber, txtProduct, txtReference, txtcpyref;
             public ImageView image;
             public ImageView bttn_delete;
             public CardView card_view;

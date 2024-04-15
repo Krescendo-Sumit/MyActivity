@@ -91,7 +91,7 @@
                     android:text=""
                     android:textAllCaps="true"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/txtVillage"
@@ -103,7 +103,8 @@
                     android:text=""
                     android:textAllCaps="true"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="12sp" />
+
                 <TextView
                     android:id="@+id/txtProduct"
                     android:layout_width="wrap_content"
@@ -114,7 +115,7 @@
                     android:text=""
                     android:textAllCaps="true"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/txtNoOfCoupon"
@@ -126,7 +127,7 @@
                     android:text=""
                     android:textAllCaps="true"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/txtAmount"
@@ -138,7 +139,26 @@
                     android:text="Amount"
                     android:textAllCaps="true"
                     android:textColor="#000000"
-                    android:textSize="16sp" />
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/txtReference"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtAmount"
+                    android:text="-"
+                    android:textColor="#009688" />
+
+                <TextView
+                    android:id="@+id/txtcpyref"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/txtReference"
+                    android:text="Copy Reference Code"
+                    android:padding="10dp"
+                    android:textColor="#FF5722" />
 
             </RelativeLayout>
 

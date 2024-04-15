@@ -786,7 +786,7 @@ public class ValidateDemoListActivity extends AppCompatActivity {
             visitingdate = data.getString((data.getColumnIndex("visitingDate")));
 
 
-            Log.d("typerr", "visitingDate" + visitingdate);
+        //    Log.d("typerr", "visitingDate" + visitingdate);
 
 
         }

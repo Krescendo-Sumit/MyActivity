@@ -376,7 +376,7 @@ public class orderfromTBM extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-
+                    Toast.makeText(context, "Hiiii", Toast.LENGTH_SHORT).show();
                     GeneralMaster sp = (GeneralMaster) spsaleorg.getSelectedItem();
                     if (sp.Code().equals("0"))
                     {

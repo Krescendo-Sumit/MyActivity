@@ -820,7 +820,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         //db.execSQL("DROP TABLE IF EXISTS " + TABLE_PRODUCTS);
         //  onCreate(db);
 
-
+           Log.i("Updarader Old Version","--->"+oldVersion);
         switch (oldVersion) {
 
             case 24:
@@ -5412,7 +5412,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         String query = "select visitingDate from DemoReviewData where uIdP = '" + uid + "' order by  visitingDate desc  limit 1 ";
         Cursor data = db.rawQuery(query, null);
-        Log.d("query=====", query);
+       // Log.d("query=====", query);
 
         if (data.getCount() == 0) {
 
@@ -5422,7 +5422,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
             visitingdate = data.getString((data.getColumnIndex("visitingDate")));
 
 
-            Log.d("typerr", "visitingDate" + visitingdate);
+          //  Log.d("typerr", "visitingDate" + visitingdate);
 
 
         }

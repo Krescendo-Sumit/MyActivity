@@ -26,15 +26,18 @@
 
         <Button
             android:id="@+id/btnUpdate"
+            style="@style/Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/btnAdd"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/btn_shape"
             android:text="Update / Validate Visit Details"
             android:textAllCaps="true"
-            android:textColor="#fff"
-            style="@style/Button"/>
+            android:textColor="#fff" />
 
         <Button
             android:id="@+id/btnDownloadVal"

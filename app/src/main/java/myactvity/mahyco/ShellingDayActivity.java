@@ -1102,11 +1102,11 @@ public class ShellingDayActivity extends AppCompatActivity implements
             String myTable = "Table1";//Set name of your table
             String searchQuery = "";
             if (Croptype.equals("V")) {
-                searchQuery = "SELECT distinct CropName,CropType  FROM CropMaster where CropType='" + Croptype + "' and upper(CropName) like '%BAJRA%' ";
+                searchQuery = "SELECT distinct CropName,CropType  FROM CropMaster where CropType='" + Croptype + "' and upper(CropName) like '%MAIZE%' ";
 
             } else {
                 //searchQuery = "SELECT distinct CropName,CropType  FROM CropMaster where CropType<>'V' ";
-                searchQuery = "SELECT distinct CropName,CropType  FROM CropMaster where upper(CropName) like '%MAIZE%' or  upper(CropName) like '%BAJRA%' ";
+                searchQuery = "SELECT distinct CropName,CropType  FROM CropMaster where upper(CropName) like '%MAIZE%' ";
 
             }
 

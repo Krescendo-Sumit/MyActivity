@@ -624,6 +624,11 @@ public class DemoModelListActivity extends AppCompatActivity
     //Get Data from db and make list for adapter
     public void createList(String whereCondition) {
 
+        new MyDemoLoading(context,whereCondition).execute();
+
+
+/*
+
         String searchQuery = "SELECT *  FROM DemoModelData " + whereCondition + "";
 
 
@@ -722,6 +727,107 @@ public class DemoModelListActivity extends AppCompatActivity
             noDataText.setVisibility(View.VISIBLE);
 
         }
+*/
+
+    }
+
+    public void createList1(String whereCondition) {
+
+        String searchQuery = "SELECT *  FROM DemoModelData " + whereCondition;
+
+
+        Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+
+
+        int count = cursor.getCount();
+
+        mList.clear();
+
+        if (count > 0) {
+
+
+            JSONArray jsonArray = new JSONArray();
+            try {
+                jsonArray = mDatabase.getResults(searchQuery);
+                for (int i = 0; i < jsonArray.length(); i++) {
+
+                    DemoModelPlotListModel demoModelPlotListModel = new DemoModelPlotListModel();
+
+                    demoModelPlotListModel.setIsSynced(jsonArray.getJSONObject(i).getString("isSynced"));
+                    demoModelPlotListModel.setSno(jsonArray.getJSONObject(i).getString("_id"));
+                    demoModelPlotListModel.setArea(jsonArray.getJSONObject(i).getString("area"));
+                    demoModelPlotListModel.setCoordinates(jsonArray.getJSONObject(i).getString("coordinates"));
+                    demoModelPlotListModel.setCrop(jsonArray.getJSONObject(i).getString("crop"));
+                    demoModelPlotListModel.setDistrict(jsonArray.getJSONObject(i).getString("district"));
+                    demoModelPlotListModel.setMobileNumber(jsonArray.getJSONObject(i).getString("mobileNumber"));
+                    demoModelPlotListModel.setWhatsappNumber(jsonArray.getJSONObject(i).getString("whatsappNumber"));
+                    demoModelPlotListModel.setFarmerName(jsonArray.getJSONObject(i).getString("farmerName"));
+                    demoModelPlotListModel.setPlotType(jsonArray.getJSONObject(i).getString("plotType"));
+                    demoModelPlotListModel.setProduct(jsonArray.getJSONObject(i).getString("product"));
+                    demoModelPlotListModel.setSeedQuantity(jsonArray.getJSONObject(i).getString("seedQuantity"));
+                    demoModelPlotListModel.setSowingDate(jsonArray.getJSONObject(i).getString("sowingDate"));
+
+
+                    if (jsonArray.getJSONObject(i).getString("village").equals("")) {
+                        String focussvillage="";
+                        JSONArray jsonArray1 = new JSONArray();
+                        try {
+                            demoModelPlotListModel.setFocussedVillage(jsonArray.getJSONObject(i).getString("focussedVillage"));
+
+
+                            focussvillage=jsonArray.getJSONObject(i).getString("focussedVillage");
+                            String  talukaquery ="select * from FocussedVillageMaster  where upper(vil_desc)='"+focussvillage.toUpperCase().trim()+"'";
+                            jsonArray1 = mDatabase.getResults(talukaquery);
+                            for (int j = 0; j < jsonArray1.length(); j++) {
+                                demoModelPlotListModel.setTaluka(jsonArray1.getJSONObject(0).getString("taluka"));
+                                break;
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+
+                        }
+                        demoModelPlotListModel.setVillage("");
+
+                    } else {
+                        demoModelPlotListModel.setTaluka(jsonArray.getJSONObject(i).getString("taluka"));
+
+                        demoModelPlotListModel.setVillage(jsonArray.getJSONObject(i).getString("village"));
+                    }
+
+                    demoModelPlotListModel.setuId(jsonArray.getJSONObject(i).getString("uId"));
+
+                    demoModelPlotListModel.setReviewCount(getCountReviewModelList(jsonArray.getJSONObject(i).getString("uId")));
+
+                    demoModelPlotListModel.setLastVisit(getLastVisitDate(jsonArray.getJSONObject(i).getString("uId")));
+
+                    if (jsonArray.getJSONObject(i).getString("imgPath").equals("")) {
+
+                        demoModelPlotListModel.setImgPath("");
+
+                    } else {
+
+                        demoModelPlotListModel.setImgPath(jsonArray.getJSONObject(i).getString("imgPath"));
+                    }
+                    demoModelPlotListModel.setUserCode(jsonArray.getJSONObject(i).getString("userCode"));
+                    demoModelPlotListModel.setState(jsonArray.getJSONObject(i).getString("state"));
+                    // demoModelPlotListModel.setTaluka(jsonArray.getJSONObject(i).getString("taluka"));
+
+                    mList.add(demoModelPlotListModel);
+
+
+                }
+
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else {
+//            recDemoList.setVisibility(View.GONE);
+//            noDataText.setVisibility(View.VISIBLE);
+
+        }
 
     }
 
@@ -767,7 +873,7 @@ public class DemoModelListActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        createList("");
+       // createList("");
     }
 
     @Override
@@ -1038,6 +1144,47 @@ public class DemoModelListActivity extends AppCompatActivity
         }
 
 
+
+    }
+    public class MyDemoLoading extends AsyncTask
+    {
+        Context context;
+        String query;
+        ProgressDialog dialog;
+        MyDemoLoading()
+        {
+
+        }
+        MyDemoLoading(Context context,String query)
+        {
+            this.context=context;
+            this.query=query;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog=new ProgressDialog(context);
+            dialog.setMessage("Please Wait");
+            if(!dialog.isShowing())
+            dialog.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            createList1(query);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            dialog.dismiss();
+            recDemoList.setVisibility(View.VISIBLE);
+            noDataText.setVisibility(View.GONE);
+
+            addData(mList);
+        }
     }
 
 
