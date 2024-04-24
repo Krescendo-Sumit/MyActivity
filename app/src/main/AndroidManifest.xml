@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="myactvity.mahyco"
-
-    >
+    package="myactvity.mahyco">
 
     <queries>
         <intent>
@@ -54,29 +52,27 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".HDPSPaymentDeposit"
+            android:exported="false" />
+        <activity
             android:name=".LocationTest"
             android:exported="true"
-            android:screenOrientation="portrait">
-        </activity>
-
+            android:screenOrientation="portrait"></activity>
         <activity
-            android:name="myactvity.mahyco.ShellingDayActivity"
+            android:name=".ShellingDayActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
-            android:name="myactvity.mahyco.UtpadanMohatsavActivity"
+            android:name=".UtpadanMohatsavActivity"
             android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ProjectorMeetingActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".VocpvegetablewebviewActivity"
             android:exported="true"
@@ -151,8 +147,9 @@
             android:name=".SplashScreen"
             android:exported="true"
             android:screenOrientation="portrait">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -578,8 +575,8 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".BCFCallTBM"
-            android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".DistributorPOGVeg"
             android:exported="true" />
@@ -662,7 +659,6 @@
             android:name="com.razorpay.ApiKey"
             android:value="@string/rzp_key" />
         <meta-data
-
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
         <!--
@@ -704,7 +700,6 @@
         </service>
 
         <uses-library
-
             android:name="org.apache.http.legacy"
             android:required="false" />
     </application>

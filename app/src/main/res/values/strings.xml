@@ -236,9 +236,9 @@
     <string-array name="rejection_reasons">
         <item>SELECT REASON</item>
         <item>NOT RECOGNIZED AS A PROGRESIVE FARMER IN THE VILLAGE</item>
-       <!-- <item>IS NOT A GRADUATE</item>-->
+        <!-- <item>IS NOT A GRADUATE</item>-->
         <item>DOESNOT PARTICIPATES IN AGRI RELATED PROGRAMS </item>
-       <!-- <item>NOT AWARDED BY REPUTED INSTITUTIONS</item>-->
+        <!-- <item>NOT AWARDED BY REPUTED INSTITUTIONS</item>-->
         <item>NOT RECOMMENDED BY RETAILER/ DISTRIBUTOR</item>
         <item>OTHER</item>
     </string-array>
@@ -378,5 +378,13 @@
         <item>STAFF RESPONSIVENESS</item>
         <item>OTHER</item>
     </string-array>
+    <string-array name="paymentmode">
+        <item>Select Payment App</item>
+        <item>Phone Pe</item>
+        <item>GPay</item>
+        <item>PayTM</item>
+        <item>Other</item>
+    </string-array>
+
 
 </resources>

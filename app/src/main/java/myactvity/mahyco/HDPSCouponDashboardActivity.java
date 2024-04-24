@@ -101,13 +101,24 @@ public class HDPSCouponDashboardActivity extends AppCompatActivity {
             public void onClick(View v) {
                 try {
                     if (config.NetworkConnection()) {
+                        Intent intent = new Intent(context.getApplicationContext(), HDPSPaymentDeposit.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);
+                    } else {
+                        msclass.showMessage("Please check the internet connection");
+                    }
+                    /*
+                    // this code is Commented to Open New Payment Flow to add manual Trasaction Ref.
+                    // Code added By Sumit on 23/04/2024
+
+                    if (config.NetworkConnection()) {
                         Intent intent = new Intent(context.getApplicationContext(), couponpaymentHDPS.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);
                     } else {
                         msclass.showMessage("Please check the internet connection");
                     }
-
+                        */
                 } catch (Exception ex) {
                     //msclass.showMessage(ex.getMessage());
                     Log.d("HDPS","MSG : "+ex.getMessage());

@@ -38,4 +38,6 @@ Call<String> syncTraveldata(@Field("Type") String mdo_travelData, @Field("encode
     @POST(RetroConstants.UplaodUtpadanMohatsav)
     Call<String> uploadUtpadanMohatsav(@Body JsonArray jsonObject);
 
+    @POST(RetroConstants.UploadHDPSPaymentDeposit)
+    Call<String> uploadHDPSPaymentDeposit(@Body JsonArray jsonObject);
 }
