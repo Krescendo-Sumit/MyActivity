@@ -33,7 +33,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -60,6 +62,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import myactvity.mahyco.BuildConfig;
@@ -81,7 +84,7 @@ import myactvity.mahyco.helper.SqliteDatabase;
 public class UploadDataNew extends AppCompatActivity implements NewUploadListener {
     private static final String TAG = "UploadData";
     public Button btnUpload, btnUpload2, btnUpload3, btnUpload5, btnUpload4, btnUploadRetailerdata,
-            btnUploadPostSeason, btnUploadPreSeason, btnUploadATL, btnUploadGen;
+            btnUploadPostSeason, btnUploadPreSeason, btnUploadATL, btnUploadGen,btnUploadMyTravel;
     public ProgressDialog dialog, pd;
     public String SERVER = "";
     Prefs mPref;
@@ -104,7 +107,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             rndFieldPurchaseList, rndfieldVisit, rndRetailerVisitToField, rndCropShow, rndHarvestDay, rndFieldDay, rndLivePlantDataVillage, rndLivePlantDataRetailer,
             rndTestimonialCollection, rndSanmanMela, rndVillageMeeting, rndPromotionThroughEntertainment, rndCropSeminar, rndJeepCampaigning, rndPopDisplay,
             rndPostering, rndFieldBoard, rndFieldBanner, rndWallPainting, rndTrolleyPainting, rndExhibition, rndMarketDay,
-            rndDistributorVisit, rndinnovation, rndRetailerVisit, rndFarmerVisit, rndSamruddhaKisanVist, rndAddressing, rndReviewMeeting;
+            rndDistributorVisit, rndinnovation, rndRetailerVisit, rndFarmerVisit, rndSamruddhaKisanVist, rndAddressing, rndReviewMeeting,rnd_endtravel,rnd_starttravel,rndRetailerDistributor;
 
     SharedPreferences.Editor editor;
     private Context context;
@@ -138,6 +141,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         userCode = pref.getString("UserID", null);
         btnUpload = (Button) findViewById(R.id.btnUpload);
         btnUpload2 = (Button) findViewById(R.id.btnUpload2);
+        btnUpload2.setVisibility(View.GONE);
         btnUpload3 = (Button) findViewById(R.id.btnUpload3);
         btnUpload4 = (Button) findViewById(R.id.btnUpload4);
         btnUpload5 = (Button) findViewById(R.id.btnUpload5);
@@ -242,6 +246,13 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         rndAddressing = (RadioButton) findViewById(R.id.rndAddressing);
         rndinnovation = (RadioButton) findViewById(R.id.rndinnovation);
 
+        // Mytravel
+        rnd_starttravel = (RadioButton) findViewById(R.id.rnd_starttravel);
+        rnd_endtravel = (RadioButton) findViewById(R.id.rnd_endtravel);
+        rndRetailerDistributor = (RadioButton) findViewById(R.id.rndRetailerDistributor);
+        btnUploadMyTravel = (Button) findViewById(R.id.btnUploadMyTravel);
+
+
         pd = new ProgressDialog(context);
 
         // lblmyactvityrecord=(TextView)findViewById(R.id.lblmyactvityrecord);
@@ -317,6 +328,25 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 //            }
 //        });
 
+
+        btnUploadMyTravel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(rnd_endtravel.isChecked())
+                {
+                    
+                    uploadEndTravel();
+                }else if(rnd_starttravel.isChecked())
+                {
+                    uploadStarTravel();
+                }
+                else if(rndRetailerDistributor.isChecked())
+                {
+                    uploadRetailerAndDistributor();
+                }
+            }
+        });
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -733,7 +763,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
             try {
                 uploadFarmerVisitData("");
-               // new uploadFarmerVisitDataServer(functionName, context).execute(Constants.FARMERVISITS_SERVER_API).get();
+              //  new uploadFarmerVisitDataServer(functionName, context).execute(Constants.FARMERVISITS_SERVER_API).get();
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -764,6 +794,16 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             handleDistributorDataSyncResponse("DistributorData", result,id);
         else
             msclass.showMessage("Something went Wrong "+result);
+    }
+
+    @Override
+    public void onPosteringDataUpload(String result, String id) {
+      try {
+          handleATLVillagePosteringDataSyncResponse("ATLVillagePosteringData", result, id);
+      }catch (Exception e)
+      {
+          Log.i("Postering Error",e.getMessage());
+      }
     }
 
 
@@ -861,7 +901,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                     jsonObject.add("Table", jsonArray);
                     String id = "1";//jsonArray.getJSONObject(i).getString("_id");
 
-//                   str = syncdFarmerVisitsData(funname, Constants.FARMERVISITS_SERVER_API, jsonObject);
+              //     str = syncdFarmerVisitsData(funname, Constants.FARMERVISITS_SERVER_API, jsonObject);
                  //   handleFarmerVisitsDataSyncResponse(funname, str, id);
 
                     // }
@@ -1803,7 +1843,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                         cursor.close();
                         //done
                         if (count > 0) {
-
+                           // upload_newposteringData();
                             uploadDataPostering("ATLVillagePosteringData");
                         } else {
                             msclass.showMessage("Data not available for uploading");
@@ -1930,6 +1970,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         }
 
     }
+
 
     private void uploadWallPaintingData(String atlVillageWallPaintingData) {
 
@@ -2927,7 +2968,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
                         String imgPath = jsonArrayPop.getJSONObject(j).getString("activityImgPath");
                         Log.d("imgPath", imgPath);
-                        jsonArrayPop.getJSONObject(j).put("activityImgPath", mDatabase.getImageDatadetail(imgPath));
+                     //   jsonArrayPop.getJSONObject(j).put("activityImgPath", mDatabase.getImageDatadetail(imgPath));
+                        jsonArrayPop.getJSONObject(j).put("activityImgPath", "Base64");
                     }
 
 
@@ -3194,9 +3236,10 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
 
                     } else if (getTag.equals(getResources().getString(R.string.rndVillageMeeting))) {
+
                         int count3 = 0;
                         String searchQuery;
-
+                        relPRogress.setVisibility(View.GONE);
                         searchQuery = "select  *  from VillageMeetingData where  isSynced ='0' ";
                         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
                         count3 = count3 + cursor.getCount();
@@ -3937,8 +3980,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         if (config.NetworkConnection()) {
 
             try {
-                new UploadVillageMeetingDataServer(VillageMeetingData, context).execute(Constants.VILLAGEMEETING_SERVER_API).get();
-
+                //new UploadVillageMeetingDataServer(VillageMeetingData, context).execute(Constants.VILLAGEMEETING_SERVER_API).get();
+                uploadVillageMeetingData("");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -4024,25 +4067,26 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
     public String uploadVillageMeetingData(String VillageMeetingData) {
         String str = "";
         int action = 1;
-        String searchQuery = "select  *  from VillageMeetingData where  isSynced ='0'";
+        String searchQuery = "select  *  from VillageMeetingData where  isSynced ='0' limit 1";
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
         int count = cursor.getCount();
-        JSONArray jsonArray = new JSONArray();
+        JsonArray jsonArray = new JsonArray();
         if (count > 0) {
             try {
-                jsonArray = mDatabase.getResultsVillageDetails(searchQuery);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = new JSONObject();
-                    String activityImgName = jsonArray.getJSONObject(i).getString("activityImgName");
-                    String activityImgPath = jsonArray.getJSONObject(i).getString("activityImgPath");
-
-                    jsonArray.getJSONObject(i).put("activityImgPath", mDatabase.getImageDatadetail(activityImgPath));
-                    String id = jsonArray.getJSONObject(i).getString("_id");
-
-                    jsonObject.put("Table", jsonArray.getJSONObject(i));
-                    Log.d("VillageMeetingData", jsonObject.toString());
-                    str = syncVillageMeetingDataSingleImage(VillageMeetingData, Constants.VILLAGEMEETING_SERVER_API, jsonObject, activityImgName, activityImgPath);
-                    handleVillageMeetingDataImageSyncResponse("VillageMeetingData", str, id);
+                jsonArray = mDatabase.getResultsVillageMeetingDetailsNew(searchQuery);
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JsonObject jsonObject = new JsonObject();
+                    String activityImgName = jsonArray.get(i).getAsJsonObject().get("activityImgName").toString();
+                    String activityImgPath = jsonArray.get(i).getAsJsonObject().get("activityImgPath").toString();
+                    Log.i("Image path",activityImgPath);
+                    jsonArray.get(i).getAsJsonObject().addProperty("activityImgPath", mDatabase.getImageDatadetailNew(activityImgPath,activityImgName+".jpg"));
+                    String id = jsonArray.get(i).getAsJsonObject().get("_id").toString();
+                    jsonObject.add("Table", jsonArray.get(i).getAsJsonObject());
+                    Log.d("NewVillageMeetingData", jsonObject.toString());
+                    Log.d("Access Token",mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
+                    uploadNewVillageMeetingData(jsonObject,id);
+                    // str = syncVillageMeetingDataSingleImage(VillageMeetingData, Constants.VILLAGEMEETING_SERVER_API, jsonObject, activityImgName, activityImgPath);
+                   // handleVillageMeetingDataImageSyncResponse("VillageMeetingData", str, id);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -4293,14 +4337,15 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                     } else if (getTag.equals(getResources().getString(R.string.rndCropShow))) {
                         int count5 = 0;
                         String searchQuery;
-
+                        relPRogress.setVisibility(View.GONE);
                         searchQuery = "select  *  from CropShowData where  isSynced ='0'";
                         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
                         count5 = count5 + cursor.getCount();
                         cursor.close();
 //done
                         if (count5 > 0) {
-                            uploadCropShow("CropShowData");
+                            uploadCropShowData("");
+                            //uploadCropShow("CropShowData");
                         } else {
                             progressBarVisibility();
                             msclass.showMessage("Data not available for uploading");
@@ -8175,47 +8220,50 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
     }
 
 
-    public String uploadCropShowData(String LivePlantDisplayVillage) {
+    public void uploadCropShowData(String LivePlantDisplayVillage) {
         String str = "";
         int action = 1;
 
 
-        String searchQuery = "select  *  from CropShowData where  isSynced ='0'";
+        String searchQuery = "select  *  from CropShowData where  isSynced ='0' limit 1";
 
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
 
         int count = cursor.getCount();
-        JSONArray jsonArray = new JSONArray();
+        JsonArray jsonArray = new JsonArray();
         if (count > 0) {
 
-
             try {
-                jsonArray = mDatabase.getResultsVillageDetails(searchQuery);
+                jsonArray = mDatabase.getResultsCropShowNew(searchQuery);
 
 
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = new JSONObject();
-                    String activityImgName = jsonArray.getJSONObject(i).getString("activityImgName");
-                    String activityImgPath = jsonArray.getJSONObject(i).getString("activityImgPath");
-                    String farmerListPhotoName = jsonArray.getJSONObject(i).getString("farmerListPhotoName");
-                    String farmerListPhoto = jsonArray.getJSONObject(i).getString("farmerListPhoto");
-                    String retailerListPhotoName = jsonArray.getJSONObject(i).getString("retailerListPhotoName");
-                    String retailerListPhoto = jsonArray.getJSONObject(i).getString("retailerListPhoto");
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JsonObject jsonObject = new JsonObject();
+                    String activityImgName = jsonArray.get(i).getAsJsonObject().get("activityImgName").toString();
+                    String activityImgPath = jsonArray.get(i).getAsJsonObject().get("activityImgPath").toString();
+                    String farmerListPhotoName = jsonArray.get(i).getAsJsonObject().get("farmerListPhotoName").toString();
+                    String farmerListPhoto = jsonArray.get(i).getAsJsonObject().get("farmerListPhoto").toString();
+                    String retailerListPhotoName = jsonArray.get(i).getAsJsonObject().get("retailerListPhotoName").toString();
+                    String retailerListPhoto = jsonArray.get(i).getAsJsonObject().get("retailerListPhoto").toString();
 
 
-                    jsonArray.getJSONObject(i).put("activityImgPath", mDatabase.getImageDatadetail(activityImgPath));
-                    jsonArray.getJSONObject(i).put("farmerListPhoto", mDatabase.getImageDatadetail(farmerListPhoto));
-                    jsonArray.getJSONObject(i).put("retailerListPhoto", mDatabase.getImageDatadetail(retailerListPhoto));
+                    jsonArray.get(i).getAsJsonObject().addProperty("activityImgPath", mDatabase.getImageDatadetail(activityImgPath));
+                    jsonArray.get(i).getAsJsonObject().addProperty("farmerListPhoto", mDatabase.getImageDatadetail(farmerListPhoto));
+                    jsonArray.get(i).getAsJsonObject().addProperty("retailerListPhoto", mDatabase.getImageDatadetail(retailerListPhoto));
 
 
-                    jsonObject.put("Table", jsonArray.getJSONObject(i));
-                    String id = jsonArray.getJSONObject(i).getString("_id");
+                    jsonObject.add("Table", jsonArray.get(i).getAsJsonObject());
+                    String id = jsonArray.get(i).getAsJsonObject().get("_id").toString();
 
 
                     Log.d("CropShowData", jsonObject.toString());
+
+                    api.uploadCropShow(jsonObject,id);
+
+
                     //str = syncCropShowSingleImage(LivePlantDisplayVillage, SERVER, jsonObject, activityImgName, activityImgPath, farmerListPhotoName, farmerListPhoto, retailerListPhotoName, retailerListPhoto);
-                    str = syncCropShowSingleImageSingleImageAPI(jsonObject);
-                    handleCropShowImageSyncResponse("CropShowData", str, id);
+                  ///  str = syncCropShowSingleImageSingleImageAPI(jsonObject);
+                 //   handleCropShowImageSyncResponse("CropShowData", str, id);
                 }
 
 
@@ -8228,9 +8276,12 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
 
         }
+        else
+        {
+            Toast.makeText(context, "No Data found", Toast.LENGTH_SHORT).show();
+        }
 
 
-        return str;
     }
 
     public synchronized String syncCropShowSingleImageSingleImageAPI(JSONObject jsonObject) {
@@ -8261,8 +8312,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         @Override
         protected String doInBackground(String... urls) {
 
-            return uploadCropShowData("CropShowData");
-
+          //  return uploadCropShowData("CropShowData");
+           return "";
         }
 
         protected void onPostExecute(String result) {
@@ -9367,6 +9418,484 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
     Dialog dialog1;
 
+
+
+    public void upload_newposteringData() {
+        try{
+            String str = "";
+            int action = 1;
+
+
+            String searchQuery = "select * from ATLVillagePosteringData where isSynced ='0' ";
+
+            Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+
+            int count = cursor.getCount();
+            JsonArray jsonArray = new JsonArray();
+            if (count > 0) {
+                try {
+                    jsonArray = mDatabase.getResultsVillageDetailsNew(searchQuery);
+/*
+                    for (int i = 0; i < jsonArray.size(); i++) {
+
+                        JsonObject jsonObject=jsonArray.get(i).getAsJsonObject();
+                        JsonArray outputJsonArray = JsonParser.parseString(jsonObject.get("finalPopupJson").toString()).getAsJsonArray();
+                       // JsonArray jsonArrayFinalePopupJson = jsonObject.getAsJsonArray("finalPopupJson");
+                       // jsonObject.add("finalPopupJSON",jsonArrayFinalePopupJson);
+                        Log.i("Final Popuojson",outputJsonArray.toString());
+                    }*/
+               ///     Log.i("Finlll",jsonArray.toString());
+
+                   /* for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = new JSONObject();
+
+                        String finalPopupJson = jsonArray.getJSONObject(i).getString("finalPopupJson");
+
+                        JSONArray jsonArrayPop = new JSONArray(finalPopupJson);
+                        jsonArray.getJSONObject(i).put("finalPopupJson", jsonArrayPop);
+
+                        String id = jsonArray.getJSONObject(i).getString("_id");
+                        for (int j = 0; j < jsonArrayPop.length(); j++) {
+
+                            String imgPath = jsonArrayPop.getJSONObject(j).getString("activityImgPath");
+                            Log.d("imgPath", imgPath);
+                            jsonArrayPop.getJSONObject(j).put("activityImgPath", mDatabase.getImageDatadetail(imgPath));
+                        }
+
+
+                        jsonObject.put("Table", jsonArray.getJSONObject(i));
+                        Log.d("ATLVillagePosteringData", jsonObject.toString());
+                        if (!jsonObject.toString().isEmpty()) {
+
+                           //    api.UploadPosteringData(jsonObject,id);
+
+                          //  str = syncATLVillagePosteringDataSingleImage(atlVillagePosteringData, Constants.POSTERING_SERVER_API, jsonObject);
+                            // handleATLVillagePosteringDataDetailsImageSyncResponse("ATLVillagePosteringDataDetails", str);
+                        } else {
+
+                            alertPoorConnection();
+                        }
+                    }*/
+                } catch (Exception e) {
+
+                    e.printStackTrace();
+
+                }
+                cursor.close();
+            }
+
+
+        }catch (Exception e)
+        {
+
+        }
+    }
+    void uploadRetailerAndDistributor() {
+        try{
+            String searchQuery12 = "select  *  from  mdo_Retaileranddistributordata where Status='0'";
+            Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
+            int count = cursor.getCount();
+            if(count>0) {
+
+
+                JsonArray jsonArray = new JsonArray();
+                JsonArray jsonArrayFinal = new JsonArray();
+
+                JsonObject jsonObjectChild = new JsonObject();
+
+                String searchQuery = "";
+
+                searchQuery = "select \n" +
+                        "_id,\n" +
+                        "mdocode,\n" +
+                        "coordinate,\n" +
+                        "startaddress,\n" +
+                        "dist,\n" +
+                        "taluka,\n" +
+                        "marketplace,\n" +
+                        "retailername as name,\n" +
+                        "retailerfirm as retailerCategory,\n" +
+                        "age,\n" +
+                        "mobileno,\n" +
+                        "asscoi_distributor,\n" +
+                        "keyretailer,\n" +
+                        "otherbussiness,\n" +
+                        "experianceSeedwork,\n" +
+                        "comments,\n" +
+                        "Status,\n" +
+                        "type,\n" +
+                        "newfirm,\n" +
+                        "birthdate,\n" +
+                        "WhatsappNo,\n" +
+                        "state from mdo_Retaileranddistributordata where Status='0'";
+                //   jsonObjectChild.put("Table4", mDatabase.getResults(searchQuery));
+
+                jsonArray = mDatabase.getResultsRetro(searchQuery);
+
+                Log.i("Retailer Data:", "" + mDatabase.getResults(searchQuery).length());
+                searchQuery = "select * from mdo_retailerproductdetail where Status='0'";
+                //object.put("Table5", mDatabase.getResults(searchQuery));
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                    if (i == 0) {
+                        String searchQuery1 = "select * from mdo_retailerproductdetail where Status='0'";
+                        jsonObject.add("RetailerProductDetailModels", mDatabase.getResultsRetro(searchQuery1));
+                    } else {
+
+                        jsonObject.add("RetailerProductDetailModels", new JsonArray());
+
+                    }
+                    jsonArrayFinal.add(jsonObject);
+                }
+                JsonObject jsonFinal = new JsonObject();
+                jsonFinal.add("RetaileranddistributordataModels", jsonArrayFinal);
+                api.UplaodRetailerAndDistributor(jsonFinal);
+                Log.i("Retailer Json ", jsonFinal.toString());
+
+            }else
+            {
+                Toast.makeText(context, "No Data for upload.", Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e)
+        {
+            Log.i("Ecxeption Json ",e.getMessage());
+
+        }
+    }
+
+    void uploadStarTravel() {
+        try{
+            String searchQuery12 = "select  *  from  mdo_starttravel where Status='0'";
+            Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
+            int count = cursor.getCount();
+            if(count>0) {
+                JsonArray jsonArray;
+
+                String searchQuery = "select _id,mdocode,coordinate,startaddress,startdate,dist,taluka,village,imgname||'.jpg' as imgname,imgpath as imgpath1,Status,txtkm,place,imgstatus,vehicletype,datetime() as entrydate,replace(date('now'),'-','') as sdate from mdo_starttravel where Status='0'";
+                jsonArray = mDatabase.getResultsRetro(searchQuery);
+
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                    Log.i("Image path", jsonObject.get("imgpath1").toString().replace("\"", ""));
+                    jsonObject.addProperty("imgpath", mDatabase.getImageDatadetail(jsonObject.get("imgpath1").toString().replace("\"", "")));
+                }
+                JsonObject jsonFinal = new JsonObject();
+                jsonFinal.add("starttravelModels", jsonArray);
+                api.UploadStartTravel(jsonFinal);
+                Log.i("Strat Travel ", jsonArray.toString());
+
+            }else
+            {
+                Toast.makeText(context, "No Data for upload.", Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e)
+        {
+
+        }
+    }
+
+    void uploadEndTravel() {
+        try{
+
+            String searchQuery12 = "select  *  from mdo_endtravel where Status='0'";
+            Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
+            int count = cursor.getCount();
+            if(count>0) {
+                JsonArray jsonArray;
+
+                String searchQuery = "select _id,mdocode,coordinate,startaddress,enddate,dist,taluka,village,imgname||'.jpg' as imgname,imgpath as imgpath1,Status,txtkm,place,imgstatus,vehicletype,datetime() as entrydate,replace(date('now'),'-','') as edate from mdo_endtravel where Status='0'";
+                jsonArray = mDatabase.getResultsRetro(searchQuery);
+
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                    Log.i("Image path", jsonObject.get("imgpath1").toString().replace("\"", ""));
+                    jsonObject.addProperty("imgpath", mDatabase.getImageDatadetail(jsonObject.get("imgpath1").toString().replace("\"", "")));
+                }
+                JsonObject jsonFinal = new JsonObject();
+                jsonFinal.add("endtravelModels", jsonArray);
+                api.UploadEndTravel(jsonFinal);
+                Log.i("End Travel ", jsonArray.toString());
+
+            }else
+            {
+                Toast.makeText(context, "No Data for upload", Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e)
+        {
+
+        }    try{
+        }catch (Exception e)
+        {
+
+        }
+    }
+
+    public void uploadNewVillageMeetingData(JsonObject jsonObject,String id)
+    {
+
+         try{
+             Toast.makeText(context, "Uploading "+id, Toast.LENGTH_SHORT).show();
+              api.UploadVillageMeeting(jsonObject,id);
+         }catch (Exception e)
+         {
+
+         }
+
+    }
+
+
+
+
+
+    @Override
+    public void onResultStartTravel(String result) {
+        Toast.makeText(context, "Start Travel "+result, Toast.LENGTH_SHORT).show();
+
+         try{
+             JSONObject jsonObject=new JSONObject(result);
+             if(jsonObject.getBoolean("ResultFlag")) {
+                 if (jsonObject.getString("status").toLowerCase().contains("success")) {
+                     String qq1="update mdo_starttravel set Status='1',imgstatus='1' where Status='0'";
+
+                     mDatabase.UpdateStatus(qq1);
+
+                     new AlertDialog.Builder(context)
+                             .setMessage(jsonObject.getString("Comment"))
+                             .setTitle(jsonObject.getString("status"))
+                             .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                 @Override
+                                 public void onClick(DialogInterface dialogInterface, int i) {
+                                     dialogInterface.dismiss();
+                                     rowcount();
+                                 }
+                             })
+                             .show();
+                 } else {
+                     new AlertDialog.Builder(context)
+                             .setMessage(jsonObject.getString("Comment"))
+                             .setTitle(jsonObject.getString("status"))
+                             .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                 @Override
+                                 public void onClick(DialogInterface dialogInterface, int i) {
+                                     dialogInterface.dismiss();
+                                     rowcount();
+                                 }
+                             })
+                             .show();
+                 }
+             }else
+             {
+
+             }
+
+         }catch (Exception e)
+         {
+             new AlertDialog.Builder(context)
+                     .setMessage("Something went wrong.")
+                     .setTitle("Exception")
+                     .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialogInterface, int i) {
+                             dialogInterface.dismiss();
+                         }
+                     })
+                     .show();
+         }
+    }
+
+    @Override
+    public void onResultEndTravel(String result) {
+        Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+        try{
+            JSONObject jsonObject=new JSONObject(result);
+            if(jsonObject.getBoolean("ResultFlag")) {
+                if (jsonObject.getString("status").toLowerCase().contains("success")) {
+
+                    String qq1="update mdo_endtravel set Status='1',imgstatus='1' where Status='0'";
+
+                    mDatabase.UpdateStatus(qq1);
+
+
+                    new AlertDialog.Builder(context)
+                            .setMessage(jsonObject.getString("Comment"))
+                            .setTitle(jsonObject.getString("status"))
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                    rowcount();
+
+                                }
+                            })
+                            .show();
+                } else {
+                    new AlertDialog.Builder(context)
+                            .setMessage(jsonObject.getString("Comment"))
+                            .setTitle(jsonObject.getString("status"))
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .show();
+                }
+            }else
+            {
+
+            }
+
+        }catch (Exception e)
+        {
+            new AlertDialog.Builder(context)
+                    .setMessage("Something went wrong.")
+                    .setTitle("Exception")
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    @Override
+    public void onResultNewRetailerAndDistributorTagged(String result) {
+        Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+
+        try{
+            JSONObject jsonObject=new JSONObject(result);
+            if(jsonObject.getBoolean("ResultFlag")) {
+                if (jsonObject.getString("status").toLowerCase().contains("success")) {
+
+                    String qq1="update mdo_Retaileranddistributordata set Status='1' where Status='0'";
+                    String qq2="update mdo_retailerproductdetail set Status='1' where Status='0'";
+
+                    mDatabase.UpdateStatus(qq1);
+                    mDatabase.UpdateStatus(qq2);
+
+                    new AlertDialog.Builder(context)
+                            .setMessage(jsonObject.getString("Comment"))
+                            .setTitle(jsonObject.getString("status"))
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                    rowcount();
+
+                                }
+                            })
+                            .show();
+                } else {
+                    new AlertDialog.Builder(context)
+                            .setMessage(jsonObject.getString("Comment"))
+                            .setTitle(jsonObject.getString("status"))
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .show();
+                }
+            }else
+            {
+
+            }
+
+        }catch (Exception e)
+        {
+            new AlertDialog.Builder(context)
+                    .setMessage("Something went wrong.")
+                    .setTitle("Exception")
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
+        }
+
+    }
+
+    @Override
+    public void onVillageMeetingDone(String result,String id) {
+        try {
+             String Data=result.trim();
+            if(Data!=null||!Data.trim().equals("")||!Data.toLowerCase().trim().equals("null"))
+            {
+                JSONObject json = new JSONObject(Data.trim());
+                if(json.getBoolean("success"))
+                {
+                    Toast.makeText(context, ""+json.getString("message"), Toast.LENGTH_SHORT).show();
+                    uploadVillageMeetingData("");
+                    mDatabase.UpdateStatus("UPDATE VillageMeetingData set  isSynced ='1' where _id= " + id);
+
+                }
+                else
+                {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Something went wrong")
+                            .setMessage("Error "+json.getString("message"))
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+
+                }
+            }else
+            {
+                Toast.makeText(context, ""+Data, Toast.LENGTH_SHORT).show();
+            }
+
+       }catch(Exception e)
+        {
+            Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onCropShowDone(String result, String id) {
+        Log.i("Result ",result);
+        try {
+            String Data=result.trim();
+            if(Data!=null||!Data.trim().equals("")||!Data.toLowerCase().trim().equals("null"))
+            {
+                JSONObject json = new JSONObject(Data.trim());
+                if(json.getBoolean("success"))
+                {
+                    Toast.makeText(context, ""+json.getString("message"), Toast.LENGTH_SHORT).show();
+                    uploadCropShowData("");
+                    mDatabase.UpdateStatus("UPDATE CropShowData set  isSynced ='1' where _id= " + id);
+                    recordshowPostSeason();
+                }
+                else
+                {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Something went wrong")
+                            .setMessage("Error "+json.getString("message"))
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+
+                }
+            }else
+            {
+                Toast.makeText(context, ""+Data, Toast.LENGTH_SHORT).show();
+            }
+
+        }catch(Exception e)
+        {
+            Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+        }
+    }
     /*End ---------------------------------------------------------------- */
 }
 

@@ -8,6 +8,9 @@
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
     </queries>
+    <queries>
+        <package android:name="com.disrptiv.glassrun.ordermanagement" />
+    </queries>
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -52,27 +55,30 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".HDPSPaymentDetails"
+            android:exported="false" />
+        <activity
             android:name=".HDPSPaymentDeposit"
             android:exported="false" />
         <activity
             android:name=".LocationTest"
             android:exported="true"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ShellingDayActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UtpadanMohatsavActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ProjectorMeetingActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".VocpvegetablewebviewActivity"
             android:exported="true"

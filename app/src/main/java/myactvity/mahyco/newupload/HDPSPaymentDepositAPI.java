@@ -22,9 +22,16 @@ public class HDPSPaymentDepositAPI {
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Please Wait..");
     }
-   public interface HDPSPaymentDepositListener{
+
+
+
+    public interface HDPSPaymentDepositListener{
        public void onPaymentDeposit(String result);
-   }
+
+
+
+        void getHDPSUserwiseReport(String result);
+    }
 
     public void uploadDepositData(JsonArray jsonObject) {
         try {
@@ -44,6 +51,42 @@ public class HDPSPaymentDepositAPI {
                         String result = response.body();
                         try {
                             newUploadListener.onPaymentDeposit(result);
+                        } catch (NullPointerException e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    Log.e("Error is", t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
+    public void getHDPSUserwiseReport(JsonObject jsonObject) {
+        try {
+            if (!progressDialog.isShowing())
+                progressDialog.show();
+
+            Call<String> call = null;
+            call = RetrofitClient.getInstance().getMyApi().getHDPSUserwiseReport(jsonObject);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+
+                    if (response.body() != null) {
+                        String result = response.body();
+                        try {
+                            newUploadListener.getHDPSUserwiseReport(result);
                         } catch (NullPointerException e) {
                             Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {

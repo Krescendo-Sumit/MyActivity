@@ -526,12 +526,26 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                                         Toast.makeText(context, "Your are not authorized to access this tab.", Toast.LENGTH_SHORT).show();
                                     }
                                 }*/
+                                
+                                // This code is commented to redirect to Glass run application
+                         /* 
+                                
                                 intent = new Intent(context.getApplicationContext(), saleOrderDashboard.class);
                                 //intent= new Intent(context.getApplicationContext(),TestImage.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 //intent.putExtra("Pagetype", "PlotVisit");
-                                context.startActivity(intent);
+                                context.startActivity(intent);*/
 
+                                // Glass run application redirection code
+                               try {
+                                   intent = context.getPackageManager().getLaunchIntentForPackage("com.disrptiv.glassrun.ordermanagement");
+                                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                   context.startActivity(intent);
+                               }catch (Exception e)
+                               {
+                                   Toast.makeText(context, "Unable to Open Glassrun application, Make sure you have installed it.", Toast.LENGTH_SHORT).show();
+                               }
+                                
                             }
 
 

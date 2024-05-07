@@ -38,11 +38,207 @@
         android:layout_below="@id/toolbar"
         android:gravity="center">
 
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/countbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:padding="5dp"
+            android:gravity="bottom"
+            android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/cell_shape"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView14"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#009688"
+                        android:padding="5dp"
+                        android:text="Tot.Coupons" />
+
+                    <TextView
+                        android:id="@+id/txt_totalcoupons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="#000"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/cell_shape"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#009688"
+                        android:padding="5dp"
+                        android:text="Sold Coupons" />
+
+                    <TextView
+                        android:id="@+id/txtsoldcoupons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="#000"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/cell_shape"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtremaincoupon"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#009688"
+                        android:padding="5dp"
+                        android:text="Remain Coupons" />
+
+                    <TextView
+                        android:id="@+id/txtbalancecoupons"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="#000"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/cell_shape"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#009688"
+                        android:padding="5dp"
+                        android:text="Total Amt" />
+
+                    <TextView
+                        android:id="@+id/txttotalamt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="#000"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/cell_shape"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView18"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#009688"
+                        android:padding="5dp"
+                        android:text="Paid amt" />
+
+                    <TextView
+                        android:id="@+id/txtpaidamt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="#000"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/cell_shape"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/txtbalance"
+                        android:textColor="#FFFFFF"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#009688"
+                        android:padding="5dp"
+                        android:text="Remain Amt" />
+
+                    <TextView
+                        android:id="@+id/txtbalanceamt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="-"
+                        android:textColor="#000"
+                        android:textSize="25sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ScrollView
             android:id="@+id/container2"
             android:layout_width="fill_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/countbar"
 
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
@@ -81,16 +277,15 @@
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
                             android:layout_weight="1"
-                            android:visibility="visible"
                             android:background="@drawable/btn_shape"
                             android:text="HDPS\\NEW PRODUCT BOOKING"
                             android:textAllCaps="true"
                             android:textColor="@color/QRCodeBlackColor"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:visibility="visible" />
 
 
                         <Button
-                            android:visibility="gone"
                             android:id="@+id/btndistribution"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -100,7 +295,8 @@
                             android:text="Booking Details"
                             android:textAllCaps="true"
                             android:textColor="@color/QRCodeBlackColor"
-                            android:textSize="12sp" />
+                            android:textSize="12sp"
+                            android:visibility="gone" />
 
                         <Button
                             android:id="@+id/btncouponpayment_hdps"
@@ -125,6 +321,8 @@
 
                             android:textColor="@color/QRCodeBlackColor"
                             android:textSize="12sp" />
+
+
                     </LinearLayout>
 
 

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import myactvity.mahyco.newupload.HDPSPaymentDetailAPI;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -40,4 +41,28 @@ Call<String> syncTraveldata(@Field("Type") String mdo_travelData, @Field("encode
 
     @POST(RetroConstants.UploadHDPSPaymentDeposit)
     Call<String> uploadHDPSPaymentDeposit(@Body JsonArray jsonObject);
+
+    @POST(RetroConstants.UplaodPosteringData)
+    Call<String> uplaodPosteringData(@Body JSONObject jsonObject);
+
+    @POST(RetroConstants.GETHDPSUserwiseReport)
+    Call<String> getHDPSUserwiseReport(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.UplaodStartTravel)
+    Call<String> uploadStartTravel(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.UplaodEndTravel)
+    Call<String> uploadEndTravel(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.UplaodRetailerAndDistributor)
+    Call<String> uploadRetailerAndDistributor(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.UploadVillageMeeting)
+    Call<String> uploadVillageMeeting(@Body JsonObject jsonFinal);
+
+    @POST(RetroConstants.GETHDPSUserwisePaymentDetails)
+    Call<HDPSPaymentDetailAPI.PaymentModel> getHDPSUserwisePaymentDetails(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.UploadCropShow)
+    Call<String> uploadCropShow(@Body JsonObject jsonObject);
 }

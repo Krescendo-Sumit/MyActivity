@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 import myactvity.mahyco.BuildConfig;
+import myactvity.mahyco.app.AppConstant;
+import myactvity.mahyco.app.Prefs;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -21,6 +23,7 @@ public class RetrofitClient {
     private Api myApi;
     private static Retrofit retrofit = null;
     static Context context;
+    static Prefs mPref;
     private RetrofitClient(Context context) {
       /*  Retrofit retrofit = new Retrofit.Builder().baseUrl(Api.BASE_URL)
 
@@ -28,6 +31,7 @@ public class RetrofitClient {
 
                 .build();*/
         this.context=context;
+        mPref = Prefs.with(context);
           Retrofit retrofit = getRetrofitInstance(context);
         myApi = retrofit.create(Api.class);
     }
@@ -48,7 +52,7 @@ public class RetrofitClient {
                 Request originalRequest = chain.request();
                 Request request = originalRequest.newBuilder()
                         //.header("Authorization", "Bearer " + Preferences.get(mContext, Preferences.KEY_ACCESS_TOKEN))
-                        // .header("Authorization", "Bearer " + "3n4F2eiPjozgbOruMyF2VGQL8Gntp1GYZvEeNy1zMsSWd6fpKMEHD3x-F9C1vckRrtsnVbY5TVD-zQFSH2u92o_VCsoeYjCMsrYg6iJST6W4q3mmNEi5jzOOl1UJYDlU6wxHvdOKTPSQtD_Zc0bhFF--VmchN_BchU5bm9qY1zcSxwWPUdETAagrivmhxx1fZ2FVS_rg5KzDyD1qYdWGuw")
+                        .header("Authorization", "Bearer " + mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""))
                         .header("Content-Type", "application/json")
                         .header("AppVersion", BuildConfig.VERSION_NAME)
                        // .header("JWTToken", Preferences.get(mContext, Preferences.KEY_JWT_TOKEN))

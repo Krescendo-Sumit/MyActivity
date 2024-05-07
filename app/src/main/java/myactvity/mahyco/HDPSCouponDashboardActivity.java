@@ -12,6 +12,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.JsonObject;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -37,8 +41,9 @@ import myactvity.mahyco.app.CommonExecution;
 import myactvity.mahyco.app.Config;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.newupload.HDPSPaymentDepositAPI;
 
-public class HDPSCouponDashboardActivity extends AppCompatActivity {
+public class HDPSCouponDashboardActivity extends AppCompatActivity implements HDPSPaymentDepositAPI.HDPSPaymentDepositListener {
     private Context context;
     Button  btncouponpayment, btnCouponPaymentHistory,btndAdvanceBooking;
     Config config;
@@ -49,6 +54,8 @@ public class HDPSCouponDashboardActivity extends AppCompatActivity {
     public String userCode;
     public Messageclass msclass;
     final String TAG="couponDashboard";
+    TextView txt_totalcoupons, txtsoldcoupons, txtbalancecoupons, txttotalamt, txtpaidamt, txtbalanceamt;
+    HDPSPaymentDepositAPI api;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +75,25 @@ public class HDPSCouponDashboardActivity extends AppCompatActivity {
         btnCouponPaymentHistory = (Button) findViewById(R.id.btncouponpaymentHistory_hdps);
         btndAdvanceBooking = (Button) findViewById(R.id.btndAdvanceBooking_hdps);
 
+        api = new HDPSPaymentDepositAPI(context, this);
+        txt_totalcoupons = findViewById(R.id.txt_totalcoupons);
+        txtsoldcoupons = findViewById(R.id.txtsoldcoupons);
+        txtbalancecoupons = findViewById(R.id.txtbalancecoupons);
 
+        txttotalamt = findViewById(R.id.txttotalamt);
+        txtpaidamt = findViewById(R.id.txtpaidamt);
+        txtbalanceamt = findViewById(R.id.txtbalanceamt);
+
+
+        pref = this.getSharedPreferences("MyPref", 0);
+        editor = pref.edit();
+        userCode = pref.getString("UserID", null);
+        try {
+
+            getUserCouponDetails(userCode);
+        } catch (Exception e) {
+
+        }
         btndAdvanceBooking.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -133,14 +158,20 @@ public class HDPSCouponDashboardActivity extends AppCompatActivity {
 
                     if (config.NetworkConnection()) {
 
-                        Intent intent = new Intent(HDPSCouponDashboardActivity.this, PaymentHistoryActivityHDPS.class);
+                       /* Intent intent = new Intent(HDPSCouponDashboardActivity.this, PaymentHistoryActivityHDPS.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        context.startActivity(intent);*/
+
+                        Intent intent = new Intent(HDPSCouponDashboardActivity.this, HDPSPaymentDetails.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         context.startActivity(intent);
+                        
                     } else
                     {
-                        Intent intent = new Intent(HDPSCouponDashboardActivity.this, PaymentHistoryActivityHDPS.class);
+                   /*     Intent intent = new Intent(HDPSCouponDashboardActivity.this, PaymentHistoryActivityHDPS.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        context.startActivity(intent);
+                        context.startActivity(intent);*/
+                        Toast.makeText(context, "Please connect to Internet", Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception ex) {
@@ -331,6 +362,77 @@ public class HDPSCouponDashboardActivity extends AppCompatActivity {
                 FirebaseAnalyticsHelper.getInstance(this).callHDPSDashboardEvent(userId,displayName);
             }
         }
+    }
+
+
+    public void getUserCouponDetails(String userCode) {
+        try {
+            int versionCode = BuildConfig.VERSION_CODE;
+            String versionName = BuildConfig.VERSION_NAME;
+            String otherData = "-" + versionName + "-" + versionCode;
+            JsonObject jsonObject = new JsonObject();
+
+            jsonObject.addProperty("Mdocode", userCode);//: "string",
+            jsonObject.addProperty("UPIRefNo", "");//: "string",
+            jsonObject.addProperty("Amount", "");//: 0,
+            jsonObject.addProperty("Remark1", "");//: "string",
+            jsonObject.addProperty("Remark2", "");//: "string"
+
+
+            api.getHDPSUserwiseReport(jsonObject);
+
+
+        } catch (Exception e) {
+
+        }
+    }
+
+
+    @Override
+    public void onPaymentDeposit(String result) {
+
+    }
+
+    @Override
+    public void getHDPSUserwiseReport(String result) {
+        try {
+
+            if (result != null) {
+                JSONObject jsonObject = new JSONObject(result.trim());
+                if (jsonObject.getBoolean("success")) {
+                    JSONObject returnval = jsonObject.getJSONObject("returnval");
+                    if (returnval != null) {
+                        JSONArray jsonArray = returnval.getJSONArray("Table");
+                        if (jsonArray.length() > 0) {
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                            Toast.makeText(context, "" + jsonObject1.getString("Total Amount"), Toast.LENGTH_SHORT).show();
+                            int balc = jsonObject1.getInt("CouponAllocate") - jsonObject1.getInt("TotCouponSold");
+
+                            txt_totalcoupons.setText("" + jsonObject1.getInt("CouponAllocate"));
+                            txtsoldcoupons.setText("" + jsonObject1.getInt("TotCouponSold"));
+                            txtbalancecoupons.setText("" + balc);
+                            txttotalamt.setText("" + jsonObject1.getString("Total Amount"));
+                            txtpaidamt.setText("" + jsonObject1.getString("Paid Amount"));
+                            txtbalanceamt.setText(jsonObject1.getString("Balance Amount"));
+
+
+                        } else {
+
+                        }
+                    }
+                } else {
+                    //showMessage(jsonObject.getString("Message"));
+                }
+
+            } else {
+                Toast.makeText(context, "unable to get userwise coupon details.", Toast.LENGTH_SHORT).show();
+            }
+
+
+        } catch (Exception e) {
+
+        }
+
     }
 }
 

@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.Locale;
@@ -39,9 +40,10 @@ public class HDPSPaymentDeposit extends AppCompatActivity implements HDPSPayment
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     HDPSPaymentDepositAPI api;
-    long mLastClickTime=0;
-    int cnt=0;
+    long mLastClickTime = 0;
+    int cnt = 0;
     TextView textView13;
+    TextView txt_totalcoupons, txtsoldcoupons, txtbalancecoupons, txttotalamt, txtpaidamt, txtbalanceamt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +59,22 @@ public class HDPSPaymentDeposit extends AppCompatActivity implements HDPSPayment
         et_remark = findViewById(R.id.et_remark);
         btn_submit = findViewById(R.id.btnsave);
         textView13 = findViewById(R.id.textView13);
+        txt_totalcoupons = findViewById(R.id.txt_totalcoupons);
+        txtsoldcoupons = findViewById(R.id.txtsoldcoupons);
+        txtbalancecoupons = findViewById(R.id.txtbalancecoupons);
+
+        txttotalamt = findViewById(R.id.txttotalamt);
+        txtpaidamt = findViewById(R.id.txtpaidamt);
+        txtbalanceamt = findViewById(R.id.txtbalanceamt);
+
+
+        pref = this.getSharedPreferences("MyPref", 0);
+        editor = pref.edit();
+        userCode = pref.getString("UserID", null);
         try {
             textView13.setText("" + BuildConfig.VERSION_NAME);
-        }catch (Exception e)
-        {
+            getUserCouponDetails(userCode);
+        } catch (Exception e) {
 
         }
         btn_submit.setOnClickListener(new View.OnClickListener() {
@@ -69,16 +83,36 @@ public class HDPSPaymentDeposit extends AppCompatActivity implements HDPSPayment
                 if (Config.isInternetConnected(context)) {
 
 
-
-                    Log.i("Clickec","Yes"+(cnt++));
+                    Log.i("Clickec", "Yes" + (cnt++));
 
                     submit();
-                }else
-                {
+                } else {
                     showMessage("Internet connection loss.");
                 }
             }
         });
+    }
+
+    public void getUserCouponDetails(String userCode) {
+        try {
+            int versionCode = BuildConfig.VERSION_CODE;
+            String versionName = BuildConfig.VERSION_NAME;
+            String otherData = "-" + versionName + "-" + versionCode;
+            JsonObject jsonObject = new JsonObject();
+
+            jsonObject.addProperty("Mdocode", userCode);//: "string",
+            jsonObject.addProperty("UPIRefNo", "");//: "string",
+            jsonObject.addProperty("Amount", "");//: 0,
+            jsonObject.addProperty("Remark1", "");//: "string",
+            jsonObject.addProperty("Remark2", "");//: "string"
+
+
+            api.getHDPSUserwiseReport(jsonObject);
+
+
+        } catch (Exception e) {
+
+        }
     }
 
     @Override
@@ -136,9 +170,7 @@ public class HDPSPaymentDeposit extends AppCompatActivity implements HDPSPayment
     }
 
     public boolean validateUI() {
-        pref = this.getSharedPreferences("MyPref", 0);
-        editor = pref.edit();
-        userCode = pref.getString("UserID", null);
+
 
         str_amt = et_amt.getText().toString().trim();
         str_trasactionid = et_trasactionid.getText().toString().trim();
@@ -150,7 +182,7 @@ public class HDPSPaymentDeposit extends AppCompatActivity implements HDPSPayment
         } else if (str_amt.equals("")) {
             et_amt.setError("Enter Valid Amount.");
             return false;
-        }  else if (str_trasactionmode.equals("") || str_trasactionmode.toLowerCase().contains("select")) {
+        } else if (str_trasactionmode.equals("") || str_trasactionmode.toLowerCase().contains("select")) {
             Toast.makeText(context, "Select Payment APP ", Toast.LENGTH_SHORT).show();
             return false;
         } else if (str_trasactionid.equals("") || str_trasactionmode.length() < 3) {
@@ -165,8 +197,7 @@ public class HDPSPaymentDeposit extends AppCompatActivity implements HDPSPayment
                 } else {
                     return true;
                 }
-            }catch(NumberFormatException e)
-            {
+            } catch (NumberFormatException e) {
                 et_amt.setError("Valid amount");
 
                 return false;
@@ -194,7 +225,7 @@ public class HDPSPaymentDeposit extends AppCompatActivity implements HDPSPayment
                 JSONObject object = new JSONObject(result.trim());
                 if (object.getBoolean("success")) {
 
-                    showMessage("Thank you ! "+object.getString("Message")+".\nWe will validate this transaction.");
+                    showMessage("Thank you ! " + object.getString("Message") + ".\nWe will validate this transaction.");
                     et_trasactionid.setText("");
                     et_amt.setText("");
                     et_remark.setText("");
@@ -210,5 +241,47 @@ public class HDPSPaymentDeposit extends AppCompatActivity implements HDPSPayment
         } catch (Exception e) {
             showMessage("Data is not is proper format.");
         }
+    }
+
+    @Override
+    public void getHDPSUserwiseReport(String result) {
+        try {
+
+            if (result != null) {
+                JSONObject jsonObject = new JSONObject(result.trim());
+                if (jsonObject.getBoolean("success")) {
+                    JSONObject returnval = jsonObject.getJSONObject("returnval");
+                    if (returnval != null) {
+                        JSONArray jsonArray = returnval.getJSONArray("Table");
+                        if (jsonArray.length() > 0) {
+                            JSONObject jsonObject1 = jsonArray.getJSONObject(0);
+                            Toast.makeText(context, "" + jsonObject1.getString("Total Amount"), Toast.LENGTH_SHORT).show();
+                            int balc = jsonObject1.getInt("CouponAllocate") - jsonObject1.getInt("TotCouponSold");
+
+                            txt_totalcoupons.setText("" + jsonObject1.getInt("CouponAllocate"));
+                            txtsoldcoupons.setText("" + jsonObject1.getInt("TotCouponSold"));
+                            txtbalancecoupons.setText("" + balc);
+                            txttotalamt.setText("" + jsonObject1.getString("Total Amount"));
+                            txtpaidamt.setText("" + jsonObject1.getString("Paid Amount"));
+                            txtbalanceamt.setText(jsonObject1.getString("Balance Amount"));
+
+
+                        } else {
+
+                        }
+                    }
+                } else {
+                    showMessage(jsonObject.getString("Message"));
+                }
+
+            } else {
+                Toast.makeText(context, "unable to get userwise coupon details.", Toast.LENGTH_SHORT).show();
+            }
+
+
+        } catch (Exception e) {
+
+        }
+
     }
 }

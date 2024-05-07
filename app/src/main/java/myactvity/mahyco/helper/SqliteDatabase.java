@@ -42,8 +42,11 @@ import myactvity.mahyco.app.AppConstant;
 
 import static android.content.ContentValues.TAG;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class SqliteDatabase extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 41;/* Update version 40 for Shelling Day and Utpadan Mohatsav*/ /*Updated on 7th September 2021*/
@@ -3200,7 +3203,141 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         return resultSet;
     }
 
+    public synchronized JsonArray getResultsVillageDetailsNew(String Query) {
+        SQLiteDatabase db = getReadableDatabase();
+        JsonObject jsonObjectFinal=new JsonObject();
+        JsonArray resultSet = new JsonArray();
+        JsonArray jsonChild=new JsonArray();
+        try {
+            String myTable = "Table1";//Set name of your table
+          //  String searchQuery = Query;
+            String searchQuery = "select _id,\n" +
 
+                    "0 as id,\n" +
+                    "userCode,\n" +
+                    "selectedPosteringType,\n" +
+                    "focussedVillage,\n" +
+                    "state,\n" +
+                    "district,\n" +
+                    "taluka,\n" +
+                    "othervillage,\n" +
+                    "strMandiName,\n" +
+                    "numberOfSpots,\n" +
+                    "taggedAddress,\n" +
+                    "taggedCordinates,\n" +
+                    "taggedAddressMandiNameStart,\n" +
+                    "taggedCordinatesMandiNameStart,\n" +
+                    "taggedAddressMandiNameEnd,\n" +
+                    "taggedCordinatesMandiNameEnd,\n" +
+                    "finalPopupJson,\n" +
+                    "isSynced,\n" +
+                    "FinalSubmit,\n" +
+                    "EntryDt,\n" +
+                    "villagecode from ATLVillagePosteringData";
+            Cursor cursor = db.rawQuery(searchQuery, null);
+
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false) {
+
+                int totalColumn = cursor.getColumnCount();
+                JsonObject rowObject = new JsonObject();
+
+                for (int i = 0; i < totalColumn; i++) {
+                    if (cursor.getColumnName(i) != null) {
+                        try {
+                            if (cursor.getString(i) != null) {
+                                Log.d("TAG_NAME", cursor.getString(i));
+                                if (cursor.getColumnName(i).equalsIgnoreCase("finalPopupJson")) {
+                                 //   JSONArray jsonArray = new JSONArray(cursor.getString(i));
+                                    JsonParser parser = new JsonParser();
+                                    JsonElement tradeElement = parser.parse(cursor.getString(i));
+                                    JsonArray trade = tradeElement.getAsJsonArray();
+                                    Log.i("ImagePath12 ",trade.get(0).getAsJsonObject().get("activityImgPath").toString());
+                                    trade.get(0).getAsJsonObject().addProperty("activityImgPath",getImageDatadetail(trade.get(0).getAsJsonObject().get("activityImgPath").toString()));
+                                    jsonChild.add(trade);
+                                    rowObject.add("finalPopupJSON",trade);
+                                    Log.i("enter",""+rowObject.toString());
+                                } else {
+                                    rowObject.addProperty(cursor.getColumnName(i), cursor.getString(i));
+                                }
+                            } else {
+                                rowObject.addProperty(cursor.getColumnName(i), "");
+                            }
+                        } catch (Exception e) {
+                            Log.d("TAG_NAME", e.getMessage());
+                        }
+                    }
+
+                }
+                resultSet.add(rowObject);
+                cursor.moveToNext();
+                Log.i("test",rowObject.toString());
+            }
+            cursor.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        // db.close();
+        return resultSet;
+    }
+    public synchronized JsonArray getResultsCropShowNew(String Query) {
+        SQLiteDatabase db = getReadableDatabase();
+        JsonObject jsonObjectFinal=new JsonObject();
+        JsonArray resultSet = new JsonArray();
+        JsonArray jsonChild=new JsonArray();
+        try {
+            String myTable = "Table1";//Set name of your table
+            String searchQuery = Query;
+
+            Cursor cursor = db.rawQuery(searchQuery, null);
+
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false) {
+
+                int totalColumn = cursor.getColumnCount();
+                JsonObject rowObject = new JsonObject();
+
+                for (int i = 0; i < totalColumn; i++) {
+                    if (cursor.getColumnName(i) != null) {
+                        try {
+                            if (cursor.getString(i) != null) {
+                                Log.d("TAG_NAME", cursor.getString(i));
+                                if (cursor.getColumnName(i).equalsIgnoreCase("finalVillageJSON")) {
+                                 //   JSONArray jsonArray = new JSONArray(cursor.getString(i));
+                                    JsonArray outputJsonArray = JsonParser.parseString(cursor.getString(i)).getAsJsonArray();
+                                   /* JsonParser parser = new JsonParser();
+                                    JsonElement tradeElement = parser.parse(cursor.getString(i));
+                                    JsonArray trade = tradeElement.getAsJsonArray();
+                                    Log.i("ImagePath12 ",trade.get(0).getAsJsonObject().get("activityImgPath").toString());
+                                    trade.get(0).getAsJsonObject().addProperty("activityImgPath",getImageDatadetail(trade.get(0).getAsJsonObject().get("activityImgPath").toString()));
+                                    jsonChild.add(trade);*/
+                                    rowObject.add("finalVillageJSON",outputJsonArray);
+                                    Log.i("enter",""+rowObject.toString());
+                                } else {
+                                    rowObject.addProperty(cursor.getColumnName(i), cursor.getString(i));
+                                }
+                            } else {
+                                rowObject.addProperty(cursor.getColumnName(i), "");
+                            }
+                        } catch (Exception e) {
+                            Log.d("TAG_NAME_Error", e.getMessage());
+                        }
+                    }
+
+                }
+                resultSet.add(rowObject);
+                cursor.moveToNext();
+                Log.i("test",rowObject.toString());
+            }
+            cursor.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        // db.close();
+        return resultSet;
+    }
     public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
         String debugTag = "MemoryInformation";
         // Image nin islenmeden onceki genislik ve yuksekligi
@@ -3447,6 +3584,61 @@ public class SqliteDatabase extends SQLiteOpenHelper {
                 str = path;//Base64.encodeToString(cursor.getBlob(cursor.getColumnIndex(colname)),Base64.DEFAULT);
                 // rowObject.put(cursor.getColumnName(i), Base64.encodeToString(cursor.getBlob(i),Base64.DEFAULT));
                 File f = new File(str);
+                Bitmap b = BitmapFactory.decodeFile(f.getAbsolutePath());
+                // original measurements
+                int origWidth = b.getWidth();
+                int origHeight = b.getHeight();
+                final int destWidth = 200;//or the width you need
+                if (origWidth > destWidth) {
+                    // picture is wider than we want it, we calculate its target height
+                    int destHeight = origHeight / (origWidth / destWidth);
+                    // we create an scaled bitmap so it reduces the image, not just trim it
+                    // Bitmap b2 = Bitmap.createScaledBitmap(b, 400, 350, false);
+                    Bitmap b2 = compressImage(str);//scaleBitmap(b,400,400);
+
+
+                    // 70 is the 0-100 quality percentage
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    b2.compress(Bitmap.CompressFormat.JPEG, 60, byteArrayOutputStream);
+                    byte[] byteArray = byteArrayOutputStream.toByteArray();
+                    str = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                } else {
+                    // 70 is the 0-100 quality percentage
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    b.compress(Bitmap.CompressFormat.JPEG, 60, byteArrayOutputStream);
+                    byte[] byteArray = byteArrayOutputStream.toByteArray();
+                    str = Base64.encodeToString(byteArray, Base64.DEFAULT);
+                }
+            }
+
+
+        } catch (Exception e) {
+            Log.d("TAG_NAME", e.getMessage());
+            //Balnk image 64 data
+            str = "iVBORw0KGgoAAAANSUhEUgAAAGQAAABgCAAAAADOGIieAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAAFLaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/Pgo8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjYtYzEzOCA3OS4xNTk4MjQsIDIwMTYvMDkvMTQtMDE6MDk6MDEgICAgICAgICI+CiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiLz4KIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+Cjw/eHBhY2tldCBlbmQ9InIiPz4gSa46AAAEzElEQVRo3u3Y6VMTSRjAYf/O3RJFhAUMYHGICoEgkAnXElgQgqxoRJCoeIBmWUVRUNSEcAQCAYGSSyAqCYI5Z377IUCpJbU4GfbD1vSXnu7pmic9M+873TnCf1COqIiKqIiKqIiKAJdK9PpSYe1QkdamD8vLq66s8CEiUkq0Lpo8zJkkR6v6qcNB1jvMZvO15M6rZrPZktvQat6ntC/KRx5pHg2NDg9NO+x2u93mHLbvUxzP0jvlIssnJZj2Mef59zuSMSwT0b2FqZ5m97POpf2GfPJ6vd6NL/A5Wx4SOQUYCJYGXY59hlguCIIgGHSLkOSVh6TC3G3vk8FJ28A+U8lAEkWRP1+CZkMu4njc2Vtnvdjf2zX3wyFZ0ar5FWhkz+Tx+q1b7wOz9ZNvJnZ7w35/aG9IZrRqGYwF4eFVD2BrH9rps5p0Wm1hffeOkzNms9lsTn1MM4FqfJ7A6Fi0py3r8rjfHwhMXc8xRQBW9NXV1dUVFik2ZLr77/6eh+sACxkdn3fPBaypE9+OjgUhCEQA5hO/efjLmhHlkL2wO/bdVYKJ84ojaTu3Z8U1sRw9mj+pNDJgAGCtrKDRVFT8Nvrm3lIWkTQigDtxDGD2lA2ApE1FkalzABvHd16vSPx7AMOoosjdLgDTk932SCnAYIuiyB92gLS9D8t2EsB4haKIcQQgRdzryI0Ac8XKIg6AxOBXSR54W6oo0toPoN2L+TUNgKNGUeSFCeBR+W67+Q7Avb8URdajx8LtaPPpWREgc07ZiC9wAVBYOAMLhjMhgI+nFU4r279JALjLz5/T7yx/Ti8qnSBb6r4/31GueBZG6PhueZmr/PcE8r/55aYs8TAQelKsvp0n1JdhgUNBWDJnlrY9tN4wZDbNogwSTv1B55r1pqXrR+vJU/JWkKT/zEYncUsecrnz4MaLKrmboPjXBzWmfg3LRfxCnvEgpUar88WwMV2aP1BZUP/2UJGfR0SISLC5Hc1moRCIIoSBjxKiXwwHJALemBDn8VUKeqks1rYAS8fK8hswmPH8wlaWMXtkWptTIGzeyNPrY0HcKRWUvXHmsaVZgZWzkUCa7+JttpKptjB6FCpespn0CV1vDIirqnyuduhuHRgG4X32jD0OU/m1lkSKZthIAGGA8SK40hALUsoZw/D9WtC/gtW0xnondVcXncnoJtk4BsIArgK4bIoBGc+nO/71hyTvbJwflrMBjB34Emgt5146lDyHo+PbqVMxINNGglV2HhcWjQCrwhfgygM28qAp3+iBi29gorjggRqMX8UjIB0icv4maDy8FhiOA3caxn6Allq4V3ih0ruZCbhzi/OuyEfCJ9JB46DyDkK6E9dxhD5gS1syT1sdjaZgMuDSIYbkI9cfVE3TVyMlQ86IgckEyp4B9pqe+3RULhS4vqQCk2efWz3ykXx3eyMrSWuZdFWJyVvTCZQ9B2qsdg0dwlirJRRFnnSvy0bcWc3N53yUlQ1Q0tB0ZmQ2HsNTKUB8Q1OSaKljMEVKkQLS5IVoXpaHtLVCuoP+dM+7OHhR8u4EtcUVDX2lcKmz67xRO/q5sEJofXf695J22UgQiIgQRgoBQUJEQoFgOAJSWAoHJIgEAyHCwUBIjXgVUREVUREV+V8g/wDYLyRpT80RmQAAAABJRU5ErkJggg==";
+
+        }
+        //  }
+
+
+        return str;
+    }
+    public String getImageDatadetailNew(String path,String filename) {
+        String myTable = "Table1";//Set name of your table
+        String str = "";
+        try {
+            if (path != null || path.length() > 0) {
+                str = path;//Base64.encodeToString(cursor.getBlob(cursor.getColumnIndex(colname)),Base64.DEFAULT);
+                // rowObject.put(cursor.getColumnName(i), Base64.encodeToString(cursor.getBlob(i),Base64.DEFAULT));
+                File f = new File(str);
+                String str1=str;
+                String s=str1.replace("\"","").substring(str.lastIndexOf("files")+4);
+                File file = new File(context.getFilesDir()+s);
+                File newf=new File(context.getFilesDir()+"/DCIM/Images/","farmerlistVillageMeetingActivitymh2611714636635951.jpg");
+               Log.i("newf",""+newf.exists());
+                newf=new File("/storage/emulated/0/Android"+context.getFilesDir()+"/DCIM/Images/","farmerlistVillageMeetingActivitymh2611714636635951.jpg");
+                Log.i("newf",""+newf.exists());
+                Log.i("new Filepath",file.getAbsolutePath()+"  "+file.exists()+"   "+context.getFilesDir()+s);
                 Bitmap b = BitmapFactory.decodeFile(f.getAbsolutePath());
                 // original measurements
                 int origWidth = b.getWidth();
@@ -8721,6 +8913,47 @@ public class SqliteDatabase extends SQLiteOpenHelper {
             return false;
         }
     }
+
+    public synchronized JsonArray getResultsVillageMeetingDetailsNew(String Query) {
+        SQLiteDatabase db = getReadableDatabase();
+        JsonArray resultSet = new JsonArray();
+        try {
+            String myTable = "Table1";//Set name of your table
+            String searchQuery = Query;
+            Cursor cursor = db.rawQuery(searchQuery, null);
+
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false) {
+
+                int totalColumn = cursor.getColumnCount();
+                JsonObject rowObject = new JsonObject();
+
+                for (int i = 0; i < totalColumn; i++) {
+                    if (cursor.getColumnName(i) != null) {
+                        try {
+                            if (cursor.getString(i) != null) {
+                                Log.d("TAG_NAME", cursor.getString(i));
+                                rowObject.addProperty(cursor.getColumnName(i), cursor.getString(i));
+                              } else {
+                                rowObject.addProperty(cursor.getColumnName(i), "");
+                            }
+                        } catch (Exception e) {
+                            Log.d("TAG_NAME", e.getMessage());
+                        }
+                    }
+                }
+                resultSet.add(rowObject);
+                cursor.moveToNext();
+            }
+            cursor.close();
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        // db.close();
+        return resultSet;
+    }
+
 
 
 }

@@ -273,11 +273,18 @@ public class UserHome extends AppCompatActivity
         }
 
 
+        lblwelcome.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Intent i = new Intent(UserHome.this, AndroidDatabaseManager.class);
+                startActivity(i);
+                return false;
+            }
+        });
         lblwelcome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent i = new Intent(UserHome.this, AndroidDatabaseManager.class);
-//                startActivity(i);
+
             }
         });
 
@@ -296,7 +303,7 @@ public class UserHome extends AppCompatActivity
                 userCode = userCode.replace(" ", "%20");
                 IME = IME.replace(" ", "%20");
 
-                  new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
+               //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
                //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco");
             } catch (Exception e) {
 

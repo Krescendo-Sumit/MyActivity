@@ -11,5 +11,16 @@ public class RetroConstants {
     public static final String UplaodShellingDay = "generalactivity/uploadShellingDayModel";
     public static final String UplaodUtpadanMohatsav = "generalactivity/uploadUtpadanMohatsav";
 public static final String UploadHDPSPaymentDeposit = "coupon/uploadHDPSPaymentdtls";
+public static final String UplaodPosteringData = "atl/posteringData";
+public static final String GETHDPSUserwiseReport = "coupon/getHDPSUserwiseReport";
+ public static final String UplaodStartTravel = "myTravel/saveStarttravel";
+ public static final String UplaodEndTravel = "myTravel/saveEndtravel";
+ public static final String UplaodRetailerAndDistributor = "myTravel/saveRetaileranddistributordata";
+ public static final String UploadVillageMeeting = "preseason/villageMeeting";
+ public static final String UploadCropShow = "postSeason/cropShowData";
+
+
+    public static final String GETHDPSUserwisePaymentDetails="coupon/getHDPSUserwisedtlReport";
+
 
 }

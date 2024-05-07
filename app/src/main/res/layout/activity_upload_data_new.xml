@@ -122,7 +122,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+                <RadioButton
+                    android:id="@+id/rnd_starttravel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="true"
+                    android:text="Start Travel" />
 
+                <RadioButton
+                    android:id="@+id/rnd_endtravel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="true"
+                    android:text="End Travel" />
+
+                <RadioButton
+                    android:id="@+id/rndRetailerDistributor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:enabled="true"
+                    android:text="Retailer And Distributor" />
                 <RadioButton
                     android:id="@+id/rnd1"
                     android:layout_width="wrap_content"
@@ -159,14 +181,33 @@
             </RadioGroup>
 
 
-            <Button
-                android:id="@+id/btnUpload2"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/rbutton"
-                android:text="Upload data"
-                android:textColor="@color/QRCodeBlackColor" />
+
+                android:orientation="horizontal">
+
+
+                <Button
+                    android:id="@+id/btnUpload2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/rbutton"
+                    android:text="Upload All"
+                    android:layout_weight="1"
+                    android:textColor="@color/QRCodeBlackColor" />
+
+                <Button
+                    android:id="@+id/btnUploadMyTravel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/rbutton"
+                    android:text="Upload Selected"
+                    android:layout_weight="1"
+                    android:textColor="@color/QRCodeBlackColor" />
+            </LinearLayout>
 
 
             <TextView
