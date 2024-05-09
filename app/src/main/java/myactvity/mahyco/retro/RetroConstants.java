@@ -18,6 +18,8 @@ public static final String GETHDPSUserwiseReport = "coupon/getHDPSUserwiseReport
  public static final String UplaodRetailerAndDistributor = "myTravel/saveRetaileranddistributordata";
  public static final String UploadVillageMeeting = "preseason/villageMeeting";
  public static final String UploadCropShow = "postSeason/cropShowData";
+ public static final String UploadFieldBanner = "atl/fieldBannerData";
+ public static final String UploadFieldBoard = "atl/fieldBoardData";
 
 
     public static final String GETHDPSUserwisePaymentDetails="coupon/getHDPSUserwisedtlReport";

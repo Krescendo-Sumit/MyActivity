@@ -1853,6 +1853,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
                     } else if (getTag.equals(getResources().getString(R.string.rndFieldBoard))) {
                         int count2 = 0;
+                        relPRogress.setVisibility(View.GONE);
                         String searchQuery;
                         searchQuery = "select  *  from FieldBoardData where  isSynced ='0' ";
                         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
@@ -1860,7 +1861,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                         cursor.close();
                         //done
                         if (count2 > 0) {
-                            uploadFieldBoardData("MDO_FieldBoardData");
+                            UploadFieldData("");
+
+                            //uploadFieldBoardData("MDO_FieldBoardData");
                         } else {
                             msclass.showMessage("Data not available for uploading");
 
@@ -1871,14 +1874,15 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                     } else if (getTag.equals(getResources().getString(R.string.rndFieldBanner))) {
                         int count3 = 0;
                         String searchQuery;
-
+                        relPRogress.setVisibility(View.GONE);
                         searchQuery = "select  *  from FieldBannerData where  isSynced ='0' ";
                         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
                         count3 = count3 + cursor.getCount();
                         cursor.close();
                         //done
                         if (count3 > 0) {
-                            uploadFieldBannerData("MDO_FieldBannerData");
+                           // uploadFieldBannerData("MDO_FieldBannerData");
+                            uploadFieldBanner("");
                         } else {
                             msclass.showMessage("Data not available for uploading");
                             progressBarVisibility();
@@ -2626,26 +2630,27 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
     public String uploadFieldBanner(String function) {
         String str = "";
         int action = 1;
-        String searchQuery = "select  *  from FieldBannerData where  isSynced ='0'";
+        String searchQuery = "select  *  from FieldBannerData where  isSynced ='0' limit 1";
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
         int count = cursor.getCount();
-        JSONArray jsonArray = new JSONArray();
+        JsonArray jsonArray = new JsonArray();
         if (count > 0) {
             try {
-                jsonArray = mDatabase.getResultsVillageDetails(searchQuery);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = new JSONObject();
-                    String fieldBannerImgName = jsonArray.getJSONObject(i).getString("fieldBannerImgName");
-                    String fieldBannerImgPath = jsonArray.getJSONObject(i).getString("fieldBannerImgPath");
+                jsonArray = mDatabase.getResultsCropShowNew(searchQuery);
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JsonObject jsonObject = new JsonObject();
+                    String fieldBannerImgName = jsonArray.get(i).getAsJsonObject().get("fieldBannerImgName").toString();
+                    String fieldBannerImgPath = jsonArray.get(i).getAsJsonObject().get("fieldBannerImgPath").toString();
 
-                    jsonArray.getJSONObject(i).put("fieldBannerImgPath", mDatabase.getImageDatadetail(fieldBannerImgPath));
-                    String id = jsonArray.getJSONObject(i).getString("_id");
+                    jsonArray.get(i).getAsJsonObject().addProperty("fieldBannerImgPath", mDatabase.getImageDatadetail(fieldBannerImgPath));
+                    String id = jsonArray.get(i).getAsJsonObject().get("_id").toString();
 
-                    jsonObject.put("Table", jsonArray.getJSONObject(i));
+                    jsonObject.add("Table",jsonArray.get(i).getAsJsonObject());
                     Log.d("FieldBannerData", jsonObject.toString());
-                    str = syncFieldBannerDataSingleImage(function, Constants.FIELDBANNER_SERVER_API, jsonObject, fieldBannerImgName, fieldBannerImgPath);
+                    api.uploadFieldBannner(jsonObject,id);
+                   //  str = syncFieldBannerDataSingleImage(function, Constants.FIELDBANNER_SERVER_API, jsonObject, fieldBannerImgName, fieldBannerImgPath);
 
-                    handleFieldBannerDataImageSyncResponse("MDO_FieldBannerData", str, id);
+                   // handleFieldBannerDataImageSyncResponse("MDO_FieldBannerData", str, id);
                 }
 
 
@@ -2656,6 +2661,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             cursor.close();
 
 
+        }else
+        {
+            Toast.makeText(context, "No more data to upload.", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -2774,25 +2782,28 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
     public String UploadFieldData(String function) {
         String str = "";
         int action = 1;
-        String searchQuery = "select  *  from FieldBoardData where  isSynced ='0'";
+        String searchQuery = "select  *  from FieldBoardData where  isSynced ='0' limit 1";
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
         int count = cursor.getCount();
-        JSONArray jsonArray = new JSONArray();
+        JsonArray jsonArray = new JsonArray();
         if (count > 0) {
             try {
-                jsonArray = mDatabase.getResultsVillageDetails(searchQuery);
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    JSONObject jsonObject = new JSONObject();
-                    String fieldBoardImgPathName = jsonArray.getJSONObject(i).getString("fieldBoardImgPathName");
-                    String fieldBoardImgPath = jsonArray.getJSONObject(i).getString("fieldBoardImgPath");
+                jsonArray = mDatabase.getResultsCropShowNew(searchQuery);
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JsonObject jsonObject = new JsonObject();
+                    String fieldBoardImgPathName = jsonArray.get(i).getAsJsonObject().get("fieldBoardImgPathName").toString();
+                    String fieldBoardImgPath = jsonArray.get(i).getAsJsonObject().get("fieldBoardImgPath").toString();
 
-                    jsonArray.getJSONObject(i).put("fieldBoardImgPath", mDatabase.getImageDatadetail(fieldBoardImgPath));
-                    String id = jsonArray.getJSONObject(i).getString("_id");
+                    jsonArray.get(i).getAsJsonObject().addProperty("fieldBoardImgPath", mDatabase.getImageDatadetail(fieldBoardImgPath));
+                    String id = jsonArray.get(i).getAsJsonObject().get("_id").toString();
 
-                    jsonObject.put("Table", jsonArray.getJSONObject(i));
+                    jsonObject.add("Table", jsonArray.get(i).getAsJsonObject());
                     Log.d("FieldBoard", jsonObject.toString());
-                    str = syncFieldBoardDataSingleImage(function, Constants.FIELDBOARD_SERVER_API, jsonObject, fieldBoardImgPathName, fieldBoardImgPath);
-                    handleFieldBoardDataImageSyncResponse("MDO_FieldBoardData", str, id);
+
+                    api.uplaodFieldBoardData(jsonObject,id);
+
+                 //   str = syncFieldBoardDataSingleImage(function, Constants.FIELDBOARD_SERVER_API, jsonObject, fieldBoardImgPathName, fieldBoardImgPath);
+                  //  handleFieldBoardDataImageSyncResponse("MDO_FieldBoardData", str, id);
                 }
 
             } catch (Exception e) {
@@ -2801,6 +2812,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
             cursor.close();
 
+        }else
+        {
+            Toast.makeText(context, "No More data found.", Toast.LENGTH_SHORT).show();
         }
 
         return str;
@@ -9896,6 +9910,86 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public void onFieldBannerDone(String result, String id) {
+        Log.i("Result ",result);
+        try {
+            String Data=result.trim();
+            if(Data!=null||!Data.trim().equals("")||!Data.toLowerCase().trim().equals("null"))
+            {
+                JSONObject json = new JSONObject(Data.trim());
+                if(json.getBoolean("success"))
+                {
+                    Toast.makeText(context, ""+json.getString("message"), Toast.LENGTH_SHORT).show();
+                    uploadFieldBanner("");
+                    mDatabase.UpdateStatus("UPDATE FieldBannerData set  isSynced ='1' where _id= " + id);
+                    recordshowATL();
+                }
+                else
+                {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Something went wrong")
+                            .setMessage("Error :\nId:" +id+"\n"+json.getString("message"))
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+
+                }
+            }else
+            {
+                Toast.makeText(context, ""+Data, Toast.LENGTH_SHORT).show();
+            }
+
+        }catch(Exception e)
+        {
+            Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    @Override
+    public void onFieldBoardDone(String result, String id) {
+        Log.i("Result ",result);
+        try {
+            String Data=result.trim();
+            if(Data!=null||!Data.trim().equals("")||!Data.toLowerCase().trim().equals("null"))
+            {
+                JSONObject json = new JSONObject(Data.trim());
+                if(json.getBoolean("success"))
+                {
+                    Toast.makeText(context, ""+json.getString("message"), Toast.LENGTH_SHORT).show();
+                    UploadFieldData("");
+                    mDatabase.UpdateStatus("UPDATE FieldBoardData set  isSynced ='1' where _id= " + id);
+                    recordshowATL();
+                }
+                else
+                {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Something went wrong")
+                            .setMessage("Error :\nId:" +id+"\n"+json.getString("message"))
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+
+                }
+            }else
+            {
+                Toast.makeText(context, ""+Data, Toast.LENGTH_SHORT).show();
+            }
+
+        }catch(Exception e)
+        {
+            Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+        }
+    }
+
     /*End ---------------------------------------------------------------- */
 }
 

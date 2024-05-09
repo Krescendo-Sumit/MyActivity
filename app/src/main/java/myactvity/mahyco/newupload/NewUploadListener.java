@@ -14,4 +14,8 @@ public interface NewUploadListener {
 
     void onVillageMeetingDone(String result,String id);
     void onCropShowDone(String result,String id);
+
+    void onFieldBannerDone(String result, String id);
+
+    void onFieldBoardDone(String result, String id);
 }

@@ -65,4 +65,10 @@ Call<String> syncTraveldata(@Field("Type") String mdo_travelData, @Field("encode
 
     @POST(RetroConstants.UploadCropShow)
     Call<String> uploadCropShow(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.UploadFieldBanner)
+    Call<String> uploadFieldBanner(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.UploadFieldBoard)
+    Call<String> uploadFieldBoard(@Body JsonObject jsonObject);
 }
