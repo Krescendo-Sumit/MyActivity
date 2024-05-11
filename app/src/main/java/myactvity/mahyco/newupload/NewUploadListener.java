@@ -18,4 +18,10 @@ public interface NewUploadListener {
     void onFieldBannerDone(String result, String id);
 
     void onFieldBoardDone(String result, String id);
+
+    void onMarketDayDone(String result, String id);
+
+    void onExhibitionDone(String result, String id);
+
+    void onPosteringDone(String result, String id);
 }

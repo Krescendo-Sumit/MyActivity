@@ -429,4 +429,151 @@ public class NewUplaodAPI {
         } catch (Exception e) {
         }
     }
+
+    public void UploadMarketDayData(JsonObject jsonObject, String id) {
+        try {
+            if (!progressDialog.isShowing())
+                progressDialog.show();
+
+            Call<String> call = null;
+            call = RetrofitClient.getInstance().getMyApi().uploadMarketDay(jsonObject);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+
+                    if (response.body() != null) {
+                        String result = response.body();
+                        try {
+                            newUploadListener.onMarketDayDone(result,id);
+                        } catch (NullPointerException e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    Log.e("Error is", t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
+
+    public void uploadExhibition(JsonObject jsonObject, String id) {
+        try {
+            if (!progressDialog.isShowing())
+                progressDialog.show();
+
+            Call<String> call = null;
+            call = RetrofitClient.getInstance().getMyApi().uploadExhibition(jsonObject);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+
+                    if (response.body() != null) {
+                        String result = response.body();
+                        try {
+                            newUploadListener.onExhibitionDone(result,id);
+                        } catch (NullPointerException e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    Log.e("Error is", t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
+
+    public void uploadPosteringData(JsonObject jsonObject, String id) {
+        try {
+            if (!progressDialog.isShowing())
+                progressDialog.show();
+
+            Call<String> call = null;
+            call = RetrofitClient.getInstance().getMyApi().uploadPosteringData(jsonObject);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+
+                    if (response.body() != null) {
+                        String result = response.body();
+                        try {
+                            newUploadListener.onPosteringDone(result,id);
+                        } catch (NullPointerException e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    Log.e("Error is", t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
+    public void uploadPosteringDataOld(JSONObject jsonObject, String id) {
+        try {
+            if (!progressDialog.isShowing())
+                progressDialog.show();
+
+            Call<String> call = null;
+            call = RetrofitClient.getInstance().getMyApi().uploadPosteringDataOld(jsonObject);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+
+                    if (response.body() != null) {
+                        String result = response.body();
+                        try {
+                            newUploadListener.onPosteringDone(result,id);
+                        } catch (NullPointerException e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    Log.e("Error is", t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
 }

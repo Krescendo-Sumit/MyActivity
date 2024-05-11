@@ -1836,6 +1836,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                 if (getTag != null) {
                     if (getTag.equals(getResources().getString(R.string.rndPostering))) {
                         int count = 0;
+                        relPRogress.setVisibility(View.GONE);
                         String searchQuery = "";
                         searchQuery = "select  *  from ATLVillagePosteringData where isSynced ='0' ";
                         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
@@ -1844,7 +1845,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                         //done
                         if (count > 0) {
                            // upload_newposteringData();
-                            uploadDataPostering("ATLVillagePosteringData");
+                          //  uploadATLVillagePosteringData("");
+                            uploadATLVillagePosteringDataOld("");
+                            //uploadDataPostering("ATLVillagePosteringData");
                         } else {
                             msclass.showMessage("Data not available for uploading");
                             progressBarVisibility();
@@ -1922,6 +1925,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
                     } else if (getTag.equals(getResources().getString(R.string.rndExhibition))) {
                         int count6 = 0;
+                        relPRogress.setVisibility(View.GONE);
                         String searchQuery;
                         searchQuery = "select  *  from ATLExhibitionData where  isSynced ='0' ";
                         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
@@ -1929,7 +1933,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                         cursor.close();
                         //done
                         if (count6 > 0) {
-                            uploadEXhibitionDataServer("mdo_ATLExhibitionData");
+                            uploadATLExhibitionData("");
+                           // uploadEXhibitionDataServer("mdo_ATLExhibitionData");
                         } else {
                             msclass.showMessage("Data not available for uploading");
                             progressBarVisibility();
@@ -1939,13 +1944,15 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                     } else if (getTag.equals(getResources().getString(R.string.rndMarketDay))) {
                         int count9 = 0;
                         String searchQuery;
+                        relPRogress.setVisibility(View.GONE);
                         searchQuery = "select  *  from ATLMarketDayData where  isSynced ='0' ";
                         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
                         count9 = count9 + cursor.getCount();
                         cursor.close();
                         //done
                         if (count9 > 0) {
-                            uploadMarketDataServer("MDO_ATLMarketDayData");
+                            uploadATLMarketDayData("");
+                            //uploadMarketDataServer("MDO_ATLMarketDayData");
                         } else {
                             msclass.showMessage("Data not available for uploading");
                             progressBarVisibility();
@@ -2153,36 +2160,40 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         String str = "";
         int action = 1;
 
-        String searchQuery = "select  *  from ATLMarketDayData where  isSynced ='0'";
+        String searchQuery = "select  *  from ATLMarketDayData where  isSynced ='0' limit 1";
 
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
 
         int count = cursor.getCount();
-        JSONArray jsonArray = new JSONArray();
+        JsonArray jsonArray = new JsonArray();
         if (count > 0) {
 
 
             try {
-                jsonArray = mDatabase.getResultsVillageDetails(searchQuery);
+                jsonArray = mDatabase.getResultsCropShowNew(searchQuery);
 
-                for (int i = 0; i < jsonArray.length(); i++) {
+                for (int i = 0; i < jsonArray.size(); i++) {
 
-                    JSONObject jsonObject = new JSONObject();
-                    String activityImgName = jsonArray.getJSONObject(i).getString("activityImgName");
-                    String activityImgPath = jsonArray.getJSONObject(i).getString("activityImgPath");
+                    JsonObject jsonObject = new JsonObject();
+                    String activityImgName = jsonArray.get(i).getAsJsonObject().get("activityImgName").toString();
+                    String activityImgPath = jsonArray.get(i).getAsJsonObject().get("activityImgPath").toString();
 
-                    jsonArray.getJSONObject(i).put("activityImgPath", mDatabase.getImageDatadetail(activityImgPath));
-                    String id = jsonArray.getJSONObject(i).getString("_id");
+                    jsonArray.get(i).getAsJsonObject().addProperty("activityImgPath", mDatabase.getImageDatadetail(activityImgPath));
+                    String id = jsonArray.get(i).getAsJsonObject().get("_id").toString();
 
-                    jsonObject.put("Table", jsonArray.getJSONObject(i));
+                    jsonObject.add("Table", jsonArray.get(i).getAsJsonObject());
                     Log.d("ATLMarketDayData", jsonObject.toString());
-                    str = syncATLMarketDayDataSingleImage(atlMarketDayData, Constants.MARKETDAY_SERVER_API, jsonObject, activityImgName, activityImgPath);
-                    handleATLMarketDayDataImageSyncResponse("MDO_ATLMarketDayData", str, id);
+                    api.UploadMarketDayData(jsonObject,id);
+                 //   str = syncATLMarketDayDataSingleImage(atlMarketDayData, Constants.MARKETDAY_SERVER_API, jsonObject, activityImgName, activityImgPath);
+                 //   handleATLMarketDayDataImageSyncResponse("MDO_ATLMarketDayData", str, id);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
             cursor.close();
+        }else
+        {
+            Toast.makeText(context, "No More Data Found.", Toast.LENGTH_SHORT).show();
         }
         return str;
     }
@@ -2283,37 +2294,42 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         int action = 1;
 
 
-        String searchQuery = "select  *  from ATLExhibitionData where  isSynced ='0'";
+        String searchQuery = "select  *  from ATLExhibitionData where  isSynced ='0' limit 1";
 
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
 
         int count = cursor.getCount();
-        JSONArray jsonArray = new JSONArray();
+        JsonArray jsonArray = new JsonArray();
         if (count > 0) {
 
 
             try {
-                jsonArray = mDatabase.getResultsVillageDetails(searchQuery);
+                jsonArray = mDatabase.getResultsCropShowNew(searchQuery);
 
-                for (int i = 0; i < jsonArray.length(); i++) {
+                for (int i = 0; i < jsonArray.size(); i++) {
 
-                    JSONObject jsonObject = new JSONObject();
-                    String activityImgName = jsonArray.getJSONObject(i).getString("activityImgName");
-                    String activityImgPath = jsonArray.getJSONObject(i).getString("activityImgPath");
+                    JsonObject jsonObject = new JsonObject();
+                    String activityImgName = jsonArray.get(i).getAsJsonObject().get("activityImgName").toString();
+                    String activityImgPath = jsonArray.get(i).getAsJsonObject().get("activityImgPath").toString();
 
-                    jsonArray.getJSONObject(i).put("activityImgPath", mDatabase.getImageDatadetail(activityImgPath));
-                    String id = jsonArray.getJSONObject(i).getString("_id");
+                    jsonArray.get(i).getAsJsonObject().addProperty("activityImgPath", mDatabase.getImageDatadetail(activityImgPath));
+                    String id = jsonArray.get(i).getAsJsonObject().get("_id").toString();
 
-                    jsonObject.put("Table", jsonArray.getJSONObject(i));
+                    jsonObject.add("Table", jsonArray.get(i).getAsJsonObject());
                     Log.d("ATLExhibitionData", jsonObject.toString());
-                    str = syncATLExhibitionDataSingleImage(atlExhibitionData, Constants.EXHIBITION_SERVER_API, jsonObject, activityImgName, activityImgPath);
+                      api.uploadExhibition(jsonObject,id);
 
-                    handleATLExhibitionDataImageSyncResponse("mdo_ATLExhibitionData", str, id);
+                    //                    str = syncATLExhibitionDataSingleImage(atlExhibitionData, Constants.EXHIBITION_SERVER_API, jsonObject, activityImgName, activityImgPath);
+
+  //                  handleATLExhibitionDataImageSyncResponse("mdo_ATLExhibitionData", str, id);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
             cursor.close();
+        }else
+        {
+            Toast.makeText(context, "No More Data Found.", Toast.LENGTH_SHORT).show();
         }
         return str;
     }
@@ -2955,7 +2971,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
     }
 
-    public String uploadATLVillagePosteringData(String atlVillagePosteringData) {
+    public String uploadATLVillagePosteringDataOld(String atlVillagePosteringData) {
         String str = "";
         int action = 1;
 
@@ -2982,18 +2998,72 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
                         String imgPath = jsonArrayPop.getJSONObject(j).getString("activityImgPath");
                         Log.d("imgPath", imgPath);
-                     //   jsonArrayPop.getJSONObject(j).put("activityImgPath", mDatabase.getImageDatadetail(imgPath));
-                        jsonArrayPop.getJSONObject(j).put("activityImgPath", "Base64");
+                        jsonArrayPop.getJSONObject(j).put("activityImgPath", mDatabase.getImageDatadetail(imgPath));
                     }
 
 
                     jsonObject.put("Table", jsonArray.getJSONObject(i));
                     Log.d("ATLVillagePosteringData", jsonObject.toString());
                     if (!jsonObject.toString().isEmpty()) {
-                        str = syncATLVillagePosteringDataSingleImage(atlVillagePosteringData, Constants.POSTERING_SERVER_API, jsonObject);
+                        api.uploadPosteringDataOld(jsonObject,id);
+                     //   str = syncATLVillagePosteringDataSingleImage(atlVillagePosteringData, Constants.POSTERING_SERVER_API, jsonObject);
+                        // handleATLVillagePosteringDataDetailsImageSyncResponse("ATLVillagePosteringDataDetails", str);
+                     //   handleATLVillagePosteringDataSyncResponse("ATLVillagePosteringData", str, id);
+                    } else {
+
+                        alertPoorConnection();
+                    }
+                }
+            } catch (Exception e) {
+
+                e.printStackTrace();
+
+            }
+            cursor.close();
+        }
+        return str;
+    }
+   public String uploadATLVillagePosteringData(String atlVillagePosteringData) {
+        String str = "";
+        int action = 1;
+
+
+        String searchQuery = "select * from ATLVillagePosteringData where isSynced ='0' limit 1 ";
+
+        Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+
+        int count = cursor.getCount();
+        JsonArray jsonArray = new JsonArray();
+        if (count > 0) {
+            try {
+                jsonArray = mDatabase.getResultsCropShowNew(searchQuery);
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JsonObject jsonObject = new JsonObject();
+
+                    String finalPopupJson = jsonArray.get(i).getAsJsonObject().get("finalPopupJson").toString();
+
+                    JsonArray jsonArrayPop = JsonParser.parseString(finalPopupJson).getAsJsonArray();
+                   // JsonArray jsonArrayPop = jsonArray.get(i).getAsJsonObject().getAsJsonArray("finalPopupJson");
+                    jsonArray.get(i).getAsJsonObject().add("finalPopupJson", jsonArrayPop);
+
+                    String id = jsonArray.get(i).getAsJsonObject().get("_id").toString();
+                    for (int j = 0; j < jsonArrayPop.size(); j++) {
+
+                        String imgPath = jsonArrayPop.get(j).getAsJsonObject().get("activityImgPath").toString();
+                        Log.d("imgPath", imgPath);
+                        jsonArrayPop.get(j).getAsJsonObject().addProperty("activityImgPath", mDatabase.getImageDatadetail(imgPath));
+                     //   jsonArrayPop.getJSONObject(j).put("activityImgPath", "Base64");
+                    }
+
+
+                    jsonObject.add("Table", jsonArray.get(i).getAsJsonObject());
+                    Log.d("ATLVillagePosteringData", jsonObject.toString());
+                    if (!jsonObject.toString().isEmpty()) {
+                        api.uploadPosteringData(jsonObject,id);
+                       /* str = syncATLVillagePosteringDataSingleImage(atlVillagePosteringData, Constants.POSTERING_SERVER_API, jsonObject);
                         // handleATLVillagePosteringDataDetailsImageSyncResponse("ATLVillagePosteringDataDetails", str);
                         handleATLVillagePosteringDataSyncResponse("ATLVillagePosteringData", str, id);
-                    } else {
+                  */  } else {
 
                         alertPoorConnection();
                     }
@@ -9964,6 +10034,122 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                     Toast.makeText(context, ""+json.getString("message"), Toast.LENGTH_SHORT).show();
                     UploadFieldData("");
                     mDatabase.UpdateStatus("UPDATE FieldBoardData set  isSynced ='1' where _id= " + id);
+                    recordshowATL();
+                }
+                else
+                {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Something went wrong")
+                            .setMessage("Error :\nId:" +id+"\n"+json.getString("message"))
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+
+                }
+            }else
+            {
+                Toast.makeText(context, ""+Data, Toast.LENGTH_SHORT).show();
+            }
+
+        }catch(Exception e)
+        {
+            Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+  @Override
+    public void onMarketDayDone(String result, String id) {
+        Log.i("Result ",result);
+        try {
+            String Data=result.trim();
+            if(Data!=null||!Data.trim().equals("")||!Data.toLowerCase().trim().equals("null"))
+            {
+                JSONObject json = new JSONObject(Data.trim());
+                if(json.getBoolean("success"))
+                {
+                    Toast.makeText(context, ""+json.getString("message"), Toast.LENGTH_SHORT).show();
+                    uploadATLMarketDayData("");
+                    mDatabase.UpdateStatus("UPDATE ATLMarketDayData set isSynced ='1' where _id= " + id);
+                    recordshowATL();
+                }
+                else
+                {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Something went wrong")
+                            .setMessage("Error :\nId:" +id+"\n"+json.getString("message"))
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+
+                }
+            }else
+            {
+                Toast.makeText(context, ""+Data, Toast.LENGTH_SHORT).show();
+            }
+
+        }catch(Exception e)
+        {
+            Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+        }
+    }
+  @Override
+    public void onExhibitionDone(String result, String id) {
+        Log.i("Result ",result);
+        try {
+            String Data=result.trim();
+            if(Data!=null||!Data.trim().equals("")||!Data.toLowerCase().trim().equals("null"))
+            {
+                JSONObject json = new JSONObject(Data.trim());
+                if(json.getBoolean("success"))
+                {
+                    Toast.makeText(context, ""+json.getString("message"), Toast.LENGTH_SHORT).show();
+                     uploadATLExhibitionData("");
+                     mDatabase.UpdateStatus("UPDATE ATLExhibitionData set isSynced ='1' where _id= " + id);
+                    recordshowATL();
+                }
+                else
+                {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Something went wrong")
+                            .setMessage("Error :\nId:" +id+"\n"+json.getString("message"))
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+
+                }
+            }else
+            {
+                Toast.makeText(context, ""+Data, Toast.LENGTH_SHORT).show();
+            }
+
+        }catch(Exception e)
+        {
+            Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+@Override
+    public void onPosteringDone(String result, String id) {
+        Log.i("Result ",result);
+        try {
+            String Data=result.trim();
+            if(Data!=null||!Data.trim().equals("")||!Data.toLowerCase().trim().equals("null"))
+            {
+                JSONObject json = new JSONObject(Data.trim());
+                if(json.getBoolean("success"))
+                {
+                    Toast.makeText(context, ""+json.getString("message"), Toast.LENGTH_SHORT).show();
+                     //uploadATLVillagePosteringData("");
+                   //  mDatabase.UpdateStatus("UPDATE ATLVillagePosteringData set isSynced ='1' where _id= " + id);
                     recordshowATL();
                 }
                 else
