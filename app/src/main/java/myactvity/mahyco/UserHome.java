@@ -103,6 +103,7 @@ import myactvity.mahyco.app.Constants;
 import myactvity.mahyco.app.Prefs;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.newupload.SetAlarmActivity;
 import myactvity.mahyco.newupload.UploadDataNew;
 
 public class UserHome extends AppCompatActivity
@@ -303,7 +304,7 @@ public class UserHome extends AppCompatActivity
                 userCode = userCode.replace(" ", "%20");
                 IME = IME.replace(" ", "%20");
 
-               //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
+                new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
                //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco");
             } catch (Exception e) {
 
@@ -589,6 +590,23 @@ public class UserHome extends AppCompatActivity
 
             return true;
         }
+
+        if (id == R.id.action_setalram) {
+            /*ToDo comment later, before upload, 6th Sept 2021*/
+
+            /*Intent i = new Intent(this, AndroidDatabaseManager.class);
+            startActivity(i);*/
+
+            try {
+                Intent i = new Intent(this, SetAlarmActivity.class);
+                startActivity(i);
+            } catch (Exception e) {
+
+            }
+
+            return true;
+        }
+
         if (id == R.id.action_exportdata) {
             try {
 

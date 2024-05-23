@@ -22,6 +22,7 @@ public static final String GETHDPSUserwiseReport = "coupon/getHDPSUserwiseReport
  public static final String UploadFieldBoard = "atl/fieldBoardData";
  public static final String UploadMarketDay = "atl/atlMarketDayData";
  public static final String UplaodExhibition = "atl/atlExhibitionData";
+ public static final String UploadReviewMeeting = "generalactivity/reviewMeeting";
 
 
     public static final String GETHDPSUserwisePaymentDetails="coupon/getHDPSUserwisedtlReport";

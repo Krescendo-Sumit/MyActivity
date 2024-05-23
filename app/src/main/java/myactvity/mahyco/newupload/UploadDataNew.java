@@ -728,7 +728,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                         cursor.close();
                         // add params
                         if (count5 > 0) {
-                            uploadReviewMeetingData("ReviewMeetingData");
+
+                            uploadReviewMeeting("ReviewMeetingData");
                         } else {
                             msclass.showMessage("Data not available for uploading");
                             progressBarVisibility();
@@ -1050,18 +1051,20 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         String searchQuery = "select  *  from ReviewMeetingData where  isSynced ='0'";
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
         int count = cursor.getCount();
-        JSONArray jsonArray = new JSONArray();
+        JsonArray jsonArray = new JsonArray();
         if (count > 0) {
             try {
-                jsonArray = mDatabase.getResultsVillageDetails(searchQuery);
+                jsonArray = mDatabase.getResultsCropShowNew(searchQuery);
 
 //                for (int i = 0; i < jsonArray.length(); i++) {
 
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("Table", jsonArray);
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.add("Table", jsonArray);
                 Log.d("ReviewMeetingData", jsonObject.toString());
-                str = syncReviewMeetingData(funname, Constants.REVIEWMEETING_SERVER_API, jsonObject);
-                handleReviewMeetingDataSyncResponse(funname, str);
+
+                api.uplaodReviewMeeting(jsonObject);
+             //   str = syncReviewMeetingData(funname, Constants.REVIEWMEETING_SERVER_API, jsonObject);
+            //    handleReviewMeetingDataSyncResponse(funname, str);
                 //}
             } catch (Exception e) {
                 e.printStackTrace();
@@ -2976,7 +2979,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         int action = 1;
 
 
-        String searchQuery = "select * from ATLVillagePosteringData where isSynced ='0' ";
+        String searchQuery = "select * from ATLVillagePosteringData where isSynced ='0' limit 1 ";
 
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
 
@@ -3005,13 +3008,16 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                     jsonObject.put("Table", jsonArray.getJSONObject(i));
                     Log.d("ATLVillagePosteringData", jsonObject.toString());
                     if (!jsonObject.toString().isEmpty()) {
-                        api.uploadPosteringDataOld(jsonObject,id);
+                        JsonParser jsonParser = new JsonParser();
+                        JsonObject jsonObject1 = (JsonObject)jsonParser.parse(jsonObject.toString());
+                       // api.uploadPosteringDataOld(jsonObject,id);
+                        api.uploadPosteringData(jsonObject1,id);
                      //   str = syncATLVillagePosteringDataSingleImage(atlVillagePosteringData, Constants.POSTERING_SERVER_API, jsonObject);
                         // handleATLVillagePosteringDataDetailsImageSyncResponse("ATLVillagePosteringDataDetails", str);
                      //   handleATLVillagePosteringDataSyncResponse("ATLVillagePosteringData", str, id);
                     } else {
 
-                        alertPoorConnection();
+                        Toast.makeText(context, "Entri Mismatch", Toast.LENGTH_SHORT).show();
                     }
                 }
             } catch (Exception e) {
@@ -3020,6 +3026,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
             }
             cursor.close();
+        }else
+        {
+            Toast.makeText(context, "No More Data Found", Toast.LENGTH_SHORT).show();
         }
         return str;
     }
@@ -10148,8 +10157,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                 if(json.getBoolean("success"))
                 {
                     Toast.makeText(context, ""+json.getString("message"), Toast.LENGTH_SHORT).show();
-                     //uploadATLVillagePosteringData("");
-                   //  mDatabase.UpdateStatus("UPDATE ATLVillagePosteringData set isSynced ='1' where _id= " + id);
+                    uploadATLVillagePosteringDataOld("");
+                    mDatabase.UpdateStatus("UPDATE ATLVillagePosteringData set isSynced ='1' where _id= " + id);
                     recordshowATL();
                 }
                 else
@@ -10157,6 +10166,43 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                     new AlertDialog.Builder(context)
                             .setTitle("Something went wrong")
                             .setMessage("Error :\nId:" +id+"\n"+json.getString("message"))
+                            .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+
+                }
+            }else
+            {
+                Toast.makeText(context, ""+Data, Toast.LENGTH_SHORT).show();
+            }
+
+        }catch(Exception e)
+        {
+            Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+        }
+    }
+@Override
+    public void onReviewMeeting(String result) {
+        Log.i("Result ",result);
+        try {
+            String Data=result.trim();
+            if(Data!=null||!Data.trim().equals("")||!Data.toLowerCase().trim().equals("null"))
+            {
+                JSONObject json = new JSONObject(Data.trim());
+                if(json.getBoolean("success"))
+                {
+                    Toast.makeText(context, ""+json.getString("message"), Toast.LENGTH_SHORT).show();
+                   mDatabase.UpdateStatus("UPDATE ReviewMeetingData set isSynced ='1'");
+                   recordshowGeneral();
+                }
+                else
+                {
+                    new AlertDialog.Builder(context)
+                            .setTitle("Something went wrong")
+                            .setMessage("Error :\n"+json.getString("message"))
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {

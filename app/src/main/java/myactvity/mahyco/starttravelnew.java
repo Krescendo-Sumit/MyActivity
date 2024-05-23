@@ -2,6 +2,7 @@ package myactvity.mahyco;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
 import android.content.Context;
@@ -62,6 +63,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
@@ -93,7 +96,11 @@ import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.PostsDatabaseHelper;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.retro.RetrofitClient;
 import myactvity.mahyco.utils.BitmapHelper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
@@ -151,6 +158,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
     private   String queryImageUrl = "";
     private String Imagename="";
     PostsDatabaseHelper databaseHelper;
+    ProgressDialog progressDialog;
 
     public starttravelnew() {
         // Required empty public constructor
@@ -166,8 +174,10 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
         // Get singleton instance of database
         //databaseHelper = PostsDatabaseHelper.getInstance(this);
 
-
         context=this;
+        Toast.makeText(context, "Hi Start Travel", Toast.LENGTH_SHORT).show();
+        progressDialog=new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
         confing=new Config(context);
         cx=new CommonExecution(context);
         initUI();
@@ -304,7 +314,6 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
         btnstUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 saveStarttravel();
 
@@ -1341,6 +1350,29 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                         txtkm.setText("");
                         txtlocation.setText("");
                         btnstUpdate.setVisibility(View.INVISIBLE);
+
+                        if(Config.isInternetConnected(context))
+                        {
+                            uploadStarTravel();
+                           /* new androidx.appcompat.app.AlertDialog.Builder(context)
+                                    .setTitle("Upload Start Travel")
+                                    .setMessage("Do you want to upload start travel?")
+                                    .setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+
+                                        }
+                                    })
+                                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            dialogInterface.dismiss();
+                                        }
+                                    }).show();*/
+                        }
+
+
                     }
                     else
                     {
@@ -1378,6 +1410,125 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             msclass.showMessage(ex.getMessage());
         }
     }
+    void uploadStarTravel() {
+        try{
+            String searchQuery12 = "select  *  from  mdo_starttravel where Status='0'";
+            Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
+            int count = cursor.getCount();
+            if(count>0) {
+                JsonArray jsonArray;
+
+                String searchQuery = "select _id,mdocode,coordinate,startaddress,startdate,dist,taluka,village,imgname||'.jpg' as imgname,imgpath as imgpath1,Status,txtkm,place,imgstatus,vehicletype,datetime() as entrydate,replace(date('now'),'-','') as sdate from mdo_starttravel where Status='0'";
+                jsonArray = mDatabase.getResultsRetro(searchQuery);
+
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                    Log.i("Image path", jsonObject.get("imgpath1").toString().replace("\"", ""));
+                    jsonObject.addProperty("imgpath", mDatabase.getImageDatadetail(jsonObject.get("imgpath1").toString().replace("\"", "")));
+                }
+                JsonObject jsonFinal = new JsonObject();
+                jsonFinal.add("starttravelModels", jsonArray);
+                uploadStartTravel(jsonFinal);
+                Log.i("Strat Travel ", jsonArray.toString());
+
+            }else
+            {
+                Toast.makeText(context, "No Data for upload.", Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e)
+        {
+
+        }
+    }
+    void uploadStartTravel(JsonObject jsonObject) {
+
+        try {
+            if (!progressDialog.isShowing())
+                progressDialog.show();
+
+            Call<String> call = null;
+            call = RetrofitClient.getInstance().getMyApi().uploadStartTravel(jsonObject);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+
+                    if (response.body() != null) {
+                        String result = response.body();
+                        try {
+                            try{
+                                JSONObject jsonObject=new JSONObject(result);
+                                if(jsonObject.getBoolean("ResultFlag")) {
+                                    if (jsonObject.getString("status").toLowerCase().contains("success")) {
+                                        String qq1="update mdo_starttravel set Status='1',imgstatus='1' where Status='0'";
+
+                                        mDatabase.UpdateStatus(qq1);
+
+                                        new androidx.appcompat.app.AlertDialog.Builder(context)
+                                                .setMessage(jsonObject.getString("Comment"))
+                                                .setTitle(jsonObject.getString("status"))
+                                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+
+                                                    }
+                                                })
+                                                .show();
+                                    } else {
+                                        new androidx.appcompat.app.AlertDialog.Builder(context)
+                                                .setMessage(jsonObject.getString("Comment"))
+                                                .setTitle(jsonObject.getString("status"))
+                                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+
+                                                    }
+                                                })
+                                                .show();
+                                    }
+                                }else
+                                {
+
+                                }
+
+                            }catch (Exception e)
+                            {
+                                new androidx.appcompat.app.AlertDialog.Builder(context)
+                                        .setMessage("Something went wrong.")
+                                        .setTitle("Exception")
+                                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        })
+                                        .show();
+                            }
+                        } catch (NullPointerException e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    Log.e("Error is", t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+        }
+
+
+    }
+
     private boolean turnGPSOn(){
         boolean flag=false;
         //boolean flag=true;

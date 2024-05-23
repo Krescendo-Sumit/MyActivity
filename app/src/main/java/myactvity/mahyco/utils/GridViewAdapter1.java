@@ -528,9 +528,8 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                                 }*/
                                 
                                 // This code is commented to redirect to Glass run application
-                         /* 
-                                
-                                intent = new Intent(context.getApplicationContext(), saleOrderDashboard.class);
+
+                             /*   intent = new Intent(context.getApplicationContext(), saleOrderDashboard.class);
                                 //intent= new Intent(context.getApplicationContext(),TestImage.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 //intent.putExtra("Pagetype", "PlotVisit");

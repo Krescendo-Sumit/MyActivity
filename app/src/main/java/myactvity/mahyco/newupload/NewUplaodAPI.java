@@ -576,4 +576,41 @@ public class NewUplaodAPI {
         } catch (Exception e) {
         }
     }
+
+    public void uplaodReviewMeeting(JsonObject jsonObject) {
+        try {
+            if (!progressDialog.isShowing())
+                progressDialog.show();
+
+            Call<String> call = null;
+            call = RetrofitClient.getInstance().getMyApi().uploadReviewMeeting(jsonObject);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+
+                    if (response.body() != null) {
+                        String result = response.body();
+                        try {
+                            newUploadListener.onReviewMeeting(result);
+                        } catch (NullPointerException e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    Log.e("Error is", t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
 }

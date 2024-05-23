@@ -24,4 +24,6 @@ public interface NewUploadListener {
     void onExhibitionDone(String result, String id);
 
     void onPosteringDone(String result, String id);
+
+    void onReviewMeeting(String result);
 }
