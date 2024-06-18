@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -75,20 +76,20 @@ import myactvity.mahyco.wawActivity;
 /**
  * Created by Belal on 12/22/2015.
  */
-public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.ViewHolder>{
+public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.ViewHolder> {
 
-    String [] result;
-    String [] imageId;
-    String [] ActivityName;
-    List fraglist,acty;
-    String From ;
+    String[] result;
+    String[] imageId;
+    String[] ActivityName;
+    List fraglist, acty;
+    String From;
     Config config;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
     private SqliteDatabase mDatabase;
     Messageclass msclass;
-    private static LayoutInflater inflater=null;
+    private static LayoutInflater inflater = null;
     //Context
     private Context context;
 
@@ -105,14 +106,14 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
     public GridViewAdapter1(Context context, String[] prgmNameList, String[] ImageList, String[] ActivityName, String From, List fraglist) //, int[] prgmImages)
     {
         // TODO Auto-generated constructor stub
-        this.result=prgmNameList;
-        this.context=context;
-        this.imageId=ImageList;
-        this.From =From;
-        this.ActivityName=ActivityName;
+        this.result = prgmNameList;
+        this.context = context;
+        this.imageId = ImageList;
+        this.From = From;
+        this.ActivityName = ActivityName;
         mDatabase = SqliteDatabase.getInstance(context);
         config = new Config(context); //Here the context is passing
-        inflater = ( LayoutInflater )context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         msclass = new Messageclass(context);
         pref = context.getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = pref.edit();
@@ -143,26 +144,25 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
     public void onBindViewHolder(GridViewAdapter1.ViewHolder holder, final int position) {
         View rowView;
         // rowView = inflater.inflate(R.layout.programlist, parent, false);
-        try
-        {
+        try {
             //  Holder holder=new Holder();
             //  holder.tv=(TextView) rowView.findViewById(R.id.textView1);
             // holder.img=(ImageView) rowView.findViewById(R.id.imageView1);
             /*Typeface face = Typeface.createFromAsset(context.getAssets(),
                     "fonts/JosefinSans-Regular.ttf");
             holder.tv.setTypeface(face);*/
-            Utility.setRegularFont(holder.tv,context);
+            Utility.setRegularFont(holder.tv, context);
             holder.tv.setText(result[position]);
             //  Toast.makeText(context,"4554" , Toast.LENGTH_LONG).show();
-            if (From =="UserHome") {
+            if (From == "UserHome") {
                 //  holder.tv.setTextColor(Color.parseColor("#000000"));
                 // holder.tv.setBackgroundResource(android.R.color.transparent);
                 // holder.tv.setTextSize(15);
-                String [] colorlist={"#5cffba","#ff6a72","#dd99ff","#ff7715","#ffcf2d"};
+                String[] colorlist = {"#5cffba", "#ff6a72", "#dd99ff", "#ff7715", "#ffcf2d"};
                 // holder.img.setBackgroundColor(Color.parseColor(colorlist[position]));
                 holder.tv.setTextColor(Color.parseColor("#000000"));
                 holder.tv.setBackgroundResource(android.R.color.transparent);
-                LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(100,100);
+                LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(100, 100);
                 // holder.img.setLayoutParams(parms);  file:///android_asset/Images/
                 Picasso.with(context).load("file:///android_asset/DashboardImages/" + imageId[position])//.transform(new TransformationCircle()) // resizes the image to these dimensions (in pixel)
                         // .centerCrop()
@@ -172,7 +172,7 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                     @Override
                     public void onClick(View v) {
                         Intent intent;
-                        AppConstant.packagename=context.getApplicationContext().getPackageName();
+                        AppConstant.packagename = context.getApplicationContext().getPackageName();
 
                         try {
 
@@ -182,16 +182,13 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                                 String myTable = "Table1";//Set name of your table
                                 String searchQuery = "SELECT  *  FROM VillageLevelMaster";
                                 Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
-                                if(cursor.getCount() >0)
-                                {
+                                if (cursor.getCount() > 0) {
                                     cursor.close();
-                                    if (pref.getString("unit", null).contains("RCTEMP"))
-                                    {
+                                    if (pref.getString("unit", null).contains("RCTEMP")) {
                                         intent = new Intent(context.getApplicationContext(), TempUserDashboard.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         context.startActivity(intent);
-                                    }
-                                   else {
+                                    } else {
                                         if (pref.getString("RoleID", null).equals("0") ||
                                                 pref.getString("RoleID", null) == null ||
                                                 pref.getString("RoleID", null).equals("") ||
@@ -209,9 +206,7 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                                         }
                                     }
 
-                                }
-                                else
-                                {
+                                } else {
                                     msclass.showMessage("Master data not available. \n" +
                                             "Please download the master data.");
                                 }
@@ -222,10 +217,9 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             if (ActivityName[position].toString() == "MyTravel") {
 
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                                Date d=new Date();
-                                String strdate=dateFormat.format(d);
-                                if (pref.getString("RoleID",null).equals("0"))
-                                {
+                                Date d = new Date();
+                                String strdate = dateFormat.format(d);
+                                if (pref.getString("RoleID", null).equals("0")) {
                                     // Comment for Online  off now (without Comment is  offline)
                                     // if (mDatabase.getrowcount("select * from couponMaster where entryDate ='"+strdate+"'") > 0) {
 
@@ -237,9 +231,7 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                                     // {
                                     //   msclass.showMessage("Coupon list not available ,Please download master data");
                                     // }
-                                }
-                                else
-                                {
+                                } else {
                                     intent = new Intent(context.getApplicationContext(), MyTravel.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     context.startActivity(intent);
@@ -247,7 +239,7 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             }
 
                             if (ActivityName[position].toString() == "RetailerTag") {
-                                intent= new Intent(context.getApplicationContext(),RetailerandDistributorTag.class);
+                                intent = new Intent(context.getApplicationContext(), RetailerandDistributorTag.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
@@ -264,18 +256,18 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
 
                                 // intent= new Intent(context.getApplicationContext(),orderfromTBM.class);
 
-                                intent= new Intent(context.getApplicationContext(), DemoModelVisit.class);
+                                intent = new Intent(context.getApplicationContext(), DemoModelVisit.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
 
                             if (ActivityName[position].toString() == "UploadData") {
-                                intent= new Intent(context.getApplicationContext(),UploadData.class);
+                                intent = new Intent(context.getApplicationContext(), UploadData.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
                             if (ActivityName[position].toString() == "DownloadData") {
-                                intent= new Intent(context.getApplicationContext(),DownloadMasterdata.class);
+                                intent = new Intent(context.getApplicationContext(), DownloadMasterdata.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
@@ -284,13 +276,11 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                                 String myTable = "Table1";//Set name of your table
                                 String searchQuery = "SELECT  *  FROM VehicleMaster";
                                 Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
-                                if(cursor.getCount() >0) {
+                                if (cursor.getCount() > 0) {
                                     intent = new Intent(context.getApplicationContext(), Innovation.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     context.startActivity(intent);
-                                }
-                                else
-                                {
+                                } else {
                                     msclass.showMessage("Innovation day location not  found. \n" +
                                             "Please download the master data.");
                                 }
@@ -300,38 +290,36 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
 
                                 // intent= new Intent(context.getApplicationContext(),orderfromTBM.class);
 
-                                intent= new Intent(context.getApplicationContext(),ReportDashboard.class);
+                                intent = new Intent(context.getApplicationContext(), ReportDashboard.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
                             if (ActivityName[position].toString() == "WOW") {
 
-                                intent= new Intent(context.getApplicationContext(),wawActivity.class);
+                                intent = new Intent(context.getApplicationContext(), wawActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
                             if (ActivityName[position].toString() == "Close") {
                                 editor.clear();
-                                editor.putString("UserID",null);
+                                editor.putString("UserID", null);
                                 editor.commit();
-                                intent= new Intent(context.getApplicationContext(),LoginActivity.class);
+                                intent = new Intent(context.getApplicationContext(), LoginActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
                             if (ActivityName[position].toString() == "ApproveOrder") {
 
                                 // 2 RBM  5 ZBM 7ZMM
-                                if (pref.getString("RoleID",null).equals("2")||
-                                        pref.getString("RoleID",null).equals("5")||
-                                        pref.getString("RoleID",null).equals("7")) {
+                                if (pref.getString("RoleID", null).equals("2") ||
+                                        pref.getString("RoleID", null).equals("5") ||
+                                        pref.getString("RoleID", null).equals("7")) {
                                     intent = new Intent(context.getApplicationContext(), saleorderpending.class);
                                     //intent= new Intent(context.getApplicationContext(),TestImage.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     //intent.putExtra("Pagetype", "PlotVisit");
                                     context.startActivity(intent);
-                                }
-                                else
-                                {
+                                } else {
                                     Toast.makeText(context, "Your are not authorized to access this tab.", Toast.LENGTH_SHORT).show();
                                 }
 
@@ -340,7 +328,7 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
 
                                 // intent= new Intent(context.getApplicationContext(),orderfromTBM.class);
 
-                                intent= new Intent(context.getApplicationContext(),pogDashboard.class);
+                                intent = new Intent(context.getApplicationContext(), pogDashboard.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
@@ -362,7 +350,7 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
 
                                 // intent= new Intent(context.getApplicationContext(),orderfromTBM.class);
 
-                                intent= new Intent(context.getApplicationContext(),couponDashboard.class);
+                                intent = new Intent(context.getApplicationContext(), couponDashboard.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
@@ -376,7 +364,7 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
 
                                 // intent= new Intent(context.getApplicationContext(),orderfromTBM.class);
 
-                                intent= new Intent(context.getApplicationContext(), ActivityRetailerSurvey.class);
+                                intent = new Intent(context.getApplicationContext(), ActivityRetailerSurvey.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
 
@@ -385,91 +373,93 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             if (ActivityName[position].contains("BCFCALLTBM")) {
 
 
-                                intent= new Intent(context.getApplicationContext(), BCFCallTBM.class);
+                                intent = new Intent(context.getApplicationContext(), BCFCallTBM.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
-                            if (ActivityName[position].contains( "Kisan Club (MAGiK)")) {
+                            if (ActivityName[position].contains("Kisan Club (MAGiK)")) {
 
 
-                                intent= new Intent(context.getApplicationContext(), ActivityKisanClub.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                context.startActivity(intent);
-                            }if (ActivityName[position].contains( "BE-Survey")) {
-
-
-                                intent= new Intent(context.getApplicationContext(), ActivityBeSurvey.class);
+                                intent = new Intent(context.getApplicationContext(), ActivityKisanClub.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
-                            if (ActivityName[position].contains( "VCF")) {
+                            if (ActivityName[position].contains("BE-Survey")) {
 
 
-                                intent= new Intent(context.getApplicationContext(), ActivityBeSurveyVCF.class);
+                                intent = new Intent(context.getApplicationContext(), ActivityBeSurvey.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
+                            if (ActivityName[position].contains("VCF")) {
 
-                            if (ActivityName[position].contains( "samruddhakisanvalidation")) {
 
-
-                                intent= new Intent(context.getApplicationContext(), SamruddhaKisanValidation.class);
+                                intent = new Intent(context.getApplicationContext(), ActivityBeSurveyVCF.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
 
-                            if (ActivityName[position].contains( "VEGVOCP")) {
+                            if (ActivityName[position].contains("samruddhakisanvalidation")) {
 
-                                intent= new Intent(context.getApplicationContext(), VocpvegetablewebviewActivity.class);
+
+                                intent = new Intent(context.getApplicationContext(), SamruddhaKisanValidation.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                context.startActivity(intent);
+                            }
+
+                            if (ActivityName[position].contains("VEGVOCP")) {
+
+                                intent = new Intent(context.getApplicationContext(), VocpvegetablewebviewActivity.class);
                                 // intent= new Intent(context.getApplicationContext(), DSActivity.class);
-                                intent.putExtra("FormName","RetailerForm");
+                                intent.putExtra("FormName", "RetailerForm");
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
 
-                            if (ActivityName[position].contains( "VEGVOCP1")) {
+                            if (ActivityName[position].contains("VEGVOCP1")) {
 
-                                intent= new Intent(context.getApplicationContext(), VocpvegetablewebviewActivity.class);
-                                intent.putExtra("FormName","VOFPSurvey");
+                                intent = new Intent(context.getApplicationContext(), VocpvegetablewebviewActivity.class);
+                                intent.putExtra("FormName", "VOFPSurvey");
                                 // intent= new Intent(context.getApplicationContext(), DSActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
 
-                            if (ActivityName[position].contains( "DAS")) {
-                               // Toast.makeText(context, "Not Active", Toast.LENGTH_SHORT).show();
-                                intent= new Intent(context.getApplicationContext(), daslogin.class);
-                               // intent= new Intent(context.getApplicationContext(), DSActivity.class);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);context.startActivity(intent);
-                            }
-                            if (ActivityName[position].contains( "VOF")) {
-
-
-                                intent= new Intent(context.getApplicationContext(), ActivityVOFP.class);
+                            if (ActivityName[position].contains("DAS")) {
+                                // Toast.makeText(context, "Not Active", Toast.LENGTH_SHORT).show();
+                                intent = new Intent(context.getApplicationContext(), daslogin.class);
+                                // intent= new Intent(context.getApplicationContext(), DSActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
-                            if (ActivityName[position].contains( "MDOSURVEY")) {
+                            if (ActivityName[position].contains("VOF")) {
 
 
-                                intent= new Intent(context.getApplicationContext(), mdoSurvey.class);
+                                intent = new Intent(context.getApplicationContext(), ActivityVOFP.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
-                            if (ActivityName[position].contains( "MY ACTIVITY RECORDING")) {
-                                intent= new Intent(context.getApplicationContext(), MyActivityRecordingNew.class);
+                            if (ActivityName[position].contains("MDOSURVEY")) {
+
+
+                                intent = new Intent(context.getApplicationContext(), mdoSurvey.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
-                            if (ActivityName[position].contains( "websales")) {
+                            if (ActivityName[position].contains("MY ACTIVITY RECORDING")) {
+                                intent = new Intent(context.getApplicationContext(), MyActivityRecordingNew.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                context.startActivity(intent);
+                            }
+                            if (ActivityName[position].contains("websales")) {
 
 
-                                intent= new Intent(context.getApplicationContext(), SalesWebData.class);
+                                intent = new Intent(context.getApplicationContext(), SalesWebData.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
 
-                            if (ActivityName[position].contains( "VCP")) {
+                            if (ActivityName[position].contains("VCP")) {
                                 Toast.makeText(context, "Not Active", Toast.LENGTH_SHORT).show();
 
 //                                intent= new Intent(context.getApplicationContext(), voiceofchanelpartner_be.class);
@@ -477,27 +467,27 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
 //                                context.startActivity(intent);
                             }
 
-                            if (ActivityName[position].contains( "HDPSCouponDashboardActivity")) {
+                            if (ActivityName[position].contains("HDPSCouponDashboardActivity")) {
 
 
-                                intent= new Intent(context.getApplicationContext(), HDPSCouponDashboardActivity.class);
+                                intent = new Intent(context.getApplicationContext(), HDPSCouponDashboardActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
 //  Adding this code for CCF 2.0 Form For RBM and TBM .
-                            if (ActivityName[position].contains( "CCF")) {
+                            if (ActivityName[position].contains("CCF")) {
 
 
-                                 intent = new Intent(context, CCFFirstActivity.class);
+                                intent = new Intent(context, CCFFirstActivity.class);
                                 intent.putExtra("ccfUserId", "1");
                                 intent.putExtra("ccfToken", "addd");
                                 intent.putExtra("ccfContactNo", "9420181669");
                                 intent.putExtra("ccfTBMOrRBMCode", pref.getString("UserID", null));
 //ccfUserRoleID == 2 RBM, ccfUserRoleID == 4 TBM ,
 // ccfUserRoleID == 5 ZBM, ccfUserRoleID == 7 ZMM
-                                intent.putExtra("ccfUserRoleID", pref.getString("RoleID",null));
-                            //    Toast.makeText(context, pref.getString("UserID", null)+" / "+pref.getString("RoleID", null), Toast.LENGTH_SHORT).show();
-                                Log.i("User Details",pref.getString("UserID", null)+" / "+pref.getString("RoleID", null));
+                                intent.putExtra("ccfUserRoleID", pref.getString("RoleID", null));
+                                //    Toast.makeText(context, pref.getString("UserID", null)+" / "+pref.getString("RoleID", null), Toast.LENGTH_SHORT).show();
+                                Log.i("User Details", pref.getString("UserID", null) + " / " + pref.getString("RoleID", null));
 
                                 context.startActivity(intent);
                             }
@@ -526,7 +516,7 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                                         Toast.makeText(context, "Your are not authorized to access this tab.", Toast.LENGTH_SHORT).show();
                                     }
                                 }*/
-                                
+
                                 // This code is commented to redirect to Glass run application
 
                              /*   intent = new Intent(context.getApplicationContext(), saleOrderDashboard.class);
@@ -536,35 +526,48 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                                 context.startActivity(intent);*/
 
                                 // Glass run application redirection code
-                               try {
-                                   intent = context.getPackageManager().getLaunchIntentForPackage("com.disrptiv.glassrun.ordermanagement");
-                                   intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                   context.startActivity(intent);
-                               }catch (Exception e)
-                               {
-                                   Toast.makeText(context, "Unable to Open Glassrun application, Make sure you have installed it.", Toast.LENGTH_SHORT).show();
-                               }
-                                
+
+                                if (pref.getString("unit", null).trim().contains("VCBU")) {
+                                    intent = new Intent(context.getApplicationContext(), saleOrderDashboard.class);
+                                    //intent= new Intent(context.getApplicationContext(),TestImage.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    //intent.putExtra("Pagetype", "PlotVisit");
+                                    context.startActivity(intent);
+                                } else {
+
+                                    try {
+                                        intent = context.getPackageManager().getLaunchIntentForPackage("com.disrptiv.glassrun.ordermanagement");
+                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                        context.startActivity(intent);
+                                    } catch (Exception e) {
+                                        Toast.makeText(context, "Please Install MCart application", Toast.LENGTH_SHORT).show();
+                                        final String appPackageName = "com.disrptiv.glassrun.ordermanagement"; // getPackageName() from Context or Activity object
+                                        try {
+                                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                        } catch (android.content.ActivityNotFoundException anfe) {
+                                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                        }catch(Exception e2)
+                                        {
+
+                                        }
+                                    }
+                                }
                             }
 
 
-
-                        }
-                        catch(Exception ex)
-                        {
-                            Toast.makeText(context,ex.getMessage() , Toast.LENGTH_LONG).show();
+                        } catch (Exception ex) {
+                            Toast.makeText(context, ex.getMessage(), Toast.LENGTH_LONG).show();
                             editor.clear();
-                            editor.putString("UserID",null);
+                            editor.putString("UserID", null);
                             editor.commit();
-                            intent= new Intent(context.getApplicationContext(),LoginActivity.class);
+                            intent = new Intent(context.getApplicationContext(), LoginActivity.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(intent);
                         }
                     }
                 });
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -585,8 +588,8 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
     public int getItemViewType(int position) {
         return position;
     }
-    public class Holder
-    {
+
+    public class Holder {
         TextView tv;
         ImageView img;
     }
@@ -812,13 +815,13 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
         }
     }
 
-    private void logIMPFData(){
-        if(pref!=null){
-            String userId="", displayName="";
-            if (pref.getString("UserID", null) != null && pref.getString("Displayname", null) != null ){
+    private void logIMPFData() {
+        if (pref != null) {
+            String userId = "", displayName = "";
+            if (pref.getString("UserID", null) != null && pref.getString("Displayname", null) != null) {
                 userId = pref.getString("UserID", "");
                 displayName = pref.getString("Displayname", "");
-                FirebaseAnalyticsHelper.getInstance(context).callIMPFEvent(userId,displayName);
+                FirebaseAnalyticsHelper.getInstance(context).callIMPFEvent(userId, displayName);
             }
         }
     }

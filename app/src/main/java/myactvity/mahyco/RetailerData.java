@@ -72,6 +72,8 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -99,7 +101,11 @@ import myactvity.mahyco.helper.SqliteDatabase;
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.POPDisplayActivity;
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.PromotionActivity;
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.VillageMeetingActivity;
+import myactvity.mahyco.retro.RetrofitClient;
 import myactvity.mahyco.utils.Preferences;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -159,6 +165,12 @@ public class RetailerData extends Fragment implements GoogleApiClient.Connection
         // Required empty public constructor
     }
 
+    // New Varible for force upload
+
+    ProgressDialog progressDialog;
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,7 +180,9 @@ public class RetailerData extends Fragment implements GoogleApiClient.Connection
         cx = new CommonExecution(context);
         dialog = new ProgressDialog(context);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-
+        progressDialog=new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setTitle("Uploading Data ");
 
     }
 
@@ -2702,8 +2716,9 @@ public class RetailerData extends Fragment implements GoogleApiClient.Connection
                                 //super.onBackPressed();
                                 // super.onBackPressed();
                             }*/
-
-
+                             //  This code to upload data directly to server if internet is available
+                            if(new Config(context).NetworkConnection())
+                               UploadDataRetailerData();
                         } catch (Exception ex) {
                             msclass.showMessage(ex.toString());
                         }
@@ -2742,6 +2757,8 @@ public class RetailerData extends Fragment implements GoogleApiClient.Connection
             msclass.showMessage(ex.getMessage());
         }
     }
+
+
 
     private boolean validation() {
         try {
@@ -3241,5 +3258,175 @@ public class RetailerData extends Fragment implements GoogleApiClient.Connection
         dialog.dismiss();
 
     }
+    void UploadDataRetailerData() {
+
+        try{
+            String searchQuery12 = "select  *  from  mdo_Retaileranddistributordata where Status='0'";
+            Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
+            int count = cursor.getCount();
+            if(count>0) {
+
+
+                JsonArray jsonArray = new JsonArray();
+                JsonArray jsonArrayFinal = new JsonArray();
+
+                JsonObject jsonObjectChild = new JsonObject();
+
+                String searchQuery = "";
+
+                searchQuery = "select \n" +
+                        "_id,\n" +
+                        "mdocode,\n" +
+                        "coordinate,\n" +
+                        "startaddress,\n" +
+                        "dist,\n" +
+                        "taluka,\n" +
+                        "marketplace,\n" +
+                        "retailername as name,\n" +
+                        "retailerfirm as retailerCategory,\n" +
+                        "age,\n" +
+                        "mobileno,\n" +
+                        "asscoi_distributor,\n" +
+                        "keyretailer,\n" +
+                        "otherbussiness,\n" +
+                        "experianceSeedwork,\n" +
+                        "comments,\n" +
+                        "Status,\n" +
+                        "type,\n" +
+                        "newfirm,\n" +
+                        "birthdate,\n" +
+                        "WhatsappNo,\n" +
+                        "state from mdo_Retaileranddistributordata where Status='0'";
+                //   jsonObjectChild.put("Table4", mDatabase.getResults(searchQuery));
+
+                jsonArray = mDatabase.getResultsRetro(searchQuery);
+
+                Log.i("Retailer Data:", "" + mDatabase.getResults(searchQuery).length());
+                searchQuery = "select * from mdo_retailerproductdetail where Status='0'";
+                //object.put("Table5", mDatabase.getResults(searchQuery));
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                    if (i == 0) {
+                        String searchQuery1 = "select * from mdo_retailerproductdetail where Status='0'";
+                        jsonObject.add("RetailerProductDetailModels", mDatabase.getResultsRetro(searchQuery1));
+                    } else {
+
+                        jsonObject.add("RetailerProductDetailModels", new JsonArray());
+
+                    }
+                    jsonArrayFinal.add(jsonObject);
+                }
+                JsonObject jsonFinal = new JsonObject();
+                jsonFinal.add("RetaileranddistributordataModels", jsonArrayFinal);
+                UplaodRetailerAndDistributor(jsonFinal);
+                Log.i("Retailer Json ", jsonFinal.toString());
+
+            }else
+            {
+                Toast.makeText(context, "No Data for upload.", Toast.LENGTH_SHORT).show();
+            }
+        }catch (Exception e)
+        {
+            Log.i("Ecxeption Json ",e.getMessage());
+
+        }
+
+
+
+    }
+
+    public void UplaodRetailerAndDistributor(JsonObject jsonFinal) {
+        try {
+            if (!progressDialog.isShowing())
+                progressDialog.show();
+
+            Call<String> call = null;
+            call = RetrofitClient.getInstance().getMyApi().uploadRetailerAndDistributor(jsonFinal);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+
+                    if (response.body() != null) {
+                        String result = response.body();
+                        try {
+                            Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+
+                            try{
+                                JSONObject jsonObject=new JSONObject(result);
+                                if(jsonObject.getBoolean("ResultFlag")) {
+                                    if (jsonObject.getString("status").toLowerCase().contains("success")) {
+
+                                        String qq1="update mdo_Retaileranddistributordata set Status='1' where Status='0'";
+                                        String qq2="update mdo_retailerproductdetail set Status='1' where Status='0'";
+
+                                        mDatabase.UpdateStatus(qq1);
+                                        mDatabase.UpdateStatus(qq2);
+
+                                        new androidx.appcompat.app.AlertDialog.Builder(context)
+                                                .setMessage(jsonObject.getString("Comment"))
+                                                .setTitle(jsonObject.getString("status"))
+                                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+
+                                                        }
+                                                })
+                                                .show();
+                                    } else {
+                                        new androidx.appcompat.app.AlertDialog.Builder(context)
+                                                .setMessage(jsonObject.getString("Comment"))
+                                                .setTitle(jsonObject.getString("status"))
+                                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                })
+                                                .show();
+                                    }
+                                }else
+                                {
+
+                                }
+
+                            }catch (Exception e)
+                            {
+                                new androidx.appcompat.app.AlertDialog.Builder(context)
+                                        .setMessage("Something went wrong.")
+                                        .setTitle("Exception")
+                                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        })
+                                        .show();
+                            }
+                        } catch (NullPointerException e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    Log.e("Error is", t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
+
+
+
+
 
 }

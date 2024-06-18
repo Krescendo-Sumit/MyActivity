@@ -5262,7 +5262,6 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             try {
                 byte[] objAsBytes = null;//new byte[10000];
 
-
                 try {
                     jsonArray = mDatabase.getResults(searchQuery);
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 
@@ -86,13 +87,16 @@ public class saleOrderDashboard extends AppCompatActivity {
             btnsalesreturnorderApp.setVisibility(View.GONE);
             btnsalesorder.setVisibility(View.GONE);
         }
-
+        btnapprovalsaleprder.setVisibility(View.GONE);
 
         btncreatesaleorder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {
-                    if (pref.getString("RoleID", null).equals("4")) {
+                    // This code is commented to redirect user to Glass run application
+                    // Commented by :  Sumit Surdakar
+                    // Reason : For Veg user needs to allow return order Tab
+                   /* if (pref.getString("RoleID", null).equals("4")) {
                         intent = new Intent(context.getApplicationContext(), orderfromTBM.class);
                         //intent= new Intent(context.getApplicationContext(),TestImage.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -107,6 +111,24 @@ public class saleOrderDashboard extends AppCompatActivity {
                             context.startActivity(intent);
                         } else {
                             Toast.makeText(context, "Your are not authorized to access this tab.", Toast.LENGTH_SHORT).show();
+                        }
+                    }*/
+
+                    // New Code added for glass run
+                    try {
+                        intent = context.getPackageManager().getLaunchIntentForPackage("com.disrptiv.glassrun.ordermanagement");
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(intent);
+                    } catch (Exception e) {
+                        Toast.makeText(context, "Please Install MCart application", Toast.LENGTH_SHORT).show();
+                        final String appPackageName = "com.disrptiv.glassrun.ordermanagement"; // getPackageName() from Context or Activity object
+                        try {
+                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                        } catch (android.content.ActivityNotFoundException anfe) {
+                            context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                        }catch(Exception e2)
+                        {
+
                         }
                     }
 

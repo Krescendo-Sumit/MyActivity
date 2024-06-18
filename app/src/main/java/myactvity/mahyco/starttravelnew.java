@@ -175,7 +175,6 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
         //databaseHelper = PostsDatabaseHelper.getInstance(this);
 
         context=this;
-        Toast.makeText(context, "Hi Start Travel", Toast.LENGTH_SHORT).show();
         progressDialog=new ProgressDialog(context);
         progressDialog.setMessage("Please wait...");
         confing=new Config(context);

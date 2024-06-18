@@ -18,12 +18,16 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.Settings;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.android.material.textfield.TextInputLayout;
+
 import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,6 +55,8 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,6 +81,10 @@ import myactvity.mahyco.helper.CustomSearchableSpinner;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.retro.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -95,14 +105,14 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
     Config config;
     public Messageclass msclass;
     EditText etFarmerName, etVillage, etCommentDesc, etTaluka;
-    String userCode, state, taluka="", dist, village, retailerDetails;
+    String userCode, state, taluka = "", dist, village, retailerDetails;
     Button btnSubmit;
     ImageView imgBtnGps;
     TextView lblheader, tvCordinates, tvAddress;
     ProgressDialog dialog;
     private long mLastClickTime = 0;
-    String cordinates="";
-    String address="";
+    String cordinates = "";
+    String address = "";
     String croptype;
     String cordinatesmsg = "ADDRESS TAG : *";
     LinearLayout llOtherVillages;
@@ -120,7 +130,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
     int REQUEST_CHECK_SETTINGS = 101;
     double lati;
     double longi;
- //   String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    //   String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
     String SERVER = "https://packhouse.mahyco.com/api/generalactivity/retailervisit";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
@@ -128,6 +138,9 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
     private Handler handler = new Handler();
     List<GeneralMaster> retailerList;
     Prefs mPref;
+
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -144,6 +157,8 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
 
         mPref = Prefs.with(this);
         context = this;
+
+
         mDatabase = SqliteDatabase.getInstance(this);
         msclass = new Messageclass(this);
         locdata = getApplicationContext().getSharedPreferences("locdata", 0); // 0 - for private mode
@@ -174,7 +189,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
         dialog = new ProgressDialog(context);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         //userCode =  mPref.getString(AppConstant.USER_CODE_TAG, "");
-        userCode =  pref.getString("UserID", null);
+        userCode = pref.getString("UserID", null);
         bindState();
 
         bindComments();
@@ -264,9 +279,9 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                 try {
                     retailerDetails = gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
                     if (retailerList != null) {
-                        if (position ==  1) {
+                        if (position == 1) {
 
-                            editor.putString("RetailerCallActivity","RetailerVisitsActivity");
+                            editor.putString("RetailerCallActivity", "RetailerVisitsActivity");
                             editor.commit();
                             intent = new Intent(RetailerVisitsActivity.this, RetailerandDistributorTag.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -322,8 +337,6 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
             startFusedLocationService();
         }
     }
-
-
 
 
     /**
@@ -411,6 +424,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
 
     /**
      * <P>// Validation for all fields</P>
+     *
      * @return
      */
     public boolean validation() {
@@ -433,8 +447,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
 //        }
 
         if (spRetailerDetails.getSelectedItemPosition() == 0
-                || spRetailerDetails.getSelectedItem().toString().equalsIgnoreCase("NEW RETAILER (TAG THE RETAILER)"))
-        {
+                || spRetailerDetails.getSelectedItem().toString().equalsIgnoreCase("NEW RETAILER (TAG THE RETAILER)")) {
 
             Utility.showAlertDialog("Info", "Please Select  Retailer details", context);
             return false;
@@ -669,8 +682,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
     }
 
     //bind Territory to spinner
-    public void bindComments()
-    {
+    public void bindComments() {
         String[] array;
         try {
             String searchQuery = "SELECT  *  FROM commentlist  ";
@@ -739,7 +751,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
         try {
             spRetailerDetails.setAdapter(null);
             dialog.setMessage("Loading....");
-            dialog.show();
+          //  dialog.show();
             String str = null;
             try {
 
@@ -748,8 +760,8 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                         "FROM MDO_tagRetailerList where taluka='" + taluka.trim().toUpperCase() + "' " +
                         "order by name asc  ";
 
-               // String searchQuery = "SELECT distinct mobileno,name,firmname" +
-                 //  "  FROM MDO_tagRetailerList order by mobileno asc ";
+                // String searchQuery = "SELECT distinct mobileno,name,firmname" +
+                //  "  FROM MDO_tagRetailerList order by mobileno asc ";
                 Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
                 retailerList.add(new GeneralMaster("SELECT RETAILER",
                         "SELECT RETAILER"));
@@ -830,22 +842,20 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
     private boolean isAlreadydone(String retailerDetails) {
 
         boolean isExist = false;
-     try {
+        try {
 
 
-         Cursor data = mDatabase.fetchAlreadyExistsRetailerVisitsDataCount(retailerDetails);
+            Cursor data = mDatabase.fetchAlreadyExistsRetailerVisitsDataCount(retailerDetails);
 
-         if (data.getCount() == 0) {
+            if (data.getCount() == 0) {
 
-             isExist = true;
+                isExist = true;
 
-         }
-         data.close();
-     }
-     catch(Exception ex)
-     {
-         Log.w("My", "fetchAlreadyExistsRetailerVisitsDataCount()");
-     }
+            }
+            data.close();
+        } catch (Exception ex) {
+            Log.w("My", "fetchAlreadyExistsRetailerVisitsDataCount()");
+        }
 
         return isExist;
 
@@ -884,11 +894,11 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
             if (addresses != null) {
                 address = addresses.get(0).getAddressLine(0);
                 if (checkImageResource(this, imgBtnGps, R.drawable.ic_location_on)) {
-                    tvAddress.setText(address +"\n"+ cordinates);
+                    tvAddress.setText(address + "\n" + cordinates);
                     tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
                 } else {
 
-                    tvAddress.setText(address +"\n"+ cordinates);
+                    tvAddress.setText(address + "\n" + cordinates);
                     tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
 
                 }
@@ -1040,7 +1050,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
             location = arg0;
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
             cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
-            if(address.equals("")) {
+            if (address.equals("")) {
                 if (config.NetworkConnection()) {
                     address = getCompleteAddressString(lati, longi);
                 }
@@ -1106,7 +1116,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
 
 
         boolean fl = mDatabase.insertRetailerVisitisData(userCode, state, district, taluka, marketPlace, RetailerDetails,
-                comments, commentDesc, taggedCordinates +" "+ taggedAddress, taggedCordinates, isSynced);
+                comments, commentDesc, taggedCordinates + " " + taggedAddress, taggedCordinates, isSynced);
 
         if (fl) {
            /* if (config.NetworkConnection())
@@ -1119,13 +1129,25 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
             }
            else*/
             {
-                msclass.showMessage("Data saved successfully.");
+              //  msclass.showMessage("Data saved successfully.");
                 Config.refreshActivity(RetailerVisitsActivity.this);
-               // dialog.dismiss();
-                relPRogress.setVisibility(View.GONE);
+                // dialog.dismiss();
+         /*       relPRogress.setVisibility(View.GONE);
                 container.setClickable(true);
                 container.setEnabled(true);
-                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);*/
+
+                // This code is to upload data if internet is available
+               if(new Config(context).NetworkConnection())
+                UplaodRetailerVisitDataNew();
+               else {
+
+                   relPRogress.setVisibility(View.GONE);
+                   container.setClickable(true);
+                   container.setEnabled(true);
+                   getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+               }
+
             }
         } else {
 
@@ -1133,13 +1155,13 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
         }
     }
 
+
     ///////
 
     //////
 
     public void uploadRetailerVisitsData(String functionName) {
-        if (config.NetworkConnection())
-        {
+        if (config.NetworkConnection()) {
 
             String str = null;
             String searchQuery = "select  *  from RetailerVisitsData where  isSynced ='0'";
@@ -1240,7 +1262,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                             public void onClick(DialogInterface dialog, int which) {
 
                                 Config.refreshActivity(RetailerVisitsActivity.this);
-                                 dialog.dismiss();
+                                dialog.dismiss();
                                 relPRogress.setVisibility(View.GONE);
                                 container.setClickable(true);
                                 container.setEnabled(true);
@@ -1249,7 +1271,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                         });
                         AlertDialog alert = builder.create();
                         alert.show();
-                       // msclass.showMessage("Data Uploaded Successfully");
+                        // msclass.showMessage("Data Uploaded Successfully");
                         relPRogress.setVisibility(View.GONE);
                         container.setClickable(true);
                         container.setEnabled(true);
@@ -1272,7 +1294,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                         alert.show();
                     }
 
-                }else {
+                } else {
                     androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(RetailerVisitsActivity.this);
                     builder.setTitle("Info");
                     builder.setMessage("Something went wrong please try again later.");
@@ -1291,15 +1313,106 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                 }
 
 
-
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
+    }
+
+    public void UplaodRetailerVisitDataNew() {
+        String str = null;
+        String searchQuery = "select  *  from RetailerVisitsData where  isSynced ='0'";
+        Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+        int count = cursor.getCount();
+        JsonArray jsonArray = new JsonArray();
+        if (count > 0) {
+
+            try {
+
+                JsonObject jsonObject = new JsonObject();
+                try {
+                    jsonArray = mDatabase.getResultsRetro(searchQuery);
+
+                    jsonObject.add("Table", jsonArray);
+
+                    Log.d("RetailerVisitsData", "uploadRetailerVisitsData: " + jsonObject);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                cursor.close();
+                UploadRetailer(jsonObject);
+                //        str = syncdRetailerVisitsData(funname, Constants.RETAILERVIST_SERVER_API, jsonObject);
+
+                //   handleRetailerVisitsDataSyncResponse(funname, str);
+
+
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                msclass.showMessage(ex.getMessage());
+
+            }
         }
 
+
     }
+
+    public void UploadRetailer(JsonObject jsonObject) {
+        try {
+          /*  progressDialog.dismiss();*/
+          /*  if (!dialog.isShowing())
+                dialog.show();*/
+
+            Call<String> call = null;
+            call = RetrofitClient.getInstance().getMyApi().uploadRetailer(jsonObject);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+                    relPRogress.setVisibility(View.GONE);
+                    container.setClickable(true);
+                    container.setEnabled(true);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    if (response.body() != null) {
+                        String result = response.body();
+                        try {
+                            JSONObject jsonObject = new JSONObject(result);
+                            if (jsonObject.has("success")) {
+                                if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
+
+                                    mDatabase.updateRetailerVisitsData("0", "1");
+                                    msclass.showMessage("Retailer Data Upload successfully.");
+
+
+                                } else {
+                                    msclass.showMessage("Retailer Data Not Uploaded \n" + result);
+                                }
+                            }
+                        } catch (NullPointerException e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    relPRogress.setVisibility(View.GONE);
+                    container.setClickable(true);
+                    container.setEnabled(true);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    Log.e("Error is", t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
+
+
+}
 
 
 
