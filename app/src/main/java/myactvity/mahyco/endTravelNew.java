@@ -99,6 +99,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.newupload.UploadDataNew;
 import myactvity.mahyco.retro.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -1163,6 +1164,22 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                 msclass.showMessage("Please select village");
                 return false;
             }*/
+            if (txtlocation.getText().length() == 0) {
+                msclass.showMessage("Please enter location place.");
+                return false;
+
+            }
+
+            if (txtkm.getText().length() == 0) {
+                msclass.showMessage("Please enter start reading (km).");
+                return false;
+
+            }
+            if (ivImage.getDrawable() == null) {
+                msclass.showMessage("Please upload vehicle reading photo(km)");
+                return false;
+            }
+
 
 
             if (vehicletype.equals("2") || vehicletype.equals("3")) // Only for company vehicle code validation
@@ -1217,7 +1234,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                 msclass.showMessage("Please check geo tag.");
                 return false;
             }
-            if (cordinate.length() == 0) {
+            if (cordinate.trim().length() < 3) {
                 msclass.showMessage(" GPS Location not found ,please check GPS location setting .");
                 return false;
             }
@@ -1518,7 +1535,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                 @Override
                 public void onClick(View v) {
                     finish();
-                    Intent intent = new Intent(endTravelNew.this, UploadData.class);
+                    Intent intent = new Intent(endTravelNew.this, UploadDataNew.class);
                     startActivity(intent);
                 }
             });

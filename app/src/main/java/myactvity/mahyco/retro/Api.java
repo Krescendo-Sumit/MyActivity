@@ -86,4 +86,13 @@ Call<String> syncTraveldata(@Field("Type") String mdo_travelData, @Field("encode
 
     @POST(RetroConstants.UploadReviewMeeting)
     Call<String> uploadReviewMeeting(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.DownloadPlotMasterData)
+    Call<String> getUserPlotMasterData(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.DownloadAllMasterData)
+    Call<String> getUserAllMasterData(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.DownloadPlotValidationMasterData)
+    Call<String> getUserPlotValidationMasterData(@Body JsonObject jsonObject);
 }

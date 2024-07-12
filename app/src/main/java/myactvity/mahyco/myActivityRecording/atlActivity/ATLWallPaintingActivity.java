@@ -2426,6 +2426,11 @@ public class ATLWallPaintingActivity extends AppCompatActivity implements Google
                 taggedCordinatesMandiNameStart = cordinates;// startCordinates;
             } else {
                 Utility.showAlertDialog("", "Please Wait for location", context);
+                relPRogress.setVisibility(View.GONE);
+                container.setClickable(true);
+                container.setEnabled(true);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                return;
             }
 
             //for end location tag
@@ -2439,6 +2444,11 @@ public class ATLWallPaintingActivity extends AppCompatActivity implements Google
                 taggedCordinatesMandiNameEnd = cordinates;//endCordinates;
             } else {
                 Utility.showAlertDialog("", "Please Wait for location", context);
+                relPRogress.setVisibility(View.GONE);
+                container.setClickable(true);
+                container.setEnabled(true);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                return;
             }
         }
 

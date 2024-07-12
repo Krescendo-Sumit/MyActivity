@@ -1565,7 +1565,13 @@ public class MyFieldActvity extends AppCompatActivity  implements GoogleApiClien
 
                public void onClick(DialogInterface dialog, int which) {
                    // Do do my action here
-                   Toast.makeText(MyFieldActvity.this, "Hiii", Toast.LENGTH_SHORT).show();
+
+                   if(cordinate.trim().equals(""))
+                   {
+                       Toast.makeText(MyFieldActvity.this, "Wait for location", Toast.LENGTH_SHORT).show();
+                    return;
+                   }
+
                    String crop="";
                    String product="";
                    if (spCropType.getSelectedItem().toString().toLowerCase().equals("select crop")) {

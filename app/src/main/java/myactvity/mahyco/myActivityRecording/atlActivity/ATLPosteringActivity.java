@@ -844,6 +844,11 @@ public class ATLPosteringActivity extends AppCompatActivity implements GoogleApi
 
         } else {
             Utility.showAlertDialog("", "Please Wait for location", context);
+            relPRogress.setVisibility(View.GONE);
+            container.setClickable(true);
+            container.setEnabled(true);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            return;
         }
 
         String isSynced = "0";
@@ -942,6 +947,11 @@ public class ATLPosteringActivity extends AppCompatActivity implements GoogleApi
                 taggedCordinates = cordinates;
             } else {
                 Utility.showAlertDialog("", "Please Wait for location", context);
+                relPRogress.setVisibility(View.GONE);
+                container.setClickable(true);
+                container.setEnabled(true);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                return;
             }
             numberOfSpots = etNumberOfSpots.getText().toString();
         }
@@ -967,6 +977,11 @@ public class ATLPosteringActivity extends AppCompatActivity implements GoogleApi
                 taggedCordinatesMandiNameStart = cordinates;//startCordinates;
             } else {
                 Utility.showAlertDialog("", "Please Wait for location", context);
+                relPRogress.setVisibility(View.GONE);
+                container.setClickable(true);
+                container.setEnabled(true);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                return;
             }
 
             //for end location tag
@@ -980,6 +995,11 @@ public class ATLPosteringActivity extends AppCompatActivity implements GoogleApi
                 taggedCordinatesMandiNameEnd =cordinates;// endCordinates;
             } else {
                 Utility.showAlertDialog("", "Please Wait for location", context);
+                relPRogress.setVisibility(View.GONE);
+                container.setClickable(true);
+                container.setEnabled(true);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                return;
             }
         }
         String finalPopupJson = getPopupData();

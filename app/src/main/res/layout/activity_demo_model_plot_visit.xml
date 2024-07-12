@@ -15,14 +15,17 @@
 
         <Button
             android:id="@+id/btnAdd"
+            style="@style/Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:background="@drawable/btn_shape"
             android:text="REGISTER THE PLOT"
             android:textAllCaps="false"
-            android:textColor="#fff"
-            style="@style/Button" />
+            android:textColor="#fff" />
 
         <Button
             android:id="@+id/btnUpdate"

@@ -2,8 +2,10 @@ package myactvity.mahyco;
 
 import android.app.ActionBar;
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -103,6 +105,7 @@ import myactvity.mahyco.app.Constants;
 import myactvity.mahyco.app.Prefs;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.newupload.NotificationReceiver;
 import myactvity.mahyco.newupload.SetAlarmActivity;
 import myactvity.mahyco.newupload.UploadDataNew;
 
@@ -290,7 +293,15 @@ public class UserHome extends AppCompatActivity
         });
 
         logAppOpenEvent();
-
+        try {
+            myAlarm(18,45,00);
+//            myAlarm(15,15,10);
+//            myAlarm(18,1,10);
+//            myAlarm(21,1,10);
+        } catch (Exception e) {
+            Log.i("Exception ",e.getMessage());
+         //   Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
         //testCrash();
 
         /*TODO Uncomment when App Feedback Module required.*/
@@ -304,7 +315,7 @@ public class UserHome extends AppCompatActivity
                 userCode = userCode.replace(" ", "%20");
                 IME = IME.replace(" ", "%20");
 
-             //  new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
+                //new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
                //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco");
             } catch (Exception e) {
 
@@ -314,7 +325,27 @@ public class UserHome extends AppCompatActivity
         }
 
     }
+    public void myAlarm(int hr, int min, int sec) {
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, hr);
+        calendar.set(Calendar.MINUTE, min);
+        calendar.set(Calendar.SECOND, sec);
+
+        if (calendar.getTime().compareTo(new Date()) < 0)
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+
+        Intent intent = new Intent(getApplicationContext(), NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent, PendingIntent.FLAG_MUTABLE);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
+        if (alarmManager != null) {
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 20000, pendingIntent);
+           // Toast.makeText(context, "Alarm Seted", Toast.LENGTH_SHORT).show();
+        }
+
+
+    }
 
     private void showUserFeedbackScreen(String user) {
         Prefs mPref = Prefs.with(UserHome.this);

@@ -1989,7 +1989,11 @@ public class CropShowActivityOnline extends AppCompatActivity implements
             taggedCordinates = cordinates;
         } else {
             Utility.showAlertDialog("", "Please Wait for location", context);
-
+            relPRogress.setVisibility(View.GONE);
+            container.setClickable(true);
+            container.setEnabled(true);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            return;
         }
 
         Log.d("LocationDatasaveToDb", cordinates);

@@ -19,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.provider.Settings;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
@@ -65,6 +66,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.crash.FirebaseCrash;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionDeniedResponse;
@@ -88,20 +91,25 @@ import myactvity.mahyco.app.GeneralMaster;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.retro.RetrofitClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
+import org.json.JSONObject;
 
-public class DistributorData   extends Fragment implements  GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, ResultCallback
-         {
+
+public class DistributorData extends Fragment implements GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, com.google.android.gms.location.LocationListener, ResultCallback {
     View parentHolder;
-    public SearchableSpinner spDist, spTaluka,spdistributor, spState, spCropType, spProductName, spMyactvity;
+    public SearchableSpinner spDist, spTaluka, spdistributor, spState, spCropType, spProductName, spMyactvity;
     public Button btnsave, btnTakephoto;
     private String state;
     RadioButton rndNo2, rndYes2;
-    EditText txtmarketplace,txtComments, txtrtname, txtAge, txtmobile, txtfirmname,txtBirthdate;
+    EditText txtmarketplace, txtComments, txtrtname, txtAge, txtmobile, txtfirmname, txtBirthdate;
     CheckBox chktag;
     TextView lbltaluka;
     private String dist, taluka, village, Imagepath1, croptype;
@@ -118,10 +126,10 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
     private static final String IMAGE_DIRECTORY_NAME = "VISITPHOTO";
     SharedPreferences preferences;
     private static String cordinate;
-    private static String address="";
+    private static String address = "";
     public RadioGroup radGrp2;
 
-             //variable for GPS
+    //variable for GPS
     // location last updated time
     private String mLastUpdateTime;
     // location updates interval - 10sec
@@ -141,39 +149,45 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
     private LocationSettingsRequest mLocationSettingsRequest;
     private LocationCallback mLocationCallback;
     private Location mCurrentLocation;
-             private SimpleDateFormat dateFormatter;
-             Calendar dateSelected = Calendar.getInstance();
-             private DatePickerDialog datePickerDialog;
+    private SimpleDateFormat dateFormatter;
+    Calendar dateSelected = Calendar.getInstance();
+    private DatePickerDialog datePickerDialog;
 
-             // boolean flag to toggle the ui
+    // boolean flag to toggle the ui
     private Boolean mRequestingLocationUpdates;
-             //Rohit given
-             Location location;
-             private static final long INTERVAL = 1000 * 5;
-             private static final long FASTEST_INTERVAL = 1000 * 20;
-             boolean IsGPSEnabled = false;
-             private LocationRequest locationRequest;
-             private GoogleApiClient googleApiClient;
-             private FusedLocationProviderApi fusedLocationProviderApi = FusedLocationApi;
-             boolean fusedlocationRecieved;
-             boolean GpsEnabled;
-            // int REQUEST_CHECK_SETTINGS=101;
+    //Rohit given
+    Location location;
+    private static final long INTERVAL = 1000 * 5;
+    private static final long FASTEST_INTERVAL = 1000 * 20;
+    boolean IsGPSEnabled = false;
+    private LocationRequest locationRequest;
+    private GoogleApiClient googleApiClient;
+    private FusedLocationProviderApi fusedLocationProviderApi = FusedLocationApi;
+    boolean fusedlocationRecieved;
+    boolean GpsEnabled;
+    // int REQUEST_CHECK_SETTINGS=101;
 
 
     public DistributorData() {
         // Required empty public constructor
     }
+
+    ProgressDialog progressDialog;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       mDatabase = SqliteDatabase.getInstance(this.getActivity());
+        mDatabase = SqliteDatabase.getInstance(this.getActivity());
         msclass = new Messageclass(this.getActivity());
         context = this.getActivity();
         dialog = new ProgressDialog(context);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         //initialize the necessary libraries
-         // init();
-       // startLocation();
+        // init();
+        // startLocation();
+        progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.setTitle("Uploading Data ");
 
     }
 
@@ -190,17 +204,17 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         lbltaluka = (TextView) parentHolder.findViewById(R.id.lbltaluka);
         dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
-        rndYes2=(RadioButton)parentHolder.findViewById(R.id.rndYes2);
-        rndNo2=(RadioButton)parentHolder.findViewById(R.id.rndNo2);
+        rndYes2 = (RadioButton) parentHolder.findViewById(R.id.rndYes2);
+        rndNo2 = (RadioButton) parentHolder.findViewById(R.id.rndNo2);
 
-        spdistributor=(SearchableSpinner) parentHolder.findViewById(R.id.spdistributor);
+        spdistributor = (SearchableSpinner) parentHolder.findViewById(R.id.spdistributor);
         spDist = (SearchableSpinner) parentHolder.findViewById(R.id.spDist);
         spState = (SearchableSpinner) parentHolder.findViewById(R.id.spState);
         spTaluka = (SearchableSpinner) parentHolder.findViewById(R.id.spTaluka);
         btnsave = (Button) parentHolder.findViewById(R.id.btnsave);
         txtmarketplace = (EditText) parentHolder.findViewById(R.id.txtmarketplace);
-        txtComments=(EditText)parentHolder.findViewById(R.id.txtComments);
-        txtBirthdate=(EditText)parentHolder.findViewById(R.id.txtBirthdate);
+        txtComments = (EditText) parentHolder.findViewById(R.id.txtComments);
+        txtBirthdate = (EditText) parentHolder.findViewById(R.id.txtBirthdate);
 
         txtrtname = (EditText) parentHolder.findViewById(R.id.txtrtname);
         txtAge = (EditText) parentHolder.findViewById(R.id.txtAge);
@@ -216,7 +230,7 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
         txtBirthdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // setDateTimeField(v);
+                // setDateTimeField(v);
             }
         });
 
@@ -225,7 +239,7 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
-                    state = gm.Code().trim() ;//URLEncoder.encode(gm.Code().trim(), "UTF-8");
+                    state = gm.Code().trim();//URLEncoder.encode(gm.Code().trim(), "UTF-8");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -254,7 +268,7 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
                 {
 
                     BindTaluka(dist);
-                   // binddistributor(dist);
+                    // binddistributor(dist);
 
 
                 }
@@ -272,7 +286,7 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
-                    taluka =gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
+                    taluka = gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -280,7 +294,7 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
                 //if (check3 > 1)
                 {
 
-                   // binddistributor(taluka);
+                    // binddistributor(taluka);
 
                 }
 
@@ -298,12 +312,10 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
-                    if(gm.Desc().trim().toUpperCase().equals("NEW DISTRIBUTOR")) {
+                    if (gm.Desc().trim().toUpperCase().equals("NEW DISTRIBUTOR")) {
                         txtfirmname.setEnabled(true);
 
-                    }
-                    else
-                    {
+                    } else {
                         txtfirmname.setText("");
                         txtfirmname.setEnabled(false);
 
@@ -315,7 +327,6 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
                 //check3 = check3 + 1;
                 //if (check3 > 1)
                 {
-
 
 
                 }
@@ -342,9 +353,9 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
         if (pref.getString("RoleID", null) == null || pref.getString("RoleID", null).equals("") ||
                 Integer.valueOf(pref.getString("RoleID", "0")) == 0
                 || Integer.valueOf(pref.getString("RoleID", "0")) == 4) {
-           // binddistributor(taluka);
+            // binddistributor(taluka);
         } else {
-           // binddistributor(taluka);
+            // binddistributor(taluka);
             //spTerritory.setVisibility(View.GONE);
             //lbltaluka.setText("");
             // lbltaluka.setVisibility(View.GONE);
@@ -379,29 +390,29 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
 //GPS FUSED
 
 
-             private void setDateTimeField(View v) {
-                 final EditText txt=(EditText)v;
-                 Calendar newCalendar = dateSelected;
-                 datePickerDialog = new DatePickerDialog(this.getActivity(), new DatePickerDialog.OnDateSetListener() {
-                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                         dateSelected.set(year, monthOfYear, dayOfMonth, 0, 0);
-                         txt.setText(dateFormatter.format(dateSelected.getTime()));
-                     }
-                 }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+    private void setDateTimeField(View v) {
+        final EditText txt = (EditText) v;
+        Calendar newCalendar = dateSelected;
+        datePickerDialog = new DatePickerDialog(this.getActivity(), new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                dateSelected.set(year, monthOfYear, dayOfMonth, 0, 0);
+                txt.setText(dateFormatter.format(dateSelected.getTime()));
+            }
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
-                 datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                     @Override
-                     public void onCancel(DialogInterface dialogInterface) {
-                         txt.setText("");
-                     }
-                 });
-                 datePickerDialog.show();
-                 // txt.setText(dateFormatter.format(dateSelected.getTime()));
+        datePickerDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialogInterface) {
+                txt.setText("");
+            }
+        });
+        datePickerDialog.show();
+        // txt.setText(dateFormatter.format(dateSelected.getTime()));
 
 
-             }
+    }
 
-             private void init() {
+    private void init() {
         try {
             mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this.getActivity());
             mSettingsClient = LocationServices.getSettingsClient(this.getActivity());
@@ -424,11 +435,9 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
             LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
             builder.addLocationRequest(mLocationRequest);
             mLocationSettingsRequest = builder.build();
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
-            msclass.showMessage("Function Name-init "+ex.toString());
+            msclass.showMessage("Function Name-init " + ex.toString());
         }
 
     }
@@ -445,63 +454,62 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
 
                 // location last updated time
                 //  txtUpdatedOn.setText("Last updated on: " + mLastUpdateTime);
-               // RetailerData.address =getCompleteAddressString(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+                // RetailerData.address =getCompleteAddressString(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
                 //RetailerData.cordinate=mCurrentLocation.getLatitude() + "-" + mCurrentLocation.getLongitude();
-               // cordinate = mCurrentLocation.getLatitude() + "-" + mCurrentLocation.getLongitude();
-               // address = getCompleteAddressString(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+                // cordinate = mCurrentLocation.getLatitude() + "-" + mCurrentLocation.getLongitude();
+                // address = getCompleteAddressString(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
                 //Toast.makeText(getActivity(), "Lat: " + mCurrentLocation.getLatitude() + ", " +
-                 //       "Lng: " + mCurrentLocation.getLongitude()+"\n+"+address, Toast.LENGTH_SHORT).show();
+                //       "Lng: " + mCurrentLocation.getLongitude()+"\n+"+address, Toast.LENGTH_SHORT).show();
 
             }
-        }
-        catch(Exception ex)
-        {
-            msclass.showMessage("Function Name-updateLocationUI "+ex.toString());
+        } catch (Exception ex) {
+            msclass.showMessage("Function Name-updateLocationUI " + ex.toString());
         }
 
         //toggleButtons();
     }
 
-   /* @Override
-    public void onResume() {
-        super.onResume();
+    /* @Override
+     public void onResume() {
+         super.onResume();
 
-        try {
-            // Resuming location updates depending on button state and
-            // allowed permissions
-            if (mRequestingLocationUpdates && checkPermissions()) {
-                startLocationUpdates();
-               // updateLocationUI();
+         try {
+             // Resuming location updates depending on button state and
+             // allowed permissions
+             if (mRequestingLocationUpdates && checkPermissions()) {
+                 startLocationUpdates();
+                // updateLocationUI();
 
-            }
-        }
-        catch(Exception ex)
-        {
-            msclass.showMessage("Funtion name :onresume"+ex.getMessage());
-        }
-        // updateLocationUI();
-    }
+             }
+         }
+         catch(Exception ex)
+         {
+             msclass.showMessage("Funtion name :onresume"+ex.getMessage());
+         }
+         // updateLocationUI();
+     }
 
+     @Override
+     public void onPause() {
+         super.onPause();
+
+         try {
+             if (mRequestingLocationUpdates) {
+                 // pausing location updates
+                 stopLocationUpdates();
+             }
+         }
+         catch (Exception ex)
+         {
+             ex.printStackTrace();
+         }
+     }
+     */
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onConnectionFailed(ConnectionResult arg0) {
 
-        try {
-            if (mRequestingLocationUpdates) {
-                // pausing location updates
-                stopLocationUpdates();
-            }
-        }
-        catch (Exception ex)
-        {
-            ex.printStackTrace();
-        }
     }
-    */
-   @Override
-   public void onConnectionFailed(ConnectionResult arg0) {
 
-   }
     @Override
     public void onConnected(Bundle arg0) {
         try {
@@ -520,7 +528,7 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
                         // for ActivityCompat#requestPermissions for more details.
                         return;
                     }
-                    fusedLocationProviderApi.requestLocationUpdates(googleApiClient, locationRequest,  this);
+                    fusedLocationProviderApi.requestLocationUpdates(googleApiClient, locationRequest, this);
                 }
 
             } else {
@@ -584,6 +592,7 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
     public void onConnectionSuspended(int arg0) {
 
     }
+
     @Override
     public synchronized void onLocationChanged(Location arg0) {
 
@@ -597,30 +606,31 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
             }
             double lati = arg0.getLatitude();
             double longi = arg0.getLongitude();
-            location=arg0;
-            Log.d(TAG, "onLocationChanged: "+String.valueOf(longi));
-            cordinate = String.valueOf(lati)+"-"+String.valueOf(longi);
-            if(address.equals("")) {
+            location = arg0;
+            Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
+            cordinate = String.valueOf(lati) + "-" + String.valueOf(longi);
+            if (address.equals("")) {
                 if (new Config(context).NetworkConnection()) {
                     address = getCompleteAddressString(lati, longi);
                 }
             }
             //accuracy = String.valueOf(arg0.getAccuracy());
-           // Toast.makeText(context, cordinate+"S", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(context, cordinate+"S", Toast.LENGTH_SHORT).show();
             // locationInsertTime = arg0.getTime();
             //LocationBearing = arg0.getBearing();
             //LocationSpeed = arg0.getSpeed();
             // fusedlocationRecieved = true;
 
         } catch (Exception e) {
-            Log.d(TAG, "onLocationChanged: "+e.toString());
+            Log.d(TAG, "onLocationChanged: " + e.toString());
             e.printStackTrace();
             //  }
         }
 
     }
+
     private synchronized void startFusedLocationService() {
-       /* cancelNotification(NOTIFICATION_ID_REALTIME);*/
+        /* cancelNotification(NOTIFICATION_ID_REALTIME);*/
         try {
             LocationManager manager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -659,53 +669,51 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
                 result.setResultCallback(this);
             }
             Log.d(TAG, "startFusedLocationService: ");
-        }
-        catch (Exception  ex)
-        {
+        } catch (Exception ex) {
             //msclass.showMessage("Please on device GPS location.\n startFusedLocationService"+ex.getMessage());
-           // msclass.showMessage("GPS is not enable,Please on GPS\n startFusedLocationService");
+            // msclass.showMessage("GPS is not enable,Please on GPS\n startFusedLocationService");
             Toast.makeText(this.getActivity(), "GPS is not enable,Please on GPS\n startFusedLocationService", Toast.LENGTH_LONG).show();
 
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onResult(@NonNull Result result) {
-       try {
+        try {
 
 
-           final Status status = result.getStatus();
-           switch (status.getStatusCode()) {
-               case LocationSettingsStatusCodes.SUCCESS:
-                   int st = getLocationMode();
-                   if (st == 1 || st == 2) {
-                       Toast.makeText(this.getActivity(), "Enable gps in High Accuracy only.", Toast.LENGTH_LONG).show();
-                       startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+            final Status status = result.getStatus();
+            switch (status.getStatusCode()) {
+                case LocationSettingsStatusCodes.SUCCESS:
+                    int st = getLocationMode();
+                    if (st == 1 || st == 2) {
+                        Toast.makeText(this.getActivity(), "Enable gps in High Accuracy only.", Toast.LENGTH_LONG).show();
+                        startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
 
-                   }
-                   break;
-               case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
-                   try {
+                    }
+                    break;
+                case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                    try {
 
-                       status.startResolutionForResult(this.getActivity(), REQUEST_CHECK_SETTINGS);
+                        status.startResolutionForResult(this.getActivity(), REQUEST_CHECK_SETTINGS);
 
-                   } catch (IntentSender.SendIntentException e) {
+                    } catch (IntentSender.SendIntentException e) {
 
-                   }
-                   break;
+                    }
+                    break;
 
-               case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
-                   // Location settings are unavailable so not possible to show any dialog now
-                   break;
-           }
-       }
-       catch(Exception ex)
-       {
-           Toast.makeText(this.getActivity(),"Func-onResult"+ex.toString(), Toast.LENGTH_LONG).show();
+                case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                    // Location settings are unavailable so not possible to show any dialog now
+                    break;
+            }
+        } catch (Exception ex) {
+            Toast.makeText(this.getActivity(), "Func-onResult" + ex.toString(), Toast.LENGTH_LONG).show();
 
-       }
+        }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public int getLocationMode() {
         int val = 0;
@@ -718,9 +726,10 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
         return val;
 
     }
+
     public void stopFusedApi() {
         try {
-            if (googleApiClient != null && (googleApiClient.isConnected() )) {
+            if (googleApiClient != null && (googleApiClient.isConnected())) {
                 FusedLocationApi.removeLocationUpdates(googleApiClient, this);
                 googleApiClient.disconnect();
             }
@@ -735,6 +744,7 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
             locationRequest = null;
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -745,13 +755,12 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
             startFusedLocationService();
             // updateLocationUI();
             // }
-        }
-        catch(Exception ex)
-        {
-            msclass.showMessage("Funtion name :onresume"+ex.getMessage());
+        } catch (Exception ex) {
+            msclass.showMessage("Funtion name :onresume" + ex.getMessage());
         }
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -759,20 +768,18 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
         try {
             stopFusedApi();
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
+
     private boolean checkPermissions() {
         int permissionState = ActivityCompat.checkSelfPermission(this.getActivity(),
                 android.Manifest.permission.ACCESS_FINE_LOCATION);
         return permissionState == PackageManager.PERMISSION_GRANTED;
     }
 
-    private void startLocation()
-    {
+    private void startLocation() {
         try {
             // Requesting ACCESS_FINE_LOCATION using Dexter library
             Dexter.withActivity(this.getActivity())
@@ -798,10 +805,8 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
                             token.continuePermissionRequest();
                         }
                     }).check();
-        }
-        catch (Exception ex)
-        {
-            msclass.showMessage("Function Name-startLocation "+ex.toString());
+        } catch (Exception ex) {
+            msclass.showMessage("Function Name-startLocation " + ex.toString());
         }
     }
 
@@ -866,11 +871,9 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
                             updateLocationUI();
                         }
                     });
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
-            msclass.showMessage("Function Name-startLocationUpdates "+ex.toString());
+            msclass.showMessage("Function Name-startLocationUpdates " + ex.toString());
         }
     }
 
@@ -881,76 +884,68 @@ public class DistributorData   extends Fragment implements  GoogleApiClient.Conn
                 .addOnCompleteListener(this.getActivity(), new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                       // Toast.makeText(getApplicationContext(), "Location updates stopped!", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(getApplicationContext(), "Location updates stopped!", Toast.LENGTH_SHORT).show();
                         //toggleButtons();
                     }
                 });
     }
- // GPS END
+    // GPS END
 
 
-
-
-public void binddistributor(String dist)
-{
-    if(dist==null) {
-        dist="";
-    }
-try
-
-    {
-        spdistributor.setAdapter(null);
-        dialog.setMessage("Loading....");
-        dialog.show();
-        String str = null;
+    public void binddistributor(String dist) {
+        if (dist == null) {
+            dist = "";
+        }
         try {
+            spdistributor.setAdapter(null);
+            dialog.setMessage("Loading....");
+            dialog.show();
+            String str = null;
+            try {
 
-            // str = cx.new getTaluka(dist).execute().get();
+                // str = cx.new getTaluka(dist).execute().get();
 
-            List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
-            //String searchQuery = "SELECT distinct RetailerName  FROM RetailerMaster where activity='Distributor' " +
-            //        "and  dist='" + dist.toUpperCase() + "' order by  RetailerName ";
-            String searchQuery = "SELECT distinct RetailerName  FROM RetailerMaster where activity='Distributor' " +
-                    " order by  RetailerName ";
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                //String searchQuery = "SELECT distinct RetailerName  FROM RetailerMaster where activity='Distributor' " +
+                //        "and  dist='" + dist.toUpperCase() + "' order by  RetailerName ";
+                String searchQuery = "SELECT distinct RetailerName  FROM RetailerMaster where activity='Distributor' " +
+                        " order by  RetailerName ";
 
-            Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
-            Croplist.add(new GeneralMaster("SELECT DISTRIBUTOR",
-                    "SELECT DISTRIBUTOR"));
-            //Croplist.add(new GeneralMaster("NEW DISTRIBUTOR",
-              //      "NEW DISTRIBUTOR"));
+                Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+                Croplist.add(new GeneralMaster("SELECT DISTRIBUTOR",
+                        "SELECT DISTRIBUTOR"));
+                //Croplist.add(new GeneralMaster("NEW DISTRIBUTOR",
+                //      "NEW DISTRIBUTOR"));
 
-            cursor.moveToFirst();
-            while (cursor.isAfterLast() == false) {
-                Croplist.add(new GeneralMaster(cursor.getString(0),
-                        cursor.getString(0).toUpperCase()));
+                cursor.moveToFirst();
+                while (cursor.isAfterLast() == false) {
+                    Croplist.add(new GeneralMaster(cursor.getString(0),
+                            cursor.getString(0).toUpperCase()));
 
-                cursor.moveToNext();
+                    cursor.moveToNext();
+                }
+                cursor.close();
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this.getActivity(), android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spdistributor.setAdapter(adapter);
+                dialog.dismiss();
+
+
+            } catch (Exception ex) {
+                msclass.showMessage(ex.getMessage());
+                ex.printStackTrace();
             }
-            cursor.close();
-            ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
-                    (this.getActivity(), android.R.layout.simple_spinner_dropdown_item, Croplist);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spdistributor.setAdapter(adapter);
-            dialog.dismiss();
-
-
-        } catch (Exception ex) {
+        } catch (
+                Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
+            dialog.dismiss();
         }
-    }
-        catch(
-    Exception ex)
 
-    {
-        msclass.showMessage(ex.getMessage());
-        ex.printStackTrace();
-        dialog.dismiss();
     }
 
-}
-    public void  BindState()
-    {
+    public void BindState() {
 
         try {
             spState.setAdapter(null);
@@ -980,9 +975,7 @@ try
 
             }
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
             dialog.dismiss();
@@ -990,53 +983,43 @@ try
 
     }
 
-    public void saveStarttravel()
-    {
-        try
-        {
+    public void saveStarttravel() {
+        try {
             if (turnGPSOn() == false) {
                 //msclass.showMessage("GPS is not enabled,Please on GPS");
                 Toast.makeText(this.getActivity(), "GPS is not enabled,Please on GPS", Toast.LENGTH_LONG).show();
 
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(intent);
-            } else
-                {
-                if (validation() == true)
-                {
-                GeneralMaster dt = (GeneralMaster) spDist.getSelectedItem();
-                GeneralMaster tt = (GeneralMaster) spTaluka.getSelectedItem();
+            } else {
+                if (validation() == true) {
+                    GeneralMaster dt = (GeneralMaster) spDist.getSelectedItem();
+                    GeneralMaster tt = (GeneralMaster) spTaluka.getSelectedItem();
 
-                try {
+                    try {
 
-                    dist = dt.Code().trim();//URLEncoder.encode(dt.Code().trim(), "UTF-8");
-                    taluka = tt.Code().trim();//URLEncoder.encode(tt.Code().trim(), "UTF-8");
-                    // village = vt.Code().trim();//URLEncoder.encode(vt.Code().trim(), "UTF-8");
+                        dist = dt.Code().trim();//URLEncoder.encode(dt.Code().trim(), "UTF-8");
+                        taluka = tt.Code().trim();//URLEncoder.encode(tt.Code().trim(), "UTF-8");
+                        // village = vt.Code().trim();//URLEncoder.encode(vt.Code().trim(), "UTF-8");
 
-                    int count = mDatabase.getrowcount("select * from mdo_Retaileranddistributordata " +
-                            "where mobileno='"+txtmobile.getText().toString()+"' and type ='Distributor'");
-                    if(count>0) {
-                        msclass.showMessage("This distributor data already saved on this mobile number "+txtmobile.getText().toString()+"");
+                        int count = mDatabase.getrowcount("select * from mdo_Retaileranddistributordata " +
+                                "where mobileno='" + txtmobile.getText().toString() + "' and type ='Distributor'");
+                        if (count > 0) {
+                            msclass.showMessage("This distributor data already saved on this mobile number " + txtmobile.getText().toString() + "");
 
+                        } else {
+                            Savedata("", state, dist, taluka, village);
+                        }
+                        // Savedata("", state, dist, taluka, village);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        msclass.showMessage(ex.getMessage());
                     }
-                    else {
-                        Savedata("", state, dist, taluka, village);
-                    }
-                   // Savedata("", state, dist, taluka, village);
-                }
-
-                catch (Exception ex) {
-                    ex.printStackTrace();
-                    msclass.showMessage(ex.getMessage());
-                }
-                }
-                else
-                {
+                } else {
                     radGrp2.clearCheck();
                 }
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             msclass.showMessage(ex.getMessage());
 
@@ -1045,8 +1028,7 @@ try
 
     }
 
-    private boolean validation()
-    {
+    private boolean validation() {
         try {
             boolean flag = true;
 
@@ -1059,16 +1041,14 @@ try
                 msclass.showMessage("Please select district");
                 return false;
             }
-            if(pref.getString("RoleID",null)==null || pref.getString("RoleID",null).equals("")||
-                    Integer.valueOf(pref.getString("RoleID","0"))==0
-                    || Integer.valueOf(pref.getString("RoleID","0"))==4) {
+            if (pref.getString("RoleID", null) == null || pref.getString("RoleID", null).equals("") ||
+                    Integer.valueOf(pref.getString("RoleID", "0")) == 0
+                    || Integer.valueOf(pref.getString("RoleID", "0")) == 4) {
                 if (spTaluka.getSelectedItem().toString().toLowerCase().equals("select taluka")) {
                     msclass.showMessage("Please Select Taluka");
                     return false;
                 }
-            }
-            else
-            {
+            } else {
 
 
             }
@@ -1109,14 +1089,11 @@ try
             //{
             String regex = "^(3[01]|[12][0-9]|0[1-9])/(1[0-2]|0[1-9])/[0-9]{4}$";
             Pattern pattern = Pattern.compile(regex);
-            if (txtBirthdate.getText().length()>0)
-            {
+            if (txtBirthdate.getText().length() > 0) {
                 Matcher matcher = pattern.matcher(txtBirthdate.getText().toString());
                 if (matcher.matches()) {
 
-                }
-                else
-                {
+                } else {
                     msclass.showMessage("Please enter  DD/MM/YYYY format date.. ");
                     return false;
                 }
@@ -1130,22 +1107,18 @@ try
             //}
 
 
-
-            if(chktag.isChecked()==false)
-            {
+            if (chktag.isChecked() == false) {
                 msclass.showMessage("Please check geo tag.");
                 return false;
 
             }
-            if (radGrp2.getCheckedRadioButtonId() == -1)
-            {
+            if (radGrp2.getCheckedRadioButtonId() == -1) {
                 msclass.showMessage("Please select is he key retailer as well  (Yes or No). ");
                 return false;
             }
 
 
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
             // dialog.dismiss();
@@ -1153,17 +1126,15 @@ try
         return true;
     }
 
-    private  void Savedata(final String myactvity, String state, String dist, String taluka, String village)
-    {
-        try
-        {
+    private void Savedata(final String myactvity, String state, String dist, String taluka, String village) {
+        try {
             pref.getString("UserID", null);
             Date entrydate = new Date();
-            final String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
+            final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
 
             final String Tempimagepath1;
-            final String Imagename="STravel"+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
-            Tempimagepath1=Imagepath1;
+            final String Imagename = "STravel" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+            Tempimagepath1 = Imagepath1;
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this.getActivity());
             // Setting Dialog Title
@@ -1175,54 +1146,51 @@ try
                 public void onClick(DialogInterface dialog, int which) {
                     // Do do my action here
 
-                    String marketplace =txtmarketplace.getText().toString();
-                    String retailername =txtrtname.getText().toString();
-                    String retailerfirm =spdistributor.getSelectedItem().toString();//txtfirmname.getText().toString();
-                    String newfirm=txtfirmname.getText().toString();
+                    String marketplace = txtmarketplace.getText().toString();
+                    String retailername = txtrtname.getText().toString();
+                    String retailerfirm = spdistributor.getSelectedItem().toString();//txtfirmname.getText().toString();
+                    String newfirm = txtfirmname.getText().toString();
 
-                    String mobileno =txtmobile.getText().toString();
-                    String age =txtAge .getText().toString();
-                    String mahycoretailer="";
-                    String Otherbussiness="";
-                    if(chktag.isChecked()==true)
-                    {
+                    String mobileno = txtmobile.getText().toString();
+                    String age = txtAge.getText().toString();
+                    String mahycoretailer = "";
+                    String Otherbussiness = "";
+                    if (chktag.isChecked() == true) {
 
                     }
-                    if(rndNo2.isChecked()==true ) {
-                        mahycoretailer="NO";
+                    if (rndNo2.isChecked() == true) {
+                        mahycoretailer = "NO";
                     }
-                    if(rndYes2 .isChecked()==true ) {
-                        mahycoretailer="YES";
+                    if (rndYes2.isChecked() == true) {
+                        mahycoretailer = "YES";
                     }
-                    String taluka="";
-                    if(pref.getString("RoleID",null)==null || pref.getString("RoleID",null).equals("")||
-                            Integer.valueOf(pref.getString("RoleID","0"))==0
-                            || Integer.valueOf(pref.getString("RoleID","0"))==4) {
-                        taluka= spTaluka.getSelectedItem().toString().trim();
+                    String taluka = "";
+                    if (pref.getString("RoleID", null) == null || pref.getString("RoleID", null).equals("") ||
+                            Integer.valueOf(pref.getString("RoleID", "0")) == 0
+                            || Integer.valueOf(pref.getString("RoleID", "0")) == 4) {
+                        taluka = spTaluka.getSelectedItem().toString().trim();
                     }
-                    String birthdate=txtBirthdate.getText().toString().trim();
+                    String birthdate = txtBirthdate.getText().toString().trim();
 
                   /*  if(rndNo2.isChecked()==true ) {
                         mahycoretailer="NO";
                     }*/
 
-                    String state=spState.getSelectedItem().toString().trim();
+                    String state = spState.getSelectedItem().toString().trim();
 
                     boolean fl = mDatabase.InsertRetailerdata(pref.getString("UserID", null),
-                            cordinate, address,spDist.getSelectedItem().toString().trim(),
-                            taluka,marketplace,retailername,
-                            retailerfirm, mobileno,age,
-                            "",mahycoretailer,Otherbussiness,
-                            "",txtComments.getText().toString(),
-                            "Distributor",newfirm,birthdate,"",state);
+                            cordinate, address, spDist.getSelectedItem().toString().trim(),
+                            taluka, marketplace, retailername,
+                            retailerfirm, mobileno, age,
+                            "", mahycoretailer, Otherbussiness,
+                            "", txtComments.getText().toString(),
+                            "Distributor", newfirm, birthdate, "", state);
 
-                    if (fl==true)
-                    {
+                    if (fl == true) {
                         try {
-                            if(rndYes2 .isChecked()==true ) {
+                            if (rndYes2.isChecked() == true) {
                                 msclass.showMessage("Distributor data saved successfully,Please fill retailer form.");
-                            }
-                            else {
+                            } else {
                                 msclass.showMessage("data saved successfully");
                             }
 
@@ -1235,9 +1203,8 @@ try
                             radGrp2.clearCheck();
                             txtBirthdate.setText("");
                             Intent intent;
-                            String callactivity=pref.getString("RetailerCallActivity", "");
-                            switch (callactivity)
-                            {
+                            String callactivity = pref.getString("RetailerCallActivity", "");
+                            switch (callactivity) {
 
                                 case "DistributerVisitsActivity":
                                     intent = new Intent(getActivity(), DistributerVisitsActivity.class);
@@ -1251,15 +1218,12 @@ try
 
 
                             }
-
-                        }
-                        catch (Exception ex)
-                        {
+                            if (new Config(context).NetworkConnection())
+                                UploadDataRetailerData();
+                        } catch (Exception ex) {
                             msclass.showMessage(ex.toString());
                         }
-                    }
-                    else
-                    {
+                    } else {
                         msclass.showMessage("Please check entry data.");
                     }
 
@@ -1288,10 +1252,9 @@ try
             positiveButton.setLayoutParams(positiveButtonLL);
             //end
 
-        }
-        catch (Exception ex)
-        {   ex.printStackTrace();
-            msclass.showMessage( "" + ex.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            msclass.showMessage("" + ex.getMessage());
             msclass.showMessage(ex.getMessage());
         }
     }
@@ -1353,19 +1316,17 @@ try
         return strAdd;
     }
 
-    private boolean turnGPSOn(){
-         boolean flag=false;
-       // boolean flag=true;
+    private boolean turnGPSOn() {
+        boolean flag = false;
+        // boolean flag=true;
         try {
-            LocationManager locationManager=null;
+            LocationManager locationManager = null;
             try {
                 locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
                 //locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-            }
-            catch(SecurityException e) {
+            } catch (SecurityException e) {
                 e.printStackTrace();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 msclass.showMessage(ex.getMessage());
             }
@@ -1373,32 +1334,29 @@ try
             //        .isProviderEnabled(LocationManager.GPS_PROVIDER);
             boolean isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            if(!isGPSEnabled){
+            if (!isGPSEnabled) {
 
-                flag=false;
+                flag = false;
 
-            }
-            else
-            {
-                flag=true;
+            } else {
+                flag = true;
             }
 
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             msclass.showMessage(ex.getMessage());
         }
-        return  flag;
+        return flag;
     }
-    public void  BindDist(String state)
-    {
+
+    public void BindDist(String state) {
         try {
             spDist.setAdapter(null);
             String str = null;
             try {
                 List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
                 String searchQuery = "SELECT distinct district,district_code  FROM VillageLevelMaster" +
-                        " where state='"+state+"' order by district asc  ";
+                        " where state='" + state + "' order by district asc  ";
                 Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
                 Croplist.add(new GeneralMaster("SELECT DISTRICT",
                         "SELECT DISTRICT"));
@@ -1421,9 +1379,7 @@ try
 
             }
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
             dialog.dismiss();
@@ -1432,8 +1388,7 @@ try
 
     }
 
-    public void  BindDist2(String state)
-    {
+    public void BindDist2(String state) {
         try {
             spDist.setAdapter(null);
             dialog.setMessage("Loading....");
@@ -1464,9 +1419,7 @@ try
                 dialog.dismiss();
             }
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
             dialog.dismiss();
@@ -1474,8 +1427,8 @@ try
 
 
     }
-    public void  BindTaluka(String dist)
-    {
+
+    public void BindTaluka(String dist) {
         try {
             spTaluka.setAdapter(null);
             dialog.setMessage("Loading....");
@@ -1510,14 +1463,175 @@ try
                 msclass.showMessage(ex.getMessage());
                 ex.printStackTrace();
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
             dialog.dismiss();
         }
 
     }
+
+    void UploadDataRetailerData() {
+
+        try {
+            String searchQuery12 = "select  *  from  mdo_Retaileranddistributordata where Status='0'";
+            Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
+            int count = cursor.getCount();
+            if (count > 0) {
+
+
+                JsonArray jsonArray = new JsonArray();
+                JsonArray jsonArrayFinal = new JsonArray();
+
+                JsonObject jsonObjectChild = new JsonObject();
+
+                String searchQuery = "";
+
+                searchQuery = "select \n" +
+                        "_id,\n" +
+                        "mdocode,\n" +
+                        "coordinate,\n" +
+                        "startaddress,\n" +
+                        "dist,\n" +
+                        "taluka,\n" +
+                        "marketplace,\n" +
+                        "retailername as name,\n" +
+                        "retailerfirm as retailerCategory,\n" +
+                        "age,\n" +
+                        "mobileno,\n" +
+                        "asscoi_distributor,\n" +
+                        "keyretailer,\n" +
+                        "otherbussiness,\n" +
+                        "experianceSeedwork,\n" +
+                        "comments,\n" +
+                        "Status,\n" +
+                        "type,\n" +
+                        "newfirm,\n" +
+                        "birthdate,\n" +
+                        "WhatsappNo,\n" +
+                        "state from mdo_Retaileranddistributordata where Status='0'";
+                //   jsonObjectChild.put("Table4", mDatabase.getResults(searchQuery));
+
+                jsonArray = mDatabase.getResultsRetro(searchQuery);
+
+                Log.i("Retailer Data:", "" + mDatabase.getResults(searchQuery).length());
+                searchQuery = "select * from mdo_retailerproductdetail where Status='0'";
+                //object.put("Table5", mDatabase.getResults(searchQuery));
+                for (int i = 0; i < jsonArray.size(); i++) {
+                    JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                    if (i == 0) {
+                        String searchQuery1 = "select * from mdo_retailerproductdetail where Status='0'";
+                        jsonObject.add("RetailerProductDetailModels", mDatabase.getResultsRetro(searchQuery1));
+                    } else {
+
+                        jsonObject.add("RetailerProductDetailModels", new JsonArray());
+
+                    }
+                    jsonArrayFinal.add(jsonObject);
+                }
+                JsonObject jsonFinal = new JsonObject();
+                jsonFinal.add("RetaileranddistributordataModels", jsonArrayFinal);
+                UplaodRetailerAndDistributor(jsonFinal);
+                Log.i("Retailer Json ", jsonFinal.toString());
+
+            } else {
+                Toast.makeText(context, "No Data for upload.", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Log.i("Ecxeption Json ", e.getMessage());
+
+        }
+
+
+    }
+
+    public void UplaodRetailerAndDistributor(JsonObject jsonFinal) {
+        try {
+            if (!progressDialog.isShowing())
+                progressDialog.show();
+
+            Call<String> call = null;
+            call = RetrofitClient.getInstance().getMyApi().uploadRetailerAndDistributor(jsonFinal);
+            call.enqueue(new Callback<String>() {
+                @Override
+                public void onResponse(Call<String> call, Response<String> response) {
+
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+
+                    if (response.body() != null) {
+                        String result = response.body();
+                        try {
+                            Toast.makeText(context, "" + result, Toast.LENGTH_SHORT).show();
+
+                            try {
+                                JSONObject jsonObject = new JSONObject(result);
+                                if (jsonObject.getBoolean("ResultFlag")) {
+                                    if (jsonObject.getString("status").toLowerCase().contains("success")) {
+
+                                        String qq1 = "update mdo_Retaileranddistributordata set Status='1' where Status='0'";
+                                        String qq2 = "update mdo_retailerproductdetail set Status='1' where Status='0'";
+
+                                        mDatabase.UpdateStatus(qq1);
+                                        mDatabase.UpdateStatus(qq2);
+
+                                        new androidx.appcompat.app.AlertDialog.Builder(context)
+                                                .setMessage(jsonObject.getString("Comment"))
+                                                .setTitle(jsonObject.getString("status"))
+                                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+
+                                                    }
+                                                })
+                                                .show();
+                                    } else {
+                                        new androidx.appcompat.app.AlertDialog.Builder(context)
+                                                .setMessage(jsonObject.getString("Comment"))
+                                                .setTitle(jsonObject.getString("status"))
+                                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                })
+                                                .show();
+                                    }
+                                } else {
+
+                                }
+
+                            } catch (Exception e) {
+                                new androidx.appcompat.app.AlertDialog.Builder(context)
+                                        .setMessage("Something went wrong.")
+                                        .setTitle("Exception")
+                                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                dialogInterface.dismiss();
+                                            }
+                                        })
+                                        .show();
+                            }
+                        } catch (NullPointerException e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<String> call, Throwable t) {
+                    if (progressDialog.isShowing())
+                        progressDialog.dismiss();
+                    Log.e("Error is", t.getMessage());
+                }
+            });
+        } catch (Exception e) {
+        }
+    }
+
 
 }

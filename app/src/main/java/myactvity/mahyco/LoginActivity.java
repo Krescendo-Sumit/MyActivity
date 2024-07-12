@@ -371,9 +371,6 @@ public class LoginActivity extends AppCompatActivity {
     private  void logincheck(String user,String pass)
     {
         try {
-
-
-
             if(config.NetworkConnection())
             {
                 dialog.setMessage("Loading....");

@@ -1260,6 +1260,21 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
 
                      */
 
+            if (txtlocation.getText().length() == 0) {
+                msclass.showMessage("Please enter location place.");
+                return false;
+
+            }
+            if (txtkm.getText().length() == 0) {
+                msclass.showMessage("Please enter start reading (km).");
+                return false;
+
+            }
+            if (ivImage.getDrawable() == null) {
+                msclass.showMessage("Please upload vehicle reading photo(km)");
+                return false;
+            }
+
             if(vehicletype.equals("2")||vehicletype.equals("3")) // Only for company vehicle code validation
             {
                 if (ivImage.getDrawable() == null) {
@@ -1285,7 +1300,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                 return false;
 
             }
-            if(cordinate.length()==0)
+            if(cordinate.trim().length()==0)
             {
                 msclass.showMessage(" GPS Location not found ,please check GPS location setting .");
                 return false;

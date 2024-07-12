@@ -949,7 +949,7 @@ public class Innovation extends AppCompatActivity implements LocationListener,
                                     name1, name2, name3, mobileno,
                                     spDist.getSelectedItem().toString().trim(), spTaluka.getSelectedItem().toString().trim(),
                                     txtVillage.getText().toString(), Imagename, Totalpkt, MahycototalPkt
-                                    , remark, Loc, vehicle, Tempimagepath1, Firmname);
+                                    , remark+"-"+cordinate, Loc, vehicle, Tempimagepath1, Firmname);
                             // Toast.makeText(this, "Save Input data successfully", Toast.LENGTH_SHORT).show();
                             //dialog.dismiss();
                             // cleardata();
@@ -1584,6 +1584,11 @@ public class Innovation extends AppCompatActivity implements LocationListener,
             //URLEncoder.encode(dt.Code().trim(), "UTF-8");
             if (ivImage.getDrawable() == null) {
                 msclass.showMessage("Please upload (retailer/farmer) photo");
+                return false;
+            }
+
+            if (cordinate.trim().equals("")) {
+                msclass.showMessage("Please wait for location.");
                 return false;
             }
 

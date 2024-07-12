@@ -65,6 +65,7 @@ import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SqliteDatabase;
 import myactvity.mahyco.leaveapply;
 import myactvity.mahyco.mdoSurvey;
+import myactvity.mahyco.newupload.UploadDataNew;
 import myactvity.mahyco.pogDashboard;
 import myactvity.mahyco.saleorderpending;
 import myactvity.mahyco.voiceofchanelpartner_be;
@@ -262,7 +263,8 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             }
 
                             if (ActivityName[position].toString() == "UploadData") {
-                                intent = new Intent(context.getApplicationContext(), UploadData.class);
+                              //  intent = new Intent(context.getApplicationContext(), UploadData.class);
+                                intent = new Intent(context.getApplicationContext(), UploadDataNew.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }

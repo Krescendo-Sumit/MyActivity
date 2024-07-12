@@ -1337,7 +1337,11 @@ public class ActivityRetailerSurvey extends AppCompatActivity implements GoogleA
             retailerCordinates = cordinates;
         } else {
             Utility.showAlertDialog("", "Please Wait for location", context);
-
+            relPRogress.setVisibility(View.GONE);
+            container.setClickable(true);
+            container.setEnabled(true);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            return;
         }
         String retailerFirmName = etRetailerName.getText().toString();
         String contactPersonName = etContactPersonName.getText().toString();

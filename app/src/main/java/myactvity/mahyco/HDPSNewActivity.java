@@ -1547,6 +1547,10 @@ public class HDPSNewActivity extends AppCompatActivity implements
             msclass.showMessage("Please select payment mode ");
             return false;
         }
+        if (cordinates.trim().equals("")) {
+            msclass.showMessage("Please wait for location.");
+            return false;
+        }
         // Check same crop product  and mobile  number
         try {
             String searchQuery = "select ifnull(sum(couponsIssued),0) as total  from CouponRecordData where " +

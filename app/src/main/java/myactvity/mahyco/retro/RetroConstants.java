@@ -26,6 +26,9 @@ public static final String GETHDPSUserwiseReport = "coupon/getHDPSUserwiseReport
 
 
     public static final String GETHDPSUserwisePaymentDetails="coupon/getHDPSUserwisedtlReport";
+ public static final String DownloadPlotMasterData = "demoPlot/getMyDemoPlot";
+ public static final String DownloadAllMasterData = "postSeason/mdoVerify_user";
+ public static final String DownloadPlotValidationMasterData = "demoPlot/getDownloadDemoPlotValidation";
 
 
 }

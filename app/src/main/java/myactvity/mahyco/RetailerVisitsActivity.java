@@ -361,8 +361,8 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                     builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                         @SuppressLint("ClickableViewAccessibility")
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                        public void onClick(DialogInterface dialog1, int which) {
+                            dialog1.dismiss();
 
 
                             relPRogress.setVisibility(View.VISIBLE);
@@ -387,7 +387,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                     builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
 
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        public void onClick(DialogInterface dialog1, int which) {
 
 
                         }
@@ -751,7 +751,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
         try {
             spRetailerDetails.setAdapter(null);
             dialog.setMessage("Loading....");
-          //  dialog.show();
+            //  dialog.show();
             String str = null;
             try {
 
@@ -1049,10 +1049,13 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
             longi = arg0.getLongitude();
             location = arg0;
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
-            cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
-            if (address.equals("")) {
-                if (config.NetworkConnection()) {
-                    address = getCompleteAddressString(lati, longi);
+            if(String.valueOf(longi).length()>2) {
+                cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
+
+                if (address.equals("")) {
+                    if (config.NetworkConnection()) {
+                        address = getCompleteAddressString(lati, longi);
+                    }
                 }
             }
             tvAddress.setText(address + "\n" + cordinates);
@@ -1099,11 +1102,26 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
         }
 
         String taggedCordinates = "";
-        if (!cordinates.isEmpty()) {
-            taggedCordinates = cordinates;
+        //cordinates="";
+        if (!cordinates.trim().isEmpty() ) {
+            if (cordinates.trim().length() > 3)
+                taggedCordinates = cordinates;
+            else {
+                Toast.makeText(context, "Please Wait for location", Toast.LENGTH_SHORT).show();
+                relPRogress.setVisibility(View.GONE);
+                container.setClickable(true);
+                container.setEnabled(true);
+                getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                return;
+            }
         } else {
-            Utility.showAlertDialog("", "Please Wait for location", context);
-
+            //Utility.showAlertDialog("", "Please Wait for location", context);
+            Toast.makeText(context, "Please Wait for location", Toast.LENGTH_SHORT).show();
+            relPRogress.setVisibility(View.GONE);
+            container.setClickable(true);
+            container.setEnabled(true);
+            getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+            return;
         }
 
         Log.d("LocationDatasaveToDb", cordinates);
@@ -1129,7 +1147,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
             }
            else*/
             {
-              //  msclass.showMessage("Data saved successfully.");
+                //  msclass.showMessage("Data saved successfully.");
                 Config.refreshActivity(RetailerVisitsActivity.this);
                 // dialog.dismiss();
          /*       relPRogress.setVisibility(View.GONE);
@@ -1138,15 +1156,15 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                 getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);*/
 
                 // This code is to upload data if internet is available
-               if(new Config(context).NetworkConnection())
-                UplaodRetailerVisitDataNew();
-               else {
+                if(new Config(context).NetworkConnection())
+                    UplaodRetailerVisitDataNew();
+                else {
 
-                   relPRogress.setVisibility(View.GONE);
-                   container.setClickable(true);
-                   container.setEnabled(true);
-                   getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-               }
+                    relPRogress.setVisibility(View.GONE);
+                    container.setClickable(true);
+                    container.setEnabled(true);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                }
 
             }
         } else {
@@ -1361,7 +1379,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
 
     public void UploadRetailer(JsonObject jsonObject) {
         try {
-          /*  progressDialog.dismiss();*/
+            /*  progressDialog.dismiss();*/
           /*  if (!dialog.isShowing())
                 dialog.show();*/
 
@@ -1370,10 +1388,10 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
-                    relPRogress.setVisibility(View.GONE);
+               /*     relPRogress.setVisibility(View.GONE);
                     container.setClickable(true);
                     container.setEnabled(true);
-                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
+                    getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);*/
                     if (response.body() != null) {
                         String result = response.body();
                         try {
@@ -1382,11 +1400,13 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                                 if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
 
                                     mDatabase.updateRetailerVisitsData("0", "1");
-                                    msclass.showMessage("Retailer Data Upload successfully.");
-
+                                    //   msclass.showMessage("Retailer Data Upload successfully.");
+                                    Toast.makeText(RetailerVisitsActivity.this, "Retailer Data Upload successfully.", Toast.LENGTH_SHORT).show();
 
                                 } else {
-                                    msclass.showMessage("Retailer Data Not Uploaded \n" + result);
+                                    Toast.makeText(RetailerVisitsActivity.this, "Retailer Data Not Uploaded \n" + result, Toast.LENGTH_SHORT).show();
+
+                                    // msclass.showMessage("Retailer Data Not Uploaded \n" + result);
                                 }
                             }
                         } catch (NullPointerException e) {

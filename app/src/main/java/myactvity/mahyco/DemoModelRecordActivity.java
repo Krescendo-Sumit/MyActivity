@@ -1252,7 +1252,11 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
             msclass.showMessage("Please Tag The Field.");
             return false;
         }
-
+        if(cordinates.trim().equals(""))
+        {
+            msclass.showMessage("Please Wait for location.");
+            return false;
+        }
 
         if (!isAlreadydone()) {
             msclass.showMessage("This crop,product and mobile number already exists");
@@ -1357,8 +1361,10 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
 //        String unit = spKgPacks.getSelectedItem().toString();
           String unit = tvQty.getText().toString();
 
+          if(String.valueOf(lati).trim().equals(""))
 
-          cordinates = " Latitude : " + String.valueOf(lati) + " Longitude : " + String.valueOf(longi) + "-" + getCompleteAddressString(lati, longi);
+        //  cordinates = String.valueOf(lati) + "-" + String.valueOf(longi) + "-" + getCompleteAddressString(lati, longi);
+          cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
           Log.d("LocationDatasaveToDb", cordinates);
 
           String isSynced = "0";
@@ -1498,7 +1504,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
         String imgStatus = "0";
         String isSynced = "0";
         String addressREceived = address != null ? address : "";
-        cordinates = " Latitude : " + String.valueOf(lati) + " Longitude : " + String.valueOf(longi) + "-" + addressREceived;
+        cordinates = "" + String.valueOf(lati) + "-" + String.valueOf(longi) + "-" + addressREceived;
         Log.d("LocationDat", cordinates);
         boolean fl = mDatabase.insertDemoModelReview(uId, uIdP, userCode, taluka,
                 farmerName, mobileNumber, cropType, product, area, sowingDate, formattedDate,
