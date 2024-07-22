@@ -1170,20 +1170,13 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
 
             }
 
-            if (txtkm.getText().length() == 0) {
-                msclass.showMessage("Please enter start reading (km).");
-                return false;
 
-            }
-            if (ivImage.getDrawable() == null) {
-                msclass.showMessage("Please upload vehicle reading photo(km)");
-                return false;
-            }
 
 
 
             if (vehicletype.equals("2") || vehicletype.equals("3")) // Only for company vehicle code validation
             {
+
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 Date d = new Date();
                 String strdate = dateFormat.format(d);
@@ -1223,8 +1216,19 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                 }
 
 
+            }else
+            {
+                txtkm.setText("1");
             }
+            if (txtkm.getText().length() == 0) {
+                msclass.showMessage("Please enter start reading (km).");
+                return false;
 
+            }
+            /*if (ivImage.getDrawable() == null) {
+                msclass.showMessage("Please upload vehicle reading photo(km)");
+                return false;
+            }*/
 
             if (txtlocation.getText().length() == 0) {
                 msclass.showMessage("Please enter location/place.");

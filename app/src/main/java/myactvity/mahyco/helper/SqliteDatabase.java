@@ -49,7 +49,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class SqliteDatabase extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 41;/* Update version 40 for Shelling Day and Utpadan Mohatsav*/ /*Updated on 7th September 2021*/
+    private static final int DATABASE_VERSION = 41; /* Update version 40 for Shelling Day and Utpadan Mohatsav*/ /*Updated on 7th September 2021*/
     /* last 33 16-08-2021 */
     private static final String DATABASE_NAME = "MDOApps";
     private static final String TABLE_PRODUCTS = "UserMaster";
@@ -1014,6 +1014,10 @@ public class SqliteDatabase extends SQLiteOpenHelper {
                 break;
             case 40:
                // Added on 17/01/2024  for shelling day activity.
+                addshellingandutpadantable(db);
+                break;
+            case 41:
+                // Added on 17/01/2024  for shelling day activity.
                 addshellingandutpadantable(db);
                 break;
             default:
@@ -7808,6 +7812,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(queryString, null);
         int count = cursor.getCount();
         if (count > 0) {
+
             JSONArray jsonArrayUpdate = new JSONArray();
 
             jsonArrayUpdate = getResultsVillageDetails(queryString);

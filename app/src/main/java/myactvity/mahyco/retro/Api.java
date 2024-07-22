@@ -7,6 +7,7 @@ import org.json.JSONObject;
 
 import java.util.List;
 
+import myactvity.mahyco.TBMWiseMdoList;
 import myactvity.mahyco.newupload.HDPSPaymentDetailAPI;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -95,4 +96,7 @@ Call<String> syncTraveldata(@Field("Type") String mdo_travelData, @Field("encode
 
     @POST(RetroConstants.DownloadPlotValidationMasterData)
     Call<String> getUserPlotValidationMasterData(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.GET_TBM_WISE_KA_LIST)
+    Call<TBMWiseMdoList.KAListModel> GetTBMWiseKAList(@Body JsonObject jsonObject);
 }

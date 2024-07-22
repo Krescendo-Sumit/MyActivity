@@ -230,7 +230,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             mainIntent = new Intent(this, LoginActivity.class);
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainIntent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_IMMUTABLE);
 
             NotificationManager mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -324,7 +324,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
             mainIntent = new Intent(this, LoginActivity.class);
 
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainIntent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, mainIntent, PendingIntent.FLAG_IMMUTABLE);
 
             NotificationManager mNotificationManager;;
              String NOTIFICATIONCHANNELID_FCM = "channel_id_fcm";

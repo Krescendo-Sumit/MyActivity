@@ -1265,15 +1265,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                 return false;
 
             }
-            if (txtkm.getText().length() == 0) {
-                msclass.showMessage("Please enter start reading (km).");
-                return false;
 
-            }
-            if (ivImage.getDrawable() == null) {
-                msclass.showMessage("Please upload vehicle reading photo(km)");
-                return false;
-            }
 
             if(vehicletype.equals("2")||vehicletype.equals("3")) // Only for company vehicle code validation
             {
@@ -1287,7 +1279,20 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     return false;
 
                 }
+
+            }else
+            {
+                txtkm.setText("0");
             }
+            if (txtkm.getText().length() == 0) {
+                msclass.showMessage("Please enter start reading (km).");
+                return false;
+
+            }
+          /*  if (ivImage.getDrawable() == null) {
+                msclass.showMessage("Please upload vehicle reading photo(km)");
+                return false;
+            }*/
             if (txtlocation.getText().length() == 0) {
                 msclass.showMessage("Please enter location/place.");
                 return false;
@@ -1351,6 +1356,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                       address+="|VN-"+BuildConfig.VERSION_NAME+"|VC-"+BuildConfig.VERSION_CODE;
                     // String vehicletype=spvehicletype.getSelectedItem().toString();
                     String villagename="";//spTehsil.getSelectedItem().toString();
+
                     boolean fl = mDatabase.InsertTravelTime(pref.getString("UserID", null),
                             cordinate, address, InTime,spDist.getSelectedItem().toString().trim(),
                             spTaluka.getSelectedItem().toString().trim(),

@@ -315,14 +315,15 @@ public class UserHome extends AppCompatActivity
                 userCode = userCode.replace(" ", "%20");
                 IME = IME.replace(" ", "%20");
 
-                //new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
+              //  new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
                //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco");
             } catch (Exception e) {
-
+                Toast.makeText(context, "Error is "+e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         } else {
 
         }
+        showTBMKAList("Please verify your KA list and submit your remark.");
 
     }
     public void myAlarm(int hr, int min, int sec) {
@@ -1888,6 +1889,7 @@ public class UserHome extends AppCompatActivity
 
         protected void onPreExecute() {
             // NOTE: You can call UI Element here.
+           // Toast.makeText(context, "Entered", Toast.LENGTH_SHORT).show();
 
             //UI Element
             //   uiUpdate.setText("Output : ");
@@ -2099,6 +2101,30 @@ public class UserHome extends AppCompatActivity
                 startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
                         ("https://play.google.com/store/apps/details?id=myactvity.mahyco")));
                 dialog.dismiss();
+            }
+        });
+
+        /*builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //background.start();
+            }
+        });*/
+
+        builder.setCancelable(false); //Update 17 Jan. 2022
+        dialog1 = builder.show();
+    }
+
+     private void showTBMKAList(String Message) {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Verify your KA list !");
+        builder.setMessage(""+Message);
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+               dialog.dismiss();
+               Intent intent=new Intent(context,TBMWiseMdoList.class);
+               startActivity(intent);
             }
         });
 

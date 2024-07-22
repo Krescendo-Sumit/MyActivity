@@ -28,10 +28,14 @@ public class NotificationReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         try {
             this.c = context;
-    /*    NotificationHelper notificationHelper = new NotificationHelper(context);
-        notificationHelper.createNotification();*/
+          /*
+
+          NotificationHelper notificationHelper = new NotificationHelper(context);
+          notificationHelper.createNotification();
+
+          */
             sendNotification("Attention : End Travel and please upload data.Otherwise you lost day activity.", null);
-         //   Toast.makeText(context, "Alarm Called ", Toast.LENGTH_SHORT).show();
+         // Toast.makeText(context, "Alarm Called ", Toast.LENGTH_SHORT).show();
             Log.i("Alarm called", "true");
 
         }catch (Exception e)
