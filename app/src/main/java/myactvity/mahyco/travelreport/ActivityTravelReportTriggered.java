@@ -111,12 +111,12 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
                     return;
                 }
             }
-            JsonObject jsonObject=new JsonObject();
-            jsonObject.addProperty("MDOCode",""+userCode);//: "mh248",
-                    jsonObject.addProperty("IsApproved",status);//: true,
-                    jsonObject.addProperty("ApprovedDt",currentDateandTime);//: "",
-                    jsonObject.addProperty("Remark",remark);//: "Test Remark",
-                    jsonObject.addProperty("CreatedBy",""+userCode);//: "Sumit"
+            JsonObject jsonObject = new JsonObject();
+            jsonObject.addProperty("MDOCode", "" + userCode);//: "mh248",
+            jsonObject.addProperty("IsApproved", status);//: true,
+            jsonObject.addProperty("ApprovedDt", currentDateandTime);//: "",
+            jsonObject.addProperty("Remark", remark);//: "Test Remark",
+            jsonObject.addProperty("CreatedBy", "" + userCode);//: "Sumit"
             SubmitRemark(jsonObject);
         } catch (Exception e) {
 
@@ -138,8 +138,7 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
                         progressDialog.dismiss();
 
                     if (response.body() != null) {
-                        Toast.makeText(ActivityTravelReportTriggered.this, ""+response.body(), Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(ActivityTravelReportTriggered.this, "" + response.body(), Toast.LENGTH_SHORT).show();
 
 
                     }
