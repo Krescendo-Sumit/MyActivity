@@ -32,5 +32,6 @@ public static final String GETHDPSUserwiseReport = "coupon/getHDPSUserwiseReport
  public static final String GET_TBM_WISE_KA_LIST = "generalactivity/getMdoByTbm";
 
 
-
+ public static final String GET_TRAVEL_REPORT_TRIGGED = "https://maapackhousenxg.mahyco.com/api/myTravel/getMyTravelReportforApp";
+ public static final String SUBMIT_MYTRAVELREPORT_TRIGGERED = "https://maapackhousenxg.mahyco.com/api/myTravel/createMyTravelActivityRemark";
 }

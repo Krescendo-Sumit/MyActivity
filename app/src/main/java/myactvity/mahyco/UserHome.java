@@ -108,6 +108,7 @@ import myactvity.mahyco.helper.SqliteDatabase;
 import myactvity.mahyco.newupload.NotificationReceiver;
 import myactvity.mahyco.newupload.SetAlarmActivity;
 import myactvity.mahyco.newupload.UploadDataNew;
+import myactvity.mahyco.travelreport.ActivityTravelReportTriggered;
 
 public class UserHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -777,7 +778,8 @@ public class UserHome extends AppCompatActivity
                 this.startActivity(intent);*/
                 logProfileEvent();
                 Toast.makeText(getApplicationContext(), "Working Progress", Toast.LENGTH_SHORT).show();
-
+                Intent intent = new Intent(this.getApplicationContext(), ActivityTravelReportTriggered.class);
+                this.startActivity(intent);
             } else if (id == R.id.nav_share) {
 
                 // Intent i = new Intent(UserHome.this, AndroidDatabaseManager.class);

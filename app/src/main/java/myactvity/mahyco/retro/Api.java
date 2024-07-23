@@ -9,6 +9,7 @@ import java.util.List;
 
 import myactvity.mahyco.TBMWiseMdoList;
 import myactvity.mahyco.newupload.HDPSPaymentDetailAPI;
+import myactvity.mahyco.travelreport.ActivityTravelReportTriggered;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -99,4 +100,10 @@ Call<String> syncTraveldata(@Field("Type") String mdo_travelData, @Field("encode
 
     @POST(RetroConstants.GET_TBM_WISE_KA_LIST)
     Call<TBMWiseMdoList.KAListModel> GetTBMWiseKAList(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.GET_TRAVEL_REPORT_TRIGGED)
+    Call<ActivityTravelReportTriggered.MyTravelModel> GetTravelReportTriggered(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.SUBMIT_MYTRAVELREPORT_TRIGGERED)
+    Call<String> submitMyTravelReportTriggeredRemark(@Body JsonObject jsonObject);
 }
