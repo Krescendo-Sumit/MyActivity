@@ -90,12 +90,12 @@ public class SamruddhaValidationRecordAdapter extends RecyclerView.Adapter<Samru
     Config config;
     Dialog dialog;
     Prefs mPref;
-    //String SERVER = "https://packhouse.mahyco.com/api/generalactivity/updateSamruddhaKisanValidation";
-    String SERVER = "https://packhouse.mahyco.com/api/generalactivity/samruddhaKisanValidation";
+    //String SERVER = "https://maapackhousenxg.mahyco.com/api/generalactivity/updateSamruddhaKisanValidation";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/generalactivity/samruddhaKisanValidation";
     //test URL
     //String SERVER = "http://10.80.50.153/MAAPackHouseTest/api/generalactivity/samruddhaKisanValidation";
     //  String SERVER_IMAGE = "http://10.80.50.153/MAAPackHouseTest/UploadSamfuddhaKisanFarmerPhoto/";
-    String SERVER_IMAGE = "https://packhouse.mahyco.com/UploadSamfuddhaKisanFarmerPhoto/";
+    String SERVER_IMAGE = "https://maapackhousenxg.mahyco.com/UploadSamfuddhaKisanFarmerPhoto/";
 
     int mYear, mMonth, mDay;
     String taggedAddress = "";

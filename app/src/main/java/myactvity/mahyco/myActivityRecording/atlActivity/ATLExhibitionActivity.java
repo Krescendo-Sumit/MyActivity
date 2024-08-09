@@ -99,6 +99,7 @@ import myactvity.mahyco.helper.HarvestDayModel;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -136,8 +137,8 @@ public class ATLExhibitionActivity extends AppCompatActivity implements
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
     List<GeneralMaster> mList = new ArrayList<>();
-  //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/atl/atlExhibitionData";
+  //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/atlExhibitionData";
 
 
     String userCode, imagePath, imagePath2;
@@ -649,6 +650,10 @@ public class ATLExhibitionActivity extends AppCompatActivity implements
                 activityImgPath, activityImgStatus, isSynced,villagecode);
 
         if (fl) {
+
+            if (CommonUtil.addGTVActivity(context, "35", "Exhibitions", cordinates, numberOfVisitors+" "+selectRBM,"Market")) {
+                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
             //msclass.showMessage("data saved successfully.");
             uploadData("mdo_ATLExhibitionData");
 

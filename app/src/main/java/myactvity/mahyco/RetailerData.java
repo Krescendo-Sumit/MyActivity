@@ -98,6 +98,7 @@ import myactvity.mahyco.app.MultiSelectionSpinner;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.POPDisplayActivity;
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.PromotionActivity;
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.VillageMeetingActivity;
@@ -2633,6 +2634,11 @@ public class RetailerData extends Fragment implements GoogleApiClient.Connection
 
                     if (fl == true) {
                         try {
+
+                            if (CommonUtil.addGTVActivity(context, "39", "Retailer Tag", cordinate, retailername+" "+newfirm+" "+mobileno,"Market")) {
+                                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                            }
+
                             msclass.showMessage("data saved successfully");
                             txtmobile.setText("");
                             txtAge.setText("");

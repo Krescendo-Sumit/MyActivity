@@ -101,6 +101,8 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
+
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
 public class SanmanMelaActivity extends AppCompatActivity implements
@@ -133,8 +135,8 @@ public class SanmanMelaActivity extends AppCompatActivity implements
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
     List<GeneralMaster> mList = new ArrayList<>();
-    //String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/preseason/sanmanMela";
+    //String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/sanmanMela";
     String userCode, imagePath, imagePath2;
     String plotType = "";
     String soilType = "";
@@ -1781,6 +1783,10 @@ public class SanmanMelaActivity extends AppCompatActivity implements
                      activityImgStatus, farmerCount, isSynced,villagecode);
 
              if (fl) {
+
+                 if (CommonUtil.addGTVActivity(context, "21", "Sanman Mela", cordinates, farmerNumber+" "+product,"GTV")) {
+                     // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                 }
                 uploadData("SanmanMelaData");
                  //msclass.showMessage("data saved successfully.");
                  relPRogress.setVisibility(View.GONE);

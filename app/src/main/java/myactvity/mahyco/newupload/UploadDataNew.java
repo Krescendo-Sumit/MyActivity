@@ -61,6 +61,7 @@ import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
@@ -69,6 +70,7 @@ import myactvity.mahyco.BuildConfig;
 import myactvity.mahyco.FirebaseAnalyticsHelper;
 import myactvity.mahyco.LoginActivity;
 import myactvity.mahyco.R;
+import myactvity.mahyco.UploadData;
 import myactvity.mahyco.UserRegister;
 import myactvity.mahyco.Utility;
 import myactvity.mahyco.app.AppConstant;
@@ -81,10 +83,10 @@ import myactvity.mahyco.app.WebService;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SqliteDatabase;
 
-public class UploadDataNew extends AppCompatActivity implements NewUploadListener {
+public class UploadDataNew extends AppCompatActivity implements NewUploadListener, ShellingDayAndUtpadanMohatsavAPI.ShellingDayListener {
     private static final String TAG = "UploadData";
     public Button btnUpload, btnUpload2, btnUpload3, btnUpload5, btnUpload4, btnUploadRetailerdata,
-            btnUploadPostSeason, btnUploadPreSeason, btnUploadATL, btnUploadGen, btnUploadMyTravel;
+            btnUploadPostSeason, btnUploadPreSeason, btnUploadATL, btnUploadGen, btnUploadMyTravel, btnShelling;
     public ProgressDialog dialog, pd;
     public String SERVER = "";
     Prefs mPref;
@@ -107,7 +109,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             rndFieldPurchaseList, rndfieldVisit, rndRetailerVisitToField, rndCropShow, rndHarvestDay, rndFieldDay, rndLivePlantDataVillage, rndLivePlantDataRetailer,
             rndTestimonialCollection, rndSanmanMela, rndVillageMeeting, rndPromotionThroughEntertainment, rndCropSeminar, rndJeepCampaigning, rndPopDisplay,
             rndPostering, rndFieldBoard, rndFieldBanner, rndWallPainting, rndTrolleyPainting, rndExhibition, rndMarketDay,
-            rndDistributorVisit, rndinnovation, rndRetailerVisit, rndFarmerVisit, rndSamruddhaKisanVist, rndAddressing, rndReviewMeeting, rnd_endtravel, rnd_starttravel, rndRetailerDistributor;
+            rndDistributorVisit, rndinnovation, rndRetailerVisit, rndFarmerVisit, rndSamruddhaKisanVist, rndAddressing, rndReviewMeeting, rnd_endtravel, rnd_starttravel, rndRetailerDistributor, rndUtpadan, rndShelling;
 
     SharedPreferences.Editor editor;
     private Context context;
@@ -115,6 +117,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
     RadioGroup radGrp5, radGrp6, radGrp7, radGrp8;
     String userCode;
     NewUplaodAPI api;
+    public int type = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,6 +152,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         btnUploadPostSeason = (Button) findViewById(R.id.btnUploadPostSeason);
         btnUploadPreSeason = (Button) findViewById(R.id.btnUploadPreSeason);
         btnUploadATL = (Button) findViewById(R.id.btnUploadATL);
+        btnUploadGen = (Button) findViewById(R.id.btnUploadGen);
+        btnShelling = (Button) findViewById(R.id.btn_upload_shelling);
         btnUploadGen = (Button) findViewById(R.id.btnUploadGen);
         radGrp5 = (RadioGroup) findViewById(R.id.radGrp5);
         radGrp6 = (RadioGroup) findViewById(R.id.radGrp6);
@@ -245,6 +250,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         rndReviewMeeting = (RadioButton) findViewById(R.id.rndReviewMeeting);
         rndAddressing = (RadioButton) findViewById(R.id.rndAddressing);
         rndinnovation = (RadioButton) findViewById(R.id.rndinnovation);
+        //Shelling Day Activity added
+        rndShelling = (RadioButton) findViewById(R.id.rndShelling);
+        rndUtpadan = (RadioButton) findViewById(R.id.rndUtpadan);
 
         // Mytravel
         rnd_starttravel = (RadioButton) findViewById(R.id.rnd_starttravel);
@@ -288,7 +296,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         onPreSeasonBtnClicked();
         onATLBtnClicked();
         onGeneralBtnClicked();
-
+        rowcountshelling();
+        onShellingButtonCliecked();
 
 //        radGrp5.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 //            public void onCheckedChanged(RadioGroup arg0, int id) {
@@ -563,6 +572,163 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
     }
 
+    private void onShellingButtonCliecked() {
+        btnShelling.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                type = 0;
+                if (rndShelling.isChecked()) {
+                    type = 1;
+                } else if (rndUtpadan.isChecked()) {
+                    type = 2;
+                } else {
+
+                    type = 0;
+                    new AlertDialog.Builder(context).
+                            setMessage("Please choose any one activity.")
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            })
+                            .show();
+                }
+                if (type != 0) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(UploadDataNew.this);
+                    builder.setTitle("MyActivity");
+                    builder.setMessage("Are you sure to upload data");
+                    builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            if (type == 1) {
+                                if (config.NetworkConnection()) {
+                                    JsonArray jsonArray = new JsonArray();
+                                    ArrayList<HashMap> list = mDatabase.getShellingDays();
+                                    if (list.size() > 0) {
+                                        for (int i = 0; i < list.size(); i++) {
+                                            JsonObject jsonObject = new JsonObject();
+                                            HashMap data = list.get(i);
+                                            jsonObject.addProperty("ID", data.get("ID").toString());
+                                            jsonObject.addProperty("UserCode", data.get("UserCode").toString());
+                                            jsonObject.addProperty("State", data.get("State").toString());
+                                            jsonObject.addProperty("District", data.get("District").toString());
+                                            jsonObject.addProperty("Taluka", data.get("Taluka").toString());
+                                            jsonObject.addProperty("VillageCode", data.get("VillageCode").toString());
+                                            jsonObject.addProperty("VillageName", data.get("VillageName").toString());
+                                            jsonObject.addProperty("Crop", data.get("Crop").toString());
+                                            jsonObject.addProperty("Product", data.get("Product").toString());
+                                            jsonObject.addProperty("NoOfFarmer", data.get("NoOfFarmer").toString());
+                                            jsonObject.addProperty("NoOfRetailer", data.get("NoOfRetailer").toString());
+                                            jsonObject.addProperty("PhotoName", data.get("PhotoName").toString());
+                                            jsonObject.addProperty("PhotoString", mDatabase.getImageDatadetail(data.get("PhotoString").toString()));
+                                            jsonObject.addProperty("Status", data.get("Status").toString());
+                                            jsonObject.addProperty("VersionName", data.get("VersionName").toString());
+                                            jsonObject.addProperty("LatLong", data.get("LatLong").toString());
+                                            jsonObject.addProperty("CreatedDate", data.get("CreatedDate").toString());
+                                            jsonObject.addProperty("UplaodStatus", data.get("UplaodStatus").toString());
+                                            jsonObject.addProperty("Extra1", data.get("Extra1").toString());
+                                            jsonObject.addProperty("Extra2", data.get("Extra2").toString());
+                                            jsonArray.add(jsonObject);
+                                        }
+                                        Log.i("JsonData", jsonArray.toString());
+                                        new ShellingDayAndUtpadanMohatsavAPI(context, UploadDataNew.this).UploadShellingDay(jsonArray);
+                                    } else {
+                                        new AlertDialog.Builder(context)
+                                                .setMessage("No Record Found")
+                                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                })
+                                                .show();
+                                    }
+                                } else {
+                                    Toast.makeText(UploadDataNew.this, "No Internet Found.", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+
+                            if (type == 2) {
+                                if (config.NetworkConnection()) {
+                                    JsonArray jsonArray = new JsonArray();
+                                    ArrayList<HashMap> list = new ArrayList<>();
+                                    list = mDatabase.getUtpadanMohatsav();
+                                    if (list.size() > 0) {
+                                        for (int i = 0; i < list.size(); i++) {
+                                            JsonObject jsonObject = new JsonObject();
+                                            HashMap data = list.get(i);
+                                            Log.i("Data :", data.toString());
+                                            jsonObject.addProperty("ID", data.get("ID").toString());
+                                            jsonObject.addProperty("UserCode", data.get("UserCode").toString());
+                                            jsonObject.addProperty("State", data.get("State").toString());
+                                            jsonObject.addProperty("District", data.get("District").toString());
+                                            jsonObject.addProperty("Taluka", data.get("Taluka").toString());
+                                            jsonObject.addProperty("VillageCode", data.get("VillageCode").toString());
+                                            jsonObject.addProperty("VillageName", data.get("VillageName").toString());
+                                            jsonObject.addProperty("Crop", data.get("Crop").toString());
+                                            jsonObject.addProperty("Product", data.get("Product").toString());
+                                            jsonObject.addProperty("HostFarmerName", data.get("HostFarmerName").toString());
+                                            jsonObject.addProperty("FarmerMobile", data.get("FarmerMobile").toString());
+                                            jsonObject.addProperty("FarmerArea", data.get("FarmerArea").toString());
+                                            jsonObject.addProperty("FarmerYeild", data.get("FarmerYeild").toString());
+                                            jsonObject.addProperty("NumberOfFarmerFelisited", data.get("NumberOfFarmerFelisited").toString());
+                                            jsonObject.addProperty("NumberOfFarmer", data.get("NumberOfFarmer").toString());
+                                            jsonObject.addProperty("NumberOfRetailer", data.get("NumberOfRetailer").toString());
+                                            jsonObject.addProperty("PhotoName", data.get("PhotoName").toString());
+                                            jsonObject.addProperty("PhotoString", mDatabase.getImageDatadetail(data.get("PhotoString").toString().trim()));
+                                            jsonObject.addProperty("Status", data.get("Status").toString());
+                                            jsonObject.addProperty("VersionName", data.get("VersionName").toString());
+                                            jsonObject.addProperty("LatLong", data.get("LatLong").toString());
+                                            jsonObject.addProperty("CreatedDate", data.get("CreatedDate").toString());
+                                            jsonObject.addProperty("UplaodStatus", data.get("UplaodStatus").toString());
+                                            jsonObject.addProperty("Extra1", data.get("Extra1").toString());
+                                            jsonObject.addProperty("Extra2", data.get("Extra2").toString());
+                                            jsonArray.add(jsonObject);
+                                        }
+                                        Log.i("JsonData", jsonArray.toString());
+                                        new ShellingDayAndUtpadanMohatsavAPI(context, UploadDataNew.this).UploadUtpadanMohatsav(jsonArray);
+                                    } else {
+                                        new AlertDialog.Builder(context)
+                                                .setMessage("No Record Found")
+                                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                })
+                                                .show();
+                                    }
+                                } else {
+                                    Toast.makeText(UploadDataNew.this, "No Internet Found.", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+
+                        }
+                    });
+
+                    builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            // Do nothing
+                            dialog.dismiss();
+                        }
+                    });
+
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }
+            }
+
+        });
+    }
+
     private void onGeneralBtnClicked() {
         btnUploadGen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -753,6 +919,108 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
     }
 
+    public int rowcountshelling() {
+        try {
+            rndShelling.setText("Shelling Day - " + mDatabase.getShellingDays().size());
+            rndUtpadan.setText("Utpadan Mohatsav - " + mDatabase.getUtpadanMohatsav().size());
+            return mDatabase.getShellingDays().size() + mDatabase.getUtpadanMohatsav().size();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public void onShellingDayUpload(String result) {
+        try {
+
+            JSONObject jsonObject = new JSONObject(result);
+            if (jsonObject.getBoolean("success")) {
+                mDatabase.UpdateStatus("Update tbl_shellingday set UplaodStatus='1' where UplaodStatus='0'");
+                rowcountshelling();
+                new AlertDialog.Builder(context)
+                        .setTitle("Upload Status : Success")
+                        .setMessage("" + jsonObject.getString("Message"))
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                dialogInterface.dismiss();
+                                finish();
+                            }
+                        })
+                        .show();
+            } else {
+                new AlertDialog.Builder(context)
+                        .setTitle("Upload Status : Fail")
+                        .setMessage("" + jsonObject.getString("Message"))
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        } catch (Exception e) {
+            new AlertDialog.Builder(context)
+                    .setTitle("Upload Status : Fail")
+                    .setMessage("Something went wrong \n\nResult :" + result)
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    @Override
+    public void onUtpadanMohatsavUpload(String result) {
+        try {
+
+            JSONObject jsonObject = new JSONObject(result);
+            if (jsonObject.getBoolean("success")) {
+                mDatabase.UpdateStatus("Update tbl_utpadanmohatsavdata set UplaodStatus='1' where UplaodStatus='0'");
+                rowcountshelling();
+                new AlertDialog.Builder(context)
+                        .setTitle("Upload Status : Success")
+                        .setMessage("" + jsonObject.getString("Message"))
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                dialogInterface.dismiss();
+                                finish();
+                            }
+                        })
+                        .show();
+            } else {
+                new AlertDialog.Builder(context)
+                        .setTitle("Upload Status : Fail")
+                        .setMessage("" + jsonObject.getString("Message"))
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        } catch (Exception e) {
+            new AlertDialog.Builder(context)
+                    .setTitle("Upload Status : Fail")
+                    .setMessage("Something went wrong \n\nResult :" + result)
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    .show();
+        }
+    }
+
     public void uploadFarmerVisitsData(String functionName) {
 
         String str = null;
@@ -788,8 +1056,32 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
     @Override
     public void onResultDistributor(String result, String id) {
         if (result != null)
-            handleDistributorDataSyncResponse("DistributorData", result, id);
-        else
+        //handleDistributorDataSyncResponse("DistributorData", result, id);
+        {
+            try {
+
+                JSONObject jsonObject = new JSONObject(result);
+                if (jsonObject.has("success")) {
+                    if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
+
+                        //mDatabase.updateDistributerVisitsData("0", "1", id);
+                        Log.i("Update ","update DistributerVisitsData set isSynced='1' where _id=" + id);
+                        mDatabase.UpdateStatus("update DistributerVisitsData set isSynced='1' where _id=" + id);
+                        // msclass.showMessage("" + jsonObject.getString("message"));
+                        Toast.makeText(context, ""+jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        rndDistributorVisit.setText("DISTRIBUTOR VISIT" + " 0");
+                        recordshowGeneral();
+                        uploadDistributorData("DistributorData");
+                    } else {
+                        msclass.showMessage("Data not Uploaded \n" + result);
+                    }
+                }
+
+                Log.d("DistributorData", "DistributorData: " + result);
+            } catch (Exception e) {
+                msclass.showMessage("" + e.getMessage());
+            }
+        } else
             msclass.showMessage("Something went Wrong " + result);
     }
 
@@ -936,9 +1228,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                 if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
 
                     mDatabase.updateFarmerVisitsData("0", "1", id);
-                    String ss="Update FarmerVisitsData set isSynced=1 where isSynced=0";
+                    String ss = "Update FarmerVisitsData set isSynced=1 where isSynced=0";
 
-                    if(mDatabase.UpdateStatus(ss)) {
+                    if (mDatabase.UpdateStatus(ss)) {
                         msclass.showMessage("" + jsonObject.getString("message"));
                         rndFarmerVisit.setText("FARMER VISIT" + " 0");
                     }
@@ -1237,9 +1529,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                     if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
 
                         mDatabase.updateRetailerVisitsData("0", "1");
-                        String ss="Update RetailerVisitsData set isSynced=1 where isSynced=0";
+                        String ss = "Update RetailerVisitsData set isSynced=1 where isSynced=0";
 
-                        if(mDatabase.UpdateStatus(ss)) {
+                        if (mDatabase.UpdateStatus(ss)) {
                             msclass.showMessage("Retailer Data Upload successfully.");
                             rndRetailerVisit.setText("RETAILER VISIT" + " 0");
                         }
@@ -1517,10 +1809,10 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
     }
 
-    private String uploadDistributorData(String distributorData) {
+    public String uploadDistributorData(String distributorData) {
 
         String str = null;
-        String searchQuery = "select  *  from DistributerVisitsData where  isSynced ='0'";
+        String searchQuery = "select  *  from DistributerVisitsData where  isSynced ='0' limit 1";
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
         int count = cursor.getCount();
         JsonArray jsonArray = new JsonArray();
@@ -1546,9 +1838,13 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                 jsonArray = mDatabase.getResultsRetro(searchQuery);
                 for (int i = 0; i < jsonArray.size(); i++) {
 
+
                     jsonObject.add("Table", jsonArray.get(i));
                     JsonObject json = jsonArray.get(i).getAsJsonObject();
                     String id = json.get("_id").toString();
+                    Log.d("Data", json.toString());
+                    Toast.makeText(context, "Uploading " + id, Toast.LENGTH_SHORT).show();
+                    Log.i("Uploading ", "=============>>>>" + id);
                     api.UploadDistributor(jsonObject, id);
                     // str = syncATLMarketDayDataSingleImage(distributorData, Constants.DISTRIBUTORVIST_SERVER_API, jsonObject);
 
@@ -1580,10 +1876,11 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                 if (jsonObject.has("success")) {
                     if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
 
-                        mDatabase.updateDistributerVisitsData("0", "1", id);
-                        msclass.showMessage("" + jsonObject.getString("message"));
+                        //mDatabase.updateDistributerVisitsData("0", "1", id);
+                        mDatabase.UpdateStatus("update DistributerVisitsData set isSynced='0' where _id=" + id);
+                        // msclass.showMessage("" + jsonObject.getString("message"));
                         rndDistributorVisit.setText("DISTRIBUTOR VISIT" + " 0");
-
+                        //uploadDistributorData("DistributorData");
                     } else {
                         msclass.showMessage("Data not Uploaded \n" + resultout);
                     }
@@ -2905,7 +3202,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     mPref.save("isSubmitClickedPostering", "true");
-                                    // Config.refreshActivity(UploadData.this);
+                                    // Config.refreshActivity(UploadDataNew.this);
                                     dialog.dismiss();
                                     relPRogress.setVisibility(View.GONE);
                                     container.setClickable(true);
@@ -4985,7 +5282,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         int count = cursor.getCount();
         if (count > 0) {
             try {
-                String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+                String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
 
                 str = new UploadDemoModelRegisterData(UploadBatchCodeData).execute(SERVER).get();
 
@@ -5066,7 +5363,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
                 try {
                     jsonArray = mDatabase.getResults(searchQuery);
-                    String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+                    String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
 
 
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -5204,7 +5501,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         String searchQuery = "select  *  from DemoReviewData where  isSynced ='0'";
 
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
-        String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+        String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
 
         int count = cursor.getCount();
         JSONArray jsonArray = new JSONArray();
@@ -9160,7 +9457,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                     intent1.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     context.startActivity(intent1);
 
-                   /* Intent intent = new Intent(UploadData.this, UserRegister.class);
+                   /* Intent intent = new Intent(UploadDataNew.this, UserRegister.class);
                    // intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                     editor.putString("UserID", null);
                     editor.commit();
@@ -9661,6 +9958,10 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
                     JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
                     Log.i("Image path", jsonObject.get("imgpath1").toString().replace("\"", ""));
                     jsonObject.addProperty("imgpath", mDatabase.getImageDatadetail(jsonObject.get("imgpath1").toString().replace("\"", "")));
+                    jsonObject.addProperty("GTVType", "NA");
+                    jsonObject.addProperty("GTVSession", "NA");
+                    jsonObject.addProperty("Remark", "");
+                    jsonObject.addProperty("ParentId", 0);
                 }
                 JsonObject jsonFinal = new JsonObject();
                 jsonFinal.add("starttravelModels", jsonArray);

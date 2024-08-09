@@ -105,6 +105,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -171,8 +172,8 @@ public class ATLWallPaintingActivity extends AppCompatActivity implements Google
     SharedPreferences.Editor loceditor, editor;
     RelativeLayout relPRogress;
     ScrollView container;
-    //String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/atl/villageWallPainting";
+    //String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/villageWallPainting";
     ProgressBar progressBar;
     private Handler handler = new Handler();
     private long mLastClickTime = 0;
@@ -2527,6 +2528,10 @@ public class ATLWallPaintingActivity extends AppCompatActivity implements Google
                         taggedCordinatesMandiNameStart + " " + taggedAddressMandiNameStart, taggedCordinatesMandiNameStart,
                         taggedCordinatesMandiNameEnd + " " + taggedAddressMandiNameEnd, taggedCordinatesMandiNameEnd, finalPopupJson,villagecode);
                 if (fl) {
+
+                    if (CommonUtil.addGTVActivity(context, "24", "Wall painting", cordinates, strMandiName+" "+selectedWallPaintingType,"GTV")) {
+                        // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                    }
 
                     if(calllisner==0)  // Intial Click on Add location
                     {

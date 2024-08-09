@@ -94,7 +94,7 @@ public class ActivityKisanClub extends AppCompatActivity implements CompoundButt
     String ratingMahyco;
     String ratingSungro;
     String productAwareness;
-    String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;

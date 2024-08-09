@@ -102,6 +102,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -170,8 +171,8 @@ public class FieldBoardActivity extends AppCompatActivity implements GoogleApiCl
     RadioButton radFocusedActivity,radOtherActivity;
     LinearLayout llOtherVillages,llFocussedVillages;
 
-  //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/atl/fieldBoardData";
+  //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/fieldBoardData";
 
     ProgressBar progressBar;
     RelativeLayout relPRogress;
@@ -2230,6 +2231,12 @@ public class FieldBoardActivity extends AppCompatActivity implements GoogleApiCl
                 fieldBoardImgStatus, isSynced,villagecode);
 
         if (fl) {
+
+            if (CommonUtil.addGTVActivity(context, "18", "Field board", cordinates, pkFarmerMobileNumber+" "+product,"GTV")) {
+                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
+
+
             Toast.makeText(context, "Save to Db", Toast.LENGTH_SHORT).show();
            // msclass.showMessage("data saved successfully.");
             uploadData("MDO_FieldBoardData");

@@ -714,6 +714,50 @@
                 android:background="@drawable/rbutton"
                 android:text="Upload data"
                 android:textColor="@color/QRCodeBlackColor" />
+
+            <TextView
+                android:id="@+id/lblGeneral123"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="UPLOAD SHELLING DAY and UTPADAN MOHATSAV"
+                android:textStyle="bold" />
+
+            <RadioGroup
+                android:id="@+id/radGrpShelling"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/rndShelling"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndDistributorVisit"
+                    android:text="Shelling Day" />
+
+                <RadioButton
+                    android:id="@+id/rndUtpadan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:tag="@string/rndRetailerVisit"
+                    android:text="Utpadan Mohatsav" />
+
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btn_upload_shelling"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/rbutton"
+                android:text="Upload data"
+                android:textColor="@color/QRCodeBlackColor" />
+
         </LinearLayout>
 
 

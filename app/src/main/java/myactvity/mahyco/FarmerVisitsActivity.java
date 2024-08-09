@@ -93,6 +93,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -135,8 +136,8 @@ public class FarmerVisitsActivity extends AppCompatActivity implements
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
     List<GeneralMaster> mList = new ArrayList<>();
-    //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/generalactivity/farmervisit";
+    //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/generalactivity/farmervisit";
     String userCode;
     String plotType = "";
     CardView crdSpace;
@@ -1515,6 +1516,10 @@ public class FarmerVisitsActivity extends AppCompatActivity implements
                 isSynced,isSamruddhaKisan,villagecode);
 
         if (fl) {
+            if (CommonUtil.addGTVActivity(context, "19", "Farmer Visit", cordinates, farmerName+" "+mobileNumber,"GTV")) {
+                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
+
             uploadFarmerVisitsData("FarmerVisitsData");
             //msclass.showMessage("data saved successfully.");
             relPRogress.setVisibility(View.GONE);

@@ -126,7 +126,7 @@ public class MyFieldActvityonline extends AppCompatActivity implements LocationL
     public AutoCompleteTextView email;
     ProgressDialog dialog;
     public String SERVER = "https://farm.mahyco.com/TestHandler.ashx";
-    public String SERVER2 = "https://cmr.mahyco.com/FormerApp.asmx";
+    public String SERVER2 = "http://10.80.50.153/maatest/FormerApp.asmx";
     public String langcode = "", mobileno, location, username;
     public RadioButton rndRC, rndVC, rndFC;
     SharedPreferences pref, locdata;

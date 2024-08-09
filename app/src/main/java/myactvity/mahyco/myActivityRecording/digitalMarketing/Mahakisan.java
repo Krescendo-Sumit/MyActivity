@@ -1,5 +1,6 @@
 package myactvity.mahyco.myActivityRecording.digitalMarketing;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -12,6 +13,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -22,7 +25,10 @@ import android.provider.MediaStore;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
@@ -103,6 +109,7 @@ import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.PurchaseDetailModel;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 public class Mahakisan extends AppCompatActivity implements
         IPickResult,View.OnClickListener {
@@ -146,11 +153,19 @@ Config config;
     Calendar dateSelected = Calendar.getInstance();
     private DatePickerDialog datePickerDialog;
     private SimpleDateFormat dateFormatter;
+    private FusedLocationProviderClient fusedLocationClient;
+    double lati;
+    double longi;
+    String cordinates;
+    String address = "";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mahakisan);
         initUI();
+        updateLocation();
     }
 
     private void initUI() {
@@ -1007,6 +1022,11 @@ Config config;
                 redirecttoRegisterActivity(result);
                 JSONObject jsonObject = new JSONObject(resultout);
                 if (jsonObject.has("success")) {
+
+                    if (CommonUtil.addGTVActivity(context, "7", "Mahyco Maha kisan", cordinates, etFarmerName.getText()+" "+etMobileNumber.getText(),"GTV")) {
+                        // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                    }
+
                     if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(Mahakisan.this);
                         builder.setTitle("MyActivity");
@@ -2011,6 +2031,55 @@ public void hideKeyboard(View view) {
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
+    public void updateLocation() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    // Logic to handle location object
+
+                    lati = location.getLatitude();
+                    longi = location.getLongitude();
+                    cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
+                    Log.i("Coordinates", cordinates);
+                    address = getCompleteAddressString(lati, longi);
+                    Toast.makeText(context, "Location Latitude : " + location.getLatitude() + " Longitude :" + location.getLongitude() + " Hello :" + address, Toast.LENGTH_SHORT).show();
+                    //  edGeoTagging.setText(location.getLatitude() + "," + location.getLongitude());
+                }
+            }
+        });
+
+    }
+    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+
+        try {
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<android.location.Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+                address = addresses.get(0).getAddressLine(0);
+                strAdd = addresses.get(0).getAddressLine(0);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("My", "Canont get Address!");
+        }
+        return strAdd;
+    }
 
 
 }

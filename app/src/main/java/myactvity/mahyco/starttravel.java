@@ -730,7 +730,7 @@ public class starttravel extends Fragment implements GoogleApiClient.ConnectionC
 
                 btnstUpdate.setVisibility(View.INVISIBLE);
                 chktag.setChecked(true);
-                msclass.showMessage("Tour already started for today.");
+              //  msclass.showMessage("Tour already started for today.");
                 JSONObject jObject = jArray.getJSONObject(0);
            /* for(int i=0; i <jArray.length(); i++) {
                 lblcomp1.setText(jObject.getString("compname").toString());

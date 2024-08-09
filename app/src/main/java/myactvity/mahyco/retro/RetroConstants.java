@@ -2,7 +2,7 @@ package myactvity.mahyco.retro;
 
 public class RetroConstants {
 
-   public static final String BASE_URL = "https://packhouse.mahyco.com/api/";
+   public static final String BASE_URL = "https://maapackhousenxg.mahyco.com/api/";
 
     public static final String UploadRetailer = "generalactivity/retailervisit";
     public static final String UploadFarmerVisit = "generalactivity/farmervisit";
@@ -34,4 +34,6 @@ public static final String GETHDPSUserwiseReport = "coupon/getHDPSUserwiseReport
 
  public static final String GET_TRAVEL_REPORT_TRIGGED = "https://maapackhousenxg.mahyco.com/api/myTravel/getMyTravelReportforApp";
  public static final String SUBMIT_MYTRAVELREPORT_TRIGGERED = "https://maapackhousenxg.mahyco.com/api/myTravel/createMyTravelActivityRemark";
+    public static final String GETVERSIONDETAILS = "https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus";
+ public static final String UplaodGTVTRavelData="myTravel/createGTVUserActivity";;
 }

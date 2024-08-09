@@ -701,6 +701,28 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
 
         });
     }
+    int getUplaodCountAll(Messageclass msclass)
+    {
+        try{
+            int finalcount=0;
+            finalcount+=rowcount();
+            finalcount+=recordshow();
+            finalcount+=recordshowVisit();
+            finalcount+=recordshowCoupon();
+            finalcount+=recordshowRetailerSurveyKisanClub();
+            finalcount+=recordshowPostSeason();
+            finalcount+=recordshowPreSeason();
+            finalcount+=recordshowATL();
+            finalcount+=recordshowGeneral();
+            finalcount+=innovationuploadPendingdata();
+            finalcount+=rowcountshelling();
+            return  finalcount;
+        }catch (Exception e)
+        {
+            Log.i("Error is ",e.getMessage());
+            return 1112;
+        }
+    }
 
     private void onGeneralBtnClicked() {
         btnUploadGen.setOnClickListener(new View.OnClickListener() {
@@ -902,13 +924,14 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             }
         }
     }
-    void rowcountshelling() {
+    public int  rowcountshelling() {
         try{
             rndShelling.setText("Shelling Day - "+mDatabase.getShellingDays().size());
             rndUtpadan.setText("Utpadan Mohatsav - "+mDatabase.getUtpadanMohatsav().size());
+           return  mDatabase.getShellingDays().size()+mDatabase.getUtpadanMohatsav().size();
         }catch (Exception e)
         {
-
+            return 0;
         }
     }
     @Override
@@ -1737,7 +1760,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
     }
 
 
-    private int recordshowGeneral() {
+    public int recordshowGeneral() {
 
         int totalcount = 0;
         try {
@@ -1813,7 +1836,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
 
     }
 
-    private int recordshowATL() {
+    public int recordshowATL() {
         int totalcount = 0;
         try {
             String searchQuery = "";
@@ -3181,7 +3204,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
 
     }
 
-    private int recordshowPreSeason() {
+    public int recordshowPreSeason() {
 
         int totalcount = 0;
         try {
@@ -5034,7 +5057,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
         int count = cursor.getCount();
         if (count > 0) {
             try {
-                String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+                String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
 
                 str = new UploadDemoModelRegisterData(UploadBatchCodeData).execute(SERVER).get();
 
@@ -5115,7 +5138,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
 
                 try {
                     jsonArray = mDatabase.getResults(searchQuery);
-                    String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+                    String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
 
 
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -5253,7 +5276,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
         String searchQuery = "select  *  from DemoReviewData where  isSynced ='0'";
 
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
-        String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+        String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
 
         int count = cursor.getCount();
         JSONArray jsonArray = new JSONArray();
@@ -5652,7 +5675,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
     }
 
 
-    private int recordshowVisit() {
+    public int recordshowVisit() {
         int totalcount = 0;
         try {
             String searchQuery = "";
@@ -5683,7 +5706,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
     }
 
 
-    private int recordshowRetailerSurveyKisanClub() {
+    public int recordshowRetailerSurveyKisanClub() {
         int totalcount = 0;
         try {
             String searchQuery = "";
@@ -5714,7 +5737,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
     }
 
 
-    private int recordshowPostSeason() {
+    public int recordshowPostSeason() {
         int totalcount = 0;
         try {
             String searchQuery = "";
@@ -5790,7 +5813,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
     }
 
 
-    private int recordshowCoupon() {
+    public int recordshowCoupon() {
         int totalcount = 0;
         try {
             String searchQuery = "";
@@ -5813,7 +5836,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
         return totalcount;
     }
 
-    private int recordshow() {
+    public int recordshow() {
         int totalcount = 0;
         try {
             String searchQuery = "";
@@ -5920,7 +5943,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
 
     }
 
-    private int innovationuploadPendingdata() {
+    public int innovationuploadPendingdata() {
         int totalcount = 0;
         try {
 

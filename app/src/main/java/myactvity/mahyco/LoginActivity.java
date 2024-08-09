@@ -28,6 +28,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
@@ -89,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
     public AutoCompleteTextView email;
     ProgressDialog dialog;
     public String SERVER = "https://farm.mahyco.com/TestHandler.ashx";
-    public String SERVER2 = "https://cmr.mahyco.com/FormerApp.asmx";
+    public String SERVER2 = "http://10.80.50.153/maatest/FormerApp.asmx";
     public String  langcode="";
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -275,11 +276,25 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         //end
+       /*  if(!isTimeAutomatic(LoginActivity.this))
+         {
+             LoginActivity.this.startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
 
+             Toast.makeText(this, "Please check Time is automatic or not.", Toast.LENGTH_SHORT).show();
+         }*/
 
     }
 
-
+    public boolean isTimeAutomatic(Context c) {
+        try {
+            boolean a = Settings.Global.getInt(c.getContentResolver(), Settings.Global.AUTO_TIME)==1;
+            Toast.makeText(c, "" + a, Toast.LENGTH_SHORT).show();
+            return a;
+        }catch (Exception e)
+        {
+            return true;
+        }
+    }
     public void RedirectCondition()
     {
         //Start
@@ -576,7 +591,7 @@ public class LoginActivity extends AppCompatActivity {
                 postParameters.add(new BasicNameValuePair("username", username));
                 postParameters.add(new BasicNameValuePair("password", password));
             }
-            return HttpUtils.POST("https://packhouse.mahyco.com/token",postParameters);
+            return HttpUtils.POST("https://maapackhousenxg.mahyco.com/token",postParameters);
         }
 
 
@@ -616,12 +631,13 @@ public class LoginActivity extends AppCompatActivity {
                     jsonParam.put("username", username);
                     jsonParam.put("sapcode", action);
                     jsonParam.put("password", password);
+                    jsonParam.put("MobileNo", "");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
                 //Get the Response for the request
-                return HttpUtils.POSTJSON("https://packhouse.mahyco.com/api/Login",jsonParam,mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
+                return HttpUtils.POSTJSON("https://maapackhousenxg.mahyco.com/api/Login",jsonParam,mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
 
             } catch (Exception ex) {
                 ex.printStackTrace();

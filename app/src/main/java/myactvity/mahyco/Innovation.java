@@ -90,6 +90,7 @@ import myactvity.mahyco.helper.FileUtils;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.PathUtil;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 public class Innovation extends AppCompatActivity implements LocationListener,
         IPickResult, View.OnClickListener {
@@ -956,6 +957,9 @@ public class Innovation extends AppCompatActivity implements LocationListener,
                             //dialog.dismiss();
                             if (fl == true) {
                                 try {
+                                    if (CommonUtil.addGTVActivity(context, "22", "Innovation Day", cordinate, name1+" "+mobileno,"GTV")) {
+                                        // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                                    }
                                     Toast.makeText(Innovation.this, "data saved successfully.", Toast.LENGTH_SHORT).show();
                                     // Intent intent = new Intent(Innovation.this, UserHome.class);
                                     // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

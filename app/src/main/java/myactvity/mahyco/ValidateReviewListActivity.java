@@ -58,7 +58,7 @@ public class ValidateReviewListActivity extends AppCompatActivity {
     GridRecyclerView recDemoList;
     ImageView imgBtnSync;
     TextView txtNotSynced, noDataText;
-    String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
     TextView lblheader;
     ProgressDialog dialog, progressDailog;
     SharedPreferences locdata, pref;

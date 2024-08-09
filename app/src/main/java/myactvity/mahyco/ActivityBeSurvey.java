@@ -127,7 +127,7 @@ public class ActivityBeSurvey extends AppCompatActivity {
     String village = "";
 
 
-    String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
     private Handler handler = new Handler();
     ProgressBar progressBar;
     RelativeLayout relPRogress;

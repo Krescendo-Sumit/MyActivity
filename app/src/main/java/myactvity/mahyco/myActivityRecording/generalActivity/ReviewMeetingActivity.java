@@ -64,6 +64,7 @@ import myactvity.mahyco.app.Prefs;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -81,7 +82,7 @@ public class ReviewMeetingActivity extends AppCompatActivity implements GoogleAp
     boolean GpsEnabled;
     double lati;
     double longi;
-    String SERVER = "https://packhouse.mahyco.com/api/generalactivity/reviewMeeting";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/generalactivity/reviewMeeting";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -332,6 +333,11 @@ public class ReviewMeetingActivity extends AppCompatActivity implements GoogleAp
                 comments , taggedAddress, taggedCordinates, isSynced);
 
         if (fl) {
+
+            if (CommonUtil.addGTVActivity(context, "40", "Review meeting", cordinates, meetingPlace+" "+meetingPurpose,"Market")) {
+                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
+
             AlertDialog.Builder builder = new AlertDialog.Builder(ReviewMeetingActivity.this);
             builder.setTitle("MyActivity");
             builder.setMessage("Data uploaded Successfully");

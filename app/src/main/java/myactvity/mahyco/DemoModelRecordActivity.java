@@ -25,6 +25,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.Settings;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -107,6 +108,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 import myactvity.mahyco.myActivityRecording.atlActivity.FieldBannerActivity;
 import myactvity.mahyco.myActivityRecording.atlActivity.FieldBoardActivity;
 
@@ -122,7 +124,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
 
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback,
-        IPickResult,View.OnClickListener{
+        IPickResult, View.OnClickListener {
 //
 //        implements
 
@@ -142,7 +144,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
     String action = "1";
     LocationManager locationManager;
     String cordinatesmsg = "TAG THE PLOT (2ND ROW INSIDE THE PLOT)* \n";
-    String address="";
+    String address = "";
 
     public String search = "";
     int imageselect;
@@ -151,7 +153,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
     List<GeneralMaster> mList = new ArrayList<>();
-    String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
 
     String userCode, imagePath;
     String plotType = "";
@@ -186,7 +188,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
     String focusedVillage;
     LinearLayout llOtherVillages, llFocussedVillages, llCheckHybrids;
     RadioGroup radGroupActivity;
-    RadioButton radFocusedActivity,radOtherActivity;
+    RadioButton radFocusedActivity, radOtherActivity;
 
 
     ProgressBar progressBar;
@@ -280,7 +282,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
 
         bindState();
         bindFocussedVillage();
-      //  bindCheckHybridMaster(); not used
+        //  bindCheckHybridMaster(); not used
         etDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -308,7 +310,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
                     if (focusedVillage.contains("OTHER")) {
 
 
-                      //  llOtherVillages.setVisibility(View.VISIBLE);
+                        //  llOtherVillages.setVisibility(View.VISIBLE);
 
 
                     } else {
@@ -762,6 +764,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
 
 
     }
+
     private void selectImage() {
         try {
             if (Indentcreate.getPickImageIntent(this) != null) {
@@ -770,12 +773,11 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
             } else {
                 Toast.makeText(this, "Picker intent not found", Toast.LENGTH_SHORT).show();
             }
-        }
-        catch (Exception ex)
-        {
-            Log.d(TAG, "selectImage(): "+ex.toString());
+        } catch (Exception ex) {
+            Log.d(TAG, "selectImage(): " + ex.toString());
         }
     }
+
     private void dowork() {
         progressBar.setIndeterminate(true);
 
@@ -842,6 +844,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
 
 
     }
+
     public void bindFocussedVillage() {
         spFocusedVillages.setAdapter(null);
 
@@ -1203,11 +1206,11 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
         }
         if (croptype.contains("COTTON")) {
 
-            if(spRow.getSelectedItemPosition()==0){
-             Utility.showAlertDialog("Info", "Please Select Row to Row Spacing", context);
-             return false;
-         }
-            if(spPlan.getSelectedItemPosition()==0){
+            if (spRow.getSelectedItemPosition() == 0) {
+                Utility.showAlertDialog("Info", "Please Select Row to Row Spacing", context);
+                return false;
+            }
+            if (spPlan.getSelectedItemPosition() == 0) {
                 Utility.showAlertDialog("Info", "Please Select Plant to Plant Spacing", context);
                 return false;
             }
@@ -1252,8 +1255,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
             msclass.showMessage("Please Tag The Field.");
             return false;
         }
-        if(cordinates.trim().equals(""))
-        {
+        if (cordinates.trim().equals("")) {
             msclass.showMessage("Please Wait for location.");
             return false;
         }
@@ -1296,160 +1298,165 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
     //Save to Batch Code Database
     public void saveToDb() {
 
-      try {
-          String uId = uniqueId();
-          String mobileNumber = etMobileNumber.getText().toString();
-          String chkHybrids = spCheckHybrids.getSelectedItem().toString();//etCheckHybrid.getText().toString();
-          String remrk = etRemarks.getText().toString();
-          GeneralMaster fvc = (GeneralMaster) spFocusedVillages .getSelectedItem();
-          GeneralMaster vc = (GeneralMaster) spVillage .getSelectedItem();
+        try {
+            String uId = uniqueId();
+            String mobileNumber = etMobileNumber.getText().toString();
+            String chkHybrids = spCheckHybrids.getSelectedItem().toString();//etCheckHybrid.getText().toString();
+            String remrk = etRemarks.getText().toString();
+            GeneralMaster fvc = (GeneralMaster) spFocusedVillages.getSelectedItem();
+            GeneralMaster vc = (GeneralMaster) spVillage.getSelectedItem();
 
 
-          String whatsappNumber = "";
-          if (etWhatsappNumber.getText().toString().isEmpty() || etWhatsappNumber.getText().toString().equals("")) {
+            String whatsappNumber = "";
+            if (etWhatsappNumber.getText().toString().isEmpty() || etWhatsappNumber.getText().toString().equals("")) {
 
-              whatsappNumber = "";
+                whatsappNumber = "";
 
-          } else {
-
-
-              whatsappNumber = etWhatsappNumber.getText().toString();
-          }
+            } else {
 
 
-          String checkHybrids = chkHybrids != null ? chkHybrids : "";
-          String remarks = remrk != null ? remrk : "";
-
-          String farmerName = etFarmerName.getText().toString();
-          //  String village = etVillage.getText().toString();
+                whatsappNumber = etWhatsappNumber.getText().toString();
+            }
 
 
-          String focussedVillage = spFocusedVillages.getSelectedItem().toString();
+            String checkHybrids = chkHybrids != null ? chkHybrids : "";
+            String remarks = remrk != null ? remrk : "";
 
-          String state = "";
-          String district = "";
-          String taluka = "";
-          String othervillage = "";
-          String vil_code="";
+            String farmerName = etFarmerName.getText().toString();
+            //  String village = etVillage.getText().toString();
 
-          if (radFocusedActivity.isChecked()) {
-              state = "";
-              district = "";
-              taluka = "";
-              othervillage = "";
-              vil_code =fvc.Code();
-              // Get Taluka Name
-          } else {
 
-              state = spState.getSelectedItem().toString();
-              district = spDist.getSelectedItem().toString();
-              taluka = spTaluka.getSelectedItem().toString();
-              othervillage = spVillage.getSelectedItem().toString();
-              vil_code =vc.Code();
+            String focussedVillage = spFocusedVillages.getSelectedItem().toString();
 
-          }
+            String state = "";
+            String district = "";
+            String taluka = "";
+            String othervillage = "";
+            String vil_code = "";
 
-          String spacingRow = spRow.getSelectedItem().toString();
-          String spacingPlan = spPlan.getSelectedItem().toString();
-          String sowingDate = etDate.getText().toString();
-          //   String checkHybridsSelected = spCheckHybrids.getSelectedItem().toString();
-          String checkHybridsSelected = "sdhgs";
-          String area = etArea.getText().toString();
-          String cropType = spCropType.getSelectedItem().toString();
-          String product = spProductName.getSelectedItem().toString();
-          String seedQuantity = etSeedQty.getText().toString();
+            if (radFocusedActivity.isChecked()) {
+                state = "";
+                district = "";
+                taluka = "";
+                othervillage = "";
+                vil_code = fvc.Code();
+                // Get Taluka Name
+            } else {
+
+                state = spState.getSelectedItem().toString();
+                district = spDist.getSelectedItem().toString();
+                taluka = spTaluka.getSelectedItem().toString();
+                othervillage = spVillage.getSelectedItem().toString();
+                vil_code = vc.Code();
+
+            }
+
+            String spacingRow = spRow.getSelectedItem().toString();
+            String spacingPlan = spPlan.getSelectedItem().toString();
+            String sowingDate = etDate.getText().toString();
+            //   String checkHybridsSelected = spCheckHybrids.getSelectedItem().toString();
+            String checkHybridsSelected = "sdhgs";
+            String area = etArea.getText().toString();
+            String cropType = spCropType.getSelectedItem().toString();
+            String product = spProductName.getSelectedItem().toString();
+            String seedQuantity = etSeedQty.getText().toString();
 //        String unit = spKgPacks.getSelectedItem().toString();
-          String unit = tvQty.getText().toString();
+            String unit = tvQty.getText().toString();
 
-          if(String.valueOf(lati).trim().equals(""))
+            if (String.valueOf(lati).trim().equals(""))
 
-        //  cordinates = String.valueOf(lati) + "-" + String.valueOf(longi) + "-" + getCompleteAddressString(lati, longi);
-          cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
-          Log.d("LocationDatasaveToDb", cordinates);
+                //  cordinates = String.valueOf(lati) + "-" + String.valueOf(longi) + "-" + getCompleteAddressString(lati, longi);
+                cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
+            Log.d("LocationDatasaveToDb", cordinates);
 
-          String isSynced = "0";
-          String imgStatus = "0";
-
-
-          Date entrydate = new Date();
-          final String tempImagePath;
-          final String imageName =AppConstant.Imagename;// "DemoModel" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
-          tempImagePath = imagePath;
-          boolean fl = mDatabase.insertDemoModelData(uId, userCode, plotType, state,
-                  district, taluka, othervillage, farmerName, mobileNumber, whatsappNumber,
-                  cropType, product, area, seedQuantity, unit, sowingDate, cordinates,
-                  soilType, irrigationType, spacingRow, spacingPlan,
-                  imageName, tempImagePath, imgStatus, isSynced, checkHybrids, remarks,
-                  checkHybridsSelected, focussedVillage,vil_code);
-
-          if (fl) {
-              Intent intent;
-              String callactivity = pref.getString("calldemoplot", "");
-              Log.i("callactivity","->"+callactivity);
-
-              Toast.makeText(context, "callactivity:"+callactivity, Toast.LENGTH_SHORT).show();
-
-              switch (callactivity) {
-                  case "FieldBoard":
-                      intent = new Intent(DemoModelRecordActivity.this, FieldBoardActivity.class);
-
-                      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                      editor.putString("calldemoplot", "");
-                      editor.commit();
-                      startActivity(intent);
-                      this.finish();
-                      break;
-                  case "FieldBanner":
-                      intent = new Intent(DemoModelRecordActivity.this, FieldBannerActivity.class);
-
-                      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-                      startActivity(intent);
-                      this.finish();
-                      break;
-                  case "FieldHarvest":
-                      intent = new Intent(DemoModelRecordActivity.this, HarvestDayActivity.class);
-
-                      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                      editor.putString("calldemoplot", "");
-                      editor.commit();
-                      startActivity(intent);
-                      this.finish();
-                      break;
-                  case "CropShow":
-                      intent = new Intent(DemoModelRecordActivity.this, CropShowActivity.class);
-
-                      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                      editor.putString("calldemoplot", "");
-                      editor.commit();
-                      startActivity(intent);
-                      this.finish();
-                      break;
-                  case "FieldDay":
-                      intent = new Intent(DemoModelRecordActivity.this, FieldDayActivity.class);
-
-                      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                      editor.putString("calldemoplot", "");
-                      editor.commit();
-                      startActivity(intent);
-                      this.finish();
-                      break;
-
-                  default:
-                      saveToReviewDb();
-                      break;
-
-              }
+            String isSynced = "0";
+            String imgStatus = "0";
 
 
-          } else {
+            Date entrydate = new Date();
+            final String tempImagePath;
+            final String imageName = AppConstant.Imagename;// "DemoModel" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+            tempImagePath = imagePath;
+            boolean fl = mDatabase.insertDemoModelData(uId, userCode, plotType, state,
+                    district, taluka, othervillage, farmerName, mobileNumber, whatsappNumber,
+                    cropType, product, area, seedQuantity, unit, sowingDate, cordinates,
+                    soilType, irrigationType, spacingRow, spacingPlan,
+                    imageName, tempImagePath, imgStatus, isSynced, checkHybrids, remarks,
+                    checkHybridsSelected, focussedVillage, vil_code);
 
-              Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
-          }
-      }
-      catch (Exception ex) {
-          Toast.makeText(this, ex.toString(), Toast.LENGTH_SHORT).show();
-      }
+            if (fl) {
+
+                if (CommonUtil.addGTVActivity(context, "8", "Plot Register", cordinates, plotType + "-" + farmerName + " " + product + " " + mobileNumber, "GTV")) {
+                    // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                }
+
+
+                Intent intent;
+                String callactivity = pref.getString("calldemoplot", "");
+                Log.i("callactivity", "->" + callactivity);
+
+                Toast.makeText(context, "callactivity:" + callactivity, Toast.LENGTH_SHORT).show();
+
+                switch (callactivity) {
+                    case "FieldBoard":
+                        intent = new Intent(DemoModelRecordActivity.this, FieldBoardActivity.class);
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        editor.putString("calldemoplot", "");
+                        editor.commit();
+                        startActivity(intent);
+                        this.finish();
+                        break;
+                    case "FieldBanner":
+                        intent = new Intent(DemoModelRecordActivity.this, FieldBannerActivity.class);
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+                        startActivity(intent);
+                        this.finish();
+                        break;
+                    case "FieldHarvest":
+                        intent = new Intent(DemoModelRecordActivity.this, HarvestDayActivity.class);
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        editor.putString("calldemoplot", "");
+                        editor.commit();
+                        startActivity(intent);
+                        this.finish();
+                        break;
+                    case "CropShow":
+                        intent = new Intent(DemoModelRecordActivity.this, CropShowActivity.class);
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        editor.putString("calldemoplot", "");
+                        editor.commit();
+                        startActivity(intent);
+                        this.finish();
+                        break;
+                    case "FieldDay":
+                        intent = new Intent(DemoModelRecordActivity.this, FieldDayActivity.class);
+
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        editor.putString("calldemoplot", "");
+                        editor.commit();
+                        startActivity(intent);
+                        this.finish();
+                        break;
+
+                    default:
+                        saveToReviewDb();
+                        break;
+
+                }
+
+
+            } else {
+
+                Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception ex) {
+            Toast.makeText(this, ex.toString(), Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -1472,7 +1479,6 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
 
         if (radFocusedActivity.isChecked()) {
             taluka = "";
-
 
 
         } else {
@@ -1509,13 +1515,15 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
         boolean fl = mDatabase.insertDemoModelReview(uId, uIdP, userCode, taluka,
                 farmerName, mobileNumber, cropType, product, area, sowingDate, formattedDate,
                 cordinates, "", "", imageName, tempImagePath, imgStatus,
-                isSynced,focussedVillage,"","","","",
-                "","");
-        if (fl)
-        {
+                isSynced, focussedVillage, "", "", "", "",
+                "", "");
+        if (fl) {
             // Toast.makeText(this, "Data Saved Successfully", Toast.LENGTH_SHORT).show();
+            if (CommonUtil.addGTVActivity(context, "8", "Plot Review", cordinates, farmerName + " " + mobileNumber + " " + product, "GTV")) {
+                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
 
-           // uploadDataModelRecords("mdo_demoModelVisitDetail");
+            // uploadDataModelRecords("mdo_demoModelVisitDetail");
             relPRogress.setVisibility(View.GONE);
             container.setClickable(true);
             container.setEnabled(true);
@@ -1876,10 +1884,10 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
 
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize =2;
-            Bitmap myBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(),options);
+            options.inSampleSize = 2;
+            Bitmap myBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), options);
             Date entrydate = new Date();
-            String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
+            String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
 
             if (imageselect == 1) {
 
@@ -1907,11 +1915,12 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
         }
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnTakePhoto:
-                imageselect=1;
+                imageselect = 1;
                 if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_DENIED) {
                     ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 101);
@@ -1937,14 +1946,14 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
 
         }
     }
+
     @Override
     public void onPickResult(PickResult r) {
 
         if (r.getError() == null) {
 
 
-            if (imageselect == 1)
-            {
+            if (imageselect == 1) {
                 ivImage.setImageBitmap(r.getBitmap());
                 if (ivImage.getDrawable() != null) {
                     ivImage.setVisibility(View.VISIBLE);
@@ -2049,7 +2058,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
             location = arg0;
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
             cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
-            if(address.equals("")) {
+            if (address.equals("")) {
                 if (config.NetworkConnection()) {
                     address = getCompleteAddressString(lati, longi);
                 }
@@ -2091,7 +2100,8 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
                     tvAddress.setText(address);
 
                 }
-            } {
+            }
+            {
                 tvAddress.setText(cordinates);
 
             }
@@ -2196,9 +2206,6 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                     public void onClick(DialogInterface dialog, int which) {
-
-
-
 
 
                         final Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);

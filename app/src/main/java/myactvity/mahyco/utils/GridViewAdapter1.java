@@ -1,15 +1,18 @@
 package myactvity.mahyco.utils;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -216,26 +219,38 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             }
 
                             if (ActivityName[position].toString() == "MyTravel") {
+                                if (!isTimeAutomatic(context)) {
+                                    new AlertDialog.Builder(context).setMessage("Please set time automatically on .")
+                                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    dialogInterface.dismiss();
+                                                    context.startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
 
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                                Date d = new Date();
-                                String strdate = dateFormat.format(d);
-                                if (pref.getString("RoleID", null).equals("0")) {
-                                    // Comment for Online  off now (without Comment is  offline)
-                                    // if (mDatabase.getrowcount("select * from couponMaster where entryDate ='"+strdate+"'") > 0) {
-
-                                    intent = new Intent(context.getApplicationContext(), MyTravel.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    context.startActivity(intent);
-                                    // }
-                                    // else
-                                    // {
-                                    //   msclass.showMessage("Coupon list not available ,Please download master data");
-                                    // }
+                                                }
+                                            }).show();
+                                    // Toast.makeText(context, "Set time automatically On.", Toast.LENGTH_SHORT).show();
                                 } else {
-                                    intent = new Intent(context.getApplicationContext(), MyTravel.class);
-                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                    context.startActivity(intent);
+                                    SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                                    Date d = new Date();
+                                    String strdate = dateFormat.format(d);
+                                    if (pref.getString("RoleID", null).equals("0")) {
+                                        // Comment for Online  off now (without Comment is  offline)
+                                        // if (mDatabase.getrowcount("select * from couponMaster where entryDate ='"+strdate+"'") > 0) {
+
+                                        intent = new Intent(context.getApplicationContext(), MyTravel.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        context.startActivity(intent);
+                                        // }
+                                        // else
+                                        // {
+                                        //   msclass.showMessage("Coupon list not available ,Please download master data");
+                                        // }
+                                    } else {
+                                        intent = new Intent(context.getApplicationContext(), MyTravel.class);
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        context.startActivity(intent);
+                                    }
                                 }
                             }
 
@@ -263,7 +278,7 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             }
 
                             if (ActivityName[position].toString() == "UploadData") {
-                              //  intent = new Intent(context.getApplicationContext(), UploadData.class);
+                                //  intent = new Intent(context.getApplicationContext(), UploadData.class);
                                 intent = new Intent(context.getApplicationContext(), UploadDataNew.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
@@ -548,8 +563,7 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                                             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
                                         } catch (android.content.ActivityNotFoundException anfe) {
                                             context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                                        }catch(Exception e2)
-                                        {
+                                        } catch (Exception e2) {
 
                                         }
                                     }
@@ -572,6 +586,15 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public boolean isTimeAutomatic(Context c) {
+        try {
+            boolean a = Settings.Global.getInt(c.getContentResolver(), Settings.Global.AUTO_TIME) == 1;
+            return a;
+        } catch (Exception e) {
+            return true;
         }
     }
 

@@ -97,6 +97,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -127,8 +128,8 @@ public class VillageMeetingActivity extends AppCompatActivity implements
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
-    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/preseason/villageMeeting";
+    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/villageMeeting";
     String userCode;
     Config config;
     SharedPreferences locdata, pref;
@@ -2027,6 +2028,12 @@ public class VillageMeetingActivity extends AppCompatActivity implements
                 retailerCount, isSynced,villagecode);
 
         if (fl) {
+
+
+            if (CommonUtil.addGTVActivity(context, "2", "Village Meeting", cordinates, product,"GTV")) {
+               // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
+
             uploadData("VillageMeetingData");
            // msclass.showMessage("data saved successfully.");
             relPRogress.setVisibility(View.GONE);

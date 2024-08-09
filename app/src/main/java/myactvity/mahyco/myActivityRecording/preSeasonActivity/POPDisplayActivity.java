@@ -1,5 +1,6 @@
 package myactvity.mahyco.myActivityRecording.preSeasonActivity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -11,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -49,7 +51,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Result;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -88,6 +93,7 @@ import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.POPDisplayModel;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 
 public class POPDisplayActivity extends AppCompatActivity implements
@@ -128,11 +134,17 @@ public class POPDisplayActivity extends AppCompatActivity implements
     ScrollView container;
     private Handler handler = new Handler();
     private long mLastClickTime = 0;
-    String SERVER = "https://packhouse.mahyco.com/api/preseason/popDisplayData";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/popDisplayData";
     Config config;
     SharedPreferences.Editor loceditor, editor;
     SharedPreferences locdata, pref;
     private static final String IMAGE_DIRECTORY_NAME = "POPDISPLAYPHOTO";
+
+    private FusedLocationProviderClient fusedLocationClient;
+    double lati;
+    double longi;
+    String cordinates;
+    String address = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +153,7 @@ public class POPDisplayActivity extends AppCompatActivity implements
         getSupportActionBar().hide();
 
         initUI();
+        updateLocation();
     }
 
     /**
@@ -324,6 +337,11 @@ public class POPDisplayActivity extends AppCompatActivity implements
                 shopPhoto3Status, isSynced);
 
         if (fl) {
+
+            if (CommonUtil.addGTVActivity(context, "31", "POP display", cordinates, retailerDetails,"Market")) {
+                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
+
             uploadData("PopDisplayData");
             //msclass.showMessage("data saved successfully.");
             relPRogress.setVisibility(View.GONE);
@@ -1997,4 +2015,60 @@ public class POPDisplayActivity extends AppCompatActivity implements
     public void onLocationChanged(Location location) {
 
     }
+
+
+
+
+    public void updateLocation() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    // Logic to handle location object
+
+                    lati = location.getLatitude();
+                    longi = location.getLongitude();
+                    cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
+                    Log.i("Coordinates", cordinates);
+                    address = getCompleteAddressString(lati, longi);
+                    Toast.makeText(context, "Location Latitude : " + location.getLatitude() + " Longitude :" + location.getLongitude() + " Hello :" + address, Toast.LENGTH_SHORT).show();
+                    //  edGeoTagging.setText(location.getLatitude() + "," + location.getLongitude());
+                }
+            }
+        });
+
+    }
+
+    //fetch address from cordinates
+    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+
+        try {
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<android.location.Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+                address = addresses.get(0).getAddressLine(0);
+                strAdd = addresses.get(0).getAddressLine(0);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("My", "Canont get Address!");
+        }
+        return strAdd;
+    }
+    ///////////////////
 }

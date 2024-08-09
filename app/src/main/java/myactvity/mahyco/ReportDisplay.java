@@ -59,7 +59,7 @@ public class ReportDisplay extends AppCompatActivity  {
     public EditText txtDate;
     public ProgressDialog dialog,pd;
     private TextView recyclableTextView;
-    public String MDOurlpath ="https://cmr.mahyco.com/MDOHandler.ashx";
+    public String MDOurlpath ="http://10.80.50.153/maatest/MDOHandler.ashx";
     public Messageclass msclass;
     public CommonExecution cx;
     Config config;

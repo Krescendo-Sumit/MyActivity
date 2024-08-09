@@ -102,6 +102,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -166,8 +167,8 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
     double longi;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
-   // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/postSeason/fieldDayData";
+   // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/fieldDayData";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -2750,6 +2751,11 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                 retailerListPhotoStatus, isSynced,villagecode);
 
         if (fl) {
+
+            if (CommonUtil.addGTVActivity(context, "10", "Field day", cordinates, farmerDetails+" "+product,"GTV")) {
+                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
+
             uploadData("FieldDayData");
             //msclass.showMessage("data saved successfully.");
             relPRogress.setVisibility(View.GONE);

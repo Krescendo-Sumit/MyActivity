@@ -96,6 +96,7 @@ import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.PostsDatabaseHelper;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 import myactvity.mahyco.retro.RetrofitClient;
 import myactvity.mahyco.utils.BitmapHelper;
 import retrofit2.Call;
@@ -187,6 +188,8 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
         {
             msclass.showMessage("This device google play services not supported for Devices location");
         }
+
+
 
     }
 
@@ -313,8 +316,19 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
         btnstUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+               if(confing.NetworkConnection())
                 saveStarttravel();
+               else
+               {
+                   new androidx.appcompat.app.AlertDialog.Builder(context)
+                           .setMessage("Please check internet connection.")
+                           .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                               @Override
+                               public void onClick(DialogInterface dialogInterface, int i) {
+                                   dialogInterface.dismiss();
+                               }
+                           }).show();
+               }
 
             }
         });
@@ -1366,6 +1380,13 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
 
                     if (fl==true)
                     {
+
+                        if (CommonUtil.addGTVActivity(context, "1000", "Start Travel", cordinate, "By "+vehicletype+" ."+txtlocation.getText().toString()+" "+txtlocation.getText().toString(),"Start")) {
+                            // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                        }
+
+
+
                         msclass.showMessage("data saved successfully");
                         txtkm.setText("");
                         txtlocation.setText("");
@@ -1445,6 +1466,10 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
                     Log.i("Image path", jsonObject.get("imgpath1").toString().replace("\"", ""));
                     jsonObject.addProperty("imgpath", mDatabase.getImageDatadetail(jsonObject.get("imgpath1").toString().replace("\"", "")));
+                    jsonObject.addProperty("GTVType", "NA");
+                            jsonObject.addProperty("GTVSession", "NA");
+                            jsonObject.addProperty("Remark", "");
+                            jsonObject.addProperty("ParentId", 0);
                 }
                 JsonObject jsonFinal = new JsonObject();
                 jsonFinal.add("starttravelModels", jsonArray);

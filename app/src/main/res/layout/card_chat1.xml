@@ -40,7 +40,13 @@
                     android:layout_weight="1"
                     android:text="TextView"
                     android:textColor="#000000" />
+                <TextView
+                    android:id="@+id/txt_gtv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
 
+                    android:padding="1dp"
+                    android:text="-" />
                 <TextView
                     android:id="@+id/txt_date"
                     android:layout_width="wrap_content"

@@ -74,6 +74,7 @@ import myactvity.mahyco.helper.CustomSearchableSpinner;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -119,8 +120,8 @@ public class DistributerVisitsActivity extends AppCompatActivity implements Goog
     int REQUEST_CHECK_SETTINGS = 101;
     double lati;
     double longi;
-   // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/generalactivity/distributorvisit";
+   // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/generalactivity/distributorvisit";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -1126,6 +1127,10 @@ public class DistributerVisitsActivity extends AppCompatActivity implements Goog
 
         if (fl)
         {
+            if (CommonUtil.addGTVActivity(context, "38", "Distributor Visit", cordinates, distributerDetails+" "+comments,"Market")) {
+                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
+
                 uploadDistributerVisitsData("DistributerVisitsData");
                 relPRogress.setVisibility(View.GONE);
                 container.setClickable(true);
@@ -1191,6 +1196,7 @@ public class DistributerVisitsActivity extends AppCompatActivity implements Goog
 
         } else */
        {
+           cordinates="";
            AlertDialog.Builder builder = new AlertDialog.Builder(DistributerVisitsActivity.this);
 
            builder.setTitle("MyActivity");

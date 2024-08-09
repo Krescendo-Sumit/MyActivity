@@ -59,7 +59,7 @@ public class PaymentHistoryActivity extends AppCompatActivity {
     public ArrayList<PaymentHistoryTableModel> paymentHistoryTableModelArrayList = new ArrayList<PaymentHistoryTableModel>();
     public static final String TAG = "couponpaymentHistory";
     public Messageclass msclass;
-    public String SERVER = "https://cmr.mahyco.com/farmmechHandler.ashx";
+    public String SERVER = "http://10.80.50.153/maatest/farmmechHandler.ashx";
     int i = 0;
     String usercode = "";
     EditText edtSearchEntry;
@@ -199,7 +199,7 @@ public class PaymentHistoryActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... urls) {
-            //   https://cmr.mahyco.com/MDOHandler.ashx?Type=getPaymentOrderDetail&usercode=97260828
+            //   http://10.80.50.153/maatest/MDOHandler.ashx?Type=getPaymentOrderDetail&usercode=97260828
             HttpClient httpclient = new DefaultHttpClient();
             StringBuilder builder = new StringBuilder();
             List<NameValuePair> postParameters = new ArrayList<NameValuePair>(2);

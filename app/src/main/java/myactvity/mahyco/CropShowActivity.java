@@ -104,6 +104,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -153,8 +154,8 @@ public class CropShowActivity extends AppCompatActivity implements
     ImageView ivImage, ivImageFarmerListPhoto, ivImageRetailerListPhoto;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
     List<GeneralMaster> mList = new ArrayList<>();
-   // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/postSeason/cropShowData";
+   // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/cropShowData";
 
     String userCode, imagePath;
     String focusedVillage = "",village;
@@ -2157,6 +2158,11 @@ public class CropShowActivity extends AppCompatActivity implements
                 retailerListPhotoStatus, isSynced,villagecode);
 
         if (fl) {
+
+
+            if (CommonUtil.addGTVActivity(context, "9", "Crop Show", cordinates, farmerDetails+" "+product,"GTV")) {
+                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
             uploadData("CropShowData");
            // msclass.showMessage("data saved successfully.");
 

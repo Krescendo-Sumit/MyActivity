@@ -1,5 +1,6 @@
 package myactvity.mahyco.myActivityRecording.preSeasonActivity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -11,6 +12,8 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Geocoder;
+import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -18,11 +21,13 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -44,7 +49,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
@@ -77,9 +85,10 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 public class TestimonialCollectionActivity extends AppCompatActivity implements
-         IPickResult,View.OnClickListener {
+        IPickResult, View.OnClickListener {
 
     private static final String TAG = "Testimonial";
     CheckBox chkBoxHardCopy, chkBoxVideo;
@@ -110,13 +119,18 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
     ProgressBar progressBar;
     private Handler handler = new Handler();
     Dialog dialog;
-   // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/preseason/testimonial";
+    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/testimonial";
     private final static HttpClient mHhttpclient = new DefaultHttpClient();
     Prefs mPref;
     RadioGroup radGroupActivity;
     RadioButton radFocusedActivity;
     RadioButton radOtherActivity;
+    private FusedLocationProviderClient fusedLocationClient;
+    double lati;
+    double longi;
+    String cordinates;
+    String address = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,6 +138,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_testimonial_collection);
 
         initUI();
+        updateLocation();
     }
 
     /**
@@ -157,8 +172,8 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
         pref = getApplicationContext().getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = pref.edit();
         config = new Config(this); //Here the context is passing
-       // userCode = mPref.getString(AppConstant.USER_CODE_TAG, "");
-        userCode =  pref.getString("UserID", null);
+        // userCode = mPref.getString(AppConstant.USER_CODE_TAG, "");
+        userCode = pref.getString("UserID", null);
         progressBar = (ProgressBar) findViewById(R.id.myProgress);
         radGroupActivity = (RadioGroup) findViewById(R.id.radGroupActivity);
         radFocusedActivity = (RadioButton) findViewById(R.id.radFocusedActivity);
@@ -400,6 +415,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
             }
         });
     }
+
     private void selectImage() {
         try {
             if (Indentcreate.getPickImageIntent(this) != null) {
@@ -408,14 +424,14 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
             } else {
                 Toast.makeText(this, "Picker intent not found", Toast.LENGTH_SHORT).show();
             }
-        }
-        catch (Exception ex)
-        {
-            Log.d(TAG, "selectImage(): "+ex.toString());
+        } catch (Exception ex) {
+            Log.d(TAG, "selectImage(): " + ex.toString());
         }
     }
+
     /**
      * <P>// Validation for all fields</P>
+     *
      * @return
      */
     public boolean validation() {
@@ -448,7 +464,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
                 msclass.showMessage("Please Select village name");
                 return false;
             }
-        }else {
+        } else {
 
             if (spFocusedVillages.getSelectedItemPosition() == 0) {
                 msclass.showMessage("Please Select Focused Village");
@@ -464,7 +480,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
             msclass.showMessage("Please enter farmer mobile number");
             return false;
         }
-        if(edtFarmerMobile.getText().length()<10) {
+        if (edtFarmerMobile.getText().length() < 10) {
             msclass.showMessage("Mobile number should be of 10 digits");
             return false;
         }
@@ -486,6 +502,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
 
         return true;
     }
+
     //if mob no already exist
     private boolean isAlreadydone(String retailerNumber) {
         boolean isExist = false;
@@ -496,6 +513,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
         data.close();
         return isExist;
     }
+
     public void bindFocussedVillage() {
         spFocusedVillages.setAdapter(null);
         String str = null;
@@ -634,6 +652,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
 
     /**
      * <P>//bind Village to spinner</P>
+     *
      * @param taluka
      */
     public void bindVillage(String taluka) {
@@ -831,7 +850,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnFarmerPhoto:
-                imageselect=1;
+                imageselect = 1;
                 if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_DENIED) {
                     ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 101);
@@ -839,7 +858,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
                 PickImageDialog.build(new PickSetup()).show(this);
                 break;
             case R.id.btnSuccessStoryPhoto:
-                imageselect=2;
+                imageselect = 2;
                 if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_DENIED) {
                     ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 101);
@@ -857,14 +876,14 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
 
         }
     }
+
     @Override
     public void onPickResult(PickResult r) {
 
         if (r.getError() == null) {
 
 
-            if (imageselect == 1)
-            {
+            if (imageselect == 1) {
                 ivImage.setImageBitmap(r.getBitmap());
                 if (ivImage.getDrawable() != null) {
                     ivImage.setVisibility(View.VISIBLE);
@@ -874,8 +893,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
                     // crdImage.setVisibility(View.GONE);
                 }
             }
-            if (imageselect == 2)
-            {
+            if (imageselect == 2) {
                 ivImage2.setImageBitmap(r.getBitmap());
                 if (ivImage2.getDrawable() != null) {
                     ivImage2.setVisibility(View.VISIBLE);
@@ -949,10 +967,10 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
     private void onCaptureImageResult(Intent data) {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize =2;
-            Bitmap myBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(),options);
+            options.inSampleSize = 2;
+            Bitmap myBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), options);
             Date entrydate = new Date();
-            String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
+            String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
 
             if (imageselect == 1) {
                 try {
@@ -1011,6 +1029,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
     }
 
     //////////////////////////////
+
     /**
      * <P>Method to save the data to DB</P>
      */
@@ -1020,10 +1039,10 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
         String district = "";
         String taluka = "";
         String othervillage = "", farmerCount = "";
-        String villagecode="";
+        String villagecode = "";
         if (radFocusedActivity.isChecked()) {
             focussedVillage = spFocusedVillages.getSelectedItem().toString();
-            villagecode=config.getvalue(spFocusedVillages);
+            villagecode = config.getvalue(spFocusedVillages);
         } else {
             focussedVillage = "";
         }
@@ -1032,7 +1051,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
             district = spDist.getSelectedItem().toString();
             taluka = spTaluka.getSelectedItem().toString();
             othervillage = spVillage.getSelectedItem().toString();
-            villagecode=config.getvalue(spVillage);
+            villagecode = config.getvalue(spVillage);
         } else {
             state = "";
             district = "";
@@ -1060,20 +1079,23 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
 
         Date entrydate = new Date();
         final String farmerPhotoPath, successPhotoPath;
-        farmerPhotoPath =Imagepath1;
+        farmerPhotoPath = Imagepath1;
 
         successPhotoPath = Imagepath2;
 
         final String farmerPhotoName = AppConstant.Imagename;// "TestimonialCollectionFarmerPhoto" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
-        final String successPhotoName =  AppConstant.Imagename2;//"TestimonialCollectionSuccessPhoto" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+        final String successPhotoName = AppConstant.Imagename2;//"TestimonialCollectionSuccessPhoto" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
 
         boolean fl = mDatabase.insertTestimonialCollectionData(userCode, focussedVillage, state, district, taluka, othervillage,
                 hardCopyTestimonialType, videoTestimonialType, farmerName, farmerMobile, farmerPhotoName, Imagepath1,
-                farmerPhotoStatus, successPhotoName, Imagepath2, successPhotoStatus, isSynced,villagecode);
+                farmerPhotoStatus, successPhotoName, Imagepath2, successPhotoStatus, isSynced, villagecode);
 
         if (fl) {
+            if (CommonUtil.addGTVActivity(context, "1", "Testimonial Collection", cordinates, farmerName + " - " + farmerMobile,"GTV")) {
+                Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
             uploadData("TestimonialCollectionData");
-          //  msclass.showMessage("data saved successfully.");
+            //  msclass.showMessage("data saved successfully.");
             relPRogress.setVisibility(View.GONE);
             container.setClickable(true);
             container.setEnabled(true);
@@ -1083,7 +1105,6 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
             Toast.makeText(this, "Something Went Wrong", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 
     private void dowork() {
@@ -1114,7 +1135,8 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else */{
+        } else */
+        {
             AlertDialog.Builder builder = new AlertDialog.Builder(TestimonialCollectionActivity.this);
             builder.setTitle("MyActivity");
             builder.setMessage("Data Saved Successfully");
@@ -1122,7 +1144,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
-                   Config.refreshActivity(TestimonialCollectionActivity.this);
+                    Config.refreshActivity(TestimonialCollectionActivity.this);
                     Config.refreshActivity(TestimonialCollectionActivity.this);
                     dialog.dismiss();
                     relPRogress.setVisibility(View.GONE);
@@ -1151,19 +1173,19 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
                     String farmerPhotoName = jsonArray.getJSONObject(i).getString("farmerPhotoName");
                     String farmerPhotoPath = jsonArray.getJSONObject(i).getString("farmerPhotoPath");
 
-                    jsonArray.getJSONObject(i).put("farmerPhotoPath",  mDatabase.getImageDatadetail(farmerPhotoPath));
+                    jsonArray.getJSONObject(i).put("farmerPhotoPath", mDatabase.getImageDatadetail(farmerPhotoPath));
 
                     String successPhotoName = jsonArray.getJSONObject(i).getString("successPhotoName");
                     String successPhotoPath = jsonArray.getJSONObject(i).getString("successPhotoPath");
 
-                    jsonArray.getJSONObject(i).put("successPhotoPath",  mDatabase.getImageDatadetail(successPhotoPath));
+                    jsonArray.getJSONObject(i).put("successPhotoPath", mDatabase.getImageDatadetail(successPhotoPath));
                     String id = jsonArray.getJSONObject(i).getString("_id");
 
-                   jsonObject.put("Table", jsonArray.getJSONObject(i));
+                    jsonObject.put("Table", jsonArray.getJSONObject(i));
                     Log.d("TestimonialData", jsonObject.toString());
                     str = syncTestimonialCollectionDataSingleImage(jsonObject);
 
-                    handleTestimonialCollectionDataImageSyncResponse("TestimonialCollectionData", str,id);
+                    handleTestimonialCollectionDataImageSyncResponse("TestimonialCollectionData", str, id);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1200,9 +1222,8 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
                 Log.d("Response", resultout);
 
                 JSONObject jsonObject = new JSONObject(resultout);
-                if(jsonObject.has("success"))
-                {
-                    if(Boolean.parseBoolean(jsonObject.get("success").toString())){
+                if (jsonObject.has("success")) {
+                    if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(TestimonialCollectionActivity.this);
                         builder.setTitle("MyActivity");
                         builder.setMessage("Data uploaded Successfully");
@@ -1219,12 +1240,12 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
                         });
                         AlertDialog alert = builder.create();
                         alert.show();
-                       // msclass.showMessage("Data Uploaded Successfully");
+                        // msclass.showMessage("Data Uploaded Successfully");
                         relPRogress.setVisibility(View.GONE);
                         container.setClickable(true);
                         container.setEnabled(true);
                         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
-                }else {
+                    } else {
                         androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(TestimonialCollectionActivity.this);
                         builder.setTitle("MyActivity");
                         builder.setMessage("Poor Internet: Please try after sometime.");
@@ -1242,7 +1263,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
                         alert.show();
                     }
 
-                }else {
+                } else {
                     androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(TestimonialCollectionActivity.this);
                     builder.setTitle("Info");
                     builder.setMessage("Something went wrong please try again later.");
@@ -1267,7 +1288,6 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
     }
 
     /**
-     *
      * @param jsonObject
      * @return
      */
@@ -1276,17 +1296,18 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
 //        String encodedfarmerPhotoPath = mDatabase.getImageDatadetail(farmerPhotoPath);
 //        String encodedsuccessPhotoPath = mDatabase.getImageDatadetail(successPhotoPath);
 
-        return HttpUtils.POSTJSON(SERVER,jsonObject,mPref.getString(AppConstant.ACCESS_TOKEN_TAG,""));
+        return HttpUtils.POSTJSON(SERVER, jsonObject, mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
     }
 
 
     /**
      * <P>Method to update the testimonial collection data after success</P>
+     *
      * @param function
      * @param resultout
      * @throws JSONException
      */
-    public void handleTestimonialCollectionDataImageSyncResponse(String function, String resultout,String id ) throws JSONException {
+    public void handleTestimonialCollectionDataImageSyncResponse(String function, String resultout, String id) throws JSONException {
         if (function.equals("TestimonialCollectionData")) {
 
             JSONObject jsonObject = new JSONObject(resultout);
@@ -1294,12 +1315,64 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
                 if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
 
                     mDatabase.updateTestimonialCollectionData("0", "1",
-                            "1", "1",id);
+                            "1", "1", id);
                 } else {
                 }
             }
             Log.d("TestimonialData", "TestimonialCollectionData: " + resultout);
         }
+    }
+
+    public void updateLocation() {
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+
+        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                // Got last known location. In some rare situations this can be null.
+                if (location != null) {
+                    // Logic to handle location object
+
+                    lati = location.getLatitude();
+                    longi = location.getLongitude();
+                    cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
+                    Log.i("Coordinates", cordinates);
+                    address = getCompleteAddressString(lati, longi);
+                    Toast.makeText(context, "Location Latitude : " + location.getLatitude() + " Longitude :" + location.getLongitude() + " Hello :" + address, Toast.LENGTH_SHORT).show();
+                    //  edGeoTagging.setText(location.getLatitude() + "," + location.getLongitude());
+                }
+            }
+        });
+
+    }
+
+    //fetch address from cordinates
+    private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
+        String strAdd = "";
+
+        try {
+            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+            List<android.location.Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+            if (addresses != null) {
+                address = addresses.get(0).getAddressLine(0);
+                strAdd = addresses.get(0).getAddressLine(0);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.w("My", "Canont get Address!");
+        }
+        return strAdd;
     }
     ///////////////////
 }

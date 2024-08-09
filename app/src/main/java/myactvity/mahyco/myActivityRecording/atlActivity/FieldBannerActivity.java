@@ -100,6 +100,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -159,8 +160,8 @@ public class FieldBannerActivity extends AppCompatActivity implements GoogleApiC
     double longi;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
-    String SERVER = "https://packhouse.mahyco.com/api/atl/fieldBannerData";
-  //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/fieldBannerData";
+  //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -1904,6 +1905,9 @@ public class FieldBannerActivity extends AppCompatActivity implements GoogleApiC
                 fieldBannerImgStatus, isSynced,villagecode);
 
         if (fl) {
+            if (CommonUtil.addGTVActivity(context, "16", "Field banner", cordinates, pkFarmerMobileNumber+" "+product,"GTV")) {
+                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
             Toast.makeText(context, "SAve to Db", Toast.LENGTH_SHORT).show();
             //msclass.showMessage("data saved successfully.");
             uploadData("MDO_FieldBannerData");

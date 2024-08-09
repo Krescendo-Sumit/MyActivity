@@ -15,6 +15,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 
 public interface Api {
@@ -28,12 +29,11 @@ public interface Api {
 
     @POST(RetroConstants.UploadDistributor)
     Call<String> uploadDistributor(@Body JsonObject jsonObject);
-//    @POST(Constants.SUB_COURSE_URL)
-//    Call<List<SubCourseModel>> getSubCourseList(@Query("mobile") String mobile, @Query("id")String id);
-//
-@FormUrlEncoded
-@POST("http://10.80.50.153/maatest/MDOHandler.ashx?appName=Myactivity")
-Call<String> syncTraveldata(@Field("Type") String mdo_travelData, @Field("encodedData")  String objAsBytes, @Field("input1")  String imagestring1, @Field("input2")  String imagestring2);
+
+
+    @FormUrlEncoded
+    @POST("http://10.80.50.153/maatest/MDOHandler.ashx?appName=Myactivity")
+    Call<String> syncTraveldata(@Field("Type") String mdo_travelData, @Field("encodedData") String objAsBytes, @Field("input1") String imagestring1, @Field("input2") String imagestring2);
 
     @POST(RetroConstants.UplaodShellingDay)
     Call<String> uploadShellingDay(@Body JsonArray jsonObject);
@@ -81,7 +81,7 @@ Call<String> syncTraveldata(@Field("Type") String mdo_travelData, @Field("encode
     Call<String> uploadExhibition(@Body JsonObject jsonObject);
 
     @POST(RetroConstants.UplaodPosteringData)
-    Call<String> uploadPosteringData(@Body JsonObject  jsonObject);
+    Call<String> uploadPosteringData(@Body JsonObject jsonObject);
 
     @POST(RetroConstants.UplaodPosteringData)
     Call<String> uploadPosteringDataOld(@Body JSONObject jsonObject);
@@ -106,4 +106,11 @@ Call<String> syncTraveldata(@Field("Type") String mdo_travelData, @Field("encode
 
     @POST(RetroConstants.SUBMIT_MYTRAVELREPORT_TRIGGERED)
     Call<String> submitMyTravelReportTriggeredRemark(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.GETVERSIONDETAILS)
+    Call<String> getAppVersion(@Query("packageName") String packageName, @Query("userCode") String userCode, @Query("IMEICode") String IMEICode);
+
+
+    @POST(RetroConstants.UplaodGTVTRavelData)
+    Call<String> uploadGTVTravelData(@Body JsonObject jsonObject);
 }

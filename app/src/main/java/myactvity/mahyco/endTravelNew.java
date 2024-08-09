@@ -99,6 +99,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 import myactvity.mahyco.newupload.UploadDataNew;
 import myactvity.mahyco.retro.RetrofitClient;
 import retrofit2.Call;
@@ -169,11 +170,13 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
         mDatabase = SqliteDatabase.getInstance(this);
         msclass = new Messageclass(this);
         context = this;
-        progressDialog=new ProgressDialog(context);
+        progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Please wait...");
         confing = new Config(context);
         cx = new CommonExecution(context);
         initUI();
+
+
         if (checkPlayServices()) {
 
         } else {
@@ -208,12 +211,13 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
         //Freeze the Vehicle Type for Veg Users
         // Given By : Mr Munjaji Sir,Nitesh Kumar
         // Developer: Sumit
-     //   Toast.makeText(context, "" + preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
+        //   Toast.makeText(context, "" + preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
         if (preferences.getString("unit", null).contains("VCBU")) {
             spvehicletype.setEnabled(false);
             chktag.setChecked(true);
 
         }
+
 
         TextView lbltime = (TextView) findViewById(R.id.lbltime);
         Utility.setRegularFont(lblwelcome, context);
@@ -231,9 +235,10 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
         String InTime = new SimpleDateFormat("dd-MM-yyyy").format(entrydate);
 
         lbltime.setText("END TOUR FOR THE DAY- " + InTime);
+
         pref = this.getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = pref.edit();
-        usercode = pref.getString("UserID", null);
+        usercode= pref.getString("UserID", null);
 
         // BindDist("");
         BindState();
@@ -311,10 +316,18 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
         btnstUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                saveStarttravel();
-
+                if (confing.NetworkConnection())
+                    saveStarttravel();
+                else {
+                    new androidx.appcompat.app.AlertDialog.Builder(context)
+                            .setMessage("Please check internet connection.")
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+                }
             }
         });
         /*
@@ -354,6 +367,30 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                 }
             }
         });*/
+
+        // this code comment to check upload count in Application.
+       /* Toast.makeText(context, ""+new UploadData().getUplaodCountAll(msclass), Toast.LENGTH_SHORT).show();
+        if(new UploadData().getUplaodCountAll(msclass)>0)
+        {
+            new androidx.appcompat.app.AlertDialog.Builder(endTravelNew.this)
+                    .setMessage("Please check some data is pending for upload")
+                    .setPositiveButton("Goto Upload Screen", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                            Intent intent=new Intent(endTravelNew.this,UploadDataNew.class);
+                            startActivity(intent);
+                        }
+
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
+                        }
+                    }).show();
+        }
+*/
 
         intialbinddata();
 
@@ -540,7 +577,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
             cordinate = String.valueOf(lati) + "-" + String.valueOf(longi);
 
-            if(address.equals("")) {
+            if (address.equals("")) {
                 if (confing.NetworkConnection()) {
                     address = getCompleteAddressString(lati, longi);
                 }
@@ -766,6 +803,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
             }
 
         } catch (Exception ex) {
+            Toast.makeText(context, ""+ ex.getMessage(), Toast.LENGTH_SHORT).show();
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
 
@@ -1171,9 +1209,6 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
             }
 
 
-
-
-
             if (vehicletype.equals("2") || vehicletype.equals("3")) // Only for company vehicle code validation
             {
 
@@ -1216,8 +1251,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                 }
 
 
-            }else
-            {
+            } else {
                 txtkm.setText("1");
             }
             if (txtkm.getText().length() == 0) {
@@ -1325,6 +1359,9 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                     //dialog.dismiss();
                     if (fl == true) {
                         try {
+                            if (CommonUtil.addGTVActivity(context, "2000", "End Travel", cordinate, "By "+vehicletype+" ."+txtlocation.getText().toString()+" "+txtlocation.getText().toString(),"End")) {
+                                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                            }
                             msclass.showMessage("Tour end data saved successfully");
                             Toast.makeText(endTravelNew.this, "Please Upload Todays Data.", Toast.LENGTH_SHORT).show();
                             showUpdateDialog();
@@ -1333,8 +1370,8 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                             btnstUpdate.setVisibility(View.INVISIBLE);
 
 
-                            if(Config.isInternetConnected(context))
-                            {uploadEndTravel();
+                            if (Config.isInternetConnected(context)) {
+                                uploadEndTravel();
                                 /*new androidx.appcompat.app.AlertDialog.Builder(context)
                                         .setTitle("Upload Start Travel")
                                         .setMessage("Do you want to upload start travel?")
@@ -1394,12 +1431,12 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
     }
 
     void uploadEndTravel() {
-        try{
+        try {
 
             String searchQuery12 = "select  *  from mdo_endtravel where Status='0'";
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
             int count = cursor.getCount();
-            if(count>0) {
+            if (count > 0) {
                 JsonArray jsonArray;
                 String searchQuery = "select _id,mdocode,coordinate,startaddress,enddate,dist,taluka,village,imgname||'.jpg' as imgname,imgpath as imgpath1,Status,txtkm,place,imgstatus,vehicletype,datetime() as entrydate,replace(date('now'),'-','') as edate from mdo_endtravel where Status='0'";
                 jsonArray = mDatabase.getResultsRetro(searchQuery);
@@ -1414,16 +1451,14 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                 UploadEndTravel(jsonFinal);
                 Log.i("End Travel ", jsonArray.toString());
 
-            }else
-            {
+            } else {
                 Toast.makeText(context, "No Data for upload", Toast.LENGTH_SHORT).show();
             }
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
 
-        }    try{
-        }catch (Exception e)
-        {
+        }
+        try {
+        } catch (Exception e) {
 
         }
     }
@@ -1446,12 +1481,12 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                     if (response.body() != null) {
                         String result = response.body();
                         try {
-                            try{
-                                JSONObject jsonObject=new JSONObject(result);
-                                if(jsonObject.getBoolean("ResultFlag")) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(result);
+                                if (jsonObject.getBoolean("ResultFlag")) {
                                     if (jsonObject.getString("status").toLowerCase().contains("success")) {
 
-                                        String qq1="update mdo_endtravel set Status='1',imgstatus='1' where Status='0'";
+                                        String qq1 = "update mdo_endtravel set Status='1',imgstatus='1' where Status='0'";
 
                                         mDatabase.UpdateStatus(qq1);
 
@@ -1480,13 +1515,11 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                                                 })
                                                 .show();
                                     }
-                                }else
-                                {
+                                } else {
 
                                 }
 
-                            }catch (Exception e)
-                            {
+                            } catch (Exception e) {
                                 new androidx.appcompat.app.AlertDialog.Builder(context)
                                         .setMessage("Something went wrong.")
                                         .setTitle("Exception")

@@ -9,7 +9,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -50,6 +52,7 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
     RadioButton rbYes, rbNo;
     EditText et_remark;
     RadioGroup rgStatus;
+    TextView txtTotalKM;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +64,7 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCanceledOnTouchOutside(false);
         rc_kalist = (RecyclerView) findViewById(R.id.rc_kalist);
+        txtTotalKM = (TextView) findViewById(R.id.txtTotalKM);
         mManager = new LinearLayoutManager(context);
         progressDialog = new ProgressDialog(context);
 
@@ -75,8 +79,9 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
         setTitle("Verify Travel Report");
         rc_kalist.setLayoutManager(mManager);
         try {
+            txtTotalKM.setText("");
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("FilterValue", "mh095,2024-04-29");
+            jsonObject.addProperty("FilterValue", "mh248,2024-08-06");
             jsonObject.addProperty("FilterOption", "GetTravelReport");
             getList(jsonObject);
         } catch (Exception exception) {
@@ -194,6 +199,11 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
                                 try {
                                     adapter1 = new NotificationAdapter((ArrayList) result.getResult().getMyTravelReportModels(), context);
                                     rc_kalist.setAdapter(adapter1);
+                                    MyTravelKMModel myTravelKMModel=result.getResult().myTravelKMModel;
+                                    if(myTravelKMModel!=null)
+                                    {
+                                        txtTotalKM.setText("You have travel "+myTravelKMModel.TotalKM+"km today.");
+                                    }
                                     //  Toast.makeText(context, "" + result..getResult().getMyTravelReportModels().size(), Toast.LENGTH_SHORT).show();
 
                                 } catch (Exception e) {
@@ -318,6 +328,25 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
         String StartDt;//": "4/29/2024 9:38:46 PM",
         String ActivityName;//": "Mdo_Endtravell",
         double KM;//": 0
+        String ActivityType;
+
+        public String getActivityType() {
+            return ActivityType;
+        }
+
+        public void setActivityType(String activityType) {
+            ActivityType = activityType;
+        }
+
+        public String getGTVType() {
+            return GTVType;
+        }
+
+        public void setGTVType(String GTVType) {
+            this.GTVType = GTVType;
+        }
+
+        String GTVType;
     }
 
     public class MyTravelKMModel {
@@ -339,6 +368,17 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
 
         String UserCode;//": "mh095",
         double TotalKM;//": 0
+
+        public String getKACode() {
+            return KACode;
+        }
+
+        public void setKACode(String KACode) {
+            this.KACode = KACode;
+        }
+
+        String KACode;
+
     }
 
     public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.DataObjectHolder> {
@@ -393,9 +433,13 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
         public void onBindViewHolder(final NotificationAdapter.DataObjectHolder holder, final int position) {
             try {
                 MyTravelReportModels ResultModel = bhartiModelArrayList.get(position);
-
+                if(ResultModel.getGTVType().trim().equals(""))
                 holder.txt_message.setText(ResultModel.getActivityName());
+                else
+                    holder.txt_message.setText(Html.fromHtml("<b>"+ResultModel.getGTVType()+"</b> - "+ResultModel.getActivityName()));
                 holder.txt_date.setText(ResultModel.getStartDt());
+                holder.txt_dtvtype.setTextColor(Color.BLUE);
+                holder.txt_dtvtype.setText(Html.fromHtml("<b style='color:RED;'>"+ResultModel.getActivityType()+"</b>"));
 
             } catch (Exception e) {
 
@@ -406,13 +450,14 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
 
 
         public class DataObjectHolder extends RecyclerView.ViewHolder {
-            TextView txt_message, txt_date;
+            TextView txt_message, txt_date,txt_dtvtype;
             LinearLayout linearLayout;
 
             public DataObjectHolder(View itemView) {
                 super(itemView);
                 txt_message = itemView.findViewById(R.id.txt_message);
                 txt_date = itemView.findViewById(R.id.txt_date);
+                txt_dtvtype = itemView.findViewById(R.id.txt_gtv);
                 linearLayout = itemView.findViewById(R.id.cc);
 
 

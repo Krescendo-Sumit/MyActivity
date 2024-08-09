@@ -317,9 +317,9 @@ public class UserRegister extends AppCompatActivity {
             postParameters.add(new BasicNameValuePair("grant_type", "password"));
             postParameters.add(new BasicNameValuePair("username", username));
             postParameters.add(new BasicNameValuePair("password",password));
-            Log.d("ACCESS_TOKEN","URL : "+"https://packhouse.mahyco.com/token");
+            Log.d("ACCESS_TOKEN","URL : "+"https://maapackhousenxg.mahyco.com/token");
             Log.d("ACCESS_TOKEN","Parameters : "+postParameters);
-            return HttpUtils.POST("https://packhouse.mahyco.com/token",postParameters);
+            return HttpUtils.POST("https://maapackhousenxg.mahyco.com/token",postParameters);
         }
 
 
@@ -394,7 +394,7 @@ public class UserRegister extends AppCompatActivity {
                 }
 
                 //Get the Response for the request
-                return HttpUtils.POSTJSON("https://packhouse.mahyco.com/api/Login",jsonParam,accesstoken);
+                return HttpUtils.POSTJSON("https://maapackhousenxg.mahyco.com/api/Login",jsonParam,accesstoken);
 
             } catch (Exception ex) {
                 ex.printStackTrace();

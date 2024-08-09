@@ -104,6 +104,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 /**
  * Created by Akash Namdev on 2019-08-22.
@@ -157,9 +158,9 @@ public class ProjectorMeetingActivity extends AppCompatActivity implements Googl
     double longi;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
-    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/generalactivity/createProjectorMeeting";
-    String BASE="packhouse.mahyco.com";
+    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/generalactivity/createProjectorMeeting";
+    String BASE="maapackhousenxg.mahyco.com";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -1998,6 +1999,9 @@ public class ProjectorMeetingActivity extends AppCompatActivity implements Googl
 
                     if(jsonObject.getBoolean("success")) {
                         JSONObject jsonDetails = jsonObject.getJSONObject("Table");
+                        if (CommonUtil.addGTVActivity(context, "6", "Projector meeting", cordinates, "Meeting Ref. Id : "+jsonDetails.getString("ProjectorMeetingId"),"GTV")) {
+                            // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                        }
                         AlertDialog alertDialog = new AlertDialog.Builder(context)
                                 .setTitle("Success Message")
                                 .setMessage("" + jsonObject.getString("message")+"\n Meeting Ref. Id : "+jsonDetails.getString("ProjectorMeetingId"))

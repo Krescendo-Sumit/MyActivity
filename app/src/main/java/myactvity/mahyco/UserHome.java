@@ -28,6 +28,7 @@ import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
@@ -45,6 +46,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.text.Html;
 import android.util.Base64;
 import android.util.Log;
 import android.util.TypedValue;
@@ -54,6 +56,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -109,9 +113,12 @@ import myactvity.mahyco.newupload.NotificationReceiver;
 import myactvity.mahyco.newupload.SetAlarmActivity;
 import myactvity.mahyco.newupload.UploadDataNew;
 import myactvity.mahyco.travelreport.ActivityTravelReportTriggered;
+import myactvity.mahyco.utils.homescreen.CheckVersionForUpdate;
+
+import android.Manifest;
 
 public class UserHome extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, CheckVersionForUpdate.CheckVersionForUpdateListener {
     Fragment fragment = null;
     FragmentManager fragmentManager;
     public LinearLayout my_linear_layout;
@@ -137,6 +144,9 @@ public class UserHome extends AppCompatActivity
 
 
     private SQLiteOpenHelper dbHelper = null;
+    CheckVersionForUpdate checkVersionForUpdateApi;
+    TextView txt_pending_uploads;
+    LinearLayout ll_pending_uploads;
 
     // private DrawerLayout drawerLayout;
     @Override
@@ -153,11 +163,6 @@ public class UserHome extends AppCompatActivity
 
         // Restore state members from saved instance
         //mCurrentScore = savedInstanceState.getInt(STATE_SCORE);
-
-        context = this;
-
-        // pd = new ProgressDialog(context);
-
         preferences = getSharedPreferences("MyPref", 0);
         editor = preferences.edit();
         lblwelcome = (TextView) findViewById(R.id.lblwelcome);
@@ -165,6 +170,7 @@ public class UserHome extends AppCompatActivity
         context = this;
         cx = new CommonExecution(this);
         msclass = new Messageclass(this);
+        config = new Config(this); //Here the context is passingGetAppversion
         //DB Crration
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             AppConstant.dbnamepath = this.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS) + "/SQLiteDB/MDOApps.db";
@@ -174,8 +180,54 @@ public class UserHome extends AppCompatActivity
         }
         mDatabase = SqliteDatabase.getInstance(this);
 
+        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(1500);
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+        ll_pending_uploads = findViewById(R.id.ll_pending_uploads);
+        txt_pending_uploads = findViewById(R.id.txt_pending_uploads);
+        txt_pending_uploads.setAnimation(anim);
+        if (mDatabase.getUploadCount() > 0) {
+            ll_pending_uploads.setVisibility(View.VISIBLE);
+            txt_pending_uploads.setText(Html.fromHtml("<u>You have " + mDatabase.getUploadCount()+" pending upload activity.</u>"));
+        }else
+        {
+            ll_pending_uploads.setVisibility(View.GONE);
+            txt_pending_uploads.setText(Html.fromHtml("<u>You have " + mDatabase.getUploadCount()+" pending upload activity.</u>"));
+        }
+        txt_pending_uploads.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(UserHome.this, UploadDataNew.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                context.startActivity(intent);
+            }
+        });
 
-        config = new Config(this); //Here the context is passingGetAppversion
+        checkVersionForUpdateApi = new CheckVersionForUpdate(context, this);
+        if (config.NetworkConnection()) {
+            try {
+                String IME = msclass.getDeviceIMEI();
+                SharedPreferences sp = getApplicationContext().getSharedPreferences("MyPref", 0);
+                String userCode = sp.getString("UserID", null);
+                userCode = userCode.replace(" ", "%20");
+                IME = IME.replace(" ", "%20");
+                Log.i("pass ", "11");
+                //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode=" + userCode + "&IMEICode=" + IME + "");
+                userCode = "";
+                IME = "";
+             //   checkVersionForUpdateApi.checkVersion("myactvity.mahyco", userCode, IME);
+                //  new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
+                //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco");
+            } catch (Exception e) {
+                Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        // pd = new ProgressDialog(context);
+
+
         progressBar = (ProgressBar) findViewById(R.id.myProgress);
         relPRogress = (RelativeLayout) findViewById(R.id.relPRogress);
         myTextProgress = (TextView) findViewById(R.id.myTextProgress);
@@ -295,13 +347,13 @@ public class UserHome extends AppCompatActivity
 
         logAppOpenEvent();
         try {
-            myAlarm(18,45,00);
+            myAlarm(18, 45, 00);
 //            myAlarm(15,15,10);
 //            myAlarm(18,1,10);
 //            myAlarm(21,1,10);
         } catch (Exception e) {
-            Log.i("Exception ",e.getMessage());
-         //   Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            Log.i("Exception ", e.getMessage());
+            //   Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
         //testCrash();
 
@@ -316,17 +368,32 @@ public class UserHome extends AppCompatActivity
                 userCode = userCode.replace(" ", "%20");
                 IME = IME.replace(" ", "%20");
 
-              //  new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
-               //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco");
+            //     new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode=" + userCode + "&IMEICode=" + IME + "");
+                //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco");
             } catch (Exception e) {
-                Toast.makeText(context, "Error is "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         } else {
 
         }
-        showTBMKAList("Please verify your KA list and submit your remark.");
-
+        // showTBMKAList("Please verify your KA list and submit your remark.");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, 99);
+        }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 99) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Toast.makeText(context, "Allowed", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Notification Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     public void myAlarm(int hr, int min, int sec) {
 
         Calendar calendar = Calendar.getInstance();
@@ -343,7 +410,7 @@ public class UserHome extends AppCompatActivity
 
         if (alarmManager != null) {
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), 20000, pendingIntent);
-           // Toast.makeText(context, "Alarm Seted", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(context, "Alarm Seted", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -579,7 +646,7 @@ public class UserHome extends AppCompatActivity
                     try {
                         File file = backupDB;
                         if (file.exists()) {
-                        //    Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".com.vansuita.pickimage.provider", file);
+                            //    Uri uri = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID + ".com.vansuita.pickimage.provider", file);
 //                          Intent intent = new Intent(Intent.ACTION_SEND);
 //                            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 //                            intent.setType("*/*");
@@ -594,7 +661,7 @@ public class UserHome extends AppCompatActivity
                             startActivity(Intent.createChooser(sharingIntent, "Share using"));
                         }
                     } catch (Exception e) {
-                        Log.i("Error in Sharing ",e.getMessage());
+                        Log.i("Error in Sharing ", e.getMessage());
                     }
                     Toast.makeText(c, "Exported", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
@@ -1159,6 +1226,172 @@ public class UserHome extends AppCompatActivity
 
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mDatabase.getUploadCount() > 0) {
+            ll_pending_uploads.setVisibility(View.VISIBLE);
+            txt_pending_uploads.setText(Html.fromHtml("<u>You have " + mDatabase.getUploadCount()+" pending upload activity.</u>"));
+        }else
+        {
+            ll_pending_uploads.setVisibility(View.GONE);
+            txt_pending_uploads.setText(Html.fromHtml("<u>You have " + mDatabase.getUploadCount()+" pending upload activity.</u>"));
+        }
+    }
+
+    @Override
+    public void onResultVersionCode(String Content) {
+        Log.i("Details123", "" + Content);
+        // Toast.makeText(getApplicationContext(), "" + Content, Toast.LENGTH_SHORT).show();
+
+        try {
+
+            JSONObject jsonVersionDetails = new JSONObject(Content.trim());
+            String vcode = BuildConfig.VERSION_NAME;
+
+            if (jsonVersionDetails.getBoolean("success")) {
+
+                if (!(vcode.trim().equals(jsonVersionDetails.getString("AppVersion").trim()))) {
+                    showUpdateDialog();
+                }
+                if (jsonVersionDetails.getInt("UserStatus") == 0) {
+
+                    new androidx.appcompat.app.AlertDialog.Builder(UserHome.this)
+                            .setMessage("Session Expired . Please login again.")
+                            .setTitle("Information")
+                            .setPositiveButton("Login Again", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    editor.putString("UserID", null);
+                                    editor.commit();
+                                    //finish();
+                                    //System.exit(0);
+                                    logLogOutEvent();
+                                    Intent intent = new Intent(UserHome.this, LoginActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
+                                }
+                            })
+                            .setCancelable(false)
+                            .show();
+                    return;
+                }
+
+
+                if (jsonVersionDetails.getBoolean("IsFeedbackStatus")) {
+                    //  showUpdateDialog();
+                    //  Toast.makeText(context, "CheckFeedback Given.", Toast.LENGTH_SHORT).show();
+                    Calendar calendar = Calendar.getInstance();
+                    int year = calendar.get(Calendar.YEAR);
+                    CommonExecution cxx = new CommonExecution(context);
+                    String json = cxx.new CheckFeedbackStatus(1, userId, "" + year).execute().get();
+                    Log.i("Feedback Status", json + " Year:" + year);
+                    try {
+                        JSONObject jsonObject = new JSONObject(json.trim());
+                        if (jsonObject.getBoolean("success")) {
+                            if (!(jsonObject.getBoolean("IsFeedbackGiven"))) {
+                                showFeedbackScreen(userId);
+                            }
+                        } else {
+                            Toast.makeText(context, "" + jsonObject.getString("message"), Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+
+                    }
+                }
+                if (jsonVersionDetails.getBoolean("DescriptionStatus")) {
+                    android.app.Dialog dialog = new Dialog(context, android.R.style.Theme_Black_NoTitleBar_Fullscreen);
+                    dialog.setContentView(R.layout.dialog_notification);
+                    WebView web = dialog.findViewById(R.id.web);
+                    Button btn_close = dialog.findViewById(R.id.btn_close);
+                    btn_close.setEnabled(false);
+                    btn_close.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+                    web.getSettings().setJavaScriptEnabled(true);
+                    web.getSettings().setBuiltInZoomControls(true);
+                    web.getSettings().setDisplayZoomControls(false);
+                    web.setWebChromeClient(new WebChromeClient());
+                    web.loadUrl(jsonVersionDetails.getString("Description"));
+
+                    web.setWebChromeClient(new WebChromeClient() {
+                        public void onProgressChanged(WebView view, int progress) {
+                            //Make the bar disappear after URL is loaded, and changes string to Loading...
+                            setTitle("Loading...");
+                            setProgress(progress * 100); //Make the bar disappear after URL is loaded
+
+                            // Return the app name after finish loading
+                            if (progress == 100)
+                                setTitle("My Activity");
+                        }
+                    });
+
+                    web.setWebViewClient(new WebViewClient() {
+                        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                            // do your handling codes here, which url is the requested url
+                            // probably you need to open that url rather than redirect:
+                            view.loadUrl(url);
+                            return false; // then it is not handled by default action
+                        }
+                    });
+
+                    web.setOnKeyListener(new View.OnKeyListener() {
+                        @Override
+                        public boolean onKey(View v, int keyCode, KeyEvent event) {
+                            if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                                WebView webView = (WebView) v;
+
+                                switch (keyCode) {
+                                    case KeyEvent.KEYCODE_BACK:
+                                        if (webView.canGoBack()) {
+                                            webView.goBack();
+                                            return true;
+                                        }
+                                        break;
+                                }
+                            }
+
+                            return false;
+                        }
+                    });
+
+                    new CountDownTimer(10000, 1000) {
+                        int count = 1;
+
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            // TODO Auto-generated method stub
+                            btn_close.setText("" + millisUntilFinished / 1000);
+                            count++;
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            // TODO Auto-generated method stub
+                            btn_close.setText("Close");
+                            btn_close.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_baseline_close_24, 0);
+                            btn_close.setEnabled(true);
+                            // dialog.dismiss();
+                        }
+                    }.start();
+
+
+                    dialog.show();
+                }
+            } else  //  Coming False from the Version API
+            {
+                Toast.makeText(context, "" + jsonVersionDetails.getString("message"), Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (Exception e) {
+            Log.i("Error is ", e.getMessage());
+        }
     }
 
     public class UploadDataServer extends AsyncTask<String, String, String> {
@@ -1891,7 +2124,7 @@ public class UserHome extends AppCompatActivity
 
         protected void onPreExecute() {
             // NOTE: You can call UI Element here.
-           // Toast.makeText(context, "Entered", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(context, "Entered", Toast.LENGTH_SHORT).show();
 
             //UI Element
             //   uiUpdate.setText("Output : ");
@@ -2117,16 +2350,16 @@ public class UserHome extends AppCompatActivity
         dialog1 = builder.show();
     }
 
-     private void showTBMKAList(String Message) {
+    private void showTBMKAList(String Message) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Verify your KA list !");
-        builder.setMessage(""+Message);
+        builder.setMessage("" + Message);
         builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-               dialog.dismiss();
-               Intent intent=new Intent(context,TBMWiseMdoList.class);
-               startActivity(intent);
+                dialog.dismiss();
+                Intent intent = new Intent(context, TBMWiseMdoList.class);
+                startActivity(intent);
             }
         });
 

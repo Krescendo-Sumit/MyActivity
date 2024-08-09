@@ -64,6 +64,28 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ll_pending_uploads"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/line"
+
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txt_pending_uploads"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="20dp"
+                android:text="Pending Upload : 4"
+                android:textAllCaps="true"
+                android:textStyle="bold"
+                android:textColor="#3F51B5"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:baselineAligned="false"

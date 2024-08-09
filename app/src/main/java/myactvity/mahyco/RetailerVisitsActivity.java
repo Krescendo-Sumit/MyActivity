@@ -81,6 +81,7 @@ import myactvity.mahyco.helper.CustomSearchableSpinner;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 import myactvity.mahyco.retro.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -130,8 +131,8 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
     int REQUEST_CHECK_SETTINGS = 101;
     double lati;
     double longi;
-    //   String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/generalactivity/retailervisit";
+    //   String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/generalactivity/retailervisit";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -1137,6 +1138,10 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                 comments, commentDesc, taggedCordinates + " " + taggedAddress, taggedCordinates, isSynced);
 
         if (fl) {
+
+            if (CommonUtil.addGTVActivity(context, "41", "Retailer Visit", cordinates, RetailerDetails,"Market")) {
+                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
            /* if (config.NetworkConnection())
             {
                 uploadRetailerVisitsData("RetailerVisitsData");

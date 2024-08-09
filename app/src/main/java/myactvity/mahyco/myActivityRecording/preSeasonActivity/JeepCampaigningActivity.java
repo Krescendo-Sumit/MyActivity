@@ -100,6 +100,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -125,8 +126,8 @@ public class JeepCampaigningActivity extends AppCompatActivity implements
     String cordinatesmsgAddloc = "TAG THE PLOT (2ND ROW INSIDE THE PLOT)* \n";
     String address="", addressEnd="", addressAddloc="";
     public String search = "";
-    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/preseason/jeepCampaigningData";
+    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/jeepCampaigningData";
     String userCode;
     Config config;
     boolean startlocationflag= false;
@@ -1862,6 +1863,13 @@ public class JeepCampaigningActivity extends AppCompatActivity implements
             //update  finalPopupJson coloum   base entry and finalsubmit coloum
         }
         else {
+
+            if (CommonUtil.addGTVActivity(context, "5", "Jeep campaigning", cordinates, rtoRegistrationNumber+" "+product,"GTV")) {
+                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+            }
+
+
+
             boolean fl = mDatabase.insertJeepCampaginingData(userCode, state, district, taluka,
                     cropType, product, taggedCordinates + " " + taggedAddress, taggedCordinates, taggedCordinatesEnd + " " + taggedAddressEnd, taggedCordinatesEnd, OdometerReading, startLocation,
                     endLocation, rtoRegistrationNumber, OdometerReadingEnd, finalPopupJson);
@@ -1873,6 +1881,11 @@ public class JeepCampaigningActivity extends AppCompatActivity implements
 
                 }
                 else {
+
+                    if (CommonUtil.addGTVActivity(context, "5", "Jeep campaigning\n", cordinates, rtoRegistrationNumber+" "+product,"GTV")) {
+                        // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                    }
+
                     msclass.showMessage("Data saved successfully.");
                     checkForLocalStorage();
                 }

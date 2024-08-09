@@ -103,6 +103,7 @@ import myactvity.mahyco.helper.HarvestDayModel;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 import myactvity.mahyco.newupload.ShellingDayAndUtpadanMohatsavAPI;
 
 
@@ -135,7 +136,7 @@ public class ShellingDayActivity extends AppCompatActivity implements
     String action = "1";
     LocationManager locationManager;
     String cordinatesmsg = "TAG THE PLOT (2ND ROW INSIDE THE PLOT)* \n";
-    String address="";
+    String address = "";
     public String search = "";
     int imageselect;
     File photoFile = null;
@@ -443,7 +444,7 @@ public class ShellingDayActivity extends AppCompatActivity implements
 
         bindcroptypeMaize(spCropType, "C");
 
-
+        mDatabase.addshellinday();
     }
 
     private void selectImage() {
@@ -522,7 +523,7 @@ public class ShellingDayActivity extends AppCompatActivity implements
 
 
     private void dowork() {
-    //    progressBar.setIndeterminate(true);
+        //    progressBar.setIndeterminate(true);
         new Thread(new Runnable() {
             public void run() {
 
@@ -1135,6 +1136,7 @@ public class ShellingDayActivity extends AppCompatActivity implements
         //en
 
     }
+
     private void bindcroptype(Spinner spCropType, String Croptype) {
         try {
             //st
@@ -1453,7 +1455,7 @@ public class ShellingDayActivity extends AppCompatActivity implements
             location = arg0;
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
             cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
-            if(address.equals("")) {
+            if (address.equals("")) {
                 if (config.NetworkConnection()) {
                     address = getCompleteAddressString(lati, longi);
                 }
@@ -1716,21 +1718,23 @@ public class ShellingDayActivity extends AppCompatActivity implements
         } else {
 
             if (mDatabase.insertShellingDay(userCode, state, district, taluka, villagecode, finalvillage, cropType,
-                    product, farmercount, retailercount, PhotoName, PhotoString, Status, VersionName, LatLong, CreatedDate, "0", "", ""))
-            {
-              //  Toast.makeText(context, "Data Saved Successfully.", Toast.LENGTH_SHORT).show();
-               String data="";
-               boolean flag=false;
-                if(config.NetworkConnection()) {
-                    data = "Data Saved Successfully . Internet is available , would you like to upload it to server ?";
-                    flag=true;
-                }else {
-                    data = "Data Saved Successfully.";
-                    flag=false;
+                    product, farmercount, retailercount, PhotoName, PhotoString, Status, VersionName, LatLong, CreatedDate, "0", "", "")) {
+                if (CommonUtil.addGTVActivity(context, "11", "Shelling Day", cordinates, farmercount + " " + product, "GTV")) {
+                    // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                 }
-               AlertDialog.Builder builder= new AlertDialog.Builder(context);
+                //  Toast.makeText(context, "Data Saved Successfully.", Toast.LENGTH_SHORT).show();
+                String data = "";
+                boolean flag = false;
+                if (config.NetworkConnection()) {
+                    data = "Data Saved Successfully . Internet is available , would you like to upload it to server ?";
+                    flag = true;
+                } else {
+                    data = "Data Saved Successfully.";
+                    flag = false;
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
 
-                if(flag) {
+                if (flag) {
                     builder.setTitle("Information")
                             .setMessage(data)
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -1782,8 +1786,7 @@ public class ShellingDayActivity extends AppCompatActivity implements
                                 }
                             })
                             .show();
-                }else
-                {
+                } else {
                     builder.setTitle("Information")
                             .setMessage(data)
                             .setPositiveButton("Okay", new DialogInterface.OnClickListener() {

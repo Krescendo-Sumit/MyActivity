@@ -96,6 +96,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
@@ -165,8 +166,8 @@ public class ATLPosteringActivity extends AppCompatActivity implements GoogleApi
     int calllisner;
     int checkdetailentrydaved=0;
 
-    //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/atl/posteringData";
+    //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/posteringData";
     Prefs mPref;
 
     @Override
@@ -1055,6 +1056,10 @@ public class ATLPosteringActivity extends AppCompatActivity implements GoogleApi
                     strMandiName, numberOfSpots, taggedCordinates + " " + taggedAddress, taggedCordinates, taggedCordinatesMandiNameStart + " " + taggedAddressMandiNameStart, taggedCordinatesMandiNameStart,
                     taggedCordinatesMandiNameEnd + " " + taggedAddressMandiNameEnd, taggedCordinatesMandiNameEnd, finalPopupJson,villagecode);
             if (fl) {
+
+                if (CommonUtil.addGTVActivity(context, "23", "Postering", cordinates, selectedPosteringType+" Spots-"+numberOfSpots,"GTV")) {
+                    // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                }
 
                 if(calllisner==0)  // Intial Click on Add location
                 {

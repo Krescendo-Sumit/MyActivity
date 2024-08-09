@@ -52,8 +52,7 @@ public class RetrofitClient {
                 Request originalRequest = chain.request();
                 Request request = originalRequest.newBuilder()
                         //.header("Authorization", "Bearer " + Preferences.get(mContext, Preferences.KEY_ACCESS_TOKEN))
-                    //    .header("Authorization", "Bearer " + mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""))
-                        .header("Authorization", "Bearer gM-lQBzMe0-wC1bZlyemhTACiPhe1JNc-Z7XF-7wqQoSOvVkW-c8GcAJcJly5ygsuSF_x8uuXzRBj7xdSr5t2QeRYtU0cvpI0ueQOfCXQrVcq5lyw9Vjg-jt26uToGMLtwBP4b-wfjN1MRQImUn_AY2beBW-B_XFgCVSNEUpQez3igl5hS6UYIC9giYPi60bC6PfHO17OkkcFQBaSo8DBQ")
+                        .header("Authorization", "Bearer " + mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""))
                         .header("Content-Type", "application/json")
                         .header("AppVersion", BuildConfig.VERSION_NAME)
                        // .header("JWTToken", Preferences.get(mContext, Preferences.KEY_JWT_TOKEN))

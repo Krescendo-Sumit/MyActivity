@@ -91,6 +91,7 @@ import myactvity.mahyco.app.GeneralMaster;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 import myactvity.mahyco.retro.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -1187,6 +1188,10 @@ public class DistributorData extends Fragment implements GoogleApiClient.Connect
                             "Distributor", newfirm, birthdate, "", state);
 
                     if (fl == true) {
+
+                        if (CommonUtil.addGTVActivity(context, "39", "Distributor Tag", cordinate, retailername+" "+newfirm+" "+mobileno,"Market")) {
+                            // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                        }
                         try {
                             if (rndYes2.isChecked() == true) {
                                 msclass.showMessage("Distributor data saved successfully,Please fill retailer form.");
