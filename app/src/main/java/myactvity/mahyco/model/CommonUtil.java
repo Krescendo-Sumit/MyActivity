@@ -38,7 +38,7 @@ public class CommonUtil {
             userCode = userCode.replace(" ", "%20");
             Prefs prefs = Prefs.with(context);
             String punchInCordinates = prefs.getString(AppConstant.GTVPunchIdCoordinates, "");
-
+            activityType=prefs.getString(AppConstant.GTVSELECTEDBUTTON,"Market");
             String selectedGtvtype = prefs.getString(AppConstant.GTVType, "");
            // String selectedActivityType = prefs.getString(AppConstant.ACTIVITYTYPE, "");
             String selectedActivityType = activityType;
@@ -73,7 +73,7 @@ public class CommonUtil {
 
             if (mDatabase.InsertGTVTravelData(gtvTravelActivityDataModel)) {
 
-                Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, activityType+" activity tagged.", Toast.LENGTH_SHORT).show();
                 return true;
             } else {
                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();

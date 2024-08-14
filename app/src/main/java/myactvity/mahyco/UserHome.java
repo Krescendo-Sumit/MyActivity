@@ -112,6 +112,7 @@ import myactvity.mahyco.helper.SqliteDatabase;
 import myactvity.mahyco.newupload.NotificationReceiver;
 import myactvity.mahyco.newupload.SetAlarmActivity;
 import myactvity.mahyco.newupload.UploadDataNew;
+import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
 import myactvity.mahyco.travelreport.ActivityTravelReportTriggered;
 import myactvity.mahyco.utils.homescreen.CheckVersionForUpdate;
 
@@ -845,7 +846,7 @@ public class UserHome extends AppCompatActivity
                 this.startActivity(intent);*/
                 logProfileEvent();
                 Toast.makeText(getApplicationContext(), "Working Progress", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this.getApplicationContext(), ActivityTravelReportTriggered.class);
+                Intent intent = new Intent(this.getApplicationContext(), ActivityTravelReportGTV.class);
                 this.startActivity(intent);
             } else if (id == R.id.nav_share) {
 

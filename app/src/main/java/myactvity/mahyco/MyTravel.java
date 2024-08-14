@@ -157,7 +157,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     Button btnPunchInGTV2;
     Button btnAddActivityGtv2;
     Button btnPunchOutGTV2;
-    Button btn_sync,btn_sync_traveldata;
+    Button btn_sync, btn_sync_traveldata;
+    Button btn_clearpunchdata, btn_clearactivitydata;
     String userCode = "";
     String selectedGTV1Village = "";
     String selectedGTV2Village = "";
@@ -210,10 +211,13 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchOutGTV2 = (Button) findViewById(R.id.btnPunchOutGTV2);
             btn_sync = (Button) findViewById(R.id.btn_sync);
             btn_sync_traveldata = (Button) findViewById(R.id.btn_sync_traveldata);
+            btn_clearpunchdata = (Button) findViewById(R.id.btn_clearpunchindata);
+            btn_clearactivitydata = (Button) findViewById(R.id.btn_clearactivitydata);
             activityModels = new ArrayList<>();
             addActivityInList(1); // 1 for GTV 2 for Market
             mDatabase = SqliteDatabase.getInstance(this);
             mDatabase.addGTVActivityTable();
+            checkGTVStatus(0);
             bindFocussedVillage();
 
 
@@ -222,7 +226,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             double d = SphericalUtil.computeDistanceBetween(sourceLoc, destinationLoc);
             Log.i("Distance is ", d + "");
 
-            checkGTVStatus();
+            checkGTVStatus(0);
 
             config = new Config(this); //Here the context is passing
             lblwelcome = (TextView) findViewById(R.id.lblwelcome);
@@ -259,6 +263,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                         //Online check coupon balance amount
                         try {
                             if (config.NetworkConnection()) {
+                                mPref.save(AppConstant.GTVSELECTEDBUTTON,"Start");
                                 Intent intent = new Intent(MyTravel.this, starttravelnew.class);
                                 //Intent intent = new Intent(context.getApplicationContext(), imgpick.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -289,7 +294,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                          /*   Intent intent = new Intent(MyTravel.this, MyActivityRecordingNew.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(intent);*/
-
+                            mPref.save(AppConstant.GTVSELECTEDBUTTON,"Market");
                             addActivityInList(2);// GTV activity 1
                             showActivityDialog(context);
 
@@ -306,6 +311,10 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 @Override
                 public void onClick(View v) {
                     try {
+                        if(!isTourStareted())
+                            return;
+                        mPref.save(AppConstant.GTVSELECTEDBUTTON,"End Travel");
+
                         int count = mDatabase.getUploadCount();
                         if (count > 0) {
                             new AlertDialog.Builder(context)
@@ -800,8 +809,12 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 @Override
                 public void onClick(View view) {
 
-                    if(selectedGTV1Village.trim().equals("")||selectedGTV1Village.toLowerCase().contains("select"))
+                    if(!isTourStareted())
                     {
+                        return;
+                    }
+
+                    if (selectedGTV1Village.trim().equals("") || selectedGTV1Village.toLowerCase().contains("select")) {
                         Toast.makeText(context, "Please select focus village.", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -811,7 +824,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                         return;
                     }
                     mLastClickTime = SystemClock.elapsedRealtime();
-                    Toast.makeText(context, "Called", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(context, "Called", Toast.LENGTH_SHORT).show();
                     Date entrydate = new Date();
                     final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
                     selectedGtvtype = "GTV1";
@@ -841,9 +854,6 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     gtvMasterDataModel.setIsSynced(0);
 
 
-
-
-
                     if (mDatabase.InsertGTVMaster(gtvMasterDataModel)) {
                         mPref.save(AppConstant.GTVType, selectedGtvtype);
                         mPref.save(AppConstant.ACTIVITYTYPE, "GTV");
@@ -852,13 +862,15 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                         mPref.save(AppConstant.GTVSelectedVillage, selectedGTV1Village);
                         mPref.save(AppConstant.GTVSelectedVillageCode, selectedGTV1VillageCode);
                         mPref.save(AppConstant.GTVPunchIdCoordinates, cordinates);
-                        if(CommonUtil.addGTVActivity(context,"0","Punch In",cordinates,"Start Village","GTV"))
-                        {
-                            Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                        mPref.save(AppConstant.GTVSelectedVillage1, selectedGTV1Village);
+                        mPref.save(AppConstant.GTVSelectedVillageCode1,selectedGTV1VillageCode);
+                        mPref.save(AppConstant.GTVSELECTEDBUTTON,"GTV");
+                        if (CommonUtil.addGTVActivity(context, "0", "Punch In", cordinates, "Start Village", "GTV")) {
+                          //  Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                         }
                         showSharePreference();
-                        checkGTVStatus();
-                        Toast.makeText(context, "Data Saved Successfully", Toast.LENGTH_SHORT).show();
+                        checkGTVStatus(1);
+                        Toast.makeText(context, "Punch in successfully.", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
@@ -868,9 +880,11 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivityGtv1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(context, "GTV1 Actvity", Toast.LENGTH_SHORT).show();
+               //     Toast.makeText(context, "GTV1 Actvity", Toast.LENGTH_SHORT).show();
+                    mPref.save(AppConstant.GTVSELECTEDBUTTON,"GTV");
                     addActivityInList(1);// GTV activity 1
                     showActivityDialog(context);
+
                 }
             });
             btnPunchOutGTV1.setOnClickListener(new View.OnClickListener() {
@@ -908,20 +922,23 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     gtvMasterDataModel.setParentId(0);
 
                     if (mDatabase.InsertGTVMaster(gtvMasterDataModel)) {
-                        mPref.save(AppConstant.GTVType, selectedGtvtype);
-                        mPref.save(AppConstant.GTVSession, selectedGtvSession);
-                        mPref.save(AppConstant.GTVPastCoordinates, cordinates);
-                        mPref.save(AppConstant.GTVSelectedVillage, selectedGTV1Village);
+                        mPref.save(AppConstant.GTVSELECTEDBUTTON,"GTV");
+
+                        if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village", "GTV")) {
+                            mPref.save(AppConstant.GTVType, "");
+                            mPref.save(AppConstant.ACTIVITYTYPE, "");
+                            mPref.save(AppConstant.GTVSession, "");
+                            mPref.save(AppConstant.GTVPastCoordinates, cordinates);
+                            mPref.save(AppConstant.GTVSelectedVillage, "");
+                            mPref.save(AppConstant.GTVSelectedVillageCode, "");
+                            mPref.save(AppConstant.GTVPunchIdCoordinates, "");
 
 
-                        if(CommonUtil.addGTVActivity(context,"1111","Punch Out",cordinates,"Punch Out Village","GTV"))
-                        {
-                            Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                         }
 
                         showSharePreference();
-                        checkGTVStatus();
-                        Toast.makeText(context, "Data Saved Successfully", Toast.LENGTH_SHORT).show();
+                        checkGTVStatus(2);
+                        Toast.makeText(context, "Punch Out Successfully", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
@@ -930,11 +947,20 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchInGTV2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    if(!isTourStareted())
+                    {
+                        return;
+                    }
+                    if (selectedGTV2Village.trim().equals("") || selectedGTV2Village.toLowerCase().contains("select")) {
+                        Toast.makeText(context, "Please select focus village.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
                         return;
                     }
                     mLastClickTime = SystemClock.elapsedRealtime();
-                    Toast.makeText(context, "GTV2 IN", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(context, "GTV2 IN", Toast.LENGTH_SHORT).show();
                     Date entrydate = new Date();
                     final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
 
@@ -965,17 +991,20 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
                     if (mDatabase.InsertGTVMaster(gtvMasterDataModel)) {
                         mPref.save(AppConstant.GTVType, selectedGtvtype);
+                        mPref.save(AppConstant.ACTIVITYTYPE, "GTV");
                         mPref.save(AppConstant.GTVSession, selectedGtvSession);
                         mPref.save(AppConstant.GTVPastCoordinates, cordinates);
                         mPref.save(AppConstant.GTVSelectedVillage, selectedGTV2Village);
-
-                        if(CommonUtil.addGTVActivity(context,"0","Punch In",cordinates,"Start Village","GTV"))
-                        {
-                            Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                        mPref.save(AppConstant.GTVSelectedVillageCode, selectedGTV2VillageCode);
+                        mPref.save(AppConstant.GTVPunchIdCoordinates, cordinates);
+                        mPref.save(AppConstant.GTVSelectedVillage2, selectedGTV2Village);
+                        mPref.save(AppConstant.GTVSelectedVillageCode2,selectedGTV2VillageCode);
+                        mPref.save(AppConstant.GTVSELECTEDBUTTON,"GTV");
+                        if (CommonUtil.addGTVActivity(context, "0", "Punch In", cordinates, "Start Village", "GTV")) {
                         }
                         showSharePreference();
-                        checkGTVStatus();
-                        Toast.makeText(context, "Data Saved Successfully", Toast.LENGTH_SHORT).show();
+                        checkGTVStatus(3);
+                        Toast.makeText(context, "Punch In Successfully", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
@@ -988,7 +1017,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                         return;
                     }
                     mLastClickTime = SystemClock.elapsedRealtime();
-                    Toast.makeText(context, "GTV2 Actvity", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(context, "GTV2 Actvity", Toast.LENGTH_SHORT).show();
+                    mPref.save(AppConstant.GTVSELECTEDBUTTON,"GTV");
                     addActivityInList(1);// GTV activity 1
                     showActivityDialog(context);
                 }
@@ -1002,7 +1032,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     }
                     mLastClickTime = SystemClock.elapsedRealtime();
 
-                    Toast.makeText(context, "GTV2 out", Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(context, "GTV2 out", Toast.LENGTH_SHORT).show();
                     Date entrydate = new Date();
                     final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
                     selectedGtvtype = "GTV2";
@@ -1031,18 +1061,21 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     gtvMasterDataModel.setParentId(0);
 
                     if (mDatabase.InsertGTVMaster(gtvMasterDataModel)) {
-                        mPref.save(AppConstant.GTVType, selectedGtvtype);
-                        mPref.save(AppConstant.GTVSession, selectedGtvSession);
-                        mPref.save(AppConstant.GTVPastCoordinates, cordinates);
-                        mPref.save(AppConstant.GTVSelectedVillage, selectedGTV2Village);
 
-                        if(CommonUtil.addGTVActivity(context,"1111","Punch Out",cordinates,"Punch Out Village","GTV"))
-                        {
-                            Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                        mPref.save(AppConstant.GTVSELECTEDBUTTON,"GTV");
+                        if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village", "GTV")) {
+                            mPref.save(AppConstant.GTVType, "");
+                            mPref.save(AppConstant.ACTIVITYTYPE, "");
+                            mPref.save(AppConstant.GTVSession, "");
+                            mPref.save(AppConstant.GTVPastCoordinates, cordinates);
+                            mPref.save(AppConstant.GTVSelectedVillage, "");
+                            mPref.save(AppConstant.GTVSelectedVillageCode, "");
+                            mPref.save(AppConstant.GTVPunchIdCoordinates, "");
+
                         }
                         showSharePreference();
-                        checkGTVStatus();
-                        Toast.makeText(context, "Data Saved Successfully", Toast.LENGTH_SHORT).show();
+                        checkGTVStatus(4);
+                        Toast.makeText(context, "Punch Out Successfully", Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
@@ -1062,6 +1095,25 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     uploadGtvTravelData();
                 }
             });
+
+            btn_clearpunchdata.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mDatabase.UpdateStatus("delete from GTVMasterData");
+                    checkGTVStatus(0);
+                    bindFocussedVillage();
+                }
+            });
+            btn_clearactivitydata.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mDatabase.UpdateStatus("delete from GTVTravelActivityData");
+                    checkGTVStatus(0);
+                    bindFocussedVillage();
+                }
+            });
+
+
         } catch (Exception e) {
 
         }
@@ -1195,40 +1247,73 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     public void bindFocussedVillage() {
         sp_villagegtv1.setAdapter(null);
         sp_villagegtv2.setAdapter(null);
-
-
-        String str = null;
-        try {
-
-
-            String searchQuery = "";
+        boolean b1 = true;
+        boolean b2 = true;
+        if (gtv1InStatus > 0) {
+            b1 = false;
+            String vname = mPref.getString(AppConstant.GTVSelectedVillage1, "");
+            String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
             List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
-            Cursor cursor;
-            searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
-            Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
-                    "SELECT FOCUSED VILLAGE"));
-
-
-            cursor = mDatabase.getReadableDatabase().
-                    rawQuery(searchQuery, null);
-            cursor.moveToFirst();
-
-            while (cursor.isAfterLast() == false) {
-                Croplist.add(new GeneralMaster(cursor.getString(1),
-                        cursor.getString(0).toUpperCase()));
-                cursor.moveToNext();
-            }
-            cursor.close();
-
+            Croplist.add(new GeneralMaster(vcode,vname));
             ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
                     (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             sp_villagegtv1.setAdapter(adapter);
+
+
+        }
+
+        if (gtv2InStatus > 0) {
+            b2 = false;
+            String vname = mPref.getString(AppConstant.GTVSelectedVillage2, "");
+            String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode2, "");
+            List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+            Croplist.add(new GeneralMaster(vcode,vname));
+            ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                    (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             sp_villagegtv2.setAdapter(adapter);
 
-        } catch (
-                Exception ex) {
-            ex.printStackTrace();
+        }
+
+        if (b1 || b2) {
+
+
+            String str = null;
+            try {
+
+
+                String searchQuery = "";
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Cursor cursor;
+                searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));
+
+
+                cursor = mDatabase.getReadableDatabase().
+                        rawQuery(searchQuery, null);
+                cursor.moveToFirst();
+
+                while (cursor.isAfterLast() == false) {
+                    Croplist.add(new GeneralMaster(cursor.getString(1),
+                            cursor.getString(0).toUpperCase()));
+                    cursor.moveToNext();
+                }
+                cursor.close();
+
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                if (b1)
+                    sp_villagegtv1.setAdapter(adapter);
+                if (b2)
+                    sp_villagegtv2.setAdapter(adapter);
+
+            } catch (
+                    Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -2123,54 +2208,85 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         }
     }
 
-    public void checkGTVStatus() {
-        /*try {
+    public void checkGTVStatus(int typeid) {
+        try {
             String dd = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             int snt = 0;
             gtv1InStatus = mDatabase.getGtvStatus("GTV1", "IN", dd);
             gtv1OutStatus = mDatabase.getGtvStatus("GTV1", "OUT", dd);
             gtv2InStatus = mDatabase.getGtvStatus("GTV2", "IN", dd);
             gtv2OutStatus = mDatabase.getGtvStatus("GTV2", "OUT", dd);
-            Log.i("gtv1InStatus", "" + gtv1InStatus);
-            Log.i("gtv1OutStatus", "" + gtv1OutStatus);
-            Log.i("gtv2InStatus", "" + gtv2InStatus);
-            Log.i("gtv2OutStatus", "" + gtv2OutStatus);
-            if (gtv1InStatus == 0) {
-                btnPunchInGTV1.setEnabled(true);
-               *//*
 
-                 btnPunchOutGTV1.setEnabled(true);
-                 btnPunchInGTV2.setEnabled(false);
-                 btnPunchOutGTV2.setEnabled(false);
-
-                 *//*
-            } else {
-                btnPunchInGTV1.setEnabled(false);
+            if (gtv1InStatus == 0 && gtv1OutStatus == 0 && gtv2InStatus == 0 && gtv2OutStatus == 0) {
+                typeid = 5;
             }
 
-            if (gtv1OutStatus == 0 && gtv1InStatus>0) {
-                btnPunchOutGTV1.setEnabled(true);
-            } else {
+
+      /*      btnPunchOutGTV1.setEnabled(false);
+            btnPunchOutGTV2.setEnabled(false);
+            btnPunchInGTV1.setEnabled(false);
+            btnPunchInGTV2.setEnabled(false);
+            btnAddActivityGtv1.setEnabled(false);
+            btnAddActivityGtv2.setEnabled(false);*/
+
+            if (typeid == 5) {
                 btnPunchOutGTV1.setEnabled(false);
-            }
-
-            if (gtv2InStatus == 0) {
-                btnPunchInGTV2.setEnabled(true);
-            } else {
-                btnPunchInGTV2.setEnabled(false);
-            }
-
-
-            if (gtv2OutStatus == 0 && gtv2InStatus>0) {
-                btnPunchOutGTV2.setEnabled(true);
-            } else {
                 btnPunchOutGTV2.setEnabled(false);
+                btnPunchInGTV1.setEnabled(true);
+                btnPunchInGTV2.setEnabled(true);
+                btnAddActivityGtv1.setEnabled(false);
+                btnAddActivityGtv2.setEnabled(false);
+            }
+            if (typeid == 0) {
+
+                typeid = Integer.parseInt(mPref.getString(AppConstant.GTVActiveActivity, "0"));
+
+                btnPunchOutGTV1.setEnabled(false);
+                btnPunchOutGTV2.setEnabled(false);
+                btnPunchInGTV1.setEnabled(true);
+                btnPunchInGTV2.setEnabled(false);
+                btnAddActivityGtv1.setEnabled(false);
+                btnAddActivityGtv2.setEnabled(false);
+            }
+            if (typeid == 1) {
+                btnPunchOutGTV1.setEnabled(true);
+                btnPunchOutGTV2.setEnabled(false);
+                btnPunchInGTV1.setEnabled(false);
+                btnPunchInGTV2.setEnabled(false);
+                btnAddActivityGtv1.setEnabled(true);
+                btnAddActivityGtv2.setEnabled(false);
             }
 
+            if (typeid == 2) {
+                btnPunchOutGTV1.setEnabled(false);
+                btnPunchOutGTV2.setEnabled(false);
+                btnPunchInGTV1.setEnabled(false);
+                btnPunchInGTV2.setEnabled(true);
+                btnAddActivityGtv1.setEnabled(false);
+                btnAddActivityGtv2.setEnabled(false);
+            }
+
+            if (typeid == 3) {
+                btnPunchOutGTV1.setEnabled(false);
+                btnPunchOutGTV2.setEnabled(true);
+                btnPunchInGTV1.setEnabled(false);
+                btnPunchInGTV2.setEnabled(false);
+                btnAddActivityGtv1.setEnabled(false);
+                btnAddActivityGtv2.setEnabled(true);
+            }
+            if (typeid == 4) {
+                btnPunchOutGTV1.setEnabled(false);
+                btnPunchOutGTV2.setEnabled(false);
+                btnPunchInGTV1.setEnabled(false);
+                btnPunchInGTV2.setEnabled(false);
+                btnAddActivityGtv1.setEnabled(false);
+                btnAddActivityGtv2.setEnabled(false);
+            }
+            mPref.save(AppConstant.GTVActiveActivity, "" + typeid);
 
         } catch (Exception e) {
             Log.d("Test", e.getMessage());
-        }*/
+        }
     }
 
 }

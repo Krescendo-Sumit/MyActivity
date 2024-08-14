@@ -36,4 +36,5 @@ public static final String GETHDPSUserwiseReport = "coupon/getHDPSUserwiseReport
  public static final String SUBMIT_MYTRAVELREPORT_TRIGGERED = "https://maapackhousenxg.mahyco.com/api/myTravel/createMyTravelActivityRemark";
     public static final String GETVERSIONDETAILS = "https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus";
  public static final String UplaodGTVTRavelData="myTravel/createGTVUserActivity";;
+    public static final String GET_TRAVEL_REPORT_GTV_REPORT ="myTravel/getGTVKAWiseActivityReport" ;
 }

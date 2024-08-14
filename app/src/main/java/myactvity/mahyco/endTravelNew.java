@@ -102,6 +102,8 @@ import myactvity.mahyco.helper.SqliteDatabase;
 import myactvity.mahyco.model.CommonUtil;
 import myactvity.mahyco.newupload.UploadDataNew;
 import myactvity.mahyco.retro.RetrofitClient;
+import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
+import myactvity.mahyco.travelreport.ActivityTravelReportTriggered;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -1359,7 +1361,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                     //dialog.dismiss();
                     if (fl == true) {
                         try {
-                            if (CommonUtil.addGTVActivity(context, "2000", "End Travel", cordinate, "By "+vehicletype+" ."+txtlocation.getText().toString()+" "+txtlocation.getText().toString(),"End")) {
+                            if (CommonUtil.addGTVActivity(context, "2000", "End Travel", cordinate, "By "+vehicletype+" ."+txtlocation.getText().toString()+" "+txtlocation.getText().toString(),"")) {
                                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                             }
                             msclass.showMessage("Tour end data saved successfully");
@@ -1498,7 +1500,8 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {
                                                         dialogInterface.dismiss();
-
+                                                        Intent intent = new Intent(context, ActivityTravelReportGTV.class);
+                                                        startActivity(intent);
 
                                                     }
                                                 })

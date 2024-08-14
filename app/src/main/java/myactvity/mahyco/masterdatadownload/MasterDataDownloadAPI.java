@@ -28,7 +28,7 @@ public class MasterDataDownloadAPI {
     public interface PlotDataDownloadListener{
        public void onMasterDataDownload(String result);
         public void onMasterDataPlotValidationDownload(String result);
-        public void onMasterAllMasterDataDownload(String result,int code);
+        public void onMasterAllMasterDataDownload(String result);
     }
 
     public void GetUserAllMasterData(JsonObject jsonObject) {
@@ -49,7 +49,7 @@ public class MasterDataDownloadAPI {
                         String result = response.body();
                         try {
 
-                            newUploadListener.onMasterAllMasterDataDownload(result,response.code());
+                            newUploadListener.onMasterAllMasterDataDownload(result);
                         } catch (NullPointerException e) {
                             Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         } catch (Exception e) {

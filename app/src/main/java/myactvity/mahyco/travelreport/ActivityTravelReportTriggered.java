@@ -76,12 +76,18 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
 
         //   mManager.setReverseLayout(true);
-        setTitle("Verify Travel Report");
+        setTitle("Verify Summary Report");
+        Date entrydate = new Date();
+        final String InTime = new SimpleDateFormat("yyyy-MM-dd").format(entrydate);
+
+        SharedPreferences sp = context.getSharedPreferences("MyPref", 0);
+        String userCode = sp.getString("UserID", null);
+        userCode = userCode.replace(" ", "%20");
         rc_kalist.setLayoutManager(mManager);
         try {
             txtTotalKM.setText("");
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("FilterValue", "mh248,2024-08-06");
+            jsonObject.addProperty("FilterValue", userCode+","+InTime);
             jsonObject.addProperty("FilterOption", "GetTravelReport");
             getList(jsonObject);
         } catch (Exception exception) {

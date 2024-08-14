@@ -5,6 +5,7 @@ import android.net.Uri;
 public class AppConstant {
 
 
+
     public static String ACCESS_TOKEN_TAG="ACCESSTOKEN";
     public static String USER_CODE_TAG="USERCODE";
     public static Uri imageUri = null;
@@ -26,4 +27,10 @@ public class AppConstant {
     public static String GTVPunchIdCoordinates="SELECTEDGTVPunchInCoordinates";
     public static String ACTIVITYTYPE = "GTVACTIVITYTYPE";
 
+    public static String GTVActiveActivity="GTVACTIVEACtivity";
+    public static String GTVSelectedVillage1="GTV1Vname";
+    public static String GTVSelectedVillageCode1="GTV1Code";
+    public static String GTVSelectedVillage2="GTV2Name";
+    public static String GTVSelectedVillageCode2="GTV2Code";
+    public static String GTVSELECTEDBUTTON="GTVSELECTEDBUTTON";
 }

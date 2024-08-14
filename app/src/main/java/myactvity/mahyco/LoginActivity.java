@@ -680,7 +680,7 @@ public class LoginActivity extends AppCompatActivity {
             postParameters.add(new BasicNameValuePair("xmlString",usercode));
             postParameters.add(new BasicNameValuePair("usercode",usercode));
             //String Urlpath1= Urlpath+"?appname="+appname+"";
-            String Urlpath1= cx.MDOurlpath+"?appname="+appname+"&token="+token+"&imei="+imei;
+            String Urlpath1= "asdsa"+cx.MDOurlpath+"?appname="+appname+"&token="+token+"&imei="+imei;
             Log.i("AppVersionUrl",Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");
