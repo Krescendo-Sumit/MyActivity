@@ -104,6 +104,7 @@ import myactvity.mahyco.app.AppConstant;
 import myactvity.mahyco.app.Config;
 import myactvity.mahyco.app.GeneralMaster;
 import myactvity.mahyco.app.Indentcreate;
+import myactvity.mahyco.app.Prefs;
 import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
@@ -851,33 +852,41 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
 
         String str = null;
         try {
+            Prefs mPref = Prefs.with(context);
+            String gtvtype = mPref.getString(AppConstant.GTVSELECTEDBUTTON, "");
+            if (gtvtype.trim().equals("GTV")) {
+                String vname = mPref.getString(AppConstant.GTVSelectedVillage1, "");
+                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Croplist.add(new GeneralMaster(vcode, vname));
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
+            } else {
+                String searchQuery = "";
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Cursor cursor;
+                searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));
 
+                cursor = mDatabase.getReadableDatabase().
+                        rawQuery(searchQuery, null);
+                cursor.moveToFirst();
 
-            String searchQuery = "";
-            List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
-            Cursor cursor;
-            searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
-            Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
-                    "SELECT FOCUSED VILLAGE"));
+                while (cursor.isAfterLast() == false) {
+                    Croplist.add(new GeneralMaster(cursor.getString(1),
+                            cursor.getString(0).toUpperCase()));
+                    cursor.moveToNext();
+                }
+                cursor.close();
 
-
-            cursor = mDatabase.getReadableDatabase().
-                    rawQuery(searchQuery, null);
-            cursor.moveToFirst();
-
-            while (cursor.isAfterLast() == false) {
-                Croplist.add(new GeneralMaster(cursor.getString(1),
-                        cursor.getString(0).toUpperCase()));
-                cursor.moveToNext();
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
             }
-            cursor.close();
-
-
-            ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
-                    (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spFocusedVillages.setAdapter(adapter);
-
         } catch (
                 Exception ex) {
             ex.printStackTrace();

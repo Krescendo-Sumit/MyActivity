@@ -518,28 +518,43 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
         spFocusedVillages.setAdapter(null);
         String str = null;
         try {
-            String searchQuery = "";
-            focussedVillageList = new ArrayList<GeneralMaster>();
-            Cursor cursor;
-            searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
-            //cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
-            focussedVillageList.add(new GeneralMaster("SELECT VILLAGE",
-                    "SELECT VILLAGE"));
-            cursor = mDatabase.getReadableDatabase().
-                    rawQuery(searchQuery, null);
-            cursor.moveToFirst();
-            while (cursor.isAfterLast() == false) {
-                focussedVillageList.add(new GeneralMaster(cursor.getString(1),
-                        cursor.getString(0).toUpperCase()));
-                cursor.moveToNext();
+
+            String gtvtype = mPref.getString(AppConstant.GTVSELECTEDBUTTON, "");
+            if (gtvtype.trim().equals("GTV")) {
+                String vname = mPref.getString(AppConstant.GTVSelectedVillage1, "");
+                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Croplist.add(new GeneralMaster(vcode, vname));
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
+            } else {
+
+
+                String searchQuery = "";
+                focussedVillageList = new ArrayList<GeneralMaster>();
+                Cursor cursor;
+                searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
+                //cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
+                focussedVillageList.add(new GeneralMaster("SELECT VILLAGE",
+                        "SELECT VILLAGE"));
+                cursor = mDatabase.getReadableDatabase().
+                        rawQuery(searchQuery, null);
+                cursor.moveToFirst();
+                while (cursor.isAfterLast() == false) {
+                    focussedVillageList.add(new GeneralMaster(cursor.getString(1),
+                            cursor.getString(0).toUpperCase()));
+                    cursor.moveToNext();
+                }
+                cursor.close();
+
+
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (context, android.R.layout.simple_spinner_dropdown_item, focussedVillageList);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
             }
-            cursor.close();
-
-
-            ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
-                    (context, android.R.layout.simple_spinner_dropdown_item, focussedVillageList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spFocusedVillages.setAdapter(adapter);
         } catch (
                 Exception ex) {
             ex.printStackTrace();
@@ -1091,7 +1106,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
                 farmerPhotoStatus, successPhotoName, Imagepath2, successPhotoStatus, isSynced, villagecode);
 
         if (fl) {
-            if (CommonUtil.addGTVActivity(context, "1", "Testimonial Collection", cordinates, farmerName + " - " + farmerMobile,"GTV")) {
+            if (CommonUtil.addGTVActivity(context, "1", "Testimonial Collection", cordinates, farmerName + " - " + farmerMobile, "GTV")) {
                 Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             uploadData("TestimonialCollectionData");

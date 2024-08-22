@@ -25,9 +25,12 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.Settings;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.android.material.textfield.TextInputLayout;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -36,6 +39,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -111,13 +115,13 @@ import static com.google.android.gms.location.LocationServices.FusedLocationApi;
  */
 public class FieldDayActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback,
-        IPickResult,View.OnClickListener{
+        IPickResult, View.OnClickListener {
     Context context;
 
     private static final String TAG = "FIELDDAY";
     SearchableSpinner spState, spDist, spVillage, spTaluka, spCropType, spFocusedVillages;
     CustomSearchableSpinner spFarmerDetails;
-    MultiSelectionSpinner spProductName,spSelectRBM, spSelectTBM, spSelectMDO;
+    MultiSelectionSpinner spProductName, spSelectRBM, spSelectTBM, spSelectMDO;
     public SqliteDatabase mDatabase;
     SharedPreferences locdata, pref;
     SharedPreferences.Editor loceditor, editor;
@@ -129,8 +133,8 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
     ImageView imgBtnGps;
     TextView lblheader, tvCordinates, tvAddress;
     private long mLastClickTime = 0;
-    String cordinates="";
-    String address="";
+    String cordinates = "";
+    String address = "";
     String croptype;
     String focusedVillage;
     String cordinatesmsg = "ADDRESS TAG : *";
@@ -167,7 +171,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
     double longi;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
-   // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
     String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/fieldDayData";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
@@ -329,7 +333,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
 //
 //                        llOtherVillages.setVisibility(View.GONE);
 //                    }
-                    village=focusedVillage;
+                    village = focusedVillage;
                     bindFarmerDetails(village);
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -440,7 +444,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
             @Override
             public void onClick(View v) {
 
-                if(validationFarmerDetail()) {
+                if (validationFarmerDetail()) {
                     openDialog();
                 }
             }
@@ -519,10 +523,10 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                     farmerDetails = gm.Desc().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
                     pkFarmerMobileNumber = gm.Code().trim();
                     if (farmerlist != null) {
-                       // if (position == farmerlist.size() - 1) {
-                            if (position == 1) {
+                        // if (position == farmerlist.size() - 1) {
+                        if (position == 1) {
 
-                            editor.putString("calldemoplot","FieldDay");
+                            editor.putString("calldemoplot", "FieldDay");
                             editor.commit();
                             intent = new Intent(FieldDayActivity.this, DemoModelRecordActivity.class);
                             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -689,12 +693,11 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
             } else {
                 Toast.makeText(this, "Picker intent not found", Toast.LENGTH_SHORT).show();
             }
-        }
-        catch (Exception ex)
-        {
-            Log.d(TAG, "selectImage(): "+ex.toString());
+        } catch (Exception ex) {
+            Log.d(TAG, "selectImage(): " + ex.toString());
         }
     }
+
     private void dowork() {
         progressBar.setIndeterminate(true);
         new Thread(new Runnable() {
@@ -720,7 +723,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
 
 
         if (!validationFarmerDetail()) {
-          return false;
+            return false;
         }
 
         if (farmerListWithNumber != null) {
@@ -730,15 +733,14 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
             }
         }
 
-        if(etRetailerCount.getText().length()==0){
+        if (etRetailerCount.getText().length() == 0) {
             msclass.showMessage("Please enter retailer number");
             return false;
         }
-        if((spSelectRBM.getSelectedItem().toString().equals("SELECT RBM"))&&
+        if ((spSelectRBM.getSelectedItem().toString().equals("SELECT RBM")) &&
                 (spSelectTBM.getSelectedItem().toString().equals("SELECT TBM"))
-                &&(spSelectMDO.getSelectedItem().toString().equals("SELECT MDO / SO"))
-                )
-        {
+                && (spSelectMDO.getSelectedItem().toString().equals("SELECT MDO / SO"))
+        ) {
             msclass.showMessage("Please select RBM/TBM/KA attending the Field day ");
 
             return false;
@@ -790,8 +792,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
             }
         }
 
-        if (spCropType.getSelectedItem().toString().equalsIgnoreCase("SELECT CROP"))
-             {
+        if (spCropType.getSelectedItem().toString().equalsIgnoreCase("SELECT CROP")) {
             Utility.showAlertDialog("Info", "Please Select Crop", context);
             return false;
         }
@@ -801,8 +802,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
             return false;
         }
         if (spFarmerDetails.getSelectedItem().toString().equalsIgnoreCase("SELECT FARMER")
-                || spFarmerDetails.getSelectedItem().toString().equalsIgnoreCase("NOT FOUND (REGISTER THE PLOT)"))
-        {
+                || spFarmerDetails.getSelectedItem().toString().equalsIgnoreCase("NOT FOUND (REGISTER THE PLOT)")) {
 
             Utility.showAlertDialog("Info", "Please Select farmer", context);
             return false;
@@ -986,7 +986,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
             }
             if (imageselect == 3) {
                 photoFile = createImageFile4();
-                if (photoFile!= null) {
+                if (photoFile != null) {
                     //displayMessage(getBaseContext(),photoFile.getAbsolutePath());
                     Log.i("Mayank", photoFile.getAbsolutePath());
                     Uri photoURI = Uri.fromFile(photoFile);
@@ -1099,34 +1099,45 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
 
         String str = null;
         try {
+            String gtvtype = mPref.getString(AppConstant.GTVSELECTEDBUTTON, "");
+            if (gtvtype.trim().equals("GTV")) {
+                String vname = mPref.getString(AppConstant.GTVSelectedVillage1, "");
+                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Croplist.add(new GeneralMaster(vcode, vname));
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
+            } else {
 
+                String searchQuery = "";
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Cursor cursor;
+                searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));
 
-            String searchQuery = "";
-            List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
-            Cursor cursor;
-            searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
-            Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
-                    "SELECT FOCUSED VILLAGE"));
+                cursor = mDatabase.getReadableDatabase().
+                        rawQuery(searchQuery, null);
+                cursor.moveToFirst();
 
-            cursor = mDatabase.getReadableDatabase().
-                    rawQuery(searchQuery, null);
-            cursor.moveToFirst();
-
-            while (cursor.isAfterLast() == false) {
-                Croplist.add(new GeneralMaster(cursor.getString(1),
-                        cursor.getString(0).toUpperCase()));
-                cursor.moveToNext();
-            }
-            cursor.close();
+                while (cursor.isAfterLast() == false) {
+                    Croplist.add(new GeneralMaster(cursor.getString(1),
+                            cursor.getString(0).toUpperCase()));
+                    cursor.moveToNext();
+                }
+                cursor.close();
 //
 //            Croplist.add(new
 //
 //                    GeneralMaster("OTHER",
 //                    "OTHER"));
-            ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
-                    (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spFocusedVillages.setAdapter(adapter);
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
+            }
 
         } catch (
                 Exception ex) {
@@ -1342,6 +1353,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
             ex.printStackTrace();
         }
     }
+
     //bind RBM to spinner
     public void bindRBM() {
 
@@ -1381,8 +1393,10 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
         }
 
     }
+
     /**
      * <P>Method is used to get the product list according  to crop type and set items </P>
+     *
      * @param searchQuery
      */
     private void getRBMArrayList(String searchQuery) {
@@ -1462,6 +1476,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
 
     /**
      * <P>Method is used to get the product list according  to crop type and set items </P>
+     *
      * @param searchQuery
      */
     private void getTBMArrayList(String searchQuery) {
@@ -1537,6 +1552,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
 
     /**
      * <P>Method is used to get the product list according  to crop type and set items </P>
+     *
      * @param searchQuery
      */
     private void getMDOArrayList(String searchQuery) {
@@ -1645,6 +1661,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
 
     /**
      * <P>Method is used to get the product list according  to crop type and set items </P>
+     *
      * @param searchQuery
      */
     private void getArrayList(String searchQuery) {
@@ -1675,7 +1692,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
         }
     }
 
-    public void bindFarmerDetails(String village ) {
+    public void bindFarmerDetails(String village) {
 
         try {
             spFarmerDetails.setAdapter(null);
@@ -1683,8 +1700,8 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
             try {
                 farmerlist = new ArrayList<GeneralMaster>();
                 String searchQuery = "SELECT distinct mobileNumber,farmerName  " +
-                        "FROM DemoModelData  where (upper(village) = '"+ village.toUpperCase() +"' OR" +
-                        " upper(focussedVillage) = '"+ village.toUpperCase() +"') " +
+                        "FROM DemoModelData  where (upper(village) = '" + village.toUpperCase() + "' OR" +
+                        " upper(focussedVillage) = '" + village.toUpperCase() + "') " +
                         " order by mobileNumber asc  ";
                 Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
 
@@ -1865,8 +1882,8 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                                     if (!farmerListWithNumber.get(i).getVillageName().contains(spVillage.getSelectedItem().toString())) {
                                         fieldDayModel.setVillageName(spVillage.getSelectedItem().toString());
                                         fieldDayModel.setFarmerCount(etFarmerNo.getText().toString());
-                                       // fieldDayModel.setUniqueID(spVillage.getSelectedItem().toString() + timeStamp);
-                                        fieldDayModel.setUniqueID(config.getvalue(spVillage)+"_" + timeStamp);
+                                        // fieldDayModel.setUniqueID(spVillage.getSelectedItem().toString() + timeStamp);
+                                        fieldDayModel.setUniqueID(config.getvalue(spVillage) + "_" + timeStamp);
 
                                         fieldDayModel.setVillageType(villageType);
 
@@ -1888,7 +1905,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                                 fieldDayModel.setVillageName(spVillage.getSelectedItem().toString());
                                 fieldDayModel.setFarmerCount(etFarmerNo.getText().toString());
                                 //fieldDayModel.setUniqueID(spVillage.getSelectedItem().toString() + timeStamp);
-                                fieldDayModel.setUniqueID(config.getvalue(spVillage)+"_" + timeStamp);
+                                fieldDayModel.setUniqueID(config.getvalue(spVillage) + "_" + timeStamp);
 
                                 fieldDayModel.setVillageType(villageType);
                                 farmerCount = Integer.valueOf(etFarmerNo.getText().toString()) + farmerCount;
@@ -2260,23 +2277,23 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
             if (config.NetworkConnection()) {
 
                 Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-            List<android.location.Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
-            if (addresses != null) {
-                address = addresses.get(0).getAddressLine(0);
-                if (checkImageResource(this, imgBtnGps, R.drawable.ic_location_on)) {
-                    tvAddress.setText(address + "\n" + cordinates);
-                    tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
-                } else {
+                List<android.location.Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+                if (addresses != null) {
+                    address = addresses.get(0).getAddressLine(0);
+                    if (checkImageResource(this, imgBtnGps, R.drawable.ic_location_on)) {
+                        tvAddress.setText(address + "\n" + cordinates);
+                        tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
+                    } else {
 
-                    tvAddress.setText(address + "\n" + cordinates);
-                    tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
+                        tvAddress.setText(address + "\n" + cordinates);
+                        tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
 
+                    }
                 }
-            }
-        }else {
-            tvAddress.setText(cordinates);
+            } else {
+                tvAddress.setText(cordinates);
 
-        }
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -2424,7 +2441,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
             location = arg0;
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
             cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
-            if(address.equals("")) {
+            if (address.equals("")) {
                 if (config.NetworkConnection()) {
                     address = getCompleteAddressString(lati, longi);
                 }
@@ -2445,7 +2462,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnActivityPhoto:
-                imageselect=1;
+                imageselect = 1;
                 if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_DENIED) {
                     ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 101);
@@ -2453,7 +2470,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                 PickImageDialog.build(new PickSetup()).show(this);
                 break;
             case R.id.btnFarmerListPhoto:
-                imageselect=2;
+                imageselect = 2;
                 if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_DENIED) {
                     ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 101);
@@ -2461,7 +2478,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                 PickImageDialog.build(new PickSetup()).show(this);
                 break;
             case R.id.btnRetailerListPhoto:
-                imageselect=3;
+                imageselect = 3;
                 if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_DENIED) {
                     ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 101);
@@ -2471,14 +2488,14 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
 
         }
     }
+
     @Override
     public void onPickResult(PickResult r) {
 
         if (r.getError() == null) {
 
 
-            if (imageselect == 1)
-            {
+            if (imageselect == 1) {
                 ivImage.setImageBitmap(r.getBitmap());
                 if (ivImage.getDrawable() != null) {
                     ivImage.setVisibility(View.VISIBLE);
@@ -2488,8 +2505,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                     // crdImage.setVisibility(View.GONE);
                 }
             }
-            if (imageselect == 2)
-            {
+            if (imageselect == 2) {
                 ivImage2.setImageBitmap(r.getBitmap());
                 if (ivImage2.getDrawable() != null) {
                     ivImage2.setVisibility(View.VISIBLE);
@@ -2499,8 +2515,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                     // crdImage.setVisibility(View.GONE);
                 }
             }
-            if (imageselect == 3)
-            {
+            if (imageselect == 3) {
                 ivImage3.setImageBitmap(r.getBitmap());
                 if (ivImage3.getDrawable() != null) {
                     ivImage3.setVisibility(View.VISIBLE);
@@ -2569,18 +2584,18 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
         try {
 
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize =2;
-            Bitmap myBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(),options);
+            options.inSampleSize = 2;
+            Bitmap myBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), options);
             Date entrydate = new Date();
-            String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
+            String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
 
             if (imageselect == 1) {
                 try {
                     AppConstant.queryImageUrl = photoFile.getAbsolutePath();
                     AppConstant.imageUri = Uri.fromFile(new File(AppConstant.queryImageUrl));
-                    AppConstant.Imagename="Field"+this.getClass().getSimpleName()+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
-                    FileUtilImage.compressImageFile( AppConstant.queryImageUrl, AppConstant.imageUri,
-                            this,AppConstant.Imagename);
+                    AppConstant.Imagename = "Field" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+                    FileUtilImage.compressImageFile(AppConstant.queryImageUrl, AppConstant.imageUri,
+                            this, AppConstant.Imagename);
                     // need to set commpress image path
                     Imagepath1 = FileUtilImage.savefilepath;// photoFile.getAbsolutePath();  old ssave
                     ivImage.setImageBitmap(myBitmap);
@@ -2595,9 +2610,9 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                 try {
                     AppConstant.queryImageUrl = photoFile.getAbsolutePath();
                     AppConstant.imageUri = Uri.fromFile(new File(AppConstant.queryImageUrl));
-                    AppConstant.Imagename2="fieldFrmList"+this.getClass().getSimpleName()+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
-                    FileUtilImage.compressImageFile( AppConstant.queryImageUrl, AppConstant.imageUri,
-                            this,AppConstant.Imagename2);
+                    AppConstant.Imagename2 = "fieldFrmList" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+                    FileUtilImage.compressImageFile(AppConstant.queryImageUrl, AppConstant.imageUri,
+                            this, AppConstant.Imagename2);
                     // need to set commpress image path
                     Imagepath2 = FileUtilImage.savefilepath;// photoFile.getAbsolutePath();  old ssave
                     ivImage2.setImageBitmap(myBitmap);
@@ -2611,9 +2626,9 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                 try {
                     AppConstant.queryImageUrl = photoFile.getAbsolutePath();
                     AppConstant.imageUri = Uri.fromFile(new File(AppConstant.queryImageUrl));
-                    AppConstant.Imagename3="FieiddRlist"+this.getClass().getSimpleName()+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
-                    FileUtilImage.compressImageFile( AppConstant.queryImageUrl, AppConstant.imageUri,
-                            this,AppConstant.Imagename3);
+                    AppConstant.Imagename3 = "FieiddRlist" + this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+                    FileUtilImage.compressImageFile(AppConstant.queryImageUrl, AppConstant.imageUri,
+                            this, AppConstant.Imagename3);
                     // need to set commpress image path
                     Imagepath3 = FileUtilImage.savefilepath;// photoFile.getAbsolutePath();  old ssave
                     ivImage3.setImageBitmap(myBitmap);
@@ -2666,11 +2681,11 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
         String district = "";
         String taluka = "";
         String othervillage = "";
-        String villagecode="";
+        String villagecode = "";
         if (radFocusedActivity.isChecked()) {
             focussedVillage = spFocusedVillages.getSelectedItem().toString();
-            villagecode=config.getvalue(spFocusedVillages);
-        }else{
+            villagecode = config.getvalue(spFocusedVillages);
+        } else {
             focussedVillage = "";
         }
 
@@ -2679,7 +2694,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
             district = spDist.getSelectedItem().toString();
             taluka = spTaluka.getSelectedItem().toString();
             othervillage = spVillage.getSelectedItem().toString();
-            villagecode=config.getvalue(spVillage);
+            villagecode = config.getvalue(spVillage);
         } else {
             state = "";
             district = "";
@@ -2739,20 +2754,20 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
         activityImgPath = Imagepath1;
         farmerListPhoto = Imagepath2;
         retailerListPhoto = Imagepath3;
-        final String activityImgName =AppConstant.Imagename ;// "FieldDayPhoto" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
-        final String farmerListPhotoName = AppConstant.Imagename2 ;//"FieldDayFarmerListPhoto" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
-        final String retailerListPhotoName = AppConstant.Imagename3 ;//"FieldDayRetailerListPhoto" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+        final String activityImgName = AppConstant.Imagename;// "FieldDayPhoto" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+        final String farmerListPhotoName = AppConstant.Imagename2;//"FieldDayFarmerListPhoto" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+        final String retailerListPhotoName = AppConstant.Imagename3;//"FieldDayRetailerListPhoto" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
 
 
         boolean fl = mDatabase.insertFieldDayData(userCode, focussedVillage, state, district, taluka, othervillage, retailerCount,
-                farmerDetails, pkFarmerMobileNumber, cropType, product, taggedCordinates +" "+ taggedAddress, taggedCordinates, finalVillageJSON, selectRBM, selectTBM, selectMDO, activityImgName, activityImgPath,
+                farmerDetails, pkFarmerMobileNumber, cropType, product, taggedCordinates + " " + taggedAddress, taggedCordinates, finalVillageJSON, selectRBM, selectTBM, selectMDO, activityImgName, activityImgPath,
                 activityImgStatus, farmerListPhotoName, farmerListPhoto,
                 farmerListPhotoStatus, retailerListPhotoName, retailerListPhoto,
-                retailerListPhotoStatus, isSynced,villagecode);
+                retailerListPhotoStatus, isSynced, villagecode);
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "10", "Field day", cordinates, farmerDetails+" "+product,"GTV")) {
+            if (CommonUtil.addGTVActivity(context, "10", "Field day", cordinates, farmerDetails + " " + product, "GTV")) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 
@@ -2781,7 +2796,8 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else*/ {
+        } else*/
+        {
             AlertDialog.Builder builder = new AlertDialog.Builder(FieldDayActivity.this);
 
             builder.setTitle("MyActivity");
@@ -2818,23 +2834,23 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                     String activityImgName = jsonArray.getJSONObject(i).getString("activityImgName");
                     String activityImgPath = jsonArray.getJSONObject(i).getString("activityImgPath");
 
-                    jsonArray.getJSONObject(i).put("activityImgPath",  mDatabase.getImageDatadetail(activityImgPath));
+                    jsonArray.getJSONObject(i).put("activityImgPath", mDatabase.getImageDatadetail(activityImgPath));
 
                     String farmerListPhotoName = jsonArray.getJSONObject(i).getString("farmerListPhotoName");
                     String farmerListPhoto = jsonArray.getJSONObject(i).getString("farmerListPhoto");
 
-                    jsonArray.getJSONObject(i).put("farmerListPhoto",  mDatabase.getImageDatadetail(farmerListPhoto));
+                    jsonArray.getJSONObject(i).put("farmerListPhoto", mDatabase.getImageDatadetail(farmerListPhoto));
 
                     String retailerListPhotoName = jsonArray.getJSONObject(i).getString("retailerListPhotoName");
                     String retailerListPhoto = jsonArray.getJSONObject(i).getString("retailerListPhoto");
 
-                    jsonArray.getJSONObject(i).put("retailerListPhoto",  mDatabase.getImageDatadetail(retailerListPhoto));
+                    jsonArray.getJSONObject(i).put("retailerListPhoto", mDatabase.getImageDatadetail(retailerListPhoto));
                     String id = jsonArray.getJSONObject(i).getString("_id");
 
                     jsonObject.put("Table", jsonArray.getJSONObject(i));
                     Log.d("FieldDayData", jsonObject.toString());
                     str = syncFieldDayDataSingleImage(FieldDayData, SERVER, jsonObject, activityImgName, activityImgPath, farmerListPhotoName, farmerListPhoto, retailerListPhotoName, retailerListPhoto);
-                    handleFieldDayDataImageSyncResponse("FieldDayData", str,id);
+                    handleFieldDayDataImageSyncResponse("FieldDayData", str, id);
                 }
 
 
@@ -2886,7 +2902,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Config.refreshActivity(FieldDayActivity.this);
-                                 dialog.dismiss();
+                                dialog.dismiss();
                                 relPRogress.setVisibility(View.GONE);
                                 container.setClickable(true);
                                 container.setEnabled(true);
@@ -2895,7 +2911,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                         });
                         AlertDialog alert = builder.create();
                         alert.show();
-                       // msclass.showMessage("Data Uploaded Successfully");
+                        // msclass.showMessage("Data Uploaded Successfully");
                         relPRogress.setVisibility(View.GONE);
                         container.setClickable(true);
                         container.setEnabled(true);
@@ -2917,7 +2933,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
                         AlertDialog alert = builder.create();
                         alert.show();
                     }
-                }else {
+                } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(FieldDayActivity.this);
                     builder.setTitle("Info");
                     builder.setMessage("Something went wrong please try again later.");
@@ -2954,12 +2970,12 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
     }
 
 
-    public void handleFieldDayDataImageSyncResponse(String function, String resultout,String id) throws JSONException {
+    public void handleFieldDayDataImageSyncResponse(String function, String resultout, String id) throws JSONException {
         if (function.equals("FieldDayData")) {
             JSONObject jsonObject = new JSONObject(resultout);
             if (jsonObject.has("success")) {
                 if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
-                    mDatabase.updateFieldDayData("0", "1", "1", "1", "1",id);
+                    mDatabase.updateFieldDayData("0", "1", "1", "1", "1", id);
 
                 } else {
                 }

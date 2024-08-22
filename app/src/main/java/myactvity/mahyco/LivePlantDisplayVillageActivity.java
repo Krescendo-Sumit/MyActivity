@@ -24,14 +24,18 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.Settings;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
 import com.google.android.material.textfield.TextInputLayout;
+
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -100,10 +104,10 @@ import static com.google.android.gms.location.LocationServices.FusedLocationApi;
  */
 public class LivePlantDisplayVillageActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback,
-        IPickResult,View.OnClickListener{
+        IPickResult, View.OnClickListener {
     Context context;
     private static final String TAG = "LivePlantDisplayVillage";
-    SearchableSpinner spState, spDist, spVillage, spTaluka, spCropType, spFocusedVillages,spProductName;
+    SearchableSpinner spState, spDist, spVillage, spTaluka, spCropType, spFocusedVillages, spProductName;
     public SqliteDatabase mDatabase;
     SharedPreferences locdata, pref;
     SharedPreferences.Editor loceditor, editor;
@@ -116,8 +120,8 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
     TextView lblheader, tvCordinates, tvAddress;
     ProgressDialog dialog;
     private long mLastClickTime = 0;
-    String cordinates="";
-    String address="";
+    String cordinates = "";
+    String address = "";
     String croptype;
     String focusedVillage;
     String cordinatesmsg = "ADDRESS TAG : *";
@@ -208,7 +212,7 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
         dialog = new ProgressDialog(context);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         userCode = pref.getString("UserID", null);
-       // userCode =  pref.getString("UserID", null);
+        // userCode =  pref.getString("UserID", null);
         bindState();
         bindFocussedVillage();
 
@@ -443,6 +447,7 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
 
         onSubmitBtnClicked();
     }
+
     private void selectImage() {
         try {
             if (Indentcreate.getPickImageIntent(this) != null) {
@@ -451,12 +456,11 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
             } else {
                 Toast.makeText(this, "Picker intent not found", Toast.LENGTH_SHORT).show();
             }
-        }
-        catch (Exception ex)
-        {
-            Log.d(TAG, "selectImage(): "+ex.toString());
+        } catch (Exception ex) {
+            Log.d(TAG, "selectImage(): " + ex.toString());
         }
     }
+
     /**
      * <P>//Method is used to do API related work on submit button clicked</P>
      */
@@ -596,7 +600,7 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
             msclass.showMessage("Please Add Activity Photo");
             return false;
         }
-        if (cordinates.length()==0) {
+        if (cordinates.length() == 0) {
             Utility.showAlertDialog("Info", "GEO Tag not captured ,please check GPS connectivity ", context);
             return false;
 
@@ -810,32 +814,42 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
 
         String str = null;
         try {
+            String gtvtype = mPref.getString(AppConstant.GTVSELECTEDBUTTON, "");
+            if (gtvtype.trim().equals("GTV")) {
+                String vname = mPref.getString(AppConstant.GTVSelectedVillage1, "");
+                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Croplist.add(new GeneralMaster(vcode, vname));
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
+            } else {
+
+                String searchQuery = "";
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Cursor cursor;
+                searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));
 
 
-            String searchQuery = "";
-            List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
-            Cursor cursor;
-            searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
-            Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
-                    "SELECT FOCUSED VILLAGE"));
+                cursor = mDatabase.getReadableDatabase().
+                        rawQuery(searchQuery, null);
+                cursor.moveToFirst();
 
+                while (cursor.isAfterLast() == false) {
+                    Croplist.add(new GeneralMaster(cursor.getString(1),
+                            cursor.getString(0).toUpperCase()));
+                    cursor.moveToNext();
+                }
+                cursor.close();
 
-            cursor = mDatabase.getReadableDatabase().
-                    rawQuery(searchQuery, null);
-            cursor.moveToFirst();
-
-            while (cursor.isAfterLast() == false) {
-                Croplist.add(new GeneralMaster(cursor.getString(1),
-                        cursor.getString(0).toUpperCase()));
-                cursor.moveToNext();
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
             }
-            cursor.close();
-
-            ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
-                    (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spFocusedVillages.setAdapter(adapter);
-
         } catch (
                 Exception ex) {
             ex.printStackTrace();
@@ -1070,7 +1084,7 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
             String searchQuery = "SELECT distinct ProductName, CropName  FROM CropMaster where CropName='" + croptype + "' ";
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
 
-          //  getArrayList(searchQuery);
+            //  getArrayList(searchQuery);
             Croplist.add(new GeneralMaster("SELECT PRODUCT",
                     "SELECT PRODUCT"));
 
@@ -1213,21 +1227,21 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
 
         try {
             if (config.NetworkConnection()) {
-            Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-            List<android.location.Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
-            if (addresses != null) {
-                address = addresses.get(0).getAddressLine(0);
-                if (checkImageResource(this, imgBtnGps, R.drawable.ic_location_on)) {
-                    tvAddress.setText(address + "\n" + cordinates);
-                    tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
-                } else {
+                Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+                List<android.location.Address> addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+                if (addresses != null) {
+                    address = addresses.get(0).getAddressLine(0);
+                    if (checkImageResource(this, imgBtnGps, R.drawable.ic_location_on)) {
+                        tvAddress.setText(address + "\n" + cordinates);
+                        tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
+                    } else {
 
-                    tvAddress.setText(address + "\n" + cordinates);
-                    tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
+                        tvAddress.setText(address + "\n" + cordinates);
+                        tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
 
+                    }
                 }
-            }
-        }else {
+            } else {
                 tvAddress.setText(cordinates);
 
             }
@@ -1378,7 +1392,7 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
             location = arg0;
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
             cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
-            if(address.equals("")) {
+            if (address.equals("")) {
                 if (config.NetworkConnection()) {
                     address = getCompleteAddressString(lati, longi);
                 }
@@ -1399,7 +1413,7 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnTakeActivityPhoto:
-                imageselect=1;
+                imageselect = 1;
                 if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_DENIED) {
                     ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 101);
@@ -1409,14 +1423,14 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
 
         }
     }
+
     @Override
     public void onPickResult(PickResult r) {
 
         if (r.getError() == null) {
 
 
-            if (imageselect == 1)
-            {
+            if (imageselect == 1) {
                 ivImage.setImageBitmap(r.getBitmap());
                 if (ivImage.getDrawable() != null) {
                     ivImage.setVisibility(View.VISIBLE);
@@ -1426,7 +1440,6 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
                     // crdImage.setVisibility(View.GONE);
                 }
             }
-
 
 
             Date entrydate = new Date();
@@ -1444,13 +1457,13 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
             }
 
 
-
         } else {
             //Handle possible errors
             //TODO: do what you have to do with r.getError();
             Toast.makeText(this, r.getError().getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+
     //@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -1476,17 +1489,17 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
         try {
             if (imageselect == 1) {
                 BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize =2;
-                Bitmap myBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(),options);
+                options.inSampleSize = 2;
+                Bitmap myBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), options);
                 Date entrydate = new Date();
-                String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
+                String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
 
                 try {
                     AppConstant.queryImageUrl = photoFile.getAbsolutePath();
                     AppConstant.imageUri = Uri.fromFile(new File(AppConstant.queryImageUrl));
-                    AppConstant.Imagename=this.getClass().getSimpleName()+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
-                    FileUtilImage.compressImageFile( AppConstant.queryImageUrl, AppConstant.imageUri,
-                            this,AppConstant.Imagename);
+                    AppConstant.Imagename = this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+                    FileUtilImage.compressImageFile(AppConstant.queryImageUrl, AppConstant.imageUri,
+                            this, AppConstant.Imagename);
                     // need to set commpress image path
                     Imagepath1 = FileUtilImage.savefilepath;// photoFile.getAbsolutePath();  old ssave
                     ivImage.setImageBitmap(myBitmap);
@@ -1531,10 +1544,10 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
         String district = "";
         String taluka = "";
         String othervillage = "";
-        String villagecode="";
+        String villagecode = "";
         if (radFocusedActivity.isChecked()) {
             focussedVillage = spFocusedVillages.getSelectedItem().toString();
-            villagecode=config.getvalue(spFocusedVillages);
+            villagecode = config.getvalue(spFocusedVillages);
         } else {
             focussedVillage = "";
         }
@@ -1543,7 +1556,7 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
             district = spDist.getSelectedItem().toString();
             taluka = spTaluka.getSelectedItem().toString();
             othervillage = spVillage.getSelectedItem().toString();
-            villagecode=config.getvalue(spVillage);
+            villagecode = config.getvalue(spVillage);
         } else {
             state = "";
             district = "";
@@ -1585,13 +1598,13 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
         activityImgPath = Imagepath1;
         final String activityImgName = AppConstant.Imagename;// "LivePlantDisplayVillagePhoto" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
         boolean fl = mDatabase.insertLivePlantDisplayVillageData(userCode, uId, focussedVillage, state, district, taluka, othervillage, farmerCount, cropType,
-                product, taggedCordinates +" "+ taggedAddress,
+                product, taggedCordinates + " " + taggedAddress,
                 taggedCordinates, activityImgName, activityImgPath, activityImgStatus,
-                isSynced,villagecode);
+                isSynced, villagecode);
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "14", "Live plant display (village)", cordinates, farmerCount+" "+product,"GTV")) {
+            if (CommonUtil.addGTVActivity(context, "14", "Live plant display (village)", cordinates, farmerCount + " " + product, "GTV")) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 
@@ -1621,7 +1634,8 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else */{
+        } else */
+        {
             AlertDialog.Builder builder = new AlertDialog.Builder(LivePlantDisplayVillageActivity.this);
 
             builder.setTitle("MyActivity");
@@ -1681,7 +1695,7 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
 
                     str = syncLivePlantDisplayVillageDataSingleImage(LivePlantDisplayVillage, SERVER, jsonObject, activityImgName, activityImgPath);
 
-                    handlesyncLivePlantDisplayVillageDataSingleImageResponse("LivePlantDisplayVillage", str,id);
+                    handlesyncLivePlantDisplayVillageDataSingleImageResponse("LivePlantDisplayVillage", str, id);
                 }
 
 
@@ -1733,7 +1747,7 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
                         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 Config.refreshActivity(LivePlantDisplayVillageActivity.this);
-                                     dialog.dismiss();
+                                dialog.dismiss();
                                 relPRogress.setVisibility(View.GONE);
                                 container.setClickable(true);
                                 container.setEnabled(true);
@@ -1800,12 +1814,12 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
     }
 
 
-    public void handlesyncLivePlantDisplayVillageDataSingleImageResponse(String function, String resultout,String id) throws JSONException {
+    public void handlesyncLivePlantDisplayVillageDataSingleImageResponse(String function, String resultout, String id) throws JSONException {
         if (function.equals("LivePlantDisplayVillageData")) {
             JSONObject jsonObject = new JSONObject(resultout);
             if (jsonObject.has("success")) {
                 if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
-                    mDatabase.updateLivePlantDisplayVillageData("0", "1", "1",id);
+                    mDatabase.updateLivePlantDisplayVillageData("0", "1", "1", id);
 
                 } else {
 

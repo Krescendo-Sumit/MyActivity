@@ -63,29 +63,32 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".travelreport.ActivityTravelReportTriggered"
-            android:screenOrientation="portrait"
+            android:name=".travelreport.ShowMapRouteActivity"
             android:exported="false" />
         <activity
-            android:screenOrientation="portrait"
+            android:name=".travelreport.ActivityTravelReportTriggered"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".travelreport.ActivityTravelReportGTV"
             android:exported="false" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".TBMWiseMdoList"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".newupload.SetAlarmActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <activity
-            android:screenOrientation="portrait"
             android:name=".HDPSPaymentDetails"
-            android:exported="false" />
-        <activity    android:screenOrientation="portrait"
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".HDPSPaymentDeposit"
-            android:exported="false" />
-        <activity 
+            android:exported="false"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".LocationTest"
             android:exported="true"
             android:screenOrientation="portrait" />

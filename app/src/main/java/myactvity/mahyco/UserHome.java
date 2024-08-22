@@ -114,6 +114,7 @@ import myactvity.mahyco.newupload.SetAlarmActivity;
 import myactvity.mahyco.newupload.UploadDataNew;
 import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
 import myactvity.mahyco.travelreport.ActivityTravelReportTriggered;
+import myactvity.mahyco.travelreport.ShowMapRouteActivity;
 import myactvity.mahyco.utils.homescreen.CheckVersionForUpdate;
 
 import android.Manifest;
@@ -849,7 +850,8 @@ public class UserHome extends AppCompatActivity
                 Intent intent = new Intent(this.getApplicationContext(), ActivityTravelReportGTV.class);
                 this.startActivity(intent);
             } else if (id == R.id.nav_share) {
-
+                Intent intent = new Intent(this.getApplicationContext(), ShowMapRouteActivity.class);
+                this.startActivity(intent);
                 // Intent i = new Intent(UserHome.this, AndroidDatabaseManager.class);
                 //startActivity(i);
                 logAboutAppEvent();

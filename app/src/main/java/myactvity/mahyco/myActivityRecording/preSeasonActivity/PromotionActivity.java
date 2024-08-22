@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.Settings;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -30,6 +31,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -103,12 +105,12 @@ import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
 public class PromotionActivity extends AppCompatActivity implements
         GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener,
-        LocationListener, ResultCallback, IPickResult,View.OnClickListener {
+        LocationListener, ResultCallback, IPickResult, View.OnClickListener {
 
     private static final String TAG = "DEMOMODELRECORD";
     SearchableSpinner spState, spDist, spTaluka, spVillage, spFocusedVillages, spSelectRBM,
             spSelectTBM, spSelectMDO, spTalukaRetailer;
-    MultiSelectionSpinner spProductName, spRetailerDetails,spCropType;
+    MultiSelectionSpinner spProductName, spRetailerDetails, spCropType;
 
     CustomSearchableSpinner spFarmerDetails;
     Button btnSubmit, btnActivityPhoto, btnAddFarmerDetails;
@@ -122,7 +124,7 @@ public class PromotionActivity extends AppCompatActivity implements
     private Context context;
     String action = "1";
     String cordinatesmsg = "TAG THE PLOT (2ND ROW INSIDE THE PLOT)* \n";
-    String address="";
+    String address = "";
     public String search = "";
     int imageselect;
     File photoFile = null;
@@ -130,7 +132,7 @@ public class PromotionActivity extends AppCompatActivity implements
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
-   // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
     String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/promotion";
     String userCode;
     Config config;
@@ -173,6 +175,7 @@ public class PromotionActivity extends AppCompatActivity implements
 
         initUI();
     }
+
     /**
      * <P>Method used to initalize the elements</P>
      */
@@ -219,8 +222,8 @@ public class PromotionActivity extends AppCompatActivity implements
         radFocusedActivity = (RadioButton) findViewById(R.id.radFocusedActivity);
         radOtherActivity = (RadioButton) findViewById(R.id.radOtherActivity);
 
-       // userCode = pref.getString(AppConstant.USER_CODE_TAG, "");
-        userCode =  pref.getString("UserID", null);
+        // userCode = pref.getString(AppConstant.USER_CODE_TAG, "");
+        userCode = pref.getString("UserID", null);
         msclass = new Messageclass(this);
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
         btnActivityPhoto.setOnClickListener(this);
@@ -395,19 +398,19 @@ public class PromotionActivity extends AppCompatActivity implements
 
             @Override
             public void selectedStrings(List<String> strings) {
-                Log.d("which selectedSt:: ",String.valueOf(strings));
+                Log.d("which selectedSt:: ", String.valueOf(strings));
                 if (String.valueOf(strings).contains("OTHER") ||
                         String.valueOf(strings).contains("NEW RETAILER (TAG THE RETAILER)")) {
 
                     Intent intent;
-                    editor.putString("RetailerCallActivity","PromotionActivity");
+                    editor.putString("RetailerCallActivity", "PromotionActivity");
                     editor.commit();
                     intent = new Intent(PromotionActivity.this, RetailerandDistributorTag.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                     Log.d("Other:: ", String.valueOf(strings));
-                }else{
-                    Log.d("All indices",String.valueOf(strings));
+                } else {
+                    Log.d("All indices", String.valueOf(strings));
                 }
 
             }
@@ -459,6 +462,7 @@ public class PromotionActivity extends AppCompatActivity implements
 
 
     }
+
     private void onCropItemSelected() {
 
 
@@ -475,7 +479,7 @@ public class PromotionActivity extends AppCompatActivity implements
 
             @Override
             public void selectedStrings(List<String> strings) {
-                Log.d("which selectedSt:: ",String.valueOf(strings));
+                Log.d("which selectedSt:: ", String.valueOf(strings));
                 croptype = String.valueOf(strings);
                 bindProductName(spProductName, croptype);
             }
@@ -539,6 +543,7 @@ public class PromotionActivity extends AppCompatActivity implements
             }
         });
     }
+
     private void selectImage() {
         try {
             if (Indentcreate.getPickImageIntent(this) != null) {
@@ -547,10 +552,8 @@ public class PromotionActivity extends AppCompatActivity implements
             } else {
                 Toast.makeText(this, "Picker intent not found", Toast.LENGTH_SHORT).show();
             }
-        }
-        catch (Exception ex)
-        {
-            Log.d(TAG, "selectImage(): "+ex.toString());
+        } catch (Exception ex) {
+            Log.d(TAG, "selectImage(): " + ex.toString());
         }
     }
 
@@ -595,6 +598,7 @@ public class PromotionActivity extends AppCompatActivity implements
 
     /**
      * <P>Method is used to validate the input values of activity</P>
+     *
      * @return
      */
     public boolean validation() {
@@ -622,7 +626,7 @@ public class PromotionActivity extends AppCompatActivity implements
                 msclass.showMessage("Please select village name");
                 return false;
             }
-        }else {
+        } else {
 
             if (spFocusedVillages.getSelectedItemPosition() == 0) {
                 msclass.showMessage("Please select focused village");
@@ -636,7 +640,7 @@ public class PromotionActivity extends AppCompatActivity implements
         if (spProductName.getSelectedItem().toString().equalsIgnoreCase("SELECT PRODUCT")) {
 
             Utility.showAlertDialog("Info", "Please Select  Product Name", context);
-                return false;
+            return false;
         }
         if (etFarmerCount.getText().length() == 0) {
             msclass.showMessage("Please enter no. of farmers");
@@ -646,7 +650,7 @@ public class PromotionActivity extends AppCompatActivity implements
         if (etRetailerCount.getText().length() == 0) {
             msclass.showMessage("Please enter no. of retailers");
             return false;
-       }
+        }
 
 //        if (spTalukaRetailer.getSelectedItemPosition() == 0) {
 //            msclass.showMessage("Please select retailer taluka");
@@ -661,10 +665,9 @@ public class PromotionActivity extends AppCompatActivity implements
 //        }
 
         if (etRetailerCount.getText().length() > 0) {
-            if (Integer.parseInt(etRetailerCount.getText().toString())>0) {
+            if (Integer.parseInt(etRetailerCount.getText().toString()) > 0) {
 
-                if (spTalukaRetailer.getSelectedItemPosition() == 0)
-                {
+                if (spTalukaRetailer.getSelectedItemPosition() == 0) {
                     msclass.showMessage("Please select retailer taluka");
                     return false;
                 }
@@ -682,8 +685,7 @@ public class PromotionActivity extends AppCompatActivity implements
         if (ivImage.getDrawable() == null) {
             msclass.showMessage("Please Click Activity Photo");
             return false;
-       }
-
+        }
 
 
         return true;
@@ -693,28 +695,41 @@ public class PromotionActivity extends AppCompatActivity implements
         spFocusedVillages.setAdapter(null);
         String str = null;
         try {
-            String searchQuery = "";
-            List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
-            Cursor cursor;
-            searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
-            Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
-                    "SELECT FOCUSED VILLAGE"));
-            cursor = mDatabase.getReadableDatabase().
-                    rawQuery(searchQuery, null);
-            cursor.moveToFirst();
+            String gtvtype = mPref.getString(AppConstant.GTVSELECTEDBUTTON, "");
+            if (gtvtype.trim().equals("GTV")) {
+                String vname = mPref.getString(AppConstant.GTVSelectedVillage1, "");
+                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Croplist.add(new GeneralMaster(vcode, vname));
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
+            } else {
 
-            while (cursor.isAfterLast() == false) {
-                Croplist.add(new GeneralMaster(cursor.getString(1),
-                        cursor.getString(0).toUpperCase()));
-                cursor.moveToNext();
+
+                String searchQuery = "";
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Cursor cursor;
+                searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));
+                cursor = mDatabase.getReadableDatabase().
+                        rawQuery(searchQuery, null);
+                cursor.moveToFirst();
+
+                while (cursor.isAfterLast() == false) {
+                    Croplist.add(new GeneralMaster(cursor.getString(1),
+                            cursor.getString(0).toUpperCase()));
+                    cursor.moveToNext();
+                }
+                cursor.close();
+
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
             }
-            cursor.close();
-
-            ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
-                    (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spFocusedVillages.setAdapter(adapter);
-
         } catch (
                 Exception ex) {
             ex.printStackTrace();
@@ -914,8 +929,10 @@ public class PromotionActivity extends AppCompatActivity implements
             ex.printStackTrace();
         }
     }
+
     /**
      * <P>Method is used to get the product list according  to crop type and set items </P>
+     *
      * @param searchQuery
      */
     private void getCropArrayList(String searchQuery) {
@@ -987,17 +1004,17 @@ public class PromotionActivity extends AppCompatActivity implements
         try {
             List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
             String myTable = "Table1";//Set name of your table
-            String searchQuery ="";
+            String searchQuery = "";
             StringBuilder nameBuilder = new StringBuilder();
 
-            if(croptype.length()>0){
-                for (String n : croptype.substring(1,croptype.length()-1).split(",")) {
+            if (croptype.length() > 0) {
+                for (String n : croptype.substring(1, croptype.length() - 1).split(",")) {
                     nameBuilder.append("'").append(n.trim().replace("'", "\\'")).append("',");
-                    searchQuery = "SELECT * FROM CropMaster WHERE CropName  IN (" + nameBuilder.toString().substring(0,nameBuilder.length()-1) +") ORDER BY 'CropName'";
+                    searchQuery = "SELECT * FROM CropMaster WHERE CropName  IN (" + nameBuilder.toString().substring(0, nameBuilder.length() - 1) + ") ORDER BY 'CropName'";
 
                 }
-            }else {
-                Log.d("Crop type","First time");
+            } else {
+                Log.d("Crop type", "First time");
             }
 
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
@@ -1016,6 +1033,7 @@ public class PromotionActivity extends AppCompatActivity implements
 
     /**
      * <P>Method is used to get the product list according  to crop type and set items </P>
+     *
      * @param searchQuery
      */
     private void getArrayList(String searchQuery) {
@@ -1045,9 +1063,10 @@ public class PromotionActivity extends AppCompatActivity implements
 
         }
     }
+
     public void bindRetailerDetails(String taluka) {
         try {
-          //  spRetailerDetails.setAdapter(null);
+            //  spRetailerDetails.setAdapter(null);
             String str = null;
             try {
                 retailerList = new ArrayList<GeneralMaster>();
@@ -1073,7 +1092,7 @@ public class PromotionActivity extends AppCompatActivity implements
                 CustomMySpinnerAdapter<GeneralMaster> adapter = new CustomMySpinnerAdapter<GeneralMaster>
                         (this, android.R.layout.simple_spinner_dropdown_item, retailerList);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-               // spRetailerDetails.setAdapter(adapter);
+                // spRetailerDetails.setAdapter(adapter);
                 //spMobNumber.setSelected(false);  // must
                 // spMobNumber.setSelection(0, true);
             } catch (Exception e) {
@@ -1087,6 +1106,7 @@ public class PromotionActivity extends AppCompatActivity implements
 
     /**
      * <P>Method is used to get the product list according  to crop type and set items </P>
+     *
      * @param searchQuery
      */
     private void getRetailerArrayList(String searchQuery) {
@@ -1099,12 +1119,12 @@ public class PromotionActivity extends AppCompatActivity implements
             JSONArray jArray = object.getJSONArray("Table");//new JSONArray(result);
             array = new String[jArray.length() + 2];
             array[0] = "SELECT RETAILER";
-           // array[1]="NEW RETAILER (TAG THE RETAILER)";
-            array[1]="OTHER";
+            // array[1]="NEW RETAILER (TAG THE RETAILER)";
+            array[1] = "OTHER";
 
             for (int i = 0; i < jArray.length(); i++) {
                 JSONObject jObject = jArray.getJSONObject(i);
-                array[i + 2] = jObject.getString("name").toUpperCase() +", " + jObject.getString("firmname").toUpperCase();
+                array[i + 2] = jObject.getString("name").toUpperCase() + ", " + jObject.getString("firmname").toUpperCase();
             }
             //array[jArray.length()+1]= "OTHER";
             if (array.length > 0) {
@@ -1120,8 +1140,6 @@ public class PromotionActivity extends AppCompatActivity implements
 
         }
     }
-
-
 
 
     private boolean checkPlayServices() {
@@ -1212,7 +1230,7 @@ public class PromotionActivity extends AppCompatActivity implements
             location = arg0;
             Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
             cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
-            if(address.equals("")) {
+            if (address.equals("")) {
                 if (config.NetworkConnection()) {
                     address = getCompleteAddressString(lati, longi);
                 }
@@ -1352,15 +1370,15 @@ public class PromotionActivity extends AppCompatActivity implements
             if (addresses != null) {
                 address = addresses.get(0).getAddressLine(0);
                 if (checkImageResource(this, imgBtnGps, R.drawable.ic_location_on)) {
-                    tvAddress.setText(address + "\n"+ cordinates);
+                    tvAddress.setText(address + "\n" + cordinates);
                     tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
                 } else {
-                    tvAddress.setText(address + "\n"+ cordinates);
+                    tvAddress.setText(address + "\n" + cordinates);
                     tvCordinates.setText(cordinatesmsg + "\n" + cordinates);
                 }
 
             }
-            tvAddress.setText(address + "\n"+ cordinates);
+            tvAddress.setText(address + "\n" + cordinates);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -1504,10 +1522,10 @@ public class PromotionActivity extends AppCompatActivity implements
 
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize =2;
-            Bitmap myBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(),options);
+            options.inSampleSize = 2;
+            Bitmap myBitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath(), options);
             Date entrydate = new Date();
-            String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
+            String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
 
             if (imageselect == 1) {
 
@@ -1533,11 +1551,12 @@ public class PromotionActivity extends AppCompatActivity implements
         }
 
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnActivityPhoto:
-                imageselect=1;
+                imageselect = 1;
                 if (ContextCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA)
                         == PackageManager.PERMISSION_DENIED) {
                     ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 101);
@@ -1563,14 +1582,14 @@ public class PromotionActivity extends AppCompatActivity implements
 
         }
     }
+
     @Override
     public void onPickResult(PickResult r) {
 
         if (r.getError() == null) {
 
 
-            if (imageselect == 1)
-            {
+            if (imageselect == 1) {
                 ivImage.setImageBitmap(r.getBitmap());
                 if (ivImage.getDrawable() != null) {
                     ivImage.setVisibility(View.VISIBLE);
@@ -1688,7 +1707,7 @@ public class PromotionActivity extends AppCompatActivity implements
         String district = "";
         String taluka = "";
         String othervillage = "", farmerCount = "", retailerCount = "", programName = "";
-        String villagecode="";
+        String villagecode = "";
         if (etProgramName.getTextSize() > 0) {
             programName = etProgramName.getText().toString();
         } else {
@@ -1697,7 +1716,7 @@ public class PromotionActivity extends AppCompatActivity implements
 
         if (radFocusedActivity.isChecked()) {
             focussedVillage = spFocusedVillages.getSelectedItem().toString();
-            villagecode=config.getvalue(spFocusedVillages);
+            villagecode = config.getvalue(spFocusedVillages);
         } else {
             focussedVillage = "";
         }
@@ -1706,7 +1725,7 @@ public class PromotionActivity extends AppCompatActivity implements
             district = spDist.getSelectedItem().toString();
             taluka = spTaluka.getSelectedItem().toString();
             othervillage = spVillage.getSelectedItem().toString();
-            villagecode=config.getvalue(spVillage);
+            villagecode = config.getvalue(spVillage);
         } else {
             state = "";
             district = "";
@@ -1754,16 +1773,16 @@ public class PromotionActivity extends AppCompatActivity implements
         Date entrydate = new Date();
         final String activityImgPath;
         activityImgPath = Imagepath1;
-        final String activityImgName =AppConstant.Imagename;// "PromotionPhoto" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
+        final String activityImgName = AppConstant.Imagename;// "PromotionPhoto" + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
 
         boolean fl = mDatabase.insertPromotionData(userCode, programName, focussedVillage, state, district, taluka, othervillage,
-                cropType, product, taggedCordinates +" "+ taggedAddress, taggedCordinates, retailerDetails, talukaRetailer,
+                cropType, product, taggedCordinates + " " + taggedAddress, taggedCordinates, retailerDetails, talukaRetailer,
                 activityImgName, activityImgPath, activityImgStatus,
-                farmerCount, retailerCount, isSynced,villagecode);
+                farmerCount, retailerCount, isSynced, villagecode);
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "3", "Promotion Through Entertainment \n", cordinates, programName,"GTV")) {
+            if (CommonUtil.addGTVActivity(context, "3", "Promotion", cordinates, programName, "GTV")) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             uploadData("PromotionData");
@@ -1785,7 +1804,8 @@ public class PromotionActivity extends AppCompatActivity implements
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else*/ {
+        } else*/
+        {
             AlertDialog.Builder builder = new AlertDialog.Builder(PromotionActivity.this);
             builder.setTitle("MyActivity");
             builder.setMessage("Data Saved Successfully");
@@ -1822,14 +1842,14 @@ public class PromotionActivity extends AppCompatActivity implements
                     String activityImgName = jsonArray.getJSONObject(i).getString("activityImgName");
                     String activityImgPath = jsonArray.getJSONObject(i).getString("activityImgPath");
 
-                    jsonArray.getJSONObject(i).put("activityImgPath",  mDatabase.getImageDatadetail(activityImgPath));
+                    jsonArray.getJSONObject(i).put("activityImgPath", mDatabase.getImageDatadetail(activityImgPath));
                     String id = jsonArray.getJSONObject(i).getString("_id");
 
 
                     jsonObject.put("Table", jsonArray.getJSONObject(i));
                     Log.d("PromotionData", jsonObject.toString());
                     str = syncPromotionDataSingleImage(jsonObject);
-                    handlePromotionDataImageSyncResponse("PromotionData", str,id);
+                    handlePromotionDataImageSyncResponse("PromotionData", str, id);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1875,7 +1895,7 @@ public class PromotionActivity extends AppCompatActivity implements
                             public void onClick(DialogInterface dialog, int which) {
 
                                 Config.refreshActivity(PromotionActivity.this);
-                                        dialog.dismiss();
+                                dialog.dismiss();
                                 relPRogress.setVisibility(View.GONE);
                                 container.setClickable(true);
                                 container.setEnabled(true);
@@ -1884,7 +1904,7 @@ public class PromotionActivity extends AppCompatActivity implements
                         });
                         AlertDialog alert = builder.create();
                         alert.show();
-                       // msclass.showMessage("Data Uploaded Successfully");
+                        // msclass.showMessage("Data Uploaded Successfully");
                         relPRogress.setVisibility(View.GONE);
                         container.setClickable(true);
                         container.setEnabled(true);
@@ -1907,7 +1927,7 @@ public class PromotionActivity extends AppCompatActivity implements
                         alert.show();
                     }
 
-                }else {
+                } else {
                     androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(PromotionActivity.this);
                     builder.setTitle("Info");
                     builder.setMessage("Something went wrong please try again later.");
@@ -1931,11 +1951,11 @@ public class PromotionActivity extends AppCompatActivity implements
         }
     }
 
-    public synchronized String syncPromotionDataSingleImage( JSONObject jsonObject) {
+    public synchronized String syncPromotionDataSingleImage(JSONObject jsonObject) {
 
-       // String encodedactivityImage = mDatabase.getImageDatadetail(activityImgPath);
+        // String encodedactivityImage = mDatabase.getImageDatadetail(activityImgPath);
 
-        return HttpUtils.POSTJSON(SERVER,jsonObject,mPref.getString(AppConstant.ACCESS_TOKEN_TAG,""));
+        return HttpUtils.POSTJSON(SERVER, jsonObject, mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
 
         /*HttpClient httpclient = new DefaultHttpClient();
         StringBuilder builder = new StringBuilder();
@@ -1982,17 +2002,18 @@ public class PromotionActivity extends AppCompatActivity implements
 
     /**
      * <P>Method to update the testimonial collection data after success</P>
+     *
      * @param function
      * @param resultout
      * @throws JSONException
      */
-    public void handlePromotionDataImageSyncResponse(String function, String resultout,String id) throws JSONException {
+    public void handlePromotionDataImageSyncResponse(String function, String resultout, String id) throws JSONException {
         if (function.equals("PromotionData")) {
             JSONObject jsonObject = new JSONObject(resultout);
             if (jsonObject.has("success")) {
                 if (Boolean.parseBoolean(jsonObject.get("success").toString())) {
 
-                    mDatabase.updatePromotionData("0", "1", "1",id);
+                    mDatabase.updatePromotionData("0", "1", "1", id);
 
                 } else {
 
