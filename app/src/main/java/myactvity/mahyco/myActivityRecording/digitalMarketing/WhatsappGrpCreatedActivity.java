@@ -363,7 +363,7 @@ public class WhatsappGrpCreatedActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (CommonUtil.addGTVActivity(context, "29", "Whatsapp group creation", cordinates, createdBy+" "+spRegion.getSelectedItem(),"GTV")) {
+        if (CommonUtil.addGTVActivity(context, "29", "Whatsapp group creation", cordinates, createdBy+" "+spRegion.getSelectedItem(),"GTV","0")) {
             // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
         }
 

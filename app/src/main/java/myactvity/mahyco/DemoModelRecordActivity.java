@@ -855,10 +855,12 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
             Prefs mPref = Prefs.with(context);
             String gtvtype = mPref.getString(AppConstant.GTVSELECTEDBUTTON, "");
             if (gtvtype.trim().equals("GTV")) {
-                String vname = mPref.getString(AppConstant.GTVSelectedVillage1, "");
-                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
+                radOtherActivity.setVisibility(View.GONE);
+                String vname = mPref.getString(AppConstant.GTVSelectedVillage, "");
+                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode, "");
                 List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
-                Croplist.add(new GeneralMaster(vcode, vname));
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));Croplist.add(new GeneralMaster(vcode, vname));
                 ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
                         (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1395,7 +1397,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
 
             if (fl) {
 
-                if (CommonUtil.addGTVActivity(context, "8", "Plot Register", cordinates, plotType + "-" + farmerName + " " + product + " " + mobileNumber, "GTV")) {
+                if (CommonUtil.addGTVActivity(context, "8", "Plot Register", cordinates, plotType + "-" + farmerName + " " + product + " " + mobileNumber, "GTV","0")) {
                     // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                 }
 
@@ -1528,7 +1530,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
                 "", "");
         if (fl) {
             // Toast.makeText(this, "Data Saved Successfully", Toast.LENGTH_SHORT).show();
-            if (CommonUtil.addGTVActivity(context, "8", "Plot Review", cordinates, farmerName + " " + mobileNumber + " " + product, "GTV")) {
+            if (CommonUtil.addGTVActivity(context, "8", "Plot Review", cordinates, farmerName + " " + mobileNumber + " " + product, "GTV","0")) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

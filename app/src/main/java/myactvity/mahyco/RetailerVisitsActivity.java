@@ -1139,7 +1139,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "41", "Retailer Visit", cordinates, RetailerDetails,"Market")) {
+            if (CommonUtil.addGTVActivity(context, "41", "Retailer Visit", cordinates, RetailerDetails,"Market","0")) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
            /* if (config.NetworkConnection())

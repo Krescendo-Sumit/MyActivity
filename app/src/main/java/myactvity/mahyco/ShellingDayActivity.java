@@ -550,10 +550,12 @@ public class ShellingDayActivity extends AppCompatActivity implements
         try {
             String gtvtype = mPref.getString(AppConstant.GTVSELECTEDBUTTON, "");
             if (gtvtype.trim().equals("GTV")) {
-                String vname = mPref.getString(AppConstant.GTVSelectedVillage1, "");
-                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
+                radOtherActivity.setVisibility(View.GONE);
+                String vname = mPref.getString(AppConstant.GTVSelectedVillage, "");
+                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode, "");
                 List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
-                Croplist.add(new GeneralMaster(vcode, vname));
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));Croplist.add(new GeneralMaster(vcode, vname));
                 ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
                         (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -1730,7 +1732,7 @@ public class ShellingDayActivity extends AppCompatActivity implements
 
             if (mDatabase.insertShellingDay(userCode, state, district, taluka, villagecode, finalvillage, cropType,
                     product, farmercount, retailercount, PhotoName, PhotoString, Status, VersionName, LatLong, CreatedDate, "0", "", "")) {
-                if (CommonUtil.addGTVActivity(context, "11", "Shelling Day", cordinates, farmercount + " " + product, "GTV")) {
+                if (CommonUtil.addGTVActivity(context, "11", "Shelling Day", cordinates, farmercount + " " + product, "GTV","0")) {
                     // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                 }
                 //  Toast.makeText(context, "Data Saved Successfully.", Toast.LENGTH_SHORT).show();

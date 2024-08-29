@@ -120,4 +120,7 @@ public interface Api {
 
     @POST(RetroConstants.UplaodGTVTRavelData)
     Call<String> uploadGTVTravelData(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.GetSystemDistanceGTV)
+    Call<String> GetSystemDistanceGTV(@Body JsonArray jsonObject);
 }

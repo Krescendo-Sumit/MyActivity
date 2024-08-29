@@ -1127,7 +1127,7 @@ public class DistributerVisitsActivity extends AppCompatActivity implements Goog
 
         if (fl)
         {
-            if (CommonUtil.addGTVActivity(context, "38", "Distributor Visit", cordinates, distributerDetails+" "+comments,"Market")) {
+            if (CommonUtil.addGTVActivity(context, "38", "Distributor Visit", cordinates, distributerDetails+" "+comments,"Market","0")) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

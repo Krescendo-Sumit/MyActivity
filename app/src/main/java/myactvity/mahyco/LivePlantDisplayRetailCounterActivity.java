@@ -1477,7 +1477,7 @@ public class LivePlantDisplayRetailCounterActivity extends AppCompatActivity imp
                 product, taggedCordinates +" "+ taggedAddress, taggedCordinates, activityImgName, activityImgPath, activityImgStatus, isSynced);
 
         if (fl) {
-            if (CommonUtil.addGTVActivity(context, "34", "Live plant display (Retail counter)", cordinates, marketPlace+" "+product,"Market")) {
+            if (CommonUtil.addGTVActivity(context, "34", "Live plant display (Retail counter)", cordinates, marketPlace+" "+product,"Market","0")) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

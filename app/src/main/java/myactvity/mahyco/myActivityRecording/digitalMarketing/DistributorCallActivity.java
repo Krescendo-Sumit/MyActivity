@@ -401,7 +401,7 @@ public class DistributorCallActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (CommonUtil.addGTVActivity(context, "30", "Distributor call", cordinates, distributorCode+" "+distributorName,"GTV")) {
+        if (CommonUtil.addGTVActivity(context, "30", "Distributor call", cordinates, distributorCode+" "+distributorName,"GTV","0")) {
             // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
         }
 

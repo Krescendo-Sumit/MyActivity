@@ -16,11 +16,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="6"
+            android:layout_weight="9.2"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView19"
+                android:id="@+id/txt_heading"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
@@ -38,7 +38,7 @@
 
             <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -49,46 +49,50 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-                                         <TableLayout
-                                android:id="@+id/tbl_details"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                               >
+                        <TableLayout
+                            android:id="@+id/tbl_details"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
 
-                            </TableLayout>
+                        </TableLayout>
 
                     </ScrollView>
 
                 </LinearLayout>
             </ScrollView>
 
+
+            <WebView
+                android:id="@+id/web"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
             <TextView
                 android:id="@+id/txtTotalKM"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="You have travel 134 km today."
+                android:textColor="#FF9800"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                android:textColor="#FF9800"
 
                 />
         </LinearLayout>
 
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="4"
+            android:layout_weight="0"
             android:orientation="vertical">
 
             <View
                 android:id="@+id/divider"
-                android:padding="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="?android:attr/listDivider" />
+                android:background="?android:attr/listDivider"
+                android:padding="10dp" />
 
             <TextView
                 android:id="@+id/textView20"
@@ -128,21 +132,35 @@
 
             <EditText
                 android:id="@+id/et_remark"
-                android:padding="10dp"
-                android:background="@drawable/border"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:background="@drawable/border"
                 android:ems="10"
-                android:hint="Enter Remark"
                 android:gravity="start|top"
-                android:inputType="textMultiLine" />
+                android:hint="Enter Remark"
+                android:inputType="textMultiLine"
+                android:padding="10dp" />
 
             <Button
                 android:id="@+id/btnSubmit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Submit Remark" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:orientation="vertical">
+
+
+            <Button
+                android:id="@+id/btn_map"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="See your travel on map" />
         </LinearLayout>
 
     </LinearLayout>

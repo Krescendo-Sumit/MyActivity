@@ -828,10 +828,12 @@ public class ProjectorMeetingActivity extends AppCompatActivity implements Googl
         try {
             String gtvtype = mPref.getString(AppConstant.GTVSELECTEDBUTTON, "");
             if (gtvtype.trim().equals("GTV")) {
-                String vname = mPref.getString(AppConstant.GTVSelectedVillage1, "");
-                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
+                radOtherActivity.setVisibility(View.GONE);
+                String vname = mPref.getString(AppConstant.GTVSelectedVillage, "");
+                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode, "");
                 List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
-                Croplist.add(new GeneralMaster(vcode, vname));
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));Croplist.add(new GeneralMaster(vcode, vname));
                 ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
                         (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -2009,7 +2011,7 @@ public class ProjectorMeetingActivity extends AppCompatActivity implements Googl
 
                     if(jsonObject.getBoolean("success")) {
                         JSONObject jsonDetails = jsonObject.getJSONObject("Table");
-                        if (CommonUtil.addGTVActivity(context, "6", "Projector meeting", cordinates, "Meeting Ref. Id : "+jsonDetails.getString("ProjectorMeetingId"),"GTV")) {
+                        if (CommonUtil.addGTVActivity(context, "6", "Projector meeting", cordinates, "Meeting Ref. Id : "+jsonDetails.getString("ProjectorMeetingId"),"GTV","0")) {
                             // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                         }
                         AlertDialog alertDialog = new AlertDialog.Builder(context)

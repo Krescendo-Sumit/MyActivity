@@ -31,7 +31,7 @@ public class CommonUtil {
         }
     }
 
-    public static boolean addGTVActivity(Context context, String activityid, String activityName, String cordinates, String remark,String activityType) {
+    public static boolean addGTVActivity(Context context, String activityid, String activityName, String cordinates, String remark,String activityType,String actualKM) {
         try {
             SharedPreferences sp = context.getSharedPreferences("MyPref", 0);
             String userCode = sp.getString("UserID", null);
@@ -63,6 +63,14 @@ public class CommonUtil {
             String lastCordinate = mDatabase.getLastGTVActivityCoordinates(new SimpleDateFormat("yyyy-MM-dd").format(new Date())); // getting
             gtvTravelActivityDataModel.setLastCoordinates(lastCordinate);// TEXT,
             gtvTravelActivityDataModel.setCoordinates(cordinates);// TEXT,
+            gtvTravelActivityDataModel.setRefrenceId("0");// TEXT,
+            gtvTravelActivityDataModel.setActualKM(actualKM);// TEXT,
+            if(punchInCordinates.trim().equals("")||punchInCordinates.trim().equals("0-0"))
+            {
+                gtvTravelActivityDataModel.setDistanceFromPunchKm("0");// TEXT,
+            }else {
+                gtvTravelActivityDataModel.setDistanceFromPunchKm("" + CommonUtil.getDistance(punchInCordinates, cordinates));// TEXT,
+            }
             if (lastCordinate.trim().equals("0-0"))
                 gtvTravelActivityDataModel.setGTVActivityKM("0");// TEXT,
             else

@@ -1152,8 +1152,10 @@ public class SqliteDatabase extends SQLiteOpenHelper {
                     "Coordinates TEXT,\n" +
                     "GTVActivityKM TEXT,\n" +
                     "AppVersion TEXT,\n" +
-                    "Remark TEXT,isSynced int " +
-                    ")";
+                    "Remark TEXT,isSynced int, " +
+                    "RefrenceId TEXT," +
+                    "ActualKM TEXT," +
+                    "DistanceFromPunchKm TEXT)";
             db.execSQL(CREATE_GTVTravelActivityData);
 
             Log.i("GTVTravelActivityData", "Table Added");
@@ -9073,7 +9075,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = getWritableDatabase();
             ContentValues initialValues = new ContentValues();
-           // initialValues.put("id", gtvMasterDataModel.getId());
+            // initialValues.put("id", gtvMasterDataModel.getId());
             initialValues.put("mdocode", gtvMasterDataModel.getMdocode());
             initialValues.put("coordinate", gtvMasterDataModel.getCoordinate());
             initialValues.put("startaddress", gtvMasterDataModel.getStartaddress());
@@ -9144,7 +9146,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = getWritableDatabase();
             ContentValues initialValues = new ContentValues();
-           // initialValues.put("id", gtvTravelActivityDataModel.getId());
+            // initialValues.put("id", gtvTravelActivityDataModel.getId());
             initialValues.put("ActivityId", gtvTravelActivityDataModel.getActivityId());
             initialValues.put("KACode", gtvTravelActivityDataModel.getKACode());
             initialValues.put("GTVType", gtvTravelActivityDataModel.getGTVType());
@@ -9159,7 +9161,9 @@ public class SqliteDatabase extends SQLiteOpenHelper {
             initialValues.put("AppVersion", gtvTravelActivityDataModel.getAppVersion());
             initialValues.put("Remark", gtvTravelActivityDataModel.getRemark());
             initialValues.put("isSynced", gtvTravelActivityDataModel.getIsSynced());
-
+            initialValues.put("RefrenceId", gtvTravelActivityDataModel.getRefrenceId());
+            initialValues.put("ActualKM", gtvTravelActivityDataModel.getActualKM());
+            initialValues.put("DistanceFromPunchKm", gtvTravelActivityDataModel.getDistanceFromPunchKm());
             boolean result = db.insert("GTVTravelActivityData", null, initialValues) > 0;
 
             db.close();
@@ -9171,37 +9175,70 @@ public class SqliteDatabase extends SQLiteOpenHelper {
     }
 
     public String getLastGTVActivityCoordinates(String todays) {
-        Log.i("Todays Date",todays);
+        Log.i("Todays Date", todays);
         String cnt = "";
         SQLiteDatabase db = getWritableDatabase();
-        String sql = "select coordinates from  GTVTravelActivityData where ActivityDt like '%"+todays+"%' order by id desc limit 1";
+        String sql = "select coordinates from  GTVTravelActivityData where ActivityDt like '%" + todays + "%' order by id desc limit 1";
         Cursor cursor = db.rawQuery(sql, null, null);
         if (cursor.moveToNext()) {
             cnt = cursor.getString(0);
-        }else
-        {
-            cnt= "0-0";
+        } else {
+            cnt = "0-0";
         }
         db.close();
         return cnt;
     }
-                             //  GTV1orGTV2       IN/OUt
-    public int getGtvStatus(String gtv,String type,String todays) {
-        Log.i("Todays Date",todays);
+
+    //  GTV1orGTV2       IN/OUt
+    public int getGtvStatus(String gtv, String type, String todays) {
+        Log.i("Todays Date", todays);
         int cnt = 0;
         SQLiteDatabase db = getWritableDatabase();
 
-        String sql = "select count(*) from  GTVMasterData where startdate like '%"+todays+"%' and GTVType='"+gtv+"' and GTVSession='"+type+"' order by id desc limit 1";
-        Log.i("Query",sql);
+        String sql = "select count(*) from  GTVMasterData where startdate like '%" + todays + "%' and GTVType='" + gtv + "' and GTVSession='" + type + "' order by id desc limit 1";
+        Log.i("Query", sql);
         Cursor cursor = db.rawQuery(sql, null, null);
         if (cursor.moveToNext()) {
             cnt = cursor.getInt(0);
-        }else
-        {
-            cnt= 0;
+        } else {
+            cnt = 0;
         }
         db.close();
         return cnt;
+    }
+
+    public String getGtvTravelDate(String InDate, String type) {
+        Log.i("Todays Date", InDate +" "+type);
+        String data = "";
+        SQLiteDatabase db = getWritableDatabase();
+
+        String sql = "select ActivityDt from GTVTravelActivityData where ActivityDt like '%"+InDate+"%' and ActivityName='"+type+"' limit 1";
+        Log.i("Query", sql);
+        Cursor cursor = db.rawQuery(sql, null, null);
+        if (cursor.moveToNext()) {
+            data = cursor.getString(0);
+        } else {
+            data = "NA";
+        }
+        db.close();
+        return data;
+    }
+
+    public String getGtvPunchDate(String InDate, String type,String gtvtype) {
+        Log.i("Todays Date", InDate +" "+type);
+        String data = "";
+        SQLiteDatabase db = getWritableDatabase();
+
+        String sql = "select ActivityDt from GTVTravelActivityData where ActivityDt like '%"+InDate+"%' and ActivityName='"+type+"' and GTVType='"+gtvtype+"' limit 1";
+        Log.i("Query", sql);
+        Cursor cursor = db.rawQuery(sql, null, null);
+        if (cursor.moveToNext()) {
+            data = cursor.getString(0);
+        } else {
+            data = "NA";
+        }
+        db.close();
+        return data;
     }
 
 

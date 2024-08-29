@@ -304,7 +304,7 @@ public class CallValidation extends AppCompatActivity {
 //             validateDetail.put("tbmCode", "97190469");
 //               validateDetail.put("mdo", "APPASAHEB JIGE");
 //             validateDetail.put("mdoCode", "MH215");
-            if (CommonUtil.addGTVActivity(context, "25", "Call Validation", cordinates, spType.getSelectedItem()+" "+spTBM.getSelectedItem(),"GTV")) {
+            if (CommonUtil.addGTVActivity(context, "25", "Call Validation", cordinates, spType.getSelectedItem()+" "+spTBM.getSelectedItem(),"GTV","0")) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

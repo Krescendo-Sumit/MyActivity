@@ -122,7 +122,7 @@ import static android.content.ContentValues.TAG;
 
 public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListener {
 
-    Button btnStarttravel, btnAddActivity, btnendtravel;
+    Button btnStarttravel, btnAddActivity,btnAddActivity_new, btnendtravel;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
     TextView lblwelcome, myTextProgress;
@@ -242,6 +242,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             msclass = new Messageclass(this);
             btnStarttravel = (Button) findViewById(R.id.btnStarttravel);
             btnAddActivity = (Button) findViewById(R.id.btnAddActivity);
+            btnAddActivity_new = (Button) findViewById(R.id.btnAddActivity_new);
             //  Toast.makeText(context, "User Unit Name : "+preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
 
             // We are hiding Add Activity Button for Veg Users
@@ -289,21 +290,14 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivity.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    try {
-                        if (isTourStareted()) {
-                         /*   Intent intent = new Intent(MyTravel.this, MyActivityRecordingNew.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            context.startActivity(intent);*/
-                            mPref.save(AppConstant.GTVSELECTEDBUTTON, "Market");
-                            addActivityInList(2);// GTV activity 1
-                            showActivityDialog(context);
+                    addMarketActivityButton();
 
-                        } else {
-                            Toast.makeText(context, "Please start tour before proceed.", Toast.LENGTH_SHORT).show();
-                        }
-                    } catch (Exception ex) {
-                        //msclass.showMessage(ex.getMessage());
-                    }
+                }
+            });
+            btnAddActivity_new.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addMarketActivityButton();
 
                 }
             });
@@ -460,6 +454,24 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
         updateLocation();
         GTVButtonClicked();
+    }
+    public void addMarketActivityButton()
+    {
+        try {
+            if (isTourStareted()) {
+                         /*   Intent intent = new Intent(MyTravel.this, MyActivityRecordingNew.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            context.startActivity(intent);*/
+                mPref.save(AppConstant.GTVSELECTEDBUTTON, "Market");
+                addActivityInList(2);// GTV activity 1
+                showActivityDialog(context);
+
+            } else {
+                Toast.makeText(context, "Please start tour before proceed.", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception ex) {
+            //msclass.showMessage(ex.getMessage());
+        }
     }
 
     public void addActivityInList(int type) {
@@ -871,7 +883,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                                         mPref.save(AppConstant.GTVSelectedVillage1, selectedGTV1Village);
                                         mPref.save(AppConstant.GTVSelectedVillageCode1, selectedGTV1VillageCode);
                                         mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
-                                        if (CommonUtil.addGTVActivity(context, "0", "Punch In", cordinates, "Start Village", "GTV")) {
+                                        if (CommonUtil.addGTVActivity(context, "0", "Punch In", cordinates, "Start Village", "GTV","0")) {
                                             //  Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                                         }
                                         showSharePreference();
@@ -936,7 +948,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     if (mDatabase.InsertGTVMaster(gtvMasterDataModel)) {
                         mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
 
-                        if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village", "GTV")) {
+                        if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village", "GTV","0")) {
                             mPref.save(AppConstant.GTVType, "");
                             mPref.save(AppConstant.ACTIVITYTYPE, "");
                             mPref.save(AppConstant.GTVSession, "");
@@ -1019,7 +1031,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                                         mPref.save(AppConstant.GTVSelectedVillage2, selectedGTV2Village);
                                         mPref.save(AppConstant.GTVSelectedVillageCode2, selectedGTV2VillageCode);
                                         mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
-                                        if (CommonUtil.addGTVActivity(context, "0", "Punch In", cordinates, "Start Village", "GTV")) {
+                                        if (CommonUtil.addGTVActivity(context, "0", "Punch In", cordinates, "Start Village", "GTV","0")) {
                                         }
                                         showSharePreference();
                                         checkGTVStatus(3);
@@ -1085,7 +1097,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     if (mDatabase.InsertGTVMaster(gtvMasterDataModel)) {
 
                         mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
-                        if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village", "GTV")) {
+                        if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village", "GTV","0")) {
                             mPref.save(AppConstant.GTVType, "");
                             mPref.save(AppConstant.ACTIVITYTYPE, "");
                             mPref.save(AppConstant.GTVSession, "");
@@ -1149,7 +1161,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             if (count > 0) {
                 JsonArray jsonArray;
 
-                String searchQuery = "select id,ActivityId,KACode,GTVType,ActivityName,ActivityType,ActivityDt,VillageCode,VillageName,LastCoordinates,Coordinates,GTVActivityKM,AppVersion,Remark,isSynced from GTVTravelActivityData where isSynced=0";
+                String searchQuery = "select id,ActivityId,KACode,GTVType,ActivityName,ActivityType,ActivityDt,VillageCode,VillageName,LastCoordinates,Coordinates,GTVActivityKM,AppVersion,Remark,isSynced,RefrenceId,ActualKM,DistanceFromPunchKm from GTVTravelActivityData where isSynced=0";
                 jsonArray = mDatabase.getResultsRetro(searchQuery);
 /*
                 for (int i = 0; i < jsonArray.size(); i++) {
@@ -1273,8 +1285,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         boolean b2 = true;
         if (gtv1InStatus > 0) {
             b1 = false;
-            String vname = mPref.getString(AppConstant.GTVSelectedVillage1, "");
-            String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
+            String vname = mPref.getString(AppConstant.GTVSelectedVillage, "");
+            String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode, "");
             List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
             Croplist.add(new GeneralMaster(vcode, vname));
             ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
@@ -1416,7 +1428,15 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     @Override
     public void OnGTVTravelDataUpload(String result) {
         Toast.makeText(context, "" + result, Toast.LENGTH_SHORT).show();
+
+        Log.i("Result from ",result);
+
         mDatabase.UpdateStatus("Update GTVTravelActivityData set isSynced=1 where isSynced=0");
+    }
+
+    @Override
+    public void OnDistanceRetrive(String result) {
+
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

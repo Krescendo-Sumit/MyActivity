@@ -59,13 +59,14 @@
             android:layout_marginRight="10dp"
             android:text="Sync Data Travel Data" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:orientation="horizontal">
 
         <Button
-            android:visibility="gone"
+
             android:id="@+id/btn_clearpunchindata"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -74,12 +75,12 @@
             android:text="Clear Punch Data" />
 
         <Button
-            android:layout_weight="1"
-            android:visibility="gone"
             android:id="@+id/btn_clearactivitydata"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:text="Clera Activity Data" />
     </LinearLayout>
     <ScrollView
@@ -151,8 +152,9 @@
                                 android:background="#C1FF9800"
                                 android:padding="10dp"
                                 android:text="GTV-I(Morning)"
+                                android:gravity="center"
                                 android:textColor="@color/QRCodeBlackColor"
-                                android:textSize="10sp"
+                                android:textSize="14sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -239,7 +241,24 @@
 
 
                     </LinearLayout>
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1" />
 
+                    <Button
+                        android:id="@+id/btnAddActivity_new"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/btn_shape"
+                        android:text="OTHER THAN FOCUS VILLAGE ACTIVITES	 "
+                        android:textAllCaps="true"
+
+                        android:textColor="@color/QRCodeBlackColor"
+                        android:textSize="12sp" />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -262,8 +281,9 @@
                                 android:background="#C1FF9800"
                                 android:padding="10dp"
                                 android:text="GTV-II(Afternoon)"
+                                android:gravity="center"
                                 android:textColor="@color/QRCodeBlackColor"
-                                android:textSize="10sp"
+                                android:textSize="14sp"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -361,7 +381,7 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_shape"
-                        android:text="Market Activity"
+                        android:text="OTHER THAN FOCUS VILLAGE ACTIVITES	 "
                         android:textAllCaps="true"
 
                         android:textColor="@color/QRCodeBlackColor"

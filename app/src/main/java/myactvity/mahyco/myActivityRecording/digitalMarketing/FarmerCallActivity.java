@@ -1527,7 +1527,7 @@ return object;
 
         Log.d("FarmerData", requestParams.toString());
        // progressBarVisibility();
-        if (CommonUtil.addGTVActivity(context, "26", "Farmer Call", cordinates, etFarmerName.getText()+" "+etFarmerMob.getText(),"GTV")) {
+        if (CommonUtil.addGTVActivity(context, "26", "Farmer Call", cordinates, etFarmerName.getText()+" "+etFarmerMob.getText(),"GTV","0")) {
             // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
         }
        new FarmerApiCall("FarmerData", requestParams).execute();
@@ -1763,6 +1763,20 @@ return object;
         spFocusedVillages.setAdapter(null);
         String str = null;
         try {
+            String gtvtype = mPref.getString(AppConstant.GTVSELECTEDBUTTON, "");
+            if (gtvtype.trim().equals("GTV")) {
+                radOtherActivity.setVisibility(View.GONE);
+                String vname = mPref.getString(AppConstant.GTVSelectedVillage, "");
+                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode, "");
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));Croplist.add(new GeneralMaster(vcode, vname));
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
+            } else {
+
 
            final List<GeneralMaster> list = new ArrayList<GeneralMaster>();
             if(!taluka.equals("SELECT TALUKA")) {
@@ -1806,6 +1820,7 @@ return object;
                         (context, android.R.layout.simple_spinner_dropdown_item, focussedVillageListStr);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spFocusedVillages.setAdapter(adapter);
+            }
             }
 
         } catch (

@@ -957,7 +957,7 @@ public class Innovation extends AppCompatActivity implements LocationListener,
                             //dialog.dismiss();
                             if (fl == true) {
                                 try {
-                                    if (CommonUtil.addGTVActivity(context, "22", "Innovation Day", cordinate, name1+" "+mobileno,"GTV")) {
+                                    if (CommonUtil.addGTVActivity(context, "22", "Innovation Day", cordinate, name1+" "+mobileno,"GTV","0")) {
                                         // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                                     }
                                     Toast.makeText(Innovation.this, "data saved successfully.", Toast.LENGTH_SHORT).show();

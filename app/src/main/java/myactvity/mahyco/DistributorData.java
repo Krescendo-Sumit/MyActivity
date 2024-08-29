@@ -1189,7 +1189,7 @@ public class DistributorData extends Fragment implements GoogleApiClient.Connect
 
                     if (fl == true) {
 
-                        if (CommonUtil.addGTVActivity(context, "39", "Distributor Tag", cordinate, retailername+" "+newfirm+" "+mobileno,"Market")) {
+                        if (CommonUtil.addGTVActivity(context, "39", "Distributor Tag", cordinate, retailername+" "+newfirm+" "+mobileno,"Market","0")) {
                             // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                         }
                         try {

@@ -689,7 +689,7 @@ public class RetailerCallActivity extends AppCompatActivity {
 
         Log.d("RetailerData", requestParams.toString());
         //progressBarVisibility();
-        if (CommonUtil.addGTVActivity(context, "27", "Retailer Call", cordinates, retailerName+" "+pkRetailerMobileNumber,"GTV")) {
+        if (CommonUtil.addGTVActivity(context, "27", "Retailer Call", cordinates, retailerName+" "+pkRetailerMobileNumber,"GTV","0")) {
             // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
         }
         new RetailerApiCall("RetailerData", requestParams).execute();

@@ -521,16 +521,17 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
 
             String gtvtype = mPref.getString(AppConstant.GTVSELECTEDBUTTON, "");
             if (gtvtype.trim().equals("GTV")) {
-                String vname = mPref.getString(AppConstant.GTVSelectedVillage1, "");
-                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
+                radOtherActivity.setVisibility(View.GONE);
+                String vname = mPref.getString(AppConstant.GTVSelectedVillage, "");
+                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode, "");
                 List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
-                Croplist.add(new GeneralMaster(vcode, vname));
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));Croplist.add(new GeneralMaster(vcode, vname));
                 ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
                         (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spFocusedVillages.setAdapter(adapter);
             } else {
-
 
                 String searchQuery = "";
                 focussedVillageList = new ArrayList<GeneralMaster>();
@@ -1106,7 +1107,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
                 farmerPhotoStatus, successPhotoName, Imagepath2, successPhotoStatus, isSynced, villagecode);
 
         if (fl) {
-            if (CommonUtil.addGTVActivity(context, "1", "Testimonial Collection", cordinates, farmerName + " - " + farmerMobile, "GTV")) {
+            if (CommonUtil.addGTVActivity(context, "1", "Testimonial Collection", cordinates, farmerName + " - " + farmerMobile, "GTV","0")) {
                 Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             uploadData("TestimonialCollectionData");

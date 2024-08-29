@@ -1361,7 +1361,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                     //dialog.dismiss();
                     if (fl == true) {
                         try {
-                            if (CommonUtil.addGTVActivity(context, "2000", "End Travel", cordinate, "By "+vehicletype+" ."+txtlocation.getText().toString()+" "+txtlocation.getText().toString(),"")) {
+                            if (CommonUtil.addGTVActivity(context, "2000", "End Travel", cordinate, "By "+vehicletype+" ."+txtlocation.getText().toString()+" "+txtlocation.getText().toString(),"",""+txtkm.getText().toString())) {
                                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                             }
                             msclass.showMessage("Tour end data saved successfully");
@@ -1502,6 +1502,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                                                         dialogInterface.dismiss();
                                                         Intent intent = new Intent(context, ActivityTravelReportGTV.class);
                                                         startActivity(intent);
+
 
                                                     }
                                                 })
@@ -1780,5 +1781,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
 
 
     }
+
+
 }
 

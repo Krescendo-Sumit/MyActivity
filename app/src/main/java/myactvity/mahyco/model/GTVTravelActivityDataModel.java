@@ -124,10 +124,38 @@ public class GTVTravelActivityDataModel {
     String VillageName;// TEXT,
     String LastCoordinates;// TEXT,
     String Coordinates;// TEXT,
+
+    public String getActualKM() {
+        return ActualKM;
+    }
+
+    public void setActualKM(String actualKM) {
+        ActualKM = actualKM;
+    }
+
+    public String getDistanceFromPunchKm() {
+        return DistanceFromPunchKm;
+    }
+
+    public void setDistanceFromPunchKm(String distanceFromPunchKm) {
+        DistanceFromPunchKm = distanceFromPunchKm;
+    }
+
     String GTVActivityKM;// TEXT,
     String AppVersion;// TEXT,
     String Remark;// TEXT
 
+    public String getRefrenceId() {
+        return RefrenceId;
+    }
+
+    public void setRefrenceId(String refrenceId) {
+        RefrenceId = refrenceId;
+    }
+
+    String RefrenceId;//	nvarchar(50)	Checked
+    String ActualKM;//	decimal(18, 2)	Checked
+    String DistanceFromPunchKm;//	decimal(18, 2)	Checked
     public int getIsSynced() {
         return isSynced;
     }

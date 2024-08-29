@@ -5,15 +5,20 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
+import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.gson.JsonObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import myactvity.mahyco.R;
 import myactvity.mahyco.retro.RetrofitClient;
@@ -26,7 +31,8 @@ public class ShowMapRouteActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     Context context;
     String AllData = "";
-
+    String InTime="";
+    String userCode="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,27 +43,35 @@ public class ShowMapRouteActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(ShowMapRouteActivity.this);
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCanceledOnTouchOutside(false);
-
+        Date entrydate = new Date();
+        InTime = new SimpleDateFormat("yyyy-MM-dd").format(entrydate);
+        SharedPreferences sp = context.getSharedPreferences("MyPref", 0);
+        userCode = sp.getString("UserID", null);
+        userCode = userCode.replace(" ", "%20");
         try {
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("UserCode", "97261227");
+            jsonObject.addProperty("FilterValue", userCode+","+InTime);
+            jsonObject.addProperty("FilterOption", "GetGTVByUser&Date");
             getList(jsonObject);
         } catch (Exception exception) {
-            Toast.makeText(context, "Error is 123 " + exception.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
         // opening the html file in webview
-        webView.loadUrl("http://krescendo.co.in/maproute.html");
 
+        webView.clearCache(true);
+        WebSettings settings = webView.getSettings();
+        settings.setDomStorageEnabled(true);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setSupportZoom(true);
-        webView.addJavascriptInterface(this, "Dialog");
+        webView.addJavascriptInterface(this, "KAActivityAPI");
 
     }
 
     @JavascriptInterface
-    public String showMsg(String fname, String pswd) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ShowMapRouteActivity.this);
+    public String getKAActivityLocations() {
+   /*
+
+       AlertDialog.Builder builder = new AlertDialog.Builder(ShowMapRouteActivity.this);
         builder.setTitle("Confirmation").setMessage("UserName:\t" + fname +
                 "\nPassword:\t" + pswd)
                 .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -68,8 +82,12 @@ public class ShowMapRouteActivity extends AppCompatActivity {
                     }
                 })
         ;
+           builder.create().show();
+        */
 
-        builder.create().show();
+
+        //AllData = "Hello World!";
+       // Toast.makeText(context, "" + AllData, Toast.LENGTH_SHORT).show();
         return AllData;
     }
 
@@ -80,9 +98,7 @@ public class ShowMapRouteActivity extends AppCompatActivity {
                 progressDialog.show();
 
             Call<String> call = null;
-            Log.i("Pass","1");
             call = RetrofitClient.getInstance().getMyApi().GetTravelGTVReportString(jsonObject);
-            Log.i("Pass","2");
             call.enqueue(new Callback<String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
@@ -92,19 +108,19 @@ public class ShowMapRouteActivity extends AppCompatActivity {
                     if (response.body() != null)
                         AllData = response.body().toString().trim();
                     else
-                        Toast.makeText(ShowMapRouteActivity.this, "No Reponse", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ShowMapRouteActivity.this, "No Response", Toast.LENGTH_SHORT).show();
+
+                    webView.loadUrl("https://mahyco-datalens.azurewebsites.net/#/auth/ka-mobile-activity-map");
                 }
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
                     if (progressDialog.isShowing())
                         progressDialog.dismiss();
-                    Log.e("Error is", t.getMessage());
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(context, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
 

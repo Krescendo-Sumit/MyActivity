@@ -1057,7 +1057,7 @@ public class ATLPosteringActivity extends AppCompatActivity implements GoogleApi
                     taggedCordinatesMandiNameEnd + " " + taggedAddressMandiNameEnd, taggedCordinatesMandiNameEnd, finalPopupJson,villagecode);
             if (fl) {
 
-                if (CommonUtil.addGTVActivity(context, "23", "Postering", cordinates, selectedPosteringType+" Spots-"+numberOfSpots,"GTV")) {
+                if (CommonUtil.addGTVActivity(context, "23", "Postering", cordinates, selectedPosteringType+" Spots-"+numberOfSpots,"GTV","0")) {
                     // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                 }
 
@@ -1488,36 +1488,50 @@ public class ATLPosteringActivity extends AppCompatActivity implements GoogleApi
         spFocusedVillages.setAdapter(null);
         String str = null;
         try {
-            String searchQuery = "";
-            focussedVillageList = new ArrayList<GeneralMaster>();
-            Cursor cursor;
-            searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
-            focussedVillageList.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
-                    "SELECT FOCUSED VILLAGE"));
 
-            cursor = mDatabase.getReadableDatabase().
-                    rawQuery(searchQuery, null);
-            cursor.moveToFirst();
+            String gtvtype = mPref.getString(AppConstant.GTVSELECTEDBUTTON, "");
+            if (gtvtype.trim().equals("GTV")) {
+                radOtherActivity.setVisibility(View.GONE);
+                String vname = mPref.getString(AppConstant.GTVSelectedVillage, "");
+                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode, "");
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));Croplist.add(new GeneralMaster(vcode, vname));
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
+            } else {
+                String searchQuery = "";
+                focussedVillageList = new ArrayList<GeneralMaster>();
+                Cursor cursor;
+                searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
+                focussedVillageList.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));
 
-            while (cursor.isAfterLast() == false) {
-                focussedVillageList.add(new GeneralMaster(cursor.getString(1),
-                        cursor.getString(0).toUpperCase()));
-                cursor.moveToNext();
-            }
-            cursor.close();
+                cursor = mDatabase.getReadableDatabase().
+                        rawQuery(searchQuery, null);
+                cursor.moveToFirst();
+
+                while (cursor.isAfterLast() == false) {
+                    focussedVillageList.add(new GeneralMaster(cursor.getString(1),
+                            cursor.getString(0).toUpperCase()));
+                    cursor.moveToNext();
+                }
+                cursor.close();
 //            focussedVillageList.add(new
 //                    GeneralMaster("OTHER",
 //                    "OTHER"));
-            CustomMySpinnerAdapter<GeneralMaster> adapter = new CustomMySpinnerAdapter<GeneralMaster>
-                    (this, android.R.layout.simple_spinner_dropdown_item, focussedVillageList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spFocusedVillages.setAdapter(adapter);
+                CustomMySpinnerAdapter<GeneralMaster> adapter = new CustomMySpinnerAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, focussedVillageList);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
 
-           // String submitClicked = mPref.getString("isSubmitClickedPostering", "");
-            //if (submitClicked.equalsIgnoreCase("false")) {
-           // checkForLocalStorage();
-            //}
-
+                // String submitClicked = mPref.getString("isSubmitClickedPostering", "");
+                //if (submitClicked.equalsIgnoreCase("false")) {
+                // checkForLocalStorage();
+                //}
+            }
 
         } catch (
                 Exception ex) {

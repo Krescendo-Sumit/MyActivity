@@ -795,34 +795,46 @@ public class MarketDayActivity extends AppCompatActivity implements GoogleApiCli
 
         String str = null;
         try {
+            String gtvtype = mPref.getString(AppConstant.GTVSELECTEDBUTTON, "");
+            if (gtvtype.trim().equals("GTV")) {
+                radOtherActivity.setVisibility(View.GONE);
+                String vname = mPref.getString(AppConstant.GTVSelectedVillage, "");
+                String vcode = mPref.getString(AppConstant.GTVSelectedVillageCode, "");
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));Croplist.add(new GeneralMaster(vcode, vname));
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
+            } else {
+
+                String searchQuery = "";
+                List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
+                Cursor cursor;
+                searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
+                Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
+                        "SELECT FOCUSED VILLAGE"));
 
 
-            String searchQuery = "";
-            List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
-            Cursor cursor;
-            searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
-            Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
-                    "SELECT FOCUSED VILLAGE"));
+                cursor = mDatabase.getReadableDatabase().
+                        rawQuery(searchQuery, null);
+                cursor.moveToFirst();
 
-
-            cursor = mDatabase.getReadableDatabase().
-                    rawQuery(searchQuery, null);
-            cursor.moveToFirst();
-
-            while (cursor.isAfterLast() == false) {
-                Croplist.add(new GeneralMaster(cursor.getString(1),
-                        cursor.getString(0).toUpperCase()));
-                cursor.moveToNext();
-            }
-            cursor.close();
+                while (cursor.isAfterLast() == false) {
+                    Croplist.add(new GeneralMaster(cursor.getString(1),
+                            cursor.getString(0).toUpperCase()));
+                    cursor.moveToNext();
+                }
+                cursor.close();
 
 //            Croplist.add(new GeneralMaster("OTHER",
 //                    "OTHER"));
-            ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
-                    (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spFocusedVillages.setAdapter(adapter);
-
+                ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
+                        (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spFocusedVillages.setAdapter(adapter);
+            }
         } catch (
                 Exception ex) {
             ex.printStackTrace();
@@ -1497,7 +1509,7 @@ public class MarketDayActivity extends AppCompatActivity implements GoogleApiCli
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "36", "Market day", cordinates, numberOfVisitors+" ","Market")) {
+            if (CommonUtil.addGTVActivity(context, "36", "Market day", cordinates, numberOfVisitors+" ","Market","0")) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 
