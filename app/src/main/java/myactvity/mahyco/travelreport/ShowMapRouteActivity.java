@@ -105,6 +105,7 @@ public class ShowMapRouteActivity extends AppCompatActivity {
 
                     if (progressDialog.isShowing())
                         progressDialog.dismiss();
+
                     if (response.body() != null)
                         AllData = response.body().toString().trim();
                     else

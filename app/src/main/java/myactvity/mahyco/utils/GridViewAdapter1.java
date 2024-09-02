@@ -59,6 +59,7 @@ import myactvity.mahyco.SamruddhaKisanValidation;
 import myactvity.mahyco.TempUserDashboard;
 import myactvity.mahyco.UploadData;
 import myactvity.mahyco.Utility;
+import myactvity.mahyco.VillageTaggingGTV;
 import myactvity.mahyco.VocpvegetablewebviewActivity;
 import myactvity.mahyco.app.AppConstant;
 import myactvity.mahyco.app.Config;
@@ -254,12 +255,16 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                                 }
                             }
 
+                            if (ActivityName[position].toString() == "VillageTaggingGTV") {
+                                intent = new Intent(context.getApplicationContext(), VillageTaggingGTV.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                context.startActivity(intent);
+                            }
                             if (ActivityName[position].toString() == "RetailerTag") {
                                 intent = new Intent(context.getApplicationContext(), RetailerandDistributorTag.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
-
                             if (ActivityName[position].toString() == "VoiceOfCustomer") {
                                 //intent = new Intent(context.getApplicationContext(), demandassessmentsurvey.class);
                                 intent = new Intent(context.getApplicationContext(), voiceofcustomerDashboard.class);

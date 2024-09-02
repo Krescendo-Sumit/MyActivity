@@ -65,29 +65,30 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
     RadioGroup rgStatus;
     TextView txtTotalKM;
     TableLayout tbl;
-    TextView txtScreenTitle,txt_heading;
+    TextView txtScreenTitle, txt_heading;
     SqliteDatabase mDatabase;
     String userCode = "";
     String InTime = "";
     WebView webView;
     String HTMLData = "";
-    String GTVKAName = "KA Name";
-    String GTVStartTravelTime = "Start TIME";
-    String GTVEndTravelTime = "END Time";
-    String GTVKAKM = "KAKM";
-    String GTVSystemKM = "SYSKM";
-    String GTVVillage1 = "VILLAGE1";
-    String GTVVillage1PUNCHINTIME = "punchin1";
-    String GTVVillage1PUNCHOUTTIME = "punchout2";
-    String GTVVillage1TIMESpent = "timespent1";
-    String GTVVillage2 = "VILLAGE2";
-    String GTVVillage2PUNCHINTIME = "punchin2";
-    String GTVVillage2PUNCHOUTTIME = "punchout2";
-    String GTVVillage2TIMESpent = "timespent2";
-    String GTVVillage1Activities = "GTV1 Activity";
-    String GTVVillage2Activities = "GTV2 Activity";
-    String GTV1Market1Activities = "GTV1 Market Activity";
-    String GTV2Market1Activities = "GTV2 Market Activity";
+    String GTVKAName = "-";
+    String GTVStartTravelTime = "-";
+    String GTVEndTravelTime = "-";
+    String GTVKAKM = "-";
+    String GTVAttendance = "-";
+    String GTVSystemKM = "-";
+    String GTVVillage1 = "-";
+    String GTVVillage1PUNCHINTIME = "-";
+    String GTVVillage1PUNCHOUTTIME = "-";
+    String GTVVillage1TIMESpent = "-";
+    String GTVVillage2 = "-";
+    String GTVVillage2PUNCHINTIME = "-";
+    String GTVVillage2PUNCHOUTTIME = "-";
+    String GTVVillage2TIMESpent = "-";
+    String GTVVillage1Activities = "-";
+    String GTVVillage2Activities = "-";
+    String GTV1Market1Activities = "-";
+    String GTV2Market1Activities = "-";
 
 
     @Override
@@ -128,7 +129,7 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
         //  final String InTime = "2024-08-13";
 
 
-        txtScreenTitle.setText("Summary Report - "+new SimpleDateFormat("dd-MM-yyyy").format(entrydate));
+        txtScreenTitle.setText("Summary Report - " + new SimpleDateFormat("dd-MM-yyyy").format(entrydate));
 
         SharedPreferences sp = context.getSharedPreferences("MyPref", 0);
         userCode = sp.getString("UserID", null);
@@ -174,53 +175,64 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context,ShowMapRouteActivity.class);
+                Intent intent = new Intent(context, ShowMapRouteActivity.class);
                 startActivity(intent);
             }
         });
 
         // Calling API to get System Distance
+        getSystemDistance();
+
+
+    }
+
+    void getSystemDistance() {
         try {
-            String curdate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-            String searchQuery12 = "select  Coordinates  from  GTVTravelActivityData where ActivityName!='System Distance' and ActivityDt like '%" + curdate + "%'";
-            Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
-            int count = cursor.getCount();
-            if (count > 0) {
-                JsonArray jsonArray;
 
-                String searchQuery = "select  Coordinates  from  GTVTravelActivityData where ActivityName!='System Distance' and ActivityDt like '%" + curdate + "%'";
-                jsonArray = mDatabase.getResultsRetro(searchQuery);
+            int endTravelCount = mDatabase.getActivityDoneCount("End Travel", InTime);
+            int systemDistanceCount = mDatabase.getActivityDoneCount("System Distance", InTime);
+            Toast.makeText(context, systemDistanceCount + " and " + endTravelCount, Toast.LENGTH_SHORT).show();
 
-                for (int i = 0; i < jsonArray.size(); i++) {
-                    JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
-                    String co = jsonObject.get("Coordinates").toString().trim();
 
-                    Log.i("Data is ", co);
-                    co = co.replace("\"", "");
-                    String cosp[] = co.split("-");
+            if (endTravelCount > 0 && systemDistanceCount == 0) {
+                Toast.makeText(context, "Calling Distance API", Toast.LENGTH_SHORT).show();
+                String curdate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                String searchQuery12 = "select  Coordinates  from  GTVTravelActivityData where ActivityName!='System Distance' and ActivityDt like '%" + curdate + "%'";
+                Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
+                int count = cursor.getCount();
+                if (count > 0) {
+                    JsonArray jsonArray;
 
-                    if (cosp.length > 1) {
-                        jsonObject.addProperty("lat", Double.parseDouble(cosp[0]));
-                        jsonObject.addProperty("lng", Double.parseDouble(cosp[1]));
+                    String searchQuery = "select  Coordinates  from  GTVTravelActivityData where ActivityName!='System Distance' and ActivityDt like '%" + curdate + "%'";
+                    jsonArray = mDatabase.getResultsRetro(searchQuery);
+
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                        String co = jsonObject.get("Coordinates").toString().trim();
+
+                        Log.i("Data is ", co);
+                        co = co.replace("\"", "");
+                        String cosp[] = co.split("-");
+
+                        if (cosp.length > 1) {
+                            jsonObject.addProperty("lat", Double.parseDouble(cosp[0]));
+                            jsonObject.addProperty("lng", Double.parseDouble(cosp[1]));
+
+                        }
 
                     }
+                    new GTVTravelAPI(context, this).GetSystemDistance(jsonArray);
+                    //  Log.i("GTV  Travel Data ", jsonFinal.toString());
 
+                } else {
+                    Toast.makeText(context, "No Data for upload.", Toast.LENGTH_SHORT).show();
                 }
-            /*    JsonObject jsonFinal = new JsonObject();
-                jsonFinal.add("gTVUserActivityModels", jsonArray);*/
-                //    new GTVTravelAPI(context, this).GetSystemDistance(jsonArray);
-                //  Log.i("GTV  Travel Data ", jsonFinal.toString());
-
-            } else {
-                Toast.makeText(context, "No Data for upload.", Toast.LENGTH_SHORT).show();
             }
 
 
         } catch (Exception e) {
 
         }
-
-
     }
 
     private void submitData() {
@@ -334,259 +346,98 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
 
                     if (response.body() != null) {
                         Root root = response.body();
-                        //    PrepareReport(root);
                         try {
-                            //  PrepareReport(root);
                             if (root.Status) {
                                 try {
                                     Toast.makeText(ActivityTravelReportGTV.this, "" + root.getResult().gTV1ActivityModels.size(), Toast.LENGTH_SHORT).show();
                                     tbl.removeAllViews();
-
-
                                     if (root.Result.kAModel != null) {
-
-                                        TableRow tr_kadetails = new TableRow(context);
-                                        tr_kadetails.setBackgroundColor(Color.parseColor("#bcb5b2a8"));
-                                        TextView txt_title = new TextView(context);
-                                        txt_title.setText("Name of KA with HQ");
-                                        txt_title.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_title.setPadding(5, 5, 5, 5);
-                                        txt_title.setTextColor(Color.BLUE);
-                                        TextView txt_code = new TextView(context);
-                                        txt_code.setPadding(5, 5, 5, 5);
-                                        txt_code.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_code.setText(":" + root.Result.kAModel.KAName + " HQ-" + root.Result.kAModel.KAHQ);
-                                        tr_kadetails.addView(txt_title);
-                                        tr_kadetails.addView(txt_code);
-                                        tbl.addView(tr_kadetails);
-
-                                        GTVKAName = root.Result.kAModel.KAName + " HQ-" + root.Result.kAModel.KAHQ;
-
-                                        TableRow tr_EmpID = new TableRow(context);
-                                        TextView txt_titleEMP = new TextView(context);
-                                        txt_titleEMP.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_titleEMP.setTextColor(Color.BLUE);
-                                        txt_titleEMP.setPadding(5, 5, 5, 5);
-                                        txt_titleEMP.setText("Employee ID");
-                                        TextView txt_codeEMP = new TextView(context);
-                                        txt_codeEMP.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_codeEMP.setPadding(5, 5, 5, 5);
-                                        txt_codeEMP.setText(":" + root.Result.kAModel.KACode);
-                                        tr_EmpID.addView(txt_titleEMP);
-                                        tr_EmpID.addView(txt_codeEMP);
-                                        tbl.addView(tr_EmpID);
                                         GTVKAName = root.Result.kAModel.KAName + " HQ-" + root.Result.kAModel.KAHQ;
                                     } else {
-                                        GTVKAName = "NA";
+                                        GTVKAName = "-";
                                     }
-
                                     if (root.Result.kAKMModel != null) {
-                                        TableRow tr_KATravel = new TableRow(context);
-                                        tr_KATravel.setBackgroundColor(Color.parseColor("#bcb5b2a8"));
-                                        TextView txt_titleKATravel = new TextView(context);
-                                        TextView txt_codeKATravel = new TextView(context);
-
-                                        txt_titleKATravel.setText("KM Travelled (As per KA)");
-
-                                        txt_titleKATravel.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_titleKATravel.setTextColor(Color.BLUE);
-                                        txt_titleKATravel.setPadding(5, 5, 5, 5);
-
-                                        txt_codeKATravel.setText(":" + "" + root.Result.kAKMModel.TotalKM + "KM");
-                                        txt_codeKATravel.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_codeKATravel.setPadding(5, 5, 5, 5);
-                                        tr_KATravel.addView(txt_titleKATravel);
-                                        tr_KATravel.addView(txt_codeKATravel);
-
-                                        tbl.addView(tr_KATravel);
                                         GTVKAKM = root.Result.kAKMModel.TotalKM + "KM";
                                     } else {
-                                        TableRow tr_KATravel = new TableRow(context);
-                                        tr_KATravel.setBackgroundColor(Color.parseColor("#bcb5b2a8"));
-                                        TextView txt_titleKATravel = new TextView(context);
-                                        TextView txt_codeKATravel = new TextView(context);
-
-                                        txt_titleKATravel.setText("KM Travelled (As per KA)");
-
-                                        txt_titleKATravel.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_titleKATravel.setTextColor(Color.BLUE);
-                                        txt_titleKATravel.setPadding(5, 5, 5, 5);
-
-                                        txt_codeKATravel.setText(": 0 KM");
-                                        txt_codeKATravel.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_codeKATravel.setPadding(5, 5, 5, 5);
-                                        tr_KATravel.addView(txt_titleKATravel);
-                                        tr_KATravel.addView(txt_codeKATravel);
-
-                                        tbl.addView(tr_KATravel);
-                                        GTVKAKM = "NA";
+                                        GTVKAKM = "-";
+                                    }
+                                    if (root.Result.GetAttendanceModel != null) {
+                                        GTVAttendance = root.Result.GetAttendanceModel.getGTVAttendance();
+                                    } else {
+                                        GTVAttendance = "-";
                                     }
                                     if (root.Result.myTravelKMModel != null) {
-                                        TableRow tr_KATravelSys = new TableRow(context);
-                                        TextView txt_titleKATravelSys = new TextView(context);
-                                        TextView txt_codeKATravelSys = new TextView(context);
-
-                                        txt_titleKATravelSys.setText("KM Travelled (As per System)");
-
-
-                                        txt_titleKATravelSys.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_titleKATravelSys.setTextColor(Color.BLUE);
-                                        txt_titleKATravelSys.setPadding(5, 5, 5, 5);
-                                        txt_codeKATravelSys.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_codeKATravelSys.setText(":" + "" + root.Result.myTravelKMModel.TotalKM + "KM");
-                                        txt_codeKATravelSys.setPadding(5, 5, 5, 5);
-                                        tr_KATravelSys.addView(txt_titleKATravelSys);
-                                        tr_KATravelSys.addView(txt_codeKATravelSys);
-
-                                        tbl.addView(tr_KATravelSys);
                                         GTVSystemKM = root.Result.myTravelKMModel.TotalKM + " KM";
                                     } else {
-                                        TableRow tr_KATravelSys = new TableRow(context);
-                                        TextView txt_titleKATravelSys = new TextView(context);
-                                        TextView txt_codeKATravelSys = new TextView(context);
-
-                                        txt_titleKATravelSys.setText("KM Travelled (As per System)");
-
-
-                                        txt_titleKATravelSys.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_titleKATravelSys.setTextColor(Color.BLUE);
-                                        txt_titleKATravelSys.setPadding(5, 5, 5, 5);
-                                        txt_codeKATravelSys.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_codeKATravelSys.setText(": 0 KM");
-                                        txt_codeKATravelSys.setPadding(5, 5, 5, 5);
-                                        tr_KATravelSys.addView(txt_titleKATravelSys);
-                                        tr_KATravelSys.addView(txt_codeKATravelSys);
-
-                                        tbl.addView(tr_KATravelSys);
-                                        GTVSystemKM = " NA";
+                                        GTVSystemKM = " -";
+                                    }
+                                    if (root.Result.myTravelModel != null) {
+                                        MyTravelModel myTravelModel = root.Result.getMyTravelModel();
+                                        GTVStartTravelTime = myTravelModel.getStartTravelTime();
+                                        GTVEndTravelTime = myTravelModel.getEndTravelTime();
+                                    }
+                                    if (root.Result.gTV1Model != null) {
+                                        GTV1Model gtv1Model = root.Result.getgTV1Model();
+                                        GTVVillage1PUNCHINTIME = gtv1Model.getGTV1PunchIn();
+                                        GTVVillage1PUNCHOUTTIME = gtv1Model.getGTV1PunchOut();
+                                        GTVVillage1TIMESpent = gtv1Model.getGTV1TimeSpent();
+                                    }
+                                    if (root.Result.gTV2Model != null) {
+                                        GTV2Model gtv2Model = root.Result.getgTV2Model();
+                                        GTVVillage2PUNCHINTIME = gtv2Model.getGTV2PunchIn();
+                                        GTVVillage2PUNCHOUTTIME = gtv2Model.getGTV2PunchOut();
+                                        GTVVillage2TIMESpent = gtv2Model.getGTV2TimeSpent();
                                     }
                                     if (root.getResult().gTV1ActivityModels != null || root.getResult().gTV1ActivityModels.size() == 0) {
                                         GTVVillage1Activities = "";
-                                        TableRow tr_GTV = new TableRow(context);
-                                        tr_GTV.setBackgroundColor(Color.parseColor("#bcb5b2a8"));
-                                        TextView txt_titleGTV = new TextView(context);
-                                        txt_titleGTV.setText("GTV1 Activity");
-                                        txt_titleGTV.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_titleGTV.setTextColor(Color.BLUE);
-                                        txt_titleGTV.setPadding(5, 5, 5, 5);
-                                        TableLayout tbl_GTV1 = new TableLayout(context);
                                         for (int i = 0; i < root.getResult().gTV1ActivityModels.size(); i++) {
                                             GTV1ActivityModel activityModel = root.getResult().gTV1ActivityModels.get(i);
                                             if (activityModel.ActivityName.toLowerCase().contains("punch")) {
-                                                txt_titleGTV.setText("GTV1 Activity (" + activityModel.VillageName + ")");
                                                 GTVVillage1 = activityModel.VillageName;
                                                 continue;
                                             }
                                             if (activityModel.ActivityName.toLowerCase().contains("system")) {
-
                                                 continue;
                                             }
-                                            TableRow tr = new TableRow(context);
-
-                                            TextView activityNameKey = new TextView(context);
-                                            activityNameKey.setId(i + 500);
-                                            activityNameKey.setTypeface(txtScreenTitle.getTypeface());
-                                            activityNameKey.setText(activityModel.ActivityName);
-                                            TextView activityNameValue = new TextView(context);
-                                            activityNameValue.setTypeface(txtScreenTitle.getTypeface());
-                                            activityNameValue.setText(":" + activityModel.ActivityCount);
-                                            activityNameValue.setTextColor(Color.RED);
-                                            activityNameValue.setPadding(5, 5, 5, 5);
-                                            tr.addView(activityNameKey);
-                                            tr.addView(activityNameValue);
-                                            tbl_GTV1.addView(tr);
-                                            GTVVillage1Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "),";
-
+                                            GTVVillage1Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "), ";
                                         }
-                                        tr_GTV.addView(txt_titleGTV);
-                                        tr_GTV.addView(tbl_GTV1);
-
-                                        tbl.addView(tr_GTV);
-
                                     } else {
                                         GTVVillage1Activities = "No Activity Found.";
-
                                     }
-
                                     if (root.getResult().gTV2ActivityModels != null || root.getResult().gTV2ActivityModels.size() == 0) {
                                         GTVVillage2Activities = "";
-                                        TableRow tr_GTV2 = new TableRow(context);
-                                        TextView txt_titleGTV2 = new TextView(context);
-                                        txt_titleGTV2.setText("GTV2 Activity");
-                                        txt_titleGTV2.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_titleGTV2.setTextColor(Color.BLUE);
-                                        txt_titleGTV2.setPadding(5, 5, 5, 5);
-                                        TableLayout tbl_GTV2 = new TableLayout(context);
                                         for (int i = 0; i < root.getResult().gTV2ActivityModels.size(); i++) {
                                             GTV2ActivityModel activityModel = root.getResult().gTV2ActivityModels.get(i);
                                             if (activityModel.ActivityName.toLowerCase().contains("punch")) {
-                                                txt_titleGTV2.setText("GTV2 Activity  (" + activityModel.getVillageName() + ")");
                                                 GTVVillage2 = activityModel.VillageName;
                                                 continue;
                                             }
-                                            TableRow tr = new TableRow(context);
-
-                                            TextView activityNameKey = new TextView(context);
-                                            activityNameKey.setId(i + 500);
-                                            activityNameKey.setTypeface(txtScreenTitle.getTypeface());
-                                            activityNameKey.setText(activityModel.ActivityName);
-                                            TextView activityNameValue = new TextView(context);
-                                            activityNameValue.setTypeface(txtScreenTitle.getTypeface());
-                                            activityNameValue.setText(":" + activityModel.ActivityCount);
-                                            activityNameValue.setTextColor(Color.RED);
-                                            activityNameValue.setPadding(5, 5, 5, 5);
-                                            tr.addView(activityNameKey);
-                                            tr.addView(activityNameValue);
-                                            tbl_GTV2.addView(tr);
-                                            GTVVillage2Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "),";
-
-
+                                            GTVVillage2Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "), ";
                                         }
-                                        tr_GTV2.addView(txt_titleGTV2);
-                                        tr_GTV2.addView(tbl_GTV2);
-
-                                        tbl.addView(tr_GTV2);
-
                                     } else {
                                         GTVVillage2Activities = "No Activity Found.";
-
                                     }
-                                    if (root.getResult().marketActivityModels != null) {
-                                        GTV2Market1Activities = "";
-                                        GTV1Market1Activities = "No Activity Found.";
-                                        TableRow tr_GTVMarket = new TableRow(context);
-                                        tr_GTVMarket.setBackgroundColor(Color.parseColor("#bcb5b2a8"));
-                                        TextView txt_titleGTVMarket = new TextView(context);
-                                        txt_titleGTVMarket.setText("Market Activity");
-                                        txt_titleGTVMarket.setTypeface(txtScreenTitle.getTypeface());
-                                        txt_titleGTVMarket.setTextColor(Color.BLUE);
-                                        txt_titleGTVMarket.setPadding(5, 5, 5, 5);
-                                        TableLayout tbl_GTVMarket = new TableLayout(context);
-                                        for (int i = 0; i < root.getResult().marketActivityModels.size(); i++) {
-                                            MarketModel activityModel = root.getResult().marketActivityModels.get(i);
 
-                                            TableRow tr = new TableRow(context);
-
-                                            TextView activityNameKey = new TextView(context);
-                                            activityNameKey.setId(i + 500);
-                                            activityNameKey.setTypeface(txtScreenTitle.getTypeface());
-                                            activityNameKey.setText(activityModel.ActivityName);
-                                            TextView activityNameValue = new TextView(context);
-                                            activityNameValue.setTypeface(txtScreenTitle.getTypeface());
-                                            activityNameValue.setText("-" + activityModel.ActivityCount);
-                                            activityNameValue.setTextColor(Color.RED);
-                                            activityNameValue.setPadding(5, 5, 5, 5);
-                                            tr.addView(activityNameKey);
-                                            tr.addView(activityNameValue);
-                                            tbl_GTVMarket.addView(tr);
-                                            GTV2Market1Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "),";
-
-
+                                    if (root.getResult().marketGTV1ActivityModels != null) {
+                                        GTV1Market1Activities="";
+                                        for (int i = 0; i < root.getResult().marketGTV1ActivityModels.size(); i++) {
+                                            MarketModel activityModel = root.getResult().marketGTV1ActivityModels.get(i);
+                                            GTV1Market1Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "), ";
                                         }
-                                        tr_GTVMarket.addView(txt_titleGTVMarket);
-                                        tr_GTVMarket.addView(tbl_GTVMarket);
 
-                                        tbl.addView(tr_GTVMarket);
+                                    }else {
+                                        GTV1Market1Activities="No Activity Found.";
+                                    }
+
+                                    if (root.getResult().marketGTV2ActivityModels != null) {
+                                        GTV2Market1Activities = "";
+                                        for (int i = 0; i < root.getResult().marketGTV2ActivityModels.size(); i++) {
+                                            MarketModel activityModel = root.getResult().marketGTV2ActivityModels.get(i);
+                                            GTV2Market1Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "), ";
+                                        }
+
+                                    }else {
+                                        GTV2Market1Activities="No Activity Found.";
                                     }
                                     PrepareReport();
 
@@ -631,8 +482,9 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
         try {
 
             //  HTMLData = HTMLDataHeader;
-
-            GTVStartTravelTime = mDatabase.getGtvTravelDate(InTime, "Start Travel");
+// this code commented   we are getting time spent details gtv as well as start and end travel from local db .
+// which now getting from API bcoz from local we can show only todays record only.
+           /* GTVStartTravelTime = mDatabase.getGtvTravelDate(InTime, "Start Travel");
             GTVEndTravelTime = mDatabase.getGtvTravelDate(InTime, "End Travel");
             GTVVillage1PUNCHINTIME = mDatabase.getGtvPunchDate(InTime, "Punch In", "GTV1");
             GTVVillage1PUNCHOUTTIME = mDatabase.getGtvPunchDate(InTime, "Punch Out", "GTV1");
@@ -694,7 +546,7 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
 
             }
 
-
+*/
 
             HTMLData = "<style>table, td, th {border: 1px solid;padding:3px;}table{border-collapse: collapse;}</style>" +
                     "<table width='100%'>" +
@@ -708,8 +560,9 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
 
                     "</tr>" +
                     "<tr>" +
-                    "<td colspan='3'><b>KA KM :</b> <br>" + GTVKAKM + "</td> " +
-                    "<td colspan='3'><b>System KM :</b> <br>" + GTVSystemKM + "</td> " +
+                    "<td colspan='2'><b>KA KM :</b> <br>" + GTVKAKM + "</td> " +
+                    "<td colspan='2'><b>System KM :</b> <br>" + GTVSystemKM + "</td> " +
+                    "<td colspan='2'><b>Attendance :</b> <br>" + GTVAttendance + "</td> " +
                     "</tr>" +
                     "<tr>" +
                     "<td colspan='6' style='text-align:center;background-color:FloralWhite;'><b>GTV-I Village : <i>" + GTVVillage1 + "</i></b> </td> " +
@@ -756,10 +609,6 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
         }
     }
 
-    // import com.fasterxml.jackson.databind.ObjectMapper; // version 2.11.1
-// import com.fasterxml.jackson.annotation.JsonProperty; // version 2.11.1
-/* ObjectMapper om = new ObjectMapper();
-Root root = om.readValue(myJsonString, Root.class); */
     public class GTV1ActivityModel {
 
         public String getKACode() {
@@ -1084,8 +933,205 @@ Root root = om.readValue(myJsonString, Root.class); */
         }
 
         public ArrayList<MarketModel> marketActivityModels;
+
+        public ArrayList<MarketModel> getMarketGTV1ActivityModels() {
+            return marketGTV1ActivityModels;
+        }
+
+        public void setMarketGTV1ActivityModels(ArrayList<MarketModel> marketGTV1ActivityModels) {
+            this.marketGTV1ActivityModels = marketGTV1ActivityModels;
+        }
+
+        public ArrayList<MarketModel> getMarketGTV2ActivityModels() {
+            return marketGTV2ActivityModels;
+        }
+
+        public void setMarketGTV2ActivityModels(ArrayList<MarketModel> marketGTV2ActivityModels) {
+            this.marketGTV2ActivityModels = marketGTV2ActivityModels;
+        }
+
+        public ArrayList<MarketModel> marketGTV1ActivityModels;
+        public ArrayList<MarketModel> marketGTV2ActivityModels;
         public MyTravelKMModel myTravelKMModel;
         public KAKMModel kAKMModel;
+
+        public MyTravelModel getMyTravelModel() {
+            return myTravelModel;
+        }
+
+        public void setMyTravelModel(MyTravelModel myTravelModel) {
+            this.myTravelModel = myTravelModel;
+        }
+
+        public GTV1Model getgTV1Model() {
+            return gTV1Model;
+        }
+
+        public void setgTV1Model(GTV1Model gTV1Model) {
+            this.gTV1Model = gTV1Model;
+        }
+
+        public GTV2Model getgTV2Model() {
+            return gTV2Model;
+        }
+
+        public void setgTV2Model(GTV2Model gTV2Model) {
+            this.gTV2Model = gTV2Model;
+        }
+
+        public MyTravelModel myTravelModel;
+        public GTV1Model gTV1Model;
+        public GTV2Model gTV2Model;
+        public GetAttendanceModel GetAttendanceModel;
+
+    }
+public class GetAttendanceModel{
+    String KACode;
+
+    public String getKACode() {
+        return KACode;
+    }
+
+    public void setKACode(String KACode) {
+        this.KACode = KACode;
+    }
+
+    public String getGTVAttendance() {
+        return GTVAttendance;
+    }
+
+    public void setGTVAttendance(String GTVAttendance) {
+        this.GTVAttendance = GTVAttendance;
+    }
+
+    String GTVAttendance;
+}
+    public class MyTravelModel {
+        public String getKACode() {
+            return KACode;
+        }
+
+        public void setKACode(String KACode) {
+            this.KACode = KACode;
+        }
+
+        public String getStartTravelTime() {
+            return StartTravelTime;
+        }
+
+        public void setStartTravelTime(String startTravelTime) {
+            StartTravelTime = startTravelTime;
+        }
+
+        public String getEndTravelTime() {
+            return EndTravelTime;
+        }
+
+        public void setEndTravelTime(String endTravelTime) {
+            EndTravelTime = endTravelTime;
+        }
+
+        String KACode;
+        String StartTravelTime;
+        String EndTravelTime;
+    }
+
+    public class GTV1Model {
+        String KACode;
+
+        public String getKACode() {
+            return KACode;
+        }
+
+        public void setKACode(String KACode) {
+            this.KACode = KACode;
+        }
+
+        public String getGTV1PunchIn() {
+            return GTV1PunchIn;
+        }
+
+        public void setGTV1PunchIn(String GTV1PunchIn) {
+            this.GTV1PunchIn = GTV1PunchIn;
+        }
+
+        public String getGTV1PunchOut() {
+            return GTV1PunchOut;
+        }
+
+        public void setGTV1PunchOut(String GTV1PunchOut) {
+            this.GTV1PunchOut = GTV1PunchOut;
+        }
+
+        public String getGTV1TimeSpent() {
+            return GTV1TimeSpent;
+        }
+
+        public void setGTV1TimeSpent(String GTV1TimeSpent) {
+            this.GTV1TimeSpent = GTV1TimeSpent;
+        }
+
+        public String getActivityDt() {
+            return ActivityDt;
+        }
+
+        public void setActivityDt(String activityDt) {
+            ActivityDt = activityDt;
+        }
+
+        String GTV1PunchIn;
+        String GTV1PunchOut;
+        String GTV1TimeSpent;
+        String ActivityDt;
+    }
+
+    public class GTV2Model {
+        String KACode;
+
+        public String getKACode() {
+            return KACode;
+        }
+
+        public void setKACode(String KACode) {
+            this.KACode = KACode;
+        }
+
+        public String getGTV2PunchIn() {
+            return GTV2PunchIn;
+        }
+
+        public void setGTV2PunchIn(String GTV2PunchIn) {
+            this.GTV2PunchIn = GTV2PunchIn;
+        }
+
+        public String getGTV2PunchOut() {
+            return GTV2PunchOut;
+        }
+
+        public void setGTV2PunchOut(String GTV2PunchOut) {
+            this.GTV2PunchOut = GTV2PunchOut;
+        }
+
+        public String getGTV2TimeSpent() {
+            return GTV2TimeSpent;
+        }
+
+        public void setGTV2TimeSpent(String GTV2TimeSpent) {
+            this.GTV2TimeSpent = GTV2TimeSpent;
+        }
+
+        public String getActivityDt() {
+            return ActivityDt;
+        }
+
+        public void setActivityDt(String activityDt) {
+            ActivityDt = activityDt;
+        }
+
+        String GTV2PunchIn;
+        String GTV2PunchOut;
+        String GTV2TimeSpent;
+        String ActivityDt;
     }
 
     public class Root {
@@ -1119,6 +1165,8 @@ Root root = om.readValue(myJsonString, Root.class); */
         public String Message;
 
         public Result Result;
+
+
     }
 
     public void uploadGtvTravelData() {
@@ -1157,9 +1205,31 @@ Root root = om.readValue(myJsonString, Root.class); */
 
     @Override
     public void OnGTVTravelDataUpload(String result) {
-        Toast.makeText(context, "" + result, Toast.LENGTH_SHORT).show();
-        mDatabase.UpdateStatus("Update GTVTravelActivityData set isSynced=1 where isSynced=0");
         try {
+            Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
+            JSONObject jsonObjectResult=new JSONObject(result.trim());
+            if(jsonObjectResult.getBoolean("ResultFlag") && jsonObjectResult.getString("status").toLowerCase().equals("success"))
+            {
+                mDatabase.UpdateStatus("Update GTVTravelActivityData set isSynced=1 where isSynced=0");
+                new AlertDialog.Builder(context)
+                        .setMessage(jsonObjectResult.getString("Comment"))
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+            }else {
+                new AlertDialog.Builder(context)
+                        .setTitle("Something went wrong")
+                        .setMessage(jsonObjectResult.getString("Comment"))
+                        .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+            }
             txtTotalKM.setText("");
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("FilterValue", userCode + "," + InTime);

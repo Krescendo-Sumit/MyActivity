@@ -9206,7 +9206,22 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         db.close();
         return cnt;
     }
+    public int getActivityDoneCount(String activity,String todays) {
+        Log.i("Todays Date", todays);
+        int cnt = 0;
+        SQLiteDatabase db = getWritableDatabase();
 
+        String sql = "select count(*) from  GTVTravelActivityData where ActivityDt like '%" + todays + "%' and ActivityName='" + activity + "'";
+        Log.i("Query", sql);
+        Cursor cursor = db.rawQuery(sql, null, null);
+        if (cursor.moveToNext()) {
+            cnt = cursor.getInt(0);
+        } else {
+            cnt = 0;
+        }
+        db.close();
+        return cnt;
+    }
     public String getGtvTravelDate(String InDate, String type) {
         Log.i("Todays Date", InDate +" "+type);
         String data = "";

@@ -48,7 +48,6 @@ public class CommonUtil {
             String selectedGTV1VillageCode = prefs.getString(AppConstant.GTVSelectedVillageCode, "");
             String selectedGTV1Village = prefs.getString(AppConstant.GTVSelectedVillage, "");
 
-
             SqliteDatabase mDatabase = SqliteDatabase.getInstance(context);
             GTVTravelActivityDataModel gtvTravelActivityDataModel = new GTVTravelActivityDataModel();
             gtvTravelActivityDataModel.setId(0);// integer auto increment,
@@ -65,13 +64,15 @@ public class CommonUtil {
             gtvTravelActivityDataModel.setCoordinates(cordinates);// TEXT,
             gtvTravelActivityDataModel.setRefrenceId("0");// TEXT,
             gtvTravelActivityDataModel.setActualKM(actualKM);// TEXT,
+
             if(punchInCordinates.trim().equals("")||punchInCordinates.trim().equals("0-0"))
             {
                 gtvTravelActivityDataModel.setDistanceFromPunchKm("0");// TEXT,
             }else {
                 gtvTravelActivityDataModel.setDistanceFromPunchKm("" + CommonUtil.getDistance(punchInCordinates, cordinates));// TEXT,
             }
-            if (lastCordinate.trim().equals("0-0"))
+
+            if (lastCordinate.trim().equals("0-0")||cordinates.trim().equals("0-0"))
                 gtvTravelActivityDataModel.setGTVActivityKM("0");// TEXT,
             else
                 gtvTravelActivityDataModel.setGTVActivityKM("" + CommonUtil.getDistance(lastCordinate, cordinates));// TEXT,

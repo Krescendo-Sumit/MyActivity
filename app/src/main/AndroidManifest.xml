@@ -63,6 +63,10 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".VillageTaggingGTV"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
             android:name=".travelreport.ShowMapRouteActivity"
             android:exported="false" />
         <activity
