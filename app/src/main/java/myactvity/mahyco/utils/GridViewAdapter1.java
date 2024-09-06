@@ -63,6 +63,7 @@ import myactvity.mahyco.VillageTaggingGTV;
 import myactvity.mahyco.VocpvegetablewebviewActivity;
 import myactvity.mahyco.app.AppConstant;
 import myactvity.mahyco.app.Config;
+import myactvity.mahyco.app.Prefs;
 import myactvity.mahyco.couponDashboard;
 import myactvity.mahyco.daslogin;
 import myactvity.mahyco.helper.Messageclass;
@@ -176,6 +177,10 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
 
                     @Override
                     public void onClick(View v) {
+                        Prefs mPref;
+                        mPref = Prefs.with(context);
+                        mPref.save(AppConstant.GTVSELECTEDBUTTON, "Market");
+
                         Intent intent;
                         AppConstant.packagename = context.getApplicationContext().getPackageName();
 

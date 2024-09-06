@@ -47,17 +47,18 @@
         <Button
             android:id="@+id/btn_sync"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_height="0dp"
             android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:text="Sync Data Punch Master" />
+
         <Button
             android:id="@+id/btn_sync_traveldata"
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:text="Sync Data Travel Data" />
+            android:layout_weight="1"
+            android:text="Sync Travel Data" />
     </LinearLayout>
 
     <LinearLayout

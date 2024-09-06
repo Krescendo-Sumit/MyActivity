@@ -181,7 +181,7 @@ public class UserHome extends AppCompatActivity
             AppConstant.dbnamepath = "/mnt/sdcard/MDOApps.db";
         }
         mDatabase = SqliteDatabase.getInstance(this);
-
+        mDatabase.addFocusVillageTagDtls(); //  calling this function to create GTV focus Village tagged details table.
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(1500);
         anim.setStartOffset(20);

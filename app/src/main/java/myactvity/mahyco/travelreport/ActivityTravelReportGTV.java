@@ -381,12 +381,64 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
                                         GTVVillage1PUNCHINTIME = gtv1Model.getGTV1PunchIn();
                                         GTVVillage1PUNCHOUTTIME = gtv1Model.getGTV1PunchOut();
                                         GTVVillage1TIMESpent = gtv1Model.getGTV1TimeSpent();
+                                    } else {
+                                        GTVVillage1PUNCHINTIME = mDatabase.getGtvPunchDate(InTime, "Punch In", "GTV1");
+                                        GTVVillage1PUNCHOUTTIME = mDatabase.getGtvPunchDate(InTime, "Punch Out", "GTV1");
+                                        try {
+                                            Date date1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage1PUNCHINTIME);
+                                            Date date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage1PUNCHOUTTIME);
+
+                                            long millis = date2.getTime() - date1.getTime();
+                                            int hours = (int) (millis / (1000 * 60 * 60));
+                                            int mins = (int) ((millis / (1000 * 60)) % 60);
+
+                                            String diff = hours + "h:" + mins + " m";
+                                            GTVVillage1TIMESpent = diff;
+                                            Log.i("Time Difference is ", "--->" + diff);
+
+                                            String s[];
+
+                                            s = GTVVillage1PUNCHINTIME.split(" ");
+                                            if (s.length > 0)
+                                                GTVVillage1PUNCHINTIME = s[1];
+                                            s = GTVVillage1PUNCHOUTTIME.split(" ");
+                                            if (s.length > 0)
+                                                GTVVillage1PUNCHOUTTIME = s[1];
+                                        } catch (Exception e) {
+
+                                        }
                                     }
                                     if (root.Result.gTV2Model != null) {
                                         GTV2Model gtv2Model = root.Result.getgTV2Model();
                                         GTVVillage2PUNCHINTIME = gtv2Model.getGTV2PunchIn();
                                         GTVVillage2PUNCHOUTTIME = gtv2Model.getGTV2PunchOut();
                                         GTVVillage2TIMESpent = gtv2Model.getGTV2TimeSpent();
+                                    } else {
+                                        GTVVillage2PUNCHINTIME = mDatabase.getGtvPunchDate(InTime, "Punch In", "GTV2");
+                                        GTVVillage2PUNCHOUTTIME = mDatabase.getGtvPunchDate(InTime, "Punch Out", "GTV2");
+                                        try {
+                                            Date date1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage2PUNCHINTIME);
+                                            Date date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage2PUNCHOUTTIME);
+
+                                            long millis = date2.getTime() - date1.getTime();
+                                            int hours = (int) (millis / (1000 * 60 * 60));
+                                            int mins = (int) ((millis / (1000 * 60)) % 60);
+
+                                            String diff = hours + "h:" + mins + " m";
+                                            GTVVillage2TIMESpent = diff;
+                                            Log.i("Time Difference is ", "--->" + diff);
+
+                                            String s[];
+
+                                            s = GTVVillage2PUNCHINTIME.split(" ");
+                                            if (s.length > 0)
+                                                GTVVillage2PUNCHINTIME = s[1];
+                                            s = GTVVillage2PUNCHOUTTIME.split(" ");
+                                            if (s.length > 0)
+                                                GTVVillage2PUNCHOUTTIME = s[1];
+                                        } catch (Exception e) {
+
+                                        }
                                     }
                                     if (root.getResult().gTV1ActivityModels != null || root.getResult().gTV1ActivityModels.size() == 0) {
                                         GTVVillage1Activities = "";
@@ -419,14 +471,14 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
                                     }
 
                                     if (root.getResult().marketGTV1ActivityModels != null) {
-                                        GTV1Market1Activities="";
+                                        GTV1Market1Activities = "";
                                         for (int i = 0; i < root.getResult().marketGTV1ActivityModels.size(); i++) {
                                             MarketModel activityModel = root.getResult().marketGTV1ActivityModels.get(i);
                                             GTV1Market1Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "), ";
                                         }
 
-                                    }else {
-                                        GTV1Market1Activities="No Activity Found.";
+                                    } else {
+                                        GTV1Market1Activities = "No Activity Found.";
                                     }
 
                                     if (root.getResult().marketGTV2ActivityModels != null) {
@@ -436,8 +488,8 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
                                             GTV2Market1Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "), ";
                                         }
 
-                                    }else {
-                                        GTV2Market1Activities="No Activity Found.";
+                                    } else {
+                                        GTV2Market1Activities = "No Activity Found.";
                                     }
                                     PrepareReport();
 
@@ -985,27 +1037,29 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
         public GetAttendanceModel GetAttendanceModel;
 
     }
-public class GetAttendanceModel{
-    String KACode;
 
-    public String getKACode() {
-        return KACode;
+    public class GetAttendanceModel {
+        String KACode;
+
+        public String getKACode() {
+            return KACode;
+        }
+
+        public void setKACode(String KACode) {
+            this.KACode = KACode;
+        }
+
+        public String getGTVAttendance() {
+            return GTVAttendance;
+        }
+
+        public void setGTVAttendance(String GTVAttendance) {
+            this.GTVAttendance = GTVAttendance;
+        }
+
+        String GTVAttendance;
     }
 
-    public void setKACode(String KACode) {
-        this.KACode = KACode;
-    }
-
-    public String getGTVAttendance() {
-        return GTVAttendance;
-    }
-
-    public void setGTVAttendance(String GTVAttendance) {
-        this.GTVAttendance = GTVAttendance;
-    }
-
-    String GTVAttendance;
-}
     public class MyTravelModel {
         public String getKACode() {
             return KACode;
@@ -1206,10 +1260,9 @@ public class GetAttendanceModel{
     @Override
     public void OnGTVTravelDataUpload(String result) {
         try {
-            Toast.makeText(context, ""+result, Toast.LENGTH_SHORT).show();
-            JSONObject jsonObjectResult=new JSONObject(result.trim());
-            if(jsonObjectResult.getBoolean("ResultFlag") && jsonObjectResult.getString("status").toLowerCase().equals("success"))
-            {
+            Toast.makeText(context, "" + result, Toast.LENGTH_SHORT).show();
+            JSONObject jsonObjectResult = new JSONObject(result.trim());
+            if (jsonObjectResult.getBoolean("ResultFlag") && jsonObjectResult.getString("status").toLowerCase().equals("success")) {
                 mDatabase.UpdateStatus("Update GTVTravelActivityData set isSynced=1 where isSynced=0");
                 new AlertDialog.Builder(context)
                         .setMessage(jsonObjectResult.getString("Comment"))
@@ -1219,7 +1272,7 @@ public class GetAttendanceModel{
                                 dialogInterface.dismiss();
                             }
                         }).show();
-            }else {
+            } else {
                 new AlertDialog.Builder(context)
                         .setTitle("Something went wrong")
                         .setMessage(jsonObjectResult.getString("Comment"))

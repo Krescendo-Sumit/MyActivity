@@ -818,6 +818,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         // db.close();
         addshellingandutpadantable(db);
         addGTVTables(db);
+        addFocusVillageTaggingTables(db);
 
     }
 
@@ -1024,6 +1025,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
                 // Added on 17/01/2024  for shelling day activity.
                 addshellingandutpadantable(db);
                 addGTVTables(db);
+                addFocusVillageTaggingTables(db);
                 break;
             default:
                 break;
@@ -1045,6 +1047,16 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         try {
             SQLiteDatabase db = getWritableDatabase();
             addGTVTables(db);
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void addFocusVillageTagDtls() {
+
+        try {
+            SQLiteDatabase db = getWritableDatabase();
+            addFocusVillageTaggingTables(db);
         } catch (Exception e) {
 
         }
@@ -1159,6 +1171,18 @@ public class SqliteDatabase extends SQLiteOpenHelper {
             db.execSQL(CREATE_GTVTravelActivityData);
 
             Log.i("GTVTravelActivityData", "Table Added");
+
+        } catch (Exception w) {
+
+        }
+    }
+
+    public void addFocusVillageTaggingTables(SQLiteDatabase db) {
+        try {
+
+            String CREATE_GTVMASTER = "Create Table  IF NOT EXISTS  FocusVillageGeoTagDtls (_id integer primary key autoincrement,  vil_code Text,vil_desc Text,taluka Text,KACode Text,ActivityDt Text,VillageCode Text,VillageName Text,TagCoordinates Text,TagAddr Text,KARadius Text,AdminRadius Text,AppVersion Text,Remark Text,ExtraParam1 Text,ExtraParam2 Text,Status Text)";
+            db.execSQL(CREATE_GTVMASTER);
+            Log.i("FocusVillageTaggingTBL", "Table created.");
 
         } catch (Exception w) {
 
@@ -6786,6 +6810,63 @@ public class SqliteDatabase extends SQLiteOpenHelper {
 
     }
 
+    public boolean insertFocussedVillageTaggedDtls(String vil_code,String vil_desc,String taluka,String KACode,String ActivityDt,String VillageCode,String VillageName,String TagCoordinates,String TagAddr,String KARadius,String AdminRadius,String AppVersion,String Remark,String ExtraParam1,String ExtraParam2,String Status) {
+
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("vil_code", vil_code);
+        contentValues.put("vil_desc", vil_desc);
+        contentValues.put("taluka", taluka);
+        contentValues.put("KACode", KACode);
+        contentValues.put("ActivityDt", ActivityDt);
+        contentValues.put("VillageCode", VillageCode);
+        contentValues.put("VillageName", VillageName);
+        contentValues.put("TagCoordinates", TagCoordinates);
+        contentValues.put("TagAddr", TagAddr);
+        contentValues.put("KARadius", KARadius);
+        contentValues.put("AdminRadius", AdminRadius);
+        contentValues.put("AppVersion", AppVersion);
+        contentValues.put("Remark", Remark);
+        contentValues.put("ExtraParam1", ExtraParam1);
+        contentValues.put("ExtraParam2", ExtraParam2);
+        contentValues.put("Status", Status);
+
+
+        db.insert("FocusVillageGeoTagDtls", null, contentValues);
+        //db.close();
+        return true;
+
+
+    }
+    public boolean updateFocussedVillageTaggedDtls(String vil_code,String vil_desc,String taluka,String KACode,String ActivityDt,String VillageCode,String VillageName,String TagCoordinates,String TagAddr,String KARadius,String AdminRadius,String AppVersion,String Remark,String ExtraParam1,String ExtraParam2,String Status) {
+
+        SQLiteDatabase db = getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("vil_code", vil_code);
+        contentValues.put("vil_desc", vil_desc);
+        contentValues.put("taluka", taluka);
+        contentValues.put("KACode", KACode);
+        contentValues.put("ActivityDt", ActivityDt);
+        contentValues.put("VillageCode", VillageCode);
+        contentValues.put("VillageName", VillageName);
+        contentValues.put("TagCoordinates", TagCoordinates);
+        contentValues.put("TagAddr", TagAddr);
+        contentValues.put("KARadius", KARadius);
+        contentValues.put("AdminRadius", AdminRadius);
+        contentValues.put("AppVersion", AppVersion);
+        contentValues.put("Remark", Remark);
+        contentValues.put("ExtraParam1", ExtraParam1);
+        contentValues.put("ExtraParam2", ExtraParam2);
+        contentValues.put("Status", Status);
+
+
+        db.update("FocusVillageGeoTagDtls",contentValues,"vil_code=?",new String[]{vil_code});
+        //db.close();
+        return true;
+
+
+    }
+
     public boolean insertCheckHybridMaster(String hybridName) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -9206,7 +9287,8 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         db.close();
         return cnt;
     }
-    public int getActivityDoneCount(String activity,String todays) {
+
+    public int getActivityDoneCount(String activity, String todays) {
         Log.i("Todays Date", todays);
         int cnt = 0;
         SQLiteDatabase db = getWritableDatabase();
@@ -9222,12 +9304,13 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         db.close();
         return cnt;
     }
+
     public String getGtvTravelDate(String InDate, String type) {
-        Log.i("Todays Date", InDate +" "+type);
+        Log.i("Todays Date", InDate + " " + type);
         String data = "";
         SQLiteDatabase db = getWritableDatabase();
 
-        String sql = "select ActivityDt from GTVTravelActivityData where ActivityDt like '%"+InDate+"%' and ActivityName='"+type+"' limit 1";
+        String sql = "select ActivityDt from GTVTravelActivityData where ActivityDt like '%" + InDate + "%' and ActivityName='" + type + "' limit 1";
         Log.i("Query", sql);
         Cursor cursor = db.rawQuery(sql, null, null);
         if (cursor.moveToNext()) {
@@ -9239,12 +9322,12 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         return data;
     }
 
-    public String getGtvPunchDate(String InDate, String type,String gtvtype) {
-        Log.i("Todays Date", InDate +" "+type);
+    public String getGtvPunchDate(String InDate, String type, String gtvtype) {
+        Log.i("Todays Date", InDate + " " + type);
         String data = "";
         SQLiteDatabase db = getWritableDatabase();
 
-        String sql = "select ActivityDt from GTVTravelActivityData where ActivityDt like '%"+InDate+"%' and ActivityName='"+type+"' and GTVType='"+gtvtype+"' limit 1";
+        String sql = "select ActivityDt from GTVTravelActivityData where ActivityDt like '%" + InDate + "%' and ActivityName='" + type + "' and GTVType='" + gtvtype + "' limit 1";
         Log.i("Query", sql);
         Cursor cursor = db.rawQuery(sql, null, null);
         if (cursor.moveToNext()) {
@@ -9256,5 +9339,41 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         return data;
     }
 
+    public String getFocusVillageLocation(String villageCode) {
+        String data = "";
+        SQLiteDatabase db = getWritableDatabase();
+
+        String sql = "select ifnull(TagCoordinates,'NA')as TagCoordinates from FocusVillageGeoTagDtls where vil_code='" + villageCode + "' limit 1";
+        Log.i("Query", sql);
+        Cursor cursor = db.rawQuery(sql, null, null);
+        if(cursor.getCount()==0) {
+            data = "Focus Village Data Not Found.";
+        }else
+        {
+            if (cursor.moveToNext()) {
+                data = cursor.getString(0);
+            }
+        }
+        db.close();
+        return data;
+    }
+    public String getFocusVillageRadius(String villageCode) {
+        String data = "";
+        SQLiteDatabase db = getWritableDatabase();
+
+        String sql = "select ifnull(AdminRadius,'0')as AdminRadius from FocusVillageGeoTagDtls where vil_code='" + villageCode + "' limit 1";
+        Log.i("Query", sql);
+        Cursor cursor = db.rawQuery(sql, null, null);
+        if(cursor.getCount()==0) {
+            data = "Focus Village Data Not Found.";
+        }else
+        {
+            if (cursor.moveToNext()) {
+                data = cursor.getString(0);
+            }
+        }
+        db.close();
+        return data;
+    }
 
 }

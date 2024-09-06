@@ -1541,6 +1541,7 @@ public class DownloadMasterdata extends AppCompatActivity implements MasterDataD
         try {
             mDatabase.deleledata("mdo_pogsapdata", " ");
             mDatabase.deleledata("FocussedVillageMaster", " ");
+            mDatabase.deleledata("FocusVillageGeoTagDtls", " ");
             Log.i("Pass","2");
             boolean ff = mDatabase.deletetable();
 //mdotag retailer list
@@ -1619,6 +1620,31 @@ public class DownloadMasterdata extends AppCompatActivity implements MasterDataD
                     JSONObject jObject9 = jArray9.getJSONObject(i);
                     f1 = mDatabase.insertFocussedVillageMasterData(jObject9.getString("vil_code").toString(), jObject9.getString("vil_desc").toString(),
                             jObject9.getString("taluka").toString());
+
+                    try{
+                        f1 = mDatabase.insertFocussedVillageTaggedDtls(
+                                jObject9.getString("vil_code"),
+                                jObject9.getString("vil_desc"),
+                                jObject9.getString("taluka"),
+                                jObject9.getString("KACode"),
+                                jObject9.getString("ActivityDt"),
+                                jObject9.getString("VillageCode"),
+                                jObject9.getString("VillageName"),
+                                jObject9.getString("TagCoordinates"),
+                                jObject9.getString("TagAddr"),
+                                jObject9.getString("KARadius"),
+                                jObject9.getString("AdminRadius"),
+                                jObject9.getString("AppVersion"),
+                                jObject9.getString("Remark"),
+                                jObject9.getString("ExtraParam1"),
+                                jObject9.getString("ExtraParam2"),
+                                "0");
+
+
+                    }catch (Exception e)
+                    {
+
+                    }
                 }
                 Log.i("Pass","11");
                 for (int i = 0; i < jArray11.length(); i++) {

@@ -114,6 +114,9 @@ public interface Api {
     @POST(RetroConstants.SUBMIT_MYTRAVELREPORT_TRIGGERED)
     Call<String> submitMyTravelReportTriggeredRemark(@Body JsonObject jsonObject);
 
+    @POST(RetroConstants.SUBMIT_FOCUSVILLAGETAGGING)
+    Call<String> submitFocusVillageData(@Body JsonObject jsonObject);
+
     @POST(RetroConstants.GETVERSIONDETAILS)
     Call<String> getAppVersion(@Query("packageName") String packageName, @Query("userCode") String userCode, @Query("IMEICode") String IMEICode);
 
