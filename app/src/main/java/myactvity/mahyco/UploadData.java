@@ -8,6 +8,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -153,6 +155,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
         radGrp8 = (RadioGroup) findViewById(R.id.radGrp8);
 
         rndmyactvity = (RadioButton) findViewById(R.id.rndmyactvity);
+
         rndfarmer = (RadioButton) findViewById(R.id.rndfarmer);
         rndimages = (RadioButton) findViewById(R.id.rndimages);
         rnd1 = (RadioButton) findViewById(R.id.rnd1);
@@ -245,6 +248,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
 
         //Shelling Day Activity added
         rndShelling = (RadioButton) findViewById(R.id.rndShelling);
+        rndShelling.setTextSize(30);
         rndUtpadan = (RadioButton) findViewById(R.id.rndUtpadan);
         pd = new ProgressDialog(context);
 
@@ -926,7 +930,11 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
     }
     public int  rowcountshelling() {
         try{
+            if(mDatabase.getShellingDays().size()>0)
+                rndShelling.setBackgroundColor(Color.BLUE);
             rndShelling.setText("Shelling Day - "+mDatabase.getShellingDays().size());
+            if(mDatabase.getUtpadanMohatsav().size()>0)
+                rndUtpadan.setBackgroundColor(Color.BLUE);
             rndUtpadan.setText("Utpadan Mohatsav - "+mDatabase.getUtpadanMohatsav().size());
            return  mDatabase.getShellingDays().size()+mDatabase.getUtpadanMohatsav().size();
         }catch (Exception e)
@@ -1774,6 +1782,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count2 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndDistributorVisit.setBackgroundColor(Color.BLUE);
             rndDistributorVisit.setText("DISTRIBUTOR VISIT" + " " + String.valueOf(count2));
 
 
@@ -1783,6 +1793,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count3 = count3 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count3;
+            if(count3>0)
+                rndSamruddhaKisanVist.setBackgroundColor(Color.BLUE);
             rndSamruddhaKisanVist.setText("SAMRUDDHA KISAN VISITS" + " " + String.valueOf(count3));
 
 
@@ -1808,6 +1820,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count4 = count4 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count4;
+            if(count4>0)
+                rndRetailerVisit.setBackgroundColor(Color.BLUE);
             rndRetailerVisit.setText("RETAILER VISIT" + " " + String.valueOf(count4));
 
             int count5 = 0;
@@ -1816,6 +1830,9 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count5 = count5 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count5;
+            if(count5>0)
+                rndFarmerVisit.setBackgroundColor(Color.BLUE);
+
             rndFarmerVisit.setText("FARMER VISITS (GENERAL)" + " " + String.valueOf(count5));
 
             int count6 = 0;
@@ -1824,6 +1841,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count6 = count6 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count6;
+            if(count6>0)
+                rndReviewMeeting.setBackgroundColor(Color.BLUE);
             rndReviewMeeting.setText("REVIEW MEETING" + " " + String.valueOf(count6));
 
 
@@ -1849,6 +1868,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count2 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndPostering.setBackgroundColor(Color.BLUE);
             rndPostering.setText("POSTERING" + " " + String.valueOf(count2));
 
 
@@ -1858,6 +1879,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count3 = count3 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count3;
+            if(count3>0)
+                rndFieldBoard.setBackgroundColor(Color.BLUE);
             rndFieldBoard.setText("FIELD BOARD" + " " + String.valueOf(count3));
 
 
@@ -1868,6 +1891,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count4 = count4 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count4;
+            if(count4>0)
+                rndFieldBanner.setBackgroundColor(Color.BLUE);
             rndFieldBanner.setText("FIELD BANNER" + " " + String.valueOf(count4));
 
             int count5 = 0;
@@ -1876,6 +1901,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count5 = count5 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count5;
+            if(count5>0)
+                rndWallPainting.setBackgroundColor(Color.BLUE);
             rndWallPainting.setText("WALL PAINTING" + " " + String.valueOf(count5));
 
             int count6 = 0;
@@ -1884,6 +1911,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count6 = count6 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count6;
+            if(count6>0)
+                rndTrolleyPainting.setBackgroundColor(Color.BLUE);
             rndTrolleyPainting.setText("TROLLEY PAINTING" + " " + String.valueOf(count6));
 
             int count7 = 0;
@@ -1892,6 +1921,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count7 = count7 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count7;
+            if(count7>0)
+                rndExhibition.setBackgroundColor(Color.BLUE);
             rndExhibition.setText("EXHIBITION" + " " + String.valueOf(count7));
 
             int count8 = 0;
@@ -1900,6 +1931,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count8 = count8 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count8;
+            if(count8>0)
+                rndMarketDay.setBackgroundColor(Color.BLUE);
             rndMarketDay.setText("MARKET DAY ACTIVITIES" + " " + String.valueOf(count8));
 
 
@@ -3216,6 +3249,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count1 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count1;
+            if(count1>0)
+                rndTestimonialCollection.setBackgroundColor(Color.BLUE);
             rndTestimonialCollection.setText("TESTIMONIAL COLLECTION" + " " + String.valueOf(count1));
 
             int count2 = 0;
@@ -3224,6 +3259,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count2 = count2 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndSanmanMela.setBackgroundColor(Color.BLUE);
             rndSanmanMela.setText("SANMAN MELA" + " " + String.valueOf(count2));
 
 
@@ -3233,6 +3270,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count3 = count3 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count3;
+            if(count3>0)
+                rndVillageMeeting.setBackgroundColor(Color.BLUE);
             rndVillageMeeting.setText("VILLAGE MEETING (DAY / NIGHT)" + " " + String.valueOf(count3));
 
             int count4 = 0;
@@ -3241,6 +3280,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count4 = count4 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count4;
+            if(count4>0)
+                rndPromotionThroughEntertainment.setBackgroundColor(Color.BLUE);
             rndPromotionThroughEntertainment.setText("PROMOTION THROUGH ENTERTAINMENT" + " " + String.valueOf(count4));
 
             int count5 = 0;
@@ -3249,6 +3290,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count5 = count5 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count5;
+            if(count5>0)
+                rndCropSeminar.setBackgroundColor(Color.BLUE);
             rndCropSeminar.setText("CROP SEMINAR" + " " + String.valueOf(count5));
 
             int count6 = 0;
@@ -3257,6 +3300,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count6 = count6 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count6;
+            if(count6>0)
+                rndJeepCampaigning.setBackgroundColor(Color.BLUE);
             rndJeepCampaigning.setText("JEEP CAMPAIGNING" + " " + String.valueOf(count6));
 
             int count7 = 0;
@@ -3265,6 +3310,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count7 = count7 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count7;
+            if(count7>0)
+                rndPopDisplay.setBackgroundColor(Color.BLUE);
             rndPopDisplay.setText("POP DISPLAY" + " " + String.valueOf(count7));
 
 
@@ -5613,18 +5660,24 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count = cursor.getCount();
             Log.i("MyActivityCNT",""+count);
+            if(count>0)
+                rndmyactvity.setBackgroundColor(Color.BLUE);
             rndmyactvity.setText("Pending upload my activity data=" + String.valueOf(count));
             totalcount = totalcount + count;
             cursor.close();
             searchQuery = "select  *  from FarmerMaster where Status='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count = cursor.getCount();
+            if(count>0)
+                rndfarmer.setBackgroundColor(Color.BLUE);
             rndfarmer.setText("Pending upload farmer registration data=" + String.valueOf(count));
             cursor.close();
             totalcount = totalcount + count;
             searchQuery = "select  *  from TagData where imgstatus='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count = cursor.getCount();
+            if(count>0)
+                rndimages.setBackgroundColor(Color.BLUE);
             rndimages.setText("Pending Images data=" + String.valueOf(count));
             cursor.close();
             totalcount = totalcount + count;
@@ -5645,6 +5698,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count2 = count2 + cursor.getCount();
             cursor.close();
+            if(count2>0)
+                rnd1.setBackgroundColor(Color.BLUE);
             rnd1.setText("Pending my travel data=" + String.valueOf(count2));
 
             count2 = 0;
@@ -5656,12 +5711,16 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count2 = count2 + cursor.getCount();
             cursor.close();
+            if(count2>0)
+                rnd3.setBackgroundColor(Color.BLUE);
             rnd3.setText("My travel start and end vehicle reading images =" + String.valueOf(count2));
 
 
             searchQuery = "select  *  from mdo_Retaileranddistributordata where Status='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count = cursor.getCount();
+            if(count>0)
+                rnd2.setBackgroundColor(Color.BLUE);
             rnd2.setText("Pending retailer and distributor data=" + String.valueOf(count));
             cursor.close();
 
@@ -5687,6 +5746,10 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count2 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+
+            if(count2>0)
+                rndVisit1.setBackgroundColor(Color.BLUE);
+
             rndVisit1.setText(getResources().getString(R.string.pending_registered_visit_data) + " " + String.valueOf(count2));
 
             searchQuery = "select  *  from DemoReviewData where  isSynced ='0'";
@@ -5694,6 +5757,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count2 = count2 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndVisit1.setBackgroundColor(Color.BLUE);
             rndVisit2.setText(getResources().getString(R.string.pending_updated_visit_data) + " " + String.valueOf(count2));
 
 
@@ -5718,6 +5783,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count2 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndRetailerSurvey.setBackgroundColor(Color.BLUE);
             rndRetailerSurvey.setText(getResources().getString(R.string.retailer_survey) + " " + String.valueOf(count2));
 
             searchQuery = "select  *  from KisanClubData where  isSynced ='0'";
@@ -5725,6 +5792,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count2 = count2 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndKisanClub.setBackgroundColor(Color.BLUE);
             rndKisanClub.setText(getResources().getString(R.string.kisan_club) + " " + String.valueOf(count2));
 
 
@@ -5750,6 +5819,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count2 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndFieldPurchaseList.setBackgroundColor(Color.BLUE);
             rndFieldPurchaseList.setText("PURCHASE LIST" + " " + String.valueOf(count2));
             int count3 = 0;
             searchQuery = "select  *  from DemoModelData where  isSynced ='0'";
@@ -5757,6 +5828,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count3 = count3 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count3;
+            if(count3>0)
+                rndfieldVisit.setBackgroundColor(Color.BLUE);
             rndfieldVisit.setText("FIELD VISIT" + " " + String.valueOf(count3));
             int count4 = 0;
             searchQuery = "select  *  from RetailerVisitToFieldData where  isSynced ='0'";
@@ -5764,6 +5837,9 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count4 = count4 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count4;
+
+            if(count4>0)
+                rndRetailerVisitToField.setBackgroundColor(Color.BLUE);
             rndRetailerVisitToField.setText("RETAILER VISIT TO FIELD" + " " + String.valueOf(count4));
             int count5 = 0;
             searchQuery = "select  *  from CropShowData where  isSynced ='0'";
@@ -5771,6 +5847,9 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count5 = count5 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count5;
+            if(count5>0)
+                rndCropShow.setBackgroundColor(Color.BLUE);
+
             rndCropShow.setText("CROP SHOW" + " " + String.valueOf(count5));
             int count6 = 0;
             searchQuery = "select  *  from HarvestDayData where  isSynced ='0'";
@@ -5778,6 +5857,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count6 = count6 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count6;
+            if(count6>0)
+                rndHarvestDay.setBackgroundColor(Color.BLUE);
             rndHarvestDay.setText("HARVEST DAY" + " " + String.valueOf(count6));
             int count7 = 0;
             searchQuery = "select  *  from FieldDayData where  isSynced ='0'";
@@ -5785,6 +5866,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count7 = count7 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count7;
+            if(count7>0)
+                rndFieldDay.setBackgroundColor(Color.BLUE);
             rndFieldDay.setText("FIELD DAY" + " " + String.valueOf(count7));
 
             int count8 = 0;
@@ -5793,6 +5876,9 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count8 = count8 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count8;
+
+            if(count8>0)
+                rndLivePlantDataVillage.setBackgroundColor(Color.BLUE);
             rndLivePlantDataVillage.setText("LIVE PLANT DATA VILLAGE" + " " + String.valueOf(count8));
 
             int count9 = 0;
@@ -5801,6 +5887,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count9 = count9 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count9;
+            if(count9>0)
+                rndLivePlantDataRetailer.setBackgroundColor(Color.BLUE);
             rndLivePlantDataRetailer.setText("LIVE PLANT DATA RETAILER COUNT" + " " + String.valueOf(count9));
 
 
@@ -5825,6 +5913,9 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count2 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndCoupon.setBackgroundColor(Color.BLUE);
+
             rndCoupon.setText(getResources().getString(R.string.pending_coupon_data) + " " + String.valueOf(count2));
 
 
@@ -5858,6 +5949,9 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count2 = count2 + cursor.getCount();
             cursor.close();
+            if(count2>0)
+                rnd1.setBackgroundColor(Color.BLUE);
+
             rnd1.setText("Pending my travel data=" + String.valueOf(count2));
             totalcount = totalcount + count2;
             count2 = 0;
@@ -5870,10 +5964,14 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             count2 = count2 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rnd3.setBackgroundColor(Color.BLUE);
             rnd3.setText("My travel start and end vehicle reading images =" + String.valueOf(count2));
             searchQuery = "select  *  from mdo_Retaileranddistributordata where Status='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count2 = cursor.getCount();
+            if(count2>0)
+                rnd2.setBackgroundColor(Color.BLUE);
             rnd2.setText("Pending retailer and distributor data=" + String.valueOf(count2));
             cursor.close();
             totalcount = totalcount + count2;
@@ -5881,6 +5979,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             searchQuery = "select * from mdo_demandassesmentsurvey where Status='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count2 = cursor.getCount();
+            if(count2>0)
+                rnd4.setBackgroundColor(Color.BLUE);
             rnd4.setText("Demand  Assessment Survey Data=" + String.valueOf(count2));
             cursor.close();
             totalcount = totalcount + count2;
@@ -5956,7 +6056,8 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             int count = cursor.getCount();
             totalcount = count;
-
+            if(count>0)
+                rndinnovation.setBackgroundColor(Color.BLUE);
             rndinnovation.setText("Pending Innovation Data=" + String.valueOf(count));
             cursor.close();
 
@@ -9348,7 +9449,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
         }
     }
 
-    /*START -------------------------------- Added on 8th Sept 2021*/
+    /* START -------------------------------- Added on 8th Sept 2021 */
     private class UploadDataServerInnovation extends AsyncTask<String, String, String> {
         byte[] objAsBytes;
         String Imagestring1;

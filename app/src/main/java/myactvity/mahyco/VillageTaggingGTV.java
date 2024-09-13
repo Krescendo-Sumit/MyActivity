@@ -474,7 +474,7 @@ public class VillageTaggingGTV extends AppCompatActivity implements GoogleApiCli
                 String searchQuery = "";
                 List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
                 Cursor cursor;
-                searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster order by vil_desc asc  ";
+                searchQuery = "SELECT distinct vil_desc,vil_code  FROM FocussedVillageMaster v where ((select TagCoordinates from FocusVillageGeoTagDtls where vil_code=v.vil_code)='null') order by vil_desc asc  ";
                 Croplist.add(new GeneralMaster("SELECT FOCUSED VILLAGE",
                         "SELECT FOCUSED VILLAGE"));
 

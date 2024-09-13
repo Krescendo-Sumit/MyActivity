@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -921,7 +922,12 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
 
     public int rowcountshelling() {
         try {
+            if(mDatabase.getShellingDays().size()>0)
+                rndShelling.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndShelling.setText("Shelling Day - " + mDatabase.getShellingDays().size());
+            if(mDatabase.getUtpadanMohatsav().size()>0)
+                rndUtpadan.setBackgroundColor(Color.parseColor("#bc76a665"));
             rndUtpadan.setText("Utpadan Mohatsav - " + mDatabase.getUtpadanMohatsav().size());
             return mDatabase.getShellingDays().size() + mDatabase.getUtpadanMohatsav().size();
         } catch (Exception e) {
@@ -1907,6 +1913,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count2 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndDistributorVisit.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndDistributorVisit.setText("DISTRIBUTOR VISIT" + " " + String.valueOf(count2));
 
 
@@ -1916,6 +1925,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count3 = count3 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count3;
+            if(count3>0)
+                rndSamruddhaKisanVist.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndSamruddhaKisanVist.setText("SAMRUDDHA KISAN VISITS" + " " + String.valueOf(count3));
 
 
@@ -1941,6 +1953,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count4 = count4 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count4;
+            if(count4>0)
+                rndRetailerVisit.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndRetailerVisit.setText("RETAILER VISIT" + " " + String.valueOf(count4));
 
             int count5 = 0;
@@ -1949,6 +1964,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count5 = count5 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count5;
+            if(count5>0)
+                rndFarmerVisit.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndFarmerVisit.setText("FARMER VISITS (GENERAL)" + " " + String.valueOf(count5));
 
             int count6 = 0;
@@ -1957,6 +1975,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count6 = count6 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count6;
+            if(count6>0)
+                rndReviewMeeting.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndReviewMeeting.setText("REVIEW MEETING" + " " + String.valueOf(count6));
 
 
@@ -1982,6 +2003,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count2 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndPostering.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndPostering.setText("POSTERING" + " " + String.valueOf(count2));
 
 
@@ -1991,6 +2015,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count3 = count3 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count3;
+            if(count3>0)
+                rndFieldBoard.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndFieldBoard.setText("FIELD BOARD" + " " + String.valueOf(count3));
 
 
@@ -2001,6 +2028,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count4 = count4 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count4;
+            if(count4>0)
+                rndFieldBanner.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndFieldBanner.setText("FIELD BANNER" + " " + String.valueOf(count4));
 
             int count5 = 0;
@@ -2009,6 +2039,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count5 = count5 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count5;
+            if(count5>0)
+                rndWallPainting.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndWallPainting.setText("WALL PAINTING" + " " + String.valueOf(count5));
 
             int count6 = 0;
@@ -2017,6 +2050,10 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count6 = count6 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count6;
+
+            if(count6>0)
+                rndTrolleyPainting.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndTrolleyPainting.setText("TROLLEY PAINTING" + " " + String.valueOf(count6));
 
             int count7 = 0;
@@ -2025,6 +2062,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count7 = count7 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count7;
+            if(count7>0)
+                rndExhibition.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndExhibition.setText("EXHIBITION" + " " + String.valueOf(count7));
 
             int count8 = 0;
@@ -2033,6 +2073,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count8 = count8 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count8;
+            if(count8>0)
+                rndMarketDay.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndMarketDay.setText("MARKET DAY ACTIVITIES" + " " + String.valueOf(count8));
 
 
@@ -3438,6 +3481,10 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count1 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count1;
+
+            if(count1>0)
+                rndTestimonialCollection.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndTestimonialCollection.setText("TESTIMONIAL COLLECTION" + " " + String.valueOf(count1));
 
             int count2 = 0;
@@ -3446,6 +3493,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count2 = count2 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndSanmanMela.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndSanmanMela.setText("SANMAN MELA" + " " + String.valueOf(count2));
 
 
@@ -3455,6 +3505,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count3 = count3 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count3;
+            if(count3>0)
+                rndVillageMeeting.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndVillageMeeting.setText("VILLAGE MEETING (DAY / NIGHT)" + " " + String.valueOf(count3));
 
             int count4 = 0;
@@ -3463,6 +3516,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count4 = count4 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count4;
+            if(count4>0)
+                rndPromotionThroughEntertainment.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndPromotionThroughEntertainment.setText("PROMOTION THROUGH ENTERTAINMENT" + " " + String.valueOf(count4));
 
             int count5 = 0;
@@ -3471,6 +3527,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count5 = count5 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count5;
+            if(count5>0)
+                rndCropSeminar.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndCropSeminar.setText("CROP SEMINAR" + " " + String.valueOf(count5));
 
             int count6 = 0;
@@ -3479,6 +3538,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count6 = count6 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count6;
+            if(count6>0)
+                rndJeepCampaigning.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndJeepCampaigning.setText("JEEP CAMPAIGNING" + " " + String.valueOf(count6));
 
             int count7 = 0;
@@ -3487,6 +3549,10 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count7 = count7 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count7;
+
+            if(count7>0)
+                rndPopDisplay.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndPopDisplay.setText("POP DISPLAY" + " " + String.valueOf(count7));
 
 
@@ -5838,18 +5904,26 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             String searchQuery = "select  *  from TagData where Status='0'";
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count = cursor.getCount();
+            if(count>0)
+                rndmyactvity.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndmyactvity.setText("Pending upload my activity data=" + String.valueOf(count));
             totalcount = totalcount + count;
             cursor.close();
             searchQuery = "select  *  from FarmerMaster where Status='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count = cursor.getCount();
+            if(count>0)
+                rndfarmer.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndfarmer.setText("Pending upload farmer registration data=" + String.valueOf(count));
             cursor.close();
             totalcount = totalcount + count;
             searchQuery = "select  *  from TagData where imgstatus='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count = cursor.getCount();
+            if(count>0)
+                rndimages.setBackgroundColor(Color.parseColor("#bc76a665"));
             rndimages.setText("Pending Images data=" + String.valueOf(count));
             cursor.close();
             totalcount = totalcount + count;
@@ -5870,6 +5944,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count2 = count2 + cursor.getCount();
             cursor.close();
+            if(count2>0)
+                rnd1.setBackgroundColor(Color.parseColor("#bc76a665"));
             rnd1.setText("Pending my travel data=" + String.valueOf(count2));
 
             count2 = 0;
@@ -5881,12 +5957,17 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count2 = count2 + cursor.getCount();
             cursor.close();
+            if(count2>0)
+                rnd3.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rnd3.setText("My travel start and end vehicle reading images =" + String.valueOf(count2));
 
 
             searchQuery = "select  *  from mdo_Retaileranddistributordata where Status='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count = cursor.getCount();
+            if(count>0)
+                rnd2.setBackgroundColor(Color.parseColor("#bc76a665"));
             rnd2.setText("Pending retailer and distributor data=" + String.valueOf(count));
             cursor.close();
 
@@ -5912,6 +5993,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count2 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndVisit1.setBackgroundColor(Color.parseColor("#bc76a665"));
             rndVisit1.setText(getResources().getString(R.string.pending_registered_visit_data) + " " + String.valueOf(count2));
 
             searchQuery = "select  *  from DemoReviewData where  isSynced ='0'";
@@ -5919,6 +6002,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count2 = count2 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndVisit2.setBackgroundColor(Color.parseColor("#bc76a665"));
             rndVisit2.setText(getResources().getString(R.string.pending_updated_visit_data) + " " + String.valueOf(count2));
 
 
@@ -5943,6 +6028,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count2 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndRetailerSurvey.setBackgroundColor(Color.parseColor("#bc76a665"));
             rndRetailerSurvey.setText(getResources().getString(R.string.retailer_survey) + " " + String.valueOf(count2));
 
             searchQuery = "select  *  from KisanClubData where  isSynced ='0'";
@@ -5950,6 +6037,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count2 = count2 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndKisanClub.setBackgroundColor(Color.parseColor("#bc76a665"));
             rndKisanClub.setText(getResources().getString(R.string.kisan_club) + " " + String.valueOf(count2));
 
 
@@ -5975,6 +6064,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count2 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndFieldPurchaseList.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndFieldPurchaseList.setText("PURCHASE LIST" + " " + String.valueOf(count2));
             int count3 = 0;
             searchQuery = "select  *  from DemoModelData where  isSynced ='0'";
@@ -5982,6 +6074,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count3 = count3 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count3;
+            if(count3>0)
+                rndfieldVisit.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndfieldVisit.setText("FIELD VISIT" + " " + String.valueOf(count3));
             int count4 = 0;
             searchQuery = "select  *  from RetailerVisitToFieldData where  isSynced ='0'";
@@ -5989,6 +6084,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count4 = count4 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count4;
+            if(count4>0)
+                rndRetailerVisitToField.setBackgroundColor(Color.parseColor("#bc76a665"));
             rndRetailerVisitToField.setText("RETAILER VISIT TO FIELD" + " " + String.valueOf(count4));
             int count5 = 0;
             searchQuery = "select  *  from CropShowData where  isSynced ='0'";
@@ -5996,6 +6093,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count5 = count5 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count5;
+            if(count5>0)
+                rndCropShow.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndCropShow.setText("CROP SHOW" + " " + String.valueOf(count5));
             int count6 = 0;
             searchQuery = "select  *  from HarvestDayData where  isSynced ='0'";
@@ -6003,6 +6103,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count6 = count6 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count6;
+
+            if(count6>0)
+                rndHarvestDay.setBackgroundColor(Color.parseColor("#bc76a665"));
             rndHarvestDay.setText("HARVEST DAY" + " " + String.valueOf(count6));
             int count7 = 0;
             searchQuery = "select  *  from FieldDayData where  isSynced ='0'";
@@ -6010,6 +6113,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count7 = count7 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count7;
+
+            if(count7>0)
+                rndFieldDay.setBackgroundColor(Color.parseColor("#bc76a665"));
             rndFieldDay.setText("FIELD DAY" + " " + String.valueOf(count7));
 
             int count8 = 0;
@@ -6018,6 +6124,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count8 = count8 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count8;
+
+            if(count8>0)
+                rndLivePlantDataVillage.setBackgroundColor(Color.parseColor("#bc76a665"));
             rndLivePlantDataVillage.setText("LIVE PLANT DATA VILLAGE" + " " + String.valueOf(count8));
 
             int count9 = 0;
@@ -6026,6 +6135,9 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count9 = count9 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count9;
+            if(count9>0)
+                rndLivePlantDataRetailer.setBackgroundColor(Color.parseColor("#bc76a665"));
+
             rndLivePlantDataRetailer.setText("LIVE PLANT DATA RETAILER COUNT" + " " + String.valueOf(count9));
 
 
@@ -6050,6 +6162,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count2 = cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rndCoupon.setBackgroundColor(Color.parseColor("#bc76a665"));
             rndCoupon.setText(getResources().getString(R.string.pending_coupon_data) + " " + String.valueOf(count2));
 
 
@@ -6083,6 +6197,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count2 = count2 + cursor.getCount();
             cursor.close();
+            if(count2>0)
+                rnd1.setBackgroundColor(Color.parseColor("#bc76a665"));
             rnd1.setText("Pending my travel data=" + String.valueOf(count2));
             totalcount = totalcount + count2;
             count2 = 0;
@@ -6095,10 +6211,14 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             count2 = count2 + cursor.getCount();
             cursor.close();
             totalcount = totalcount + count2;
+            if(count2>0)
+                rnd3.setBackgroundColor(Color.parseColor("#bc76a665"));
             rnd3.setText("My travel start and end vehicle reading images =" + String.valueOf(count2));
             searchQuery = "select  *  from mdo_Retaileranddistributordata where Status='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count2 = cursor.getCount();
+            if(count2>0)
+                rnd2.setBackgroundColor(Color.parseColor("#bc76a665"));
             rnd2.setText("Pending retailer and distributor data=" + String.valueOf(count2));
             cursor.close();
             totalcount = totalcount + count2;
@@ -6106,6 +6226,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             searchQuery = "select * from mdo_demandassesmentsurvey where Status='0'";
             cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             count2 = cursor.getCount();
+            if(count2>0)
+                rnd4.setBackgroundColor(Color.parseColor("#bc76a665"));
             rnd4.setText("Demand  Assessment Survey Data=" + String.valueOf(count2));
             cursor.close();
             totalcount = totalcount + count2;
@@ -6181,6 +6303,8 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
             int count = cursor.getCount();
             totalcount = count;
+            if(count>0)
+                rndinnovation.setBackgroundColor(Color.parseColor("#bc76a665"));
 
             rndinnovation.setText("Pending Innovation Data=" + String.valueOf(count));
             cursor.close();

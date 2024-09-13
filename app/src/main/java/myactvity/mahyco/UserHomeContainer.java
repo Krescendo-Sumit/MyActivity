@@ -119,7 +119,8 @@ public  class UserHomeContainer  extends Fragment {
             }
            //New change for Temp user login
             else {
-                if (pref.getString("unit", null).contains("VCBU"))
+               // if (pref.getString("unit", null).contains("VCBU"))
+                if (false) // we disable VCBU checking to redirect both user to access RCBU Screens for GTV.
                 {
                     if (pref.getString("RoleID", null).contains("0")) // MDO Role Id
                     {
