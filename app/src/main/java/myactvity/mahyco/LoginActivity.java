@@ -90,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
     public AutoCompleteTextView email;
     ProgressDialog dialog;
     public String SERVER = "https://farm.mahyco.com/TestHandler.ashx";
-    public String SERVER2 = "http://10.80.50.153/maatest/FormerApp.asmx";
+    public String SERVER2 = "https://cmr.mahyco.com/FormerApp.asmx";
     public String  langcode="";
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -591,7 +591,7 @@ public class LoginActivity extends AppCompatActivity {
                 postParameters.add(new BasicNameValuePair("username", username));
                 postParameters.add(new BasicNameValuePair("password", password));
             }
-            return HttpUtils.POST("https://maapackhousenxg.mahyco.com/token",postParameters);
+            return HttpUtils.POST("https://packhouse.mahyco.com/token",postParameters);
         }
 
 
@@ -637,7 +637,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 //Get the Response for the request
-                return HttpUtils.POSTJSON("https://maapackhousenxg.mahyco.com/api/Login",jsonParam,mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
+                return HttpUtils.POSTJSON("https://packhouse.mahyco.com/api/Login",jsonParam,mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
 
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -680,7 +680,7 @@ public class LoginActivity extends AppCompatActivity {
             postParameters.add(new BasicNameValuePair("xmlString",usercode));
             postParameters.add(new BasicNameValuePair("usercode",usercode));
             //String Urlpath1= Urlpath+"?appname="+appname+"";
-            String Urlpath1= "asdsa"+cx.MDOurlpath+"?appname="+appname+"&token="+token+"&imei="+imei;
+            String Urlpath1= cx.MDOurlpath+"?appname="+appname+"&token="+token+"&imei="+imei;
             Log.i("AppVersionUrl",Urlpath1);
             HttpPost httppost = new HttpPost(Urlpath1);
             httppost.addHeader("Content-type", "application/x-www-form-urlencoded");

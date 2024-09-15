@@ -33,7 +33,7 @@ public interface Api {
 
 
     @FormUrlEncoded
-    @POST("http://10.80.50.153/maatest/MDOHandler.ashx?appName=Myactivity")
+    @POST("https://cmr.mahyco.com/MDOHandler.ashx?appName=Myactivity")
     Call<String> syncTraveldata(@Field("Type") String mdo_travelData, @Field("encodedData") String objAsBytes, @Field("input1") String imagestring1, @Field("input2") String imagestring2);
 
     @POST(RetroConstants.UplaodShellingDay)

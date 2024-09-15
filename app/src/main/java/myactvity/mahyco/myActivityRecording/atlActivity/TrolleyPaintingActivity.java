@@ -109,8 +109,8 @@ public class TrolleyPaintingActivity extends AppCompatActivity {
     LinearLayout llOtherVillages, llFocussedVillages;
     RecyclerView recDemoList;
     LinearLayoutManager layoutManager;
-  //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/trolleyPaintingData";
+  //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/atl/trolleyPaintingData";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;

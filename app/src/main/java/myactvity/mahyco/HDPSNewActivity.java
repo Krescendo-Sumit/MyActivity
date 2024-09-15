@@ -139,7 +139,7 @@ public class HDPSNewActivity extends AppCompatActivity implements
 
     public static final String PAYMENT_URL = "https://api.razorpay.com/v1/payment_links/";
     //public static final String CALLBACK_URL = "https://wap.mahyco.com/TransactionHtmlpage.html"; /*OLD*/
-    public static final String CALLBACK_URL = "https://maapackhousenxg.mahyco.com/TransactionHtmlpage.html"; /*New*/
+    public static final String CALLBACK_URL = "https://packhouse.mahyco.com/TransactionHtmlpage.html"; /*New*/
 
     ProgressDialog pd;
     public TextView txtQty, toolbar_title, txtAmountDeclaration, txtCouponDeclaration;

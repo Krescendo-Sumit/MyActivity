@@ -151,8 +151,8 @@ public class RetailerToVisitActivity extends AppCompatActivity implements Google
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
 
-   // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/retailerVisitToField";
+   // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/postSeason/retailerVisitToField";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;

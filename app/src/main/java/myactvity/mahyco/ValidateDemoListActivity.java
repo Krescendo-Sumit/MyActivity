@@ -64,7 +64,7 @@ public class ValidateDemoListActivity extends AppCompatActivity {
     TextView lblheader;
     SharedPreferences locdata, pref;
     ProgressDialog dialog, progressDailog;
-    String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
     SharedPreferences.Editor loceditor, editor;
     ArrayList<DemoModelPlotListModel> mList = new ArrayList<>();
     String selectedCrop;

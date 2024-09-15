@@ -161,7 +161,7 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
             etOtherCompany1,etSuggestion, etNotAttend,etWhatup,txtOtherMCotton,txtOtherFieldCrop;
 
 
-    //  String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/sanmanMela";
+    //  String SERVER = "https://packhouse.mahyco.com/api/preseason/sanmanMela";
     String userCode;
     Config config;
     LinearLayout linearretailertot, llFocussedVillages, Linearlocation, LinearLayout02;
@@ -1824,7 +1824,7 @@ this.action=action;
     private String searchAPIData(String function, JSONObject obj) {
 
         String str = etSearchText.getText().toString().replaceAll(" ","%20");
-        String uri = String.format(Locale.ENGLISH, "https://maapackhousenxg.mahyco.com/api/generalactivity/getVOFPData?filter=%s",str );
+        String uri = String.format(Locale.ENGLISH, "https://packhouse.mahyco.com/api/generalactivity/getVOFPData?filter=%s",str );
         Uri searchUri = Uri.parse(uri);
         return HttpUtils.POSTInQuery(searchUri.toString(),mPref.getString(AppConstant.ACCESS_TOKEN_TAG,""));
     }

@@ -119,8 +119,8 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
     ProgressBar progressBar;
     private Handler handler = new Handler();
     Dialog dialog;
-    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/testimonial";
+    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/preseason/testimonial";
     private final static HttpClient mHhttpclient = new DefaultHttpClient();
     Prefs mPref;
     RadioGroup radGroupActivity;

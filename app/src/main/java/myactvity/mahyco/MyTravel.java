@@ -115,6 +115,7 @@ import myactvity.mahyco.myActivityRecording.preSeasonActivity.SanmanMelaActivity
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.TestimonialCollectionActivity;
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.VillageMeetingActivity;
 import myactvity.mahyco.newupload.UploadDataNew;
+import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
 import myactvity.mahyco.travelreport.GTVTravelAPI;
 
 import static android.content.ContentValues.TAG;
@@ -466,8 +467,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     }
 
     boolean isBothGTVVillageSame() {
-
-        try {
+          // this is code is commented because as per Simran told that Shankar sir told me , don't give this validation.
+        /*try {
             GeneralMaster gm1 = (GeneralMaster) sp_villagegtv1.getSelectedItem();
             GeneralMaster gm2 = (GeneralMaster) sp_villagegtv2.getSelectedItem();
             if (gm1.Code().trim().equals(gm2.Code().trim())) {
@@ -480,7 +481,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             ex.printStackTrace();
 
         }
-
+*/
         return false;
     }
 
@@ -505,8 +506,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 isGtv2ActiveTimeSlot = false;
             }
             // Make both value to be true to activate both GTV start on any time in day
-            isGtv1ActiveTimeSlot = true;
-            isGtv2ActiveTimeSlot = true;
+      /*      isGtv1ActiveTimeSlot = true;
+            isGtv2ActiveTimeSlot = true;*/
         } catch (NumberFormatException e) {
 
         }
@@ -1297,7 +1298,11 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btn_sync.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    uploadGtvMaster();
+                    /*uploadGtvMaster();*/
+
+                    Intent intent = new Intent(context, ActivityTravelReportGTV.class);
+                    startActivity(intent);
+
                 }
             });
 

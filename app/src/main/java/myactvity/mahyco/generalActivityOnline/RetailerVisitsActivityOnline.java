@@ -128,8 +128,8 @@ public class RetailerVisitsActivityOnline extends AppCompatActivity implements G
     int REQUEST_CHECK_SETTINGS = 101;
     double lati;
     double longi;
-    //   String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/generalactivity/retailervisit";
+    //   String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/generalactivity/retailervisit";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;

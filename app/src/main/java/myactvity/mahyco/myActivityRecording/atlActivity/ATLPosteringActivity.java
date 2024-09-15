@@ -166,8 +166,8 @@ public class ATLPosteringActivity extends AppCompatActivity implements GoogleApi
     int calllisner;
     int checkdetailentrydaved=0;
 
-    //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/posteringData";
+    //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/atl/posteringData";
     Prefs mPref;
 
     @Override

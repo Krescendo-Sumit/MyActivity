@@ -94,7 +94,7 @@ public class salesreturnorderlist extends AppCompatActivity {
         config = new Config(this); //Here the context is passing
         SERVER =cx.MDOurlpath;
         SERVERsaleorder=cx.saleSERVER;
-        testurl ="http://10.80.50.153/maatest/IPM.ashx"; //cx.saleSERVER;
+        testurl ="https://cmr.mahyco.com/IPM.ashx"; //cx.saleSERVER;
         // get the listview
         expListView = (ExpandableListView) findViewById(R.id.lvExp);
         liorderlist= (LinearLayout) findViewById(R.id.liorderlist);

@@ -151,8 +151,8 @@ public class VillageTaggingGTV extends AppCompatActivity implements GoogleApiCli
     double longi;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
-    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/livePlantDisplayVillageData";
+    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/postSeason/livePlantDisplayVillageData";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -834,7 +834,7 @@ public class VillageTaggingGTV extends AppCompatActivity implements GoogleApiCli
                     if (progressDialog.isShowing())
                         progressDialog.dismiss();
 
-                    Toast.makeText(VillageTaggingGTV.this, "" + response.body(), Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(VillageTaggingGTV.this, "" + response.body(), Toast.LENGTH_SHORT).show();
                     if (response.body() != null) {
                         try {
                             JSONObject object = new JSONObject(response.body().toString());

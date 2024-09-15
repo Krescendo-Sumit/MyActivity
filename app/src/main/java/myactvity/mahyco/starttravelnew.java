@@ -1281,7 +1281,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             }
 
 
-            if(vehicletype.equals("2")||vehicletype.equals("3")) // Only for company vehicle code validation
+            if(vehicletype.equals("1")||vehicletype.equals("2")||vehicletype.equals("3")) // Only for company vehicle code validation
             {
                 if (ivImage.getDrawable() == null) {
                     msclass.showMessage("Please upload vehicle reading photo(km)");

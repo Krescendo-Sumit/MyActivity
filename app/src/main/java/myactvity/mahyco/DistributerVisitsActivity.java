@@ -120,8 +120,8 @@ public class DistributerVisitsActivity extends AppCompatActivity implements Goog
     int REQUEST_CHECK_SETTINGS = 101;
     double lati;
     double longi;
-   // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/generalactivity/distributorvisit";
+   // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/generalactivity/distributorvisit";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;

@@ -82,7 +82,7 @@ public class ReviewMeetingActivity extends AppCompatActivity implements GoogleAp
     boolean GpsEnabled;
     double lati;
     double longi;
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/generalactivity/reviewMeeting";
+    String SERVER = "https://packhouse.mahyco.com/api/generalactivity/reviewMeeting";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;

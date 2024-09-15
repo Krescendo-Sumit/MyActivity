@@ -111,7 +111,7 @@ public class ShowMapRouteActivity extends AppCompatActivity {
                     else
                         Toast.makeText(ShowMapRouteActivity.this, "No Response", Toast.LENGTH_SHORT).show();
 
-                    webView.loadUrl("https://mahyco-datalens.azurewebsites.net/#/auth/ka-mobile-activity-map");
+                    webView.loadUrl("https://qadatalens.mahyco.com/#/auth/ka-mobile-activity-map");
                 }
 
                 @Override

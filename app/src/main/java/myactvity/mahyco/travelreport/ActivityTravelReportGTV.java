@@ -127,8 +127,6 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
         Date entrydate = new Date();
         InTime = new SimpleDateFormat("yyyy-MM-dd").format(entrydate);
         //  final String InTime = "2024-08-13";
-
-
         txtScreenTitle.setText("Summary Report - " + new SimpleDateFormat("dd-MM-yyyy").format(entrydate));
 
         SharedPreferences sp = context.getSharedPreferences("MyPref", 0);

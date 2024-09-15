@@ -72,7 +72,7 @@ public class couponpaymentHDPS extends AppCompatActivity implements SwipeRefresh
      * Created by Admin on 04-05-2015.
      */
     SharedPreferences locdata;
-    //public String SERVER = "http://10.80.50.153/maatest/farmmechHandler.ashx";
+    //public String SERVER = "https://cmr.mahyco.com/farmmechHandler.ashx";
     public Messageclass msclass;
 
     static ImageView expandedImageView;
