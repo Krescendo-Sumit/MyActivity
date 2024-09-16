@@ -160,7 +160,7 @@ public class ProjectorMeetingActivity extends AppCompatActivity implements Googl
 
     // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
     String SERVER = "https://packhouse.mahyco.com/api/generalactivity/createProjectorMeeting";
-    String BASE="maapackhousenxg.mahyco.com";
+    String BASE="packhouse.mahyco.com";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;

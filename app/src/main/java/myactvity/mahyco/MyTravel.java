@@ -314,7 +314,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
 
                         try {
-                            if (!isTourStareted())
+                            if (isTourStareted())
                                 return;
                             mPref.save(AppConstant.GTVSELECTEDBUTTON, "End Travel");
 
@@ -467,7 +467,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     }
 
     boolean isBothGTVVillageSame() {
-          // this is code is commented because as per Simran told that Shankar sir told me , don't give this validation.
+        // this is code is commented because as per Simran told that Shankar sir told me , don't give this validation.
         /*try {
             GeneralMaster gm1 = (GeneralMaster) sp_villagegtv1.getSelectedItem();
             GeneralMaster gm2 = (GeneralMaster) sp_villagegtv2.getSelectedItem();
@@ -491,7 +491,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             String str = sdf.format(new Date());
             String dt[] = str.split(":");
             int hr = Integer.parseInt(dt[0].trim());
-          //  int hr = 15;
+            //  int hr = 15;
             int min = 0;
             int sec = 0;
             // checking GTV 1 Slot
@@ -881,6 +881,9 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchInGTV1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (isTourStareted()) {
+                        return;
+                    }
                     if (selectedGTV1Village.trim().equals("") || selectedGTV1Village.toLowerCase().contains("select")) {
                         Toast.makeText(context, "Please select focus village.", Toast.LENGTH_SHORT).show();
                         return;
@@ -889,7 +892,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     double distance = 0;
                     String villageCordinates = mDatabase.getFocusVillageLocation(selectedGTV1VillageCode);
                     int st = 0;
-                 //   Toast.makeText(context, "" + villageCordinates, Toast.LENGTH_SHORT).show();
+                    //   Toast.makeText(context, "" + villageCordinates, Toast.LENGTH_SHORT).show();
                     Log.i("Distance ", villageCordinates + " to " + cordinates + " " + distance + " meter");
                     if (villageCordinates == null || villageCordinates.contains("Data Not Found")) {
                         showPopupMessage("Please check master data downloaded.");
@@ -916,9 +919,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     if (st == 0) {
                         if (!isBothGTVVillageSame()) {
                             if (isGtv1ActiveTimeSlot) {
-                                if (!isTourStareted()) {
-                                    return;
-                                }
+
 
                                 if (selectedGTV1Village.trim().equals("") || selectedGTV1Village.toLowerCase().contains("select")) {
                                     Toast.makeText(context, "Please select focus village.", Toast.LENGTH_SHORT).show();
@@ -1022,6 +1023,9 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivityGtv1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (isTourStareted()) {
+                        return;
+                    }
                     // Toast.makeText(context, "GTV1 Activity", Toast.LENGTH_SHORT).show();
                     int rad = 0;
                     updateLocation();
@@ -1092,6 +1096,9 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchInGTV2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (isTourStareted()) {
+                        return;
+                    }
                     if (selectedGTV2Village.trim().equals("") || selectedGTV2Village.toLowerCase().contains("select")) {
                         Toast.makeText(context, "Please select focus village.", Toast.LENGTH_SHORT).show();
                         return;
@@ -1100,7 +1107,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     double distance = 0;
                     String villageCordinates = mDatabase.getFocusVillageLocation(selectedGTV2VillageCode);
                     int st = 0;
-                   // Toast.makeText(context, "" + villageCordinates, Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(context, "" + villageCordinates, Toast.LENGTH_SHORT).show();
                     if (villageCordinates == null || villageCordinates.contains("Data Not Found")) {
                         showPopupMessage("Please check master data downloaded.");
                         st = 1;
@@ -1111,7 +1118,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                         if (villageCordinates.trim().contains("-")) {
 
                             distance = CommonUtil.getDistance(villageCordinates, cordinates);
-                           // showPopupMessage(villageCordinates + " to " + cordinates + " " + distance + " meter");
+                            // showPopupMessage(villageCordinates + " to " + cordinates + " " + distance + " meter");
                             Log.i("Distance ", villageCordinates + " to " + cordinates + " " + distance + " meter");
                             if (distance >= 0 && distance <= 3000) {
                                 st = 0;
@@ -1130,7 +1137,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                         if (!isBothGTVVillageSame()) {
                             if (isGtv2ActiveTimeSlot) {
 
-                                if (!isTourStareted()) {
+                                if (isTourStareted()) {
                                     return;
                                 }
                                 if (selectedGTV2Village.trim().equals("") || selectedGTV2Village.toLowerCase().contains("select")) {
@@ -1231,7 +1238,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     mLastClickTime = SystemClock.elapsedRealtime();
                     Prefs prefs = Prefs.with(context);
                     String punchInCordinates = prefs.getString(AppConstant.GTVPunchIdCoordinates, "");
-                    String radius = mDatabase.getFocusVillageRadius(selectedGTV1VillageCode);
+                    String radius = mDatabase.getFocusVillageRadius(selectedGTV2VillageCode);
                     try {
                         rad = Integer.parseInt(radius) * 1000;
                     } catch (Exception e) {
