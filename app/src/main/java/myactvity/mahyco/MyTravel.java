@@ -179,6 +179,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     private FusedLocationProviderClient fusedLocationClient;
     Dialog dialog_activity_list;
     List<ActivityModel> activityModels;
+    int gtv1SpentHrs = 0;
+    int gtv2SpentHrs = 0;
 
     // ScrollView container;
     @Override
@@ -314,8 +316,9 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
 
                         try {
-                            if (isTourStareted())
+                            if (!isTourStareted())
                                 return;
+
                             mPref.save(AppConstant.GTVSELECTEDBUTTON, "End Travel");
 
                             int count = mDatabase.getUploadCount();
@@ -881,7 +884,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchInGTV1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (isTourStareted()) {
+                    if (!isTourStareted()) {
                         return;
                     }
                     if (selectedGTV1Village.trim().equals("") || selectedGTV1Village.toLowerCase().contains("select")) {
@@ -1023,7 +1026,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivityGtv1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (isTourStareted()) {
+                    if (!isTourStareted()) {
                         return;
                     }
                     // Toast.makeText(context, "GTV1 Activity", Toast.LENGTH_SHORT).show();
@@ -1031,7 +1034,9 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     updateLocation();
                     Prefs prefs = Prefs.with(context);
                     String punchInCordinates = prefs.getString(AppConstant.GTVPunchIdCoordinates, "");
-                    String radius = mDatabase.getFocusVillageRadius(selectedGTV1VillageCode);
+                    String vname1 = mPref.getString(AppConstant.GTVSelectedVillage1, "");
+                    String vcode1 = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
+                    String radius = mDatabase.getFocusVillageRadius(vcode1);
                     try {
                         rad = Integer.parseInt(radius) * 1000;
                     } catch (Exception e) {
@@ -1052,6 +1057,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 @Override
                 public void onClick(View view) {
                     updateLocation();
+                    mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
                         return;
                     }
@@ -1069,11 +1075,12 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     dialogInterface.dismiss();
 
-                                    if (isGTV2TimeComplete()) {
+                                    if (isGTV1TimeComplete()) {
+
                                         punchOutGTV1();
                                     } else {
                                         new AlertDialog.Builder(context)
-                                                .setMessage("You've worked " + gtv1Time + " in village, Punching out before 3 hrs. will impact GTV attendance . Do you still want to Punch-out?")
+                                                .setMessage("You've worked " + gtv1Time + " hrs in village, Punching out before 3 hrs. will impact GTV attendance . Do you still want to Punch-out?")
                                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -1096,7 +1103,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchInGTV2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (isTourStareted()) {
+                    if (!isTourStareted()) {
                         return;
                     }
                     if (selectedGTV2Village.trim().equals("") || selectedGTV2Village.toLowerCase().contains("select")) {
@@ -1137,9 +1144,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                         if (!isBothGTVVillageSame()) {
                             if (isGtv2ActiveTimeSlot) {
 
-                                if (isTourStareted()) {
-                                    return;
-                                }
+
                                 if (selectedGTV2Village.trim().equals("") || selectedGTV2Village.toLowerCase().contains("select")) {
                                     Toast.makeText(context, "Please select focus village.", Toast.LENGTH_SHORT).show();
                                     return;
@@ -1238,7 +1243,9 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     mLastClickTime = SystemClock.elapsedRealtime();
                     Prefs prefs = Prefs.with(context);
                     String punchInCordinates = prefs.getString(AppConstant.GTVPunchIdCoordinates, "");
-                    String radius = mDatabase.getFocusVillageRadius(selectedGTV2VillageCode);
+                    String vname1 = mPref.getString(AppConstant.GTVSelectedVillage2, "");
+                    String vcode1 = mPref.getString(AppConstant.GTVSelectedVillageCode2, "");
+                    String radius = mDatabase.getFocusVillageRadius(vcode1);
                     try {
                         rad = Integer.parseInt(radius) * 1000;
                     } catch (Exception e) {
@@ -1260,6 +1267,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 @Override
                 public void onClick(View view) {
                     updateLocation();
+                    mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
                         return;
                     }
@@ -1278,13 +1286,15 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     dialogInterface.dismiss();
                                     if (isGTV2TimeComplete()) {
+
                                         punchOutGTV2();
                                     } else {
                                         new AlertDialog.Builder(context)
-                                                .setMessage("You've worked " + gtv2Time + " in village, Punching out before 3 hrs. will impact GTV attendance . Do you still want to Punch-out?")
+                                                .setMessage("You've worked " + gtv2Time + " hrs in village, Punching out before 3 hrs. will impact GTV attendance . Do you still want to Punch-out?")
                                                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {
+
                                                         punchOutGTV2();
                                                     }
                                                 })
@@ -1344,6 +1354,13 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     }
 
     void punchOutGTV1() {
+        double atten = 0.0;
+        if (gtv1SpentHrs >= 3)
+            atten = 0.5;
+        else
+            atten = 0.0;
+
+        CommonUtil.addGTVActivity(context, "888", "Attendance", cordinates, "GTV 1 Time Spent " + gtv1SpentHrs + " hrs " + gtv1Time, "GTV", "" + atten);
 
         Date entrydate = new Date();
         final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
@@ -1394,6 +1411,13 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     }
 
     void punchOutGTV2() {
+        double atten = 0.0;
+        if (gtv2SpentHrs >= 3)
+            atten = 0.5;
+        else
+            atten = 0.0;
+
+        CommonUtil.addGTVActivity(context, "888", "Attendance", cordinates, "GTV 2 Time Spent " + gtv2SpentHrs + " hrs " + gtv2Time, "GTV", "" + atten);
 
         Date entrydate = new Date();
         final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
@@ -2679,7 +2703,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         int min = 0;
         String InTime = new SimpleDateFormat("yyyy-MM-dd").format(entrydate);
         String GTVVillage1PUNCHINTIME = mDatabase.getGtvPunchDate(InTime, "Punch In", "GTV1");
-        String GTVVillage1PUNCHOUTTIME = mDatabase.getGtvPunchDate(InTime, "Punch Out", "GTV1");
+        String GTVVillage1PUNCHOUTTIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
+
         try {
             Date date1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage1PUNCHINTIME);
             Date date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage1PUNCHOUTTIME);
@@ -2690,8 +2715,9 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
             String diff = hours + "h:" + mins + " m";
             gtv1Time = diff;
+            gtv1SpentHrs = hours;
             Log.i("Time Difference is ", "--->" + diff);
-            if (hours > 3) {
+            if (hours >= 3) {
                 return true;
             } else {
                 return false;
@@ -2708,7 +2734,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         int min = 0;
         String InTime = new SimpleDateFormat("yyyy-MM-dd").format(entrydate);
         String GTVVillage1PUNCHINTIME = mDatabase.getGtvPunchDate(InTime, "Punch In", "GTV2");
-        String GTVVillage1PUNCHOUTTIME = mDatabase.getGtvPunchDate(InTime, "Punch Out", "GTV2");
+        String GTVVillage1PUNCHOUTTIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
         try {
             Date date1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage1PUNCHINTIME);
             Date date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage1PUNCHOUTTIME);
@@ -2717,11 +2743,12 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             int hours = (int) (millis / (1000 * 60 * 60));
             int mins = (int) ((millis / (1000 * 60)) % 60);
 
-            String diff = hours + "h:" + mins + " m";
+            String diff = hours + " h:" + mins + " m";
 
-            Log.i("Time Difference is ", "--->" + diff);
+            Log.i("Time Difference is 12", "--->" + diff);
             gtv2Time = diff;
-            if (hours > 3) {
+            gtv2SpentHrs = hours;
+            if (hours >= 3) {
                 return true;
             } else {
                 return false;

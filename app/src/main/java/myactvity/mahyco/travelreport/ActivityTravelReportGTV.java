@@ -150,7 +150,7 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
                 try {
                     txtTotalKM.setText("");
                     JsonObject jsonObject = new JsonObject();
-                    //InTime = "2024-08-28";
+                    InTime = "2024-09-15";
                     jsonObject.addProperty("FilterValue", userCode + "," + InTime);
                     jsonObject.addProperty("FilterOption", "GetTravelReport");
                     getList(jsonObject);
@@ -626,10 +626,10 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
                     "<td colspan='2'><b>Village Activities</b></td>  " +
                     "<td colspan='4'>" + GTVVillage1Activities + "</td> " +
                     "</tr>" +
-                    "<tr> " +
+  /*                  "<tr> " +
                     "<td colspan='2'><b>Other Than FV Activities</b></td>" +
                     "<td colspan='4'>" + GTV1Market1Activities + "</td> " +
-                    "</tr>" +
+                    "</tr>" +*/
                     "<tr> " +
                     "<td colspan='6' style='text-align:center;background-color:FloralWhite;'><b>GTV-II Village : <i>" + GTVVillage2 + "</i></b></td> " +
                     "</tr> " +
@@ -642,10 +642,12 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
                     "<td colspan='2'><b>Village Activities</b></td> " +
                     "<td colspan='4'>" + GTVVillage2Activities + "</td> " +
                     "</tr>" +
-
                     "<tr> " +
-                    "<td colspan='2'><b>Other Than FV Activities</b></td>" +
-                    "<td colspan='4'>" + GTV2Market1Activities + "</td> " +
+                    "<td colspan='6' style='text-align:center;background-color:FloralWhite;'><b>Other Than FV Activities</b></td> " +
+                    "</tr> " +
+                    "<tr> " +
+                //    "<td colspan='2'><b>Other Than FV Activities</b></td>" +
+                    "<td colspan='6'>" + GTV2Market1Activities + "</td> " +
                     "" +
                     "</tr>" +
                     "</table>";
