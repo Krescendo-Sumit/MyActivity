@@ -136,6 +136,7 @@
                         android:visibility="visible" />
 
                     <LinearLayout
+                        android:id="@+id/llgtv1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -247,7 +248,7 @@
 
                     </LinearLayout>
                     <TextView
-                        android:id="@+id/textView21"
+                        android:id="@+id/txtsep1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
@@ -261,10 +262,12 @@
                         android:background="@drawable/btn_shape"
                         android:text="OTHER THAN FOCUS VILLAGE ACTIVITES	 "
                         android:textAllCaps="true"
+                        android:visibility="gone"
 
                         android:textColor="@color/QRCodeBlackColor"
                         android:textSize="12sp" />
                     <LinearLayout
+                        android:id="@+id/llgtv2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -374,7 +377,7 @@
                     </LinearLayout>
 
                     <TextView
-                        android:id="@+id/textView21"
+                        android:id="@+id/txtsep2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1" />
@@ -386,7 +389,7 @@
                         android:layout_margin="5dp"
                         android:layout_weight="1"
                         android:background="@drawable/btn_shape"
-                        android:text="OTHER THAN FOCUS VILLAGE ACTIVITES	 "
+                        android:text="OTHER THAN FOCUS VILLAGE ACTIVITES"
                         android:textAllCaps="true"
 
                         android:textColor="@color/QRCodeBlackColor"

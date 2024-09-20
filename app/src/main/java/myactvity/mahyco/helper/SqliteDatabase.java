@@ -9339,6 +9339,23 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         return data;
     }
 
+    public int checkGtvActivityDoneStatus(String InDate, String gtvtype) {
+
+        int  cnt = 0;
+        SQLiteDatabase db = getWritableDatabase();
+
+        String sql = " select  Count(*)as cnt  from  GTVTravelActivityData where ActivityType='GTV' and GTVType='"+gtvtype+"' and   ActivityDt like '%"+InDate+"%' and ActivityName not in ('Punch In','Punch Out','Focus Village Tagging')";
+        Log.i("Query", sql);
+        Cursor cursor = db.rawQuery(sql, null, null);
+        if (cursor.moveToNext()) {
+            cnt = cursor.getInt(0);
+        } else {
+            cnt=0;
+        }
+        db.close();
+        return cnt;
+    }
+
     public String getFocusVillageLocation(String villageCode) {
         String data = "";
         SQLiteDatabase db = getWritableDatabase();

@@ -150,7 +150,6 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
                 try {
                     txtTotalKM.setText("");
                     JsonObject jsonObject = new JsonObject();
-                    InTime = "2024-09-15";
                     jsonObject.addProperty("FilterValue", userCode + "," + InTime);
                     jsonObject.addProperty("FilterOption", "GetTravelReport");
                     getList(jsonObject);
@@ -195,13 +194,13 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
             if (endTravelCount > 0 && systemDistanceCount == 0) {
                 Toast.makeText(context, "Calling Distance API", Toast.LENGTH_SHORT).show();
                 String curdate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
-                String searchQuery12 = "select  Coordinates  from  GTVTravelActivityData where ActivityName!='System Distance' and ActivityDt like '%" + curdate + "%'";
+                String searchQuery12 = "select  Coordinates  from  GTVTravelActivityData where ActivityName!='System Distance' and  ActivityName!='Focus Village Tagging'  and ActivityDt like '%" + curdate + "%'";
                 Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
                 int count = cursor.getCount();
                 if (count > 0) {
                     JsonArray jsonArray;
 
-                    String searchQuery = "select  Coordinates  from  GTVTravelActivityData where ActivityName!='System Distance' and ActivityDt like '%" + curdate + "%'";
+                    String searchQuery = "select  Coordinates  from  GTVTravelActivityData where ActivityName!='System Distance' and  ActivityName!='Focus Village Tagging' and ActivityDt like '%" + curdate + "%'";
                     jsonArray = mDatabase.getResultsRetro(searchQuery);
 
                     for (int i = 0; i < jsonArray.size(); i++) {

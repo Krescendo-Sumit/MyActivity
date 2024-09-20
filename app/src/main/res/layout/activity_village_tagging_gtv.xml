@@ -68,7 +68,7 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical">
 
                         <TextView
@@ -87,7 +87,7 @@
                             android:layout_gravity="center_vertical"
                             android:layout_marginTop="2dp"
                             android:fontFamily="@font/titilliumwebregular"
-                            android:text="- Please click on tagged village button from main office of village which is situated in center of village.\n\n- कृपया गाव के कोई भी मुख्य ऑफिस , जो गांव के केंद्र में स्थित है।  वाहा से Tagged Village बटन दाबाकर Village का लोकेशन tagged करणा है । \n\n- कृपया गावाच्या मध्यभागी असलेल्या गावाच्या मुख्य कार्यालया जवळून Tagged Village बटन वर  क्लीक करून लोकेशन tagged करावे ."
+                            android:text="- Please tag Focus Village from center place of the Focus Village i.e. at Gram Pachayat,Mandir,Main Bus Stop ,School, etc.\n\n- कृपया गाव के कोई भी मुख्य ऑफिस , जो गांव के केंद्र में स्थित है।  वाहा से Tagged Village बटन दाबाकर Village का लोकेशन tagged करणा है । \n\n- कृपया गावाच्या मध्यभागी असलेल्या गावाच्या मुख्य कार्यालया जवळून Tagged Village बटन वर  क्लीक करून लोकेशन tagged करावे ."
                             android:textAllCaps="true"
                             android:textColor="@color/QRCodeBlackColor" />
                     </LinearLayout>

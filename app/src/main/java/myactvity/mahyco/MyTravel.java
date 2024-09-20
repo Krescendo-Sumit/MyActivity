@@ -49,6 +49,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -126,7 +127,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     Button btnStarttravel, btnAddActivity, btnAddActivity_new, btnendtravel;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
-    TextView lblwelcome, myTextProgress;
+    TextView lblwelcome, myTextProgress,txtsep1,txtsep2;
     public Spinner spDist, spTaluka, spVillage, spCropType, spProductName, spMyactvity, spComment;
     private Context context;
     private SqliteDatabase mDatabase;
@@ -160,7 +161,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     Button btnPunchOutGTV2;
     Button btn_sync, btn_sync_traveldata;
     Button btn_clearpunchdata, btn_clearactivitydata;
-    String userCode = "";
+    String userCode = "",userRole="";
     String selectedGTV1Village = "";
     String selectedGTV2Village = "";
     String selectedGTV1VillageCode = "";
@@ -182,6 +183,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     int gtv1SpentHrs = 0;
     int gtv2SpentHrs = 0;
 
+    LinearLayout llgtv1,llgtv2;
+
     // ScrollView container;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,6 +204,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             progressBar = (ProgressBar) findViewById(R.id.myProgress);
             relPRogress = (RelativeLayout) findViewById(R.id.relPRogress);
             myTextProgress = (TextView) findViewById(R.id.myTextProgress);
+            txtsep1 = (TextView) findViewById(R.id.txtsep1);
+            txtsep2 = (TextView) findViewById(R.id.txtsep2);
 
             // container = (ScrollView) findViewById(R.id.container);
             spDist = (Spinner) findViewById(R.id.spDist);
@@ -219,25 +224,30 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btn_sync_traveldata = (Button) findViewById(R.id.btn_sync_traveldata);
             btn_clearpunchdata = (Button) findViewById(R.id.btn_clearpunchindata);
             btn_clearactivitydata = (Button) findViewById(R.id.btn_clearactivitydata);
+            llgtv1 = (LinearLayout) findViewById(R.id.llgtv1);
+            llgtv2 = (LinearLayout) findViewById(R.id.llgtv2);
+
+
             activityModels = new ArrayList<>();
             addActivityInList(1); // 1 for GTV 2 for Market
             mDatabase = SqliteDatabase.getInstance(this);
             mDatabase.addGTVActivityTable();
             checkGTVStatus(0);
+
+
             bindFocussedVillage();
-
-
-            LatLng sourceLoc = new LatLng(19.873669, 75.366930);
-            LatLng destinationLoc = new LatLng(19.887079, 75.368781);
-            double d = SphericalUtil.computeDistanceBetween(sourceLoc, destinationLoc);
-            Log.i("Distance is ", d + "");
-
             checkGTVStatus(0);
             CheckGTVTimeSlot();
             isBothGTVVillageSame();
+
+
+
+
             config = new Config(this); //Here the context is passing
             lblwelcome = (TextView) findViewById(R.id.lblwelcome);
             userCode = preferences.getString("UserID", null);
+            userRole = preferences.getString("RoleID", null);
+
             //  lblwelcome.setText("MDO NAME: "+preferences.getString("Displayname",null));
             // BindIntialData();
             mViewPager = (ViewPager) findViewById(R.id.viewcontainer);
@@ -260,6 +270,40 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 btnAddActivity.setVisibility(View.GONE);
 
 
+// Activate OLD screen for TBM as per Old Version .
+           // Toast.makeText(context, ""+userRole, Toast.LENGTH_SHORT).show();
+            if(userRole.trim().equals("0"))
+            {
+                llgtv1.setVisibility(View.VISIBLE);
+                llgtv2.setVisibility(View.VISIBLE);
+                txtsep1.setVisibility(View.VISIBLE);
+                txtsep2.setVisibility(View.VISIBLE);
+                btn_clearactivitydata.setVisibility(View.GONE);
+                btn_clearpunchdata.setVisibility(View.GONE);
+                btn_sync.setVisibility(View.VISIBLE);
+                btn_sync_traveldata.setVisibility(View.VISIBLE);
+                btnAddActivity.setText("OTHER THAN FOCUS VILLAGE ACTIVITIES");
+            }else
+            {
+                llgtv1.setVisibility(View.GONE);
+                llgtv2.setVisibility(View.GONE);
+                txtsep1.setVisibility(View.GONE);
+                txtsep2.setVisibility(View.GONE);
+                btn_clearactivitydata.setVisibility(View.GONE);
+                btn_clearpunchdata.setVisibility(View.GONE);
+                btn_sync.setVisibility(View.GONE);
+                btn_sync_traveldata.setVisibility(View.GONE);
+                btnAddActivity.setText("Add Activity");
+            }
+
+
+            if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
+                btnAddActivity.setEnabled(true);
+            }else
+            {
+                btnAddActivity.setEnabled(false);
+            }
+
             btnendtravel = (Button) findViewById(R.id.btnendtravel);
             btnStarttravel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -278,6 +322,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             } else {
+
                                 new AlertDialog.Builder(context)
                                         .setMessage("Please check internet connection.")
                                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -298,7 +343,20 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivity.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addMarketActivityButton();
+                    if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
+                        if(userRole.trim().equals("0")) {
+                            addMarketActivityButton();
+                        }else
+                        {
+                            Intent intent = new Intent(MyTravel.this, MyActivityRecordingNew.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            context.startActivity(intent);
+                        }
+                    }else
+                    {
+                        Toast.makeText(context, "Can't perform market activity.", Toast.LENGTH_SHORT).show();
+                    }
+                  
 
                 }
             });
@@ -509,7 +567,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 isGtv2ActiveTimeSlot = false;
             }
             // Make both value to be true to activate both GTV start on any time in day
-      /*      isGtv1ActiveTimeSlot = true;
+       /*     isGtv1ActiveTimeSlot = true;
             isGtv2ActiveTimeSlot = true;*/
         } catch (NumberFormatException e) {
 
@@ -1354,15 +1412,27 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     }
 
     void punchOutGTV1() {
-        double atten = 0.0;
-        if (gtv1SpentHrs >= 3)
-            atten = 0.5;
-        else
-            atten = 0.0;
-
-        CommonUtil.addGTVActivity(context, "888", "Attendance", cordinates, "GTV 1 Time Spent " + gtv1SpentHrs + " hrs " + gtv1Time, "GTV", "" + atten);
-
+        String message="";
         Date entrydate = new Date();
+        int gtvactivityCnt=mDatabase.checkGtvActivityDoneStatus(new SimpleDateFormat("yyyy-MM-dd").format(entrydate),"GTV1");
+        double atten = 0.0;
+        if (gtv1SpentHrs >= 3) {
+            atten = 0.5;
+            if(gtvactivityCnt>0) {
+                message="GTV1 Activity :"+gtvactivityCnt+". ";
+                atten = 0.5;
+            }else {
+                message="User Spent 3hrs but No GTV1 activity.";
+                atten = 0.0;
+            }
+        }else {
+            message="User not spent 3hrs GTV1 Activity :"+gtvactivityCnt+". ";
+            atten = 0.0;
+        }
+
+       // CommonUtil.addGTVActivity(context, "888", "Attendance", cordinates, "GTV 1 Time Spent " + gtv1SpentHrs + " hrs " + gtv1Time, "GTV", "" + atten);
+
+
         final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
         selectedGtvtype = "GTV1";
         selectedGtvSession = "OUT";
@@ -1392,7 +1462,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         if (mDatabase.InsertGTVMaster(gtvMasterDataModel)) {
             mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
 
-            if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village " + selectedGTV1Village, "GTV", "0")) {
+            if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village " + selectedGTV1Village+" GTV 1 Time Spent " + gtv1SpentHrs + " hrs " + gtv1Time+" "+message, "GTV", ""+atten)) {
                 mPref.save(AppConstant.GTVType, "");
                 mPref.save(AppConstant.ACTIVITYTYPE, "");
                 mPref.save(AppConstant.GTVSession, "");
@@ -1411,15 +1481,34 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     }
 
     void punchOutGTV2() {
+
+        String message="";
+        Date entrydate = new Date();
+        int gtvactivityCnt=mDatabase.checkGtvActivityDoneStatus(new SimpleDateFormat("yyyy-MM-dd").format(entrydate),"GTV2");
         double atten = 0.0;
+        if (gtv2SpentHrs >= 3) {
+            atten = 0.5;
+            if(gtvactivityCnt>0) {
+                message="GTV2 Activity :"+gtvactivityCnt+". ";
+                atten = 0.5;
+            }else {
+                message="User Spent 3hrs but No GTV2 activity.";
+                atten = 0.0;
+            }
+        }else {
+            message="User not spent 3hrs GTV2 Activity :"+gtvactivityCnt+". ";
+            atten = 0.0;
+        }
+
+ /*       double atten = 0.0;
         if (gtv2SpentHrs >= 3)
             atten = 0.5;
         else
-            atten = 0.0;
+            atten = 0.0;*/
 
-        CommonUtil.addGTVActivity(context, "888", "Attendance", cordinates, "GTV 2 Time Spent " + gtv2SpentHrs + " hrs " + gtv2Time, "GTV", "" + atten);
+       // CommonUtil.addGTVActivity(context, "888", "Attendance", cordinates, "GTV 2 Time Spent " + gtv2SpentHrs + " hrs " + gtv2Time, "GTV", "" + atten);
 
-        Date entrydate = new Date();
+
         final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
         selectedGtvtype = "GTV2";
         selectedGtvSession = "OUT";
@@ -1449,7 +1538,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         if (mDatabase.InsertGTVMaster(gtvMasterDataModel)) {
 
             mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
-            if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village " + selectedGTV2Village, "GTV", "0")) {
+            if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village " + selectedGTV2Village+" GTV 2 Time Spent " + gtv2SpentHrs + " hrs " + gtv2Time+" "+message, "GTV", ""+atten)) {
                 mPref.save(AppConstant.GTVType, "");
                 mPref.save(AppConstant.ACTIVITYTYPE, "");
                 mPref.save(AppConstant.GTVSession, "");
@@ -2578,6 +2667,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
     public boolean isTourStareted() {
         try {
+
             SharedPreferences sp = getApplicationContext().getSharedPreferences("MyPref", 0);
             String usercode = sp.getString("UserID", null);
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -2682,7 +2772,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 btnAddActivityGtv2.setEnabled(false);
             }
             mPref.save(AppConstant.GTVActiveActivity, "" + typeid);
-
+            disableMarketActivity();
         } catch (Exception e) {
             Log.d("Test", e.getMessage());
         }
@@ -2706,9 +2796,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         String GTVVillage1PUNCHOUTTIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
 
         try {
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage1PUNCHINTIME);
-            Date date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage1PUNCHOUTTIME);
-
+            Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(GTVVillage1PUNCHINTIME);
+        Date date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(GTVVillage1PUNCHOUTTIME);
             long millis = date2.getTime() - date1.getTime();
             int hours = (int) (millis / (1000 * 60 * 60));
             int mins = (int) ((millis / (1000 * 60)) % 60);
@@ -2736,8 +2825,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         String GTVVillage1PUNCHINTIME = mDatabase.getGtvPunchDate(InTime, "Punch In", "GTV2");
         String GTVVillage1PUNCHOUTTIME = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
         try {
-            Date date1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage1PUNCHINTIME);
-            Date date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage1PUNCHOUTTIME);
+            Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(GTVVillage1PUNCHINTIME);
+            Date date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(GTVVillage1PUNCHOUTTIME);
 
             long millis = date2.getTime() - date1.getTime();
             int hours = (int) (millis / (1000 * 60 * 60));
@@ -2758,6 +2847,18 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             return false;
         }
 
+    }
+    void disableMarketActivity()
+    {
+
+        if(gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus)
+        {
+            btnAddActivity.setEnabled(true);
+        }
+        else
+        {
+            btnAddActivity.setEnabled(false);
+        }
     }
 
 }
