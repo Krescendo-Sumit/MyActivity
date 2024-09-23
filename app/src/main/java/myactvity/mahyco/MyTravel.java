@@ -266,8 +266,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             // We are hiding Add Activity Button for Veg Users
             // Concern Person : Mr. Munjaji Sir / Nitish Kumar.
             // Developer :  Sumit
-            if (preferences.getString("unit", null).contains("VCBU"))
-                btnAddActivity.setVisibility(View.GONE);
+           /* if (preferences.getString("unit", null).contains("VCBU"))
+                btnAddActivity.setVisibility(View.GONE);*/
 
 
 // Activate OLD screen for TBM as per Old Version .
@@ -294,6 +294,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 btn_sync.setVisibility(View.GONE);
                 btn_sync_traveldata.setVisibility(View.GONE);
                 btnAddActivity.setText("Add Activity");
+
             }
 
 
@@ -655,6 +656,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 activityModels.add(new ActivityModel(28, "28", "Testimonial Sharing"));
                 activityModels.add(new ActivityModel(29, "29", "Whatapp Group Creation"));
                 activityModels.add(new ActivityModel(30, "30", "Distributor Call"));
+                activityModels.add(new ActivityModel(18, "18", "Field Board"));
+                activityModels.add(new ActivityModel(16, "16", "Field Banner"));
             }
 
         } catch (Exception e) {
@@ -1039,6 +1042,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                                                     mPref.save(AppConstant.GTVSelectedVillage1, selectedGTV1Village);
                                                     mPref.save(AppConstant.GTVSelectedVillageCode1, selectedGTV1VillageCode);
                                                     mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
+                                                    mPref.save(AppConstant.LASTGTVACTIVITYTIME, InTime);
                                                     if (CommonUtil.addGTVActivity(context, "0", "Punch In", cordinates, "Start Village", "GTV", "0")) {
                                                         //  Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                                                     }
@@ -1255,6 +1259,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                                                     mPref.save(AppConstant.GTVSelectedVillage2, selectedGTV2Village);
                                                     mPref.save(AppConstant.GTVSelectedVillageCode2, selectedGTV2VillageCode);
                                                     mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
+                                                    mPref.save(AppConstant.LASTGTVACTIVITYTIME, InTime);
                                                     if (CommonUtil.addGTVActivity(context, "0", "Punch In", cordinates, "Start Village", "GTV", "0")) {
                                                     }
                                                     showSharePreference();

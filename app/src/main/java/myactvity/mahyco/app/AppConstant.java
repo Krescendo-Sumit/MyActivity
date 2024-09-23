@@ -5,7 +5,7 @@ import android.net.Uri;
 public class AppConstant {
 
 
-
+    public static String LASTGTVACTIVITYTIME = "LASTGTVACTIVITYTIME";
     public static String ACCESS_TOKEN_TAG="ACCESSTOKEN";
     public static String USER_CODE_TAG="USERCODE";
     public static Uri imageUri = null;

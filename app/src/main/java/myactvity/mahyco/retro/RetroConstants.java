@@ -32,8 +32,8 @@ public class RetroConstants {
     public static final String GET_TBM_WISE_KA_LIST = "generalactivity/getMdoByTbm";
 
 
-    public static final String GET_TRAVEL_REPORT_TRIGGED = "https://packhouse.mahyco.com/api/myTravel/getMyTravelReportforApp";
-    public static final String SUBMIT_MYTRAVELREPORT_TRIGGERED = "https://packhouse.mahyco.com/api/myTravel/createMyTravelActivityRemark";
+    public static final String GET_TRAVEL_REPORT_TRIGGED = "myTravel/getMyTravelReportforApp";
+    public static final String SUBMIT_MYTRAVELREPORT_TRIGGERED = "myTravel/createMyTravelActivityRemark";
     public static final String GETVERSIONDETAILS = "https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus";
     public static final String UplaodGTVTRavelData = "myTravel/createGTVUserActivity";
     public static final String GET_TRAVEL_REPORT_GTV_REPORT = "myTravel/getGTVKAWiseActivityReport";

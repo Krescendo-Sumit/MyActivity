@@ -47,7 +47,32 @@ public class CommonUtil {
             final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
             String selectedGTV1VillageCode = prefs.getString(AppConstant.GTVSelectedVillageCode, "");
             String selectedGTV1Village = prefs.getString(AppConstant.GTVSelectedVillage, "");
+            String spendtime = "";
+            try {
+                double mins = 0;
 
+
+                if (activityType.trim().equals("GTV")) {
+                    String lasttime = prefs.getString(AppConstant.LASTGTVACTIVITYTIME, "");
+                    String currenttime = InTime;
+                    mins = 0;
+                    Log.i("Time Span is ", lasttime + "--->" + currenttime);
+                    try {
+                        Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(lasttime);
+                        Date date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(currenttime);
+                        long millis = date2.getTime() - date1.getTime();
+                        mins = (int) (millis / 1000) / 60;
+                        Log.i("Time Span is ", "--->" + mins);
+                        spendtime = "Time Span is Last GTV Act time:" + lasttime + " and Current GTV Act time:" + currenttime + ". Total Min :  " + mins;
+                    } catch (Exception e) {
+                        mins = 0;
+                    }
+
+                }
+            }catch (Exception e)
+            {
+
+            }
             SqliteDatabase mDatabase = SqliteDatabase.getInstance(context);
             GTVTravelActivityDataModel gtvTravelActivityDataModel = new GTVTravelActivityDataModel();
             gtvTravelActivityDataModel.setId(0);// integer auto increment,
@@ -77,11 +102,14 @@ public class CommonUtil {
             else
                 gtvTravelActivityDataModel.setGTVActivityKM("" + CommonUtil.getDistance(lastCordinate, cordinates));// TEXT,
             gtvTravelActivityDataModel.setAppVersion(BuildConfig.VERSION_NAME);// TEXT,
-            gtvTravelActivityDataModel.setRemark(remark);
+            gtvTravelActivityDataModel.setRemark(remark+". "+spendtime);
             gtvTravelActivityDataModel.setIsSynced(0);
 
-            if (mDatabase.InsertGTVTravelData(gtvTravelActivityDataModel)) {
 
+
+
+            if (mDatabase.InsertGTVTravelData(gtvTravelActivityDataModel)) {
+                prefs.save(AppConstant.LASTGTVACTIVITYTIME, InTime);
                 Toast.makeText(context, activityType+" activity tagged.", Toast.LENGTH_SHORT).show();
                 return true;
             } else {
