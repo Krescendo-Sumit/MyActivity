@@ -651,7 +651,7 @@ public class ATLExhibitionActivity extends AppCompatActivity implements
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "35", "Exhibitions", cordinates, numberOfVisitors+" "+selectRBM,"Market","0")) {
+            if (CommonUtil.addGTVActivity(context, "35", "Exhibitions", cordinates, numberOfVisitors+" "+selectRBM,"Market","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             //msclass.showMessage("data saved successfully.");

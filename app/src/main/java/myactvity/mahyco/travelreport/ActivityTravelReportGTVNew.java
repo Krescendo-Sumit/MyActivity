@@ -6,44 +6,31 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import myactvity.mahyco.R;
@@ -54,7 +41,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTravelAPI.GTVListener {
+public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTVTravelAPI.GTVListener {
     ProgressDialog progressDialog;
     Context context;
 
@@ -96,7 +83,7 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_travel_report_gtv);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        context = ActivityTravelReportGTV.this;
+        context = ActivityTravelReportGTVNew.this;
         mDatabase = SqliteDatabase.getInstance(this);
         tbl = findViewById(R.id.tbl_details);
         webView = findViewById(R.id.web);
@@ -125,7 +112,7 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
         //   mManager.setReverseLayout(true);
         setTitle("Verify Summary Report");
         Date entrydate = new Date();
-        InTime = new SimpleDateFormat("yyyy-MM-dd").format(entrydate);
+        InTime = new SimpleDateFormat("dd/MM/yyyy").format(entrydate);
         //  final String InTime = "2024-08-13";
         txtScreenTitle.setText("Summary Report - " + new SimpleDateFormat("dd-MM-yyyy").format(entrydate));
 
@@ -138,7 +125,7 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
             int count = cursor.getCount();
             if (count > 0) {
-                new androidx.appcompat.app.AlertDialog.Builder(context)
+                new AlertDialog.Builder(context)
                         .setMessage("Upload GTV Travel Data ")
                         .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
                             @Override
@@ -149,6 +136,8 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
             } else {
                 try {
                     txtTotalKM.setText("");
+                    InTime = "24/09/2024";
+                    userCode="MH248";
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("FilterValue", userCode + "," + InTime);
                     jsonObject.addProperty("FilterOption", "GetTravelReport");
@@ -333,7 +322,7 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
                 progressDialog.show();
 
             Call<Root> call = null;
-            call = RetrofitClient.getInstance().getMyApi().GetTravelGTVReport(jsonObject);
+            call = RetrofitClient.getInstance().getMyApi().GetTravelGTVReportNew(jsonObject);
             call.enqueue(new Callback<Root>() {
                 @Override
                 public void onResponse(Call<Root> call, Response<Root> response) {
@@ -346,109 +335,96 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
                         try {
                             if (root.Status) {
                                 try {
-                                    Toast.makeText(ActivityTravelReportGTV.this, "" + root.getResult().gTV1ActivityModels.size(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ActivityTravelReportGTVNew.this, "" + root.getResult().gTV2ActivityModels.size(), Toast.LENGTH_SHORT).show();
                                     tbl.removeAllViews();
-                                    if (root.Result.kAModel != null) {
-                                        GTVKAName = root.Result.kAModel.KAName + " HQ-" + root.Result.kAModel.KAHQ;
+                                    if (root.Result.kAActivityModel != null) {
+                                        String KANAME="";
+                                        //GTVKAName = root.Result.kAModel.KAName + " HQ-" + root.Result.kAModel.KAHQ;
+                                        if(root.Result.kAActivityModel.KACode!=null) {
+                                            KANAME += root.Result.kAActivityModel.KACode;
+                                        }
+
+                                        if(root.Result.kAActivityModel.KAName!=null) {
+                                            KANAME += root.Result.kAActivityModel.KAName;
+                                        }
+
+                                        if(root.Result.kAActivityModel.KAHeadQuartor!=null) {
+                                            KANAME +=" HQ-"+ root.Result.kAActivityModel.KAHeadQuartor+"";
+                                        }
+                                        GTVKAName=KANAME;
+                                        if (root.Result.kAActivityModel.KmByKA != null) {
+                                            GTVKAKM = root.Result.kAActivityModel.KmByKA + "KM";
+                                        } else {
+                                            GTVKAKM = "-";
+                                        }
+
+                                        if (root.Result.kAActivityModel.Attendance != null) {
+                                            GTVAttendance = root.Result.kAActivityModel.Attendance;
+                                        } else {
+                                            GTVAttendance = "-";
+                                        }
+
+
+                                        if (root.Result.kAActivityModel.KmBySystem != null) {
+                                            GTVSystemKM = root.Result.kAActivityModel.KmBySystem + " KM";
+                                        } else {
+                                            GTVSystemKM = " -";
+                                        }
+
+                                        if (root.Result.kAActivityModel.StartTravelTime != null) {
+                                            GTVStartTravelTime = root.Result.kAActivityModel.StartTravelTime;
+                                        }
+
+                                        if (root.Result.kAActivityModel.EndTravelTime != null) {
+                                            GTVEndTravelTime = root.Result.kAActivityModel.EndTravelTime;
+                                        }
+
+                                        if (root.Result.kAActivityModel.GTV1VillageName != null) {
+                                            GTVVillage1 = root.Result.kAActivityModel.GTV1VillageName;
+                                        }
+
+                                        if (root.Result.kAActivityModel.GTV1PunchInTime != null) {
+                                            GTVVillage1PUNCHINTIME = root.Result.kAActivityModel.GTV1PunchInTime;
+                                        }
+
+                                        if (root.Result.kAActivityModel.GTV1PunchOutTime != null) {
+                                            GTVVillage1PUNCHOUTTIME = root.Result.kAActivityModel.GTV1PunchOutTime;
+                                        }
+                                        if (root.Result.kAActivityModel.GTV1TimeSpent != null) {
+                                            GTVVillage1TIMESpent = root.Result.kAActivityModel.GTV1TimeSpent;
+                                        }
+                                        if (root.Result.kAActivityModel.GTV2VillageName != null) {
+                                            GTVVillage2 = root.Result.kAActivityModel.GTV2VillageName;
+                                        }
+                                        if (root.Result.kAActivityModel.GTV2PunchInTime != null) {
+                                            GTVVillage2PUNCHINTIME = root.Result.kAActivityModel.GTV2PunchInTime;
+                                        }
+                                        if (root.Result.kAActivityModel.GTV2PunchOutTime != null) {
+                                            GTVVillage2PUNCHOUTTIME = root.Result.kAActivityModel.GTV2PunchOutTime;
+                                        }
+                                        if (root.Result.kAActivityModel.GTV2TimeSpent != null) {
+                                            GTVVillage2TIMESpent = root.Result.kAActivityModel.GTV2TimeSpent;
+                                        }
+
+
                                     } else {
                                         GTVKAName = "-";
                                     }
-                                    if (root.Result.kAKMModel != null) {
-                                        GTVKAKM = root.Result.kAKMModel.TotalKM + "KM";
-                                    } else {
-                                        GTVKAKM = "-";
-                                    }
-                                    if (root.Result.GetAttendanceModel != null) {
-                                        GTVAttendance = root.Result.GetAttendanceModel.getGTVAttendance();
-                                    } else {
-                                        GTVAttendance = "-";
-                                    }
-                                    if (root.Result.myTravelKMModel != null) {
-                                        GTVSystemKM = root.Result.myTravelKMModel.TotalKM + " KM";
-                                    } else {
-                                        GTVSystemKM = " -";
-                                    }
-                                    if (root.Result.myTravelModel != null) {
-                                        MyTravelModel myTravelModel = root.Result.getMyTravelModel();
-                                        GTVStartTravelTime = myTravelModel.getStartTravelTime();
-                                        GTVEndTravelTime = myTravelModel.getEndTravelTime();
-                                    }
-                                    if (root.Result.gTV1Model != null) {
-                                        GTV1Model gtv1Model = root.Result.getgTV1Model();
-                                        GTVVillage1PUNCHINTIME = gtv1Model.getGTV1PunchIn();
-                                        GTVVillage1PUNCHOUTTIME = gtv1Model.getGTV1PunchOut();
-                                        GTVVillage1TIMESpent = gtv1Model.getGTV1TimeSpent();
-                                    } else {
-                                        GTVVillage1PUNCHINTIME = mDatabase.getGtvPunchDate(InTime, "Punch In", "GTV1");
-                                        GTVVillage1PUNCHOUTTIME = mDatabase.getGtvPunchDate(InTime, "Punch Out", "GTV1");
-                                        try {
-                                            Date date1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage1PUNCHINTIME);
-                                            Date date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage1PUNCHOUTTIME);
 
-                                            long millis = date2.getTime() - date1.getTime();
-                                            int hours = (int) (millis / (1000 * 60 * 60));
-                                            int mins = (int) ((millis / (1000 * 60)) % 60);
 
-                                            String diff = hours + "h:" + mins + " m";
-                                            GTVVillage1TIMESpent = diff;
-                                            Log.i("Time Difference is ", "--->" + diff);
 
-                                            String s[];
-
-                                            s = GTVVillage1PUNCHINTIME.split(" ");
-                                            if (s.length > 0)
-                                                GTVVillage1PUNCHINTIME = s[1];
-                                            s = GTVVillage1PUNCHOUTTIME.split(" ");
-                                            if (s.length > 0)
-                                                GTVVillage1PUNCHOUTTIME = s[1];
-                                        } catch (Exception e) {
-
-                                        }
-                                    }
-                                    if (root.Result.gTV2Model != null) {
-                                        GTV2Model gtv2Model = root.Result.getgTV2Model();
-                                        GTVVillage2PUNCHINTIME = gtv2Model.getGTV2PunchIn();
-                                        GTVVillage2PUNCHOUTTIME = gtv2Model.getGTV2PunchOut();
-                                        GTVVillage2TIMESpent = gtv2Model.getGTV2TimeSpent();
-                                    } else {
-                                        GTVVillage2PUNCHINTIME = mDatabase.getGtvPunchDate(InTime, "Punch In", "GTV2");
-                                        GTVVillage2PUNCHOUTTIME = mDatabase.getGtvPunchDate(InTime, "Punch Out", "GTV2");
-                                        try {
-                                            Date date1 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage2PUNCHINTIME);
-                                            Date date2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").parse(GTVVillage2PUNCHOUTTIME);
-
-                                            long millis = date2.getTime() - date1.getTime();
-                                            int hours = (int) (millis / (1000 * 60 * 60));
-                                            int mins = (int) ((millis / (1000 * 60)) % 60);
-
-                                            String diff = hours + "h:" + mins + " m";
-                                            GTVVillage2TIMESpent = diff;
-                                            Log.i("Time Difference is ", "--->" + diff);
-
-                                            String s[];
-
-                                            s = GTVVillage2PUNCHINTIME.split(" ");
-                                            if (s.length > 0)
-                                                GTVVillage2PUNCHINTIME = s[1];
-                                            s = GTVVillage2PUNCHOUTTIME.split(" ");
-                                            if (s.length > 0)
-                                                GTVVillage2PUNCHOUTTIME = s[1];
-                                        } catch (Exception e) {
-
-                                        }
-                                    }
                                     if (root.getResult().gTV1ActivityModels != null || root.getResult().gTV1ActivityModels.size() == 0) {
                                         GTVVillage1Activities = "";
                                         for (int i = 0; i < root.getResult().gTV1ActivityModels.size(); i++) {
                                             GTV1ActivityModel activityModel = root.getResult().gTV1ActivityModels.get(i);
                                             if (activityModel.ActivityName.toLowerCase().contains("punch")) {
-                                                GTVVillage1 = activityModel.VillageName;
+                                               // GTVVillage1 = activityModel.VillageName;
                                                 continue;
                                             }
                                             if (activityModel.ActivityName.toLowerCase().contains("system")) {
                                                 continue;
                                             }
-                                            GTVVillage1Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "), ";
+                                            GTVVillage1Activities += activityModel.ActivityName + "(" + activityModel.No_of_activities + "), ";
                                         }
                                     } else {
                                         GTVVillage1Activities = "No Activity Found.";
@@ -458,31 +434,20 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
                                         for (int i = 0; i < root.getResult().gTV2ActivityModels.size(); i++) {
                                             GTV2ActivityModel activityModel = root.getResult().gTV2ActivityModels.get(i);
                                             if (activityModel.ActivityName.toLowerCase().contains("punch")) {
-                                                GTVVillage2 = activityModel.VillageName;
+                                             //   GTVVillage2 = activityModel.VillageName;
                                                 continue;
                                             }
-                                            GTVVillage2Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "), ";
+                                            GTVVillage2Activities += activityModel.ActivityName + "(" + activityModel.No_of_activities + "), ";
                                         }
                                     } else {
                                         GTVVillage2Activities = "No Activity Found.";
                                     }
 
-                                    if (root.getResult().marketGTV1ActivityModels != null) {
-                                        GTV1Market1Activities = "";
-                                        for (int i = 0; i < root.getResult().marketGTV1ActivityModels.size(); i++) {
-                                            MarketModel activityModel = root.getResult().marketGTV1ActivityModels.get(i);
-                                            GTV1Market1Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "), ";
-                                        }
-
-                                    } else {
-                                        GTV1Market1Activities = "No Activity Found.";
-                                    }
-
-                                    if (root.getResult().marketGTV2ActivityModels != null) {
+                                    if (root.getResult().MarketActivityModel != null) {
                                         GTV2Market1Activities = "";
-                                        for (int i = 0; i < root.getResult().marketGTV2ActivityModels.size(); i++) {
-                                            MarketModel activityModel = root.getResult().marketGTV2ActivityModels.get(i);
-                                            GTV2Market1Activities += activityModel.ActivityName + "(" + activityModel.ActivityCount + "), ";
+                                        for (int i = 0; i < root.getResult().MarketActivityModel.size(); i++) {
+                                            MarketModel activityModel = root.getResult().MarketActivityModel.get(i);
+                                            GTV2Market1Activities += activityModel.ActivityName + "(" + activityModel.No_of_activities + "), ";
                                         }
 
                                     } else {
@@ -491,7 +456,7 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
                                     PrepareReport();
 
                                 } catch (Exception e) {
-                                    new androidx.appcompat.app.AlertDialog.Builder(context)
+                                    new AlertDialog.Builder(context)
                                             .setMessage("Something went wrong." + e.getMessage())
                                             .setTitle("Exception")
                                             .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -701,12 +666,29 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
         public void setVillageName(String villageName) {
             VillageName = villageName;
         }
+        public String getActivityType() {
+            return ActivityType;
+        }
+
+        public void setActivityType(String activityType) {
+            ActivityType = activityType;
+        }
+
+        public String getNo_of_activities() {
+            return No_of_activities;
+        }
+
+        public void setNo_of_activities(String no_of_activities) {
+            No_of_activities = no_of_activities;
+        }
 
         public String KACode;
-
+        public String ActivityType;
         public String GTVType;
 
+
         public String ActivityName;
+        public String No_of_activities;
 
         public int ActivityCount;
 
@@ -755,15 +737,31 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
             VillageName = villageName;
         }
 
+
+        public String getActivityType() {
+            return ActivityType;
+        }
+
+        public void setActivityType(String activityType) {
+            ActivityType = activityType;
+        }
+
+        public String getNo_of_activities() {
+            return No_of_activities;
+        }
+
+        public void setNo_of_activities(String no_of_activities) {
+            No_of_activities = no_of_activities;
+        }
+
         public String KACode;
 
         public String GTVType;
-
+        public String ActivityType;
         public String ActivityName;
-
         public int ActivityCount;
-
         public String VillageName;
+        public String No_of_activities;
     }
 
     public class MarketModel {
@@ -807,15 +805,30 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
         public void setVillageName(String villageName) {
             VillageName = villageName;
         }
+        public String getNo_of_activities() {
+            return No_of_activities;
+        }
+
+        public void setNo_of_activities(String no_of_activities) {
+            No_of_activities = no_of_activities;
+        }
+        public String getActivityType() {
+            return ActivityType;
+        }
+
+        public void setActivityType(String activityType) {
+            ActivityType = activityType;
+        }
+
+
 
         public String KACode;
-
+        public String ActivityType;
         public String GTVType;
-
         public String ActivityName;
+        public String No_of_activities;
 
         public int ActivityCount;
-
         public String VillageName;
     }
 
@@ -971,9 +984,6 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
             this.kAKMModel = kAKMModel;
         }
 
-        public KAModel kAModel;
-        public ArrayList<GTV1ActivityModel> gTV1ActivityModels;
-        public ArrayList<GTV2ActivityModel> gTV2ActivityModels;
 
         public void setMarketActivityModels(ArrayList<MarketModel> marketActivityModels) {
             this.marketActivityModels = marketActivityModels;
@@ -1001,10 +1011,7 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
             this.marketGTV2ActivityModels = marketGTV2ActivityModels;
         }
 
-        public ArrayList<MarketModel> marketGTV1ActivityModels;
-        public ArrayList<MarketModel> marketGTV2ActivityModels;
-        public MyTravelKMModel myTravelKMModel;
-        public KAKMModel kAKMModel;
+
 
         public MyTravelModel getMyTravelModel() {
             return myTravelModel;
@@ -1029,14 +1036,192 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
         public void setgTV2Model(GTV2Model gTV2Model) {
             this.gTV2Model = gTV2Model;
         }
+        public KAActivityModel getkAActivityModel() {
+            return kAActivityModel;
+        }
+
+        public void setkAActivityModel(KAActivityModel kAActivityModel) {
+            this.kAActivityModel = kAActivityModel;
+        }
+        public ArrayList<MarketModel> getMarketActivityModel() {
+            return MarketActivityModel;
+        }
+
+        public void setMarketActivityModel(ArrayList<MarketModel> marketActivityModel) {
+            MarketActivityModel = marketActivityModel;
+        }
+        public KAActivityModel kAActivityModel;
+        public ArrayList<GTV1ActivityModel> gTV1ActivityModels;
+        public ArrayList<GTV2ActivityModel> gTV2ActivityModels;
+        public ArrayList<MarketModel> MarketActivityModel;
+        public ArrayList<MarketModel> marketGTV1ActivityModels;
+        public ArrayList<MarketModel> marketGTV2ActivityModels;
+        public MyTravelKMModel myTravelKMModel;
+        public KAKMModel kAKMModel;
+        public KAModel kAModel;
+
 
         public MyTravelModel myTravelModel;
         public GTV1Model gTV1Model;
         public GTV2Model gTV2Model;
         public GetAttendanceModel GetAttendanceModel;
 
+
+
+
+
     }
 
+    public class KAActivityModel{
+         String KACode;//": "mh248",
+        String StartTravelTime;//": "04:29 PM",
+        String EndTravelTime;//": "04:35 PM",
+
+        public String getKACode() {
+            return KACode;
+        }
+
+        public void setKACode(String KACode) {
+            this.KACode = KACode;
+        }
+
+        public String getStartTravelTime() {
+            return StartTravelTime;
+        }
+
+        public void setStartTravelTime(String startTravelTime) {
+            StartTravelTime = startTravelTime;
+        }
+
+        public String getEndTravelTime() {
+            return EndTravelTime;
+        }
+
+        public void setEndTravelTime(String endTravelTime) {
+            EndTravelTime = endTravelTime;
+        }
+
+        public String getKmByKA() {
+            return KmByKA;
+        }
+
+        public void setKmByKA(String kmByKA) {
+            KmByKA = kmByKA;
+        }
+
+        public String getKmBySystem() {
+            return KmBySystem;
+        }
+
+        public void setKmBySystem(String kmBySystem) {
+            KmBySystem = kmBySystem;
+        }
+
+        public String getAttendance() {
+            return Attendance;
+        }
+
+        public void setAttendance(String attendance) {
+            Attendance = attendance;
+        }
+
+        public String getGTV1VillageName() {
+            return GTV1VillageName;
+        }
+
+        public void setGTV1VillageName(String GTV1VillageName) {
+            this.GTV1VillageName = GTV1VillageName;
+        }
+
+        public String getGTV1PunchInTime() {
+            return GTV1PunchInTime;
+        }
+
+        public void setGTV1PunchInTime(String GTV1PunchInTime) {
+            this.GTV1PunchInTime = GTV1PunchInTime;
+        }
+
+        public String getGTV1PunchOutTime() {
+            return GTV1PunchOutTime;
+        }
+
+        public void setGTV1PunchOutTime(String GTV1PunchOutTime) {
+            this.GTV1PunchOutTime = GTV1PunchOutTime;
+        }
+
+        public String getGTV1TimeSpent() {
+            return GTV1TimeSpent;
+        }
+
+        public void setGTV1TimeSpent(String GTV1TimeSpent) {
+            this.GTV1TimeSpent = GTV1TimeSpent;
+        }
+
+        public String getGTV2VillageName() {
+            return GTV2VillageName;
+        }
+
+        public void setGTV2VillageName(String GTV2VillageName) {
+            this.GTV2VillageName = GTV2VillageName;
+        }
+
+        public String getGTV2PunchInTime() {
+            return GTV2PunchInTime;
+        }
+
+        public void setGTV2PunchInTime(String GTV2PunchInTime) {
+            this.GTV2PunchInTime = GTV2PunchInTime;
+        }
+
+        public String getGTV2PunchOutTime() {
+            return GTV2PunchOutTime;
+        }
+
+        public void setGTV2PunchOutTime(String GTV2PunchOutTime) {
+            this.GTV2PunchOutTime = GTV2PunchOutTime;
+        }
+
+        public String getGTV2TimeSpent() {
+            return GTV2TimeSpent;
+        }
+
+        public void setGTV2TimeSpent(String GTV2TimeSpent) {
+            this.GTV2TimeSpent = GTV2TimeSpent;
+        }
+
+        String KmByKA;//": "500.00",
+        String KmBySystem;//": "0.00",
+        String Attendance;//": "0.0",
+        String GTV1VillageName;//": "",
+        String GTV1PunchInTime;//": "",
+        String GTV1PunchOutTime;//": "",
+        String GTV1TimeSpent;//": "",
+        String GTV2VillageName;//": "CHAHARDI",
+        String GTV2PunchInTime;//": "04:30 PM",
+        String GTV2PunchOutTime;//": "04:34 PM",
+        String GTV2TimeSpent;//": "00:04"
+
+        public String getKAName() {
+            return KAName;
+        }
+
+        public void setKAName(String KAName) {
+            this.KAName = KAName;
+        }
+
+        public String getKAHeadQuartor() {
+            return KAHeadQuartor;
+        }
+
+        public void setKAHeadQuartor(String KAHeadQuartor) {
+            this.KAHeadQuartor = KAHeadQuartor;
+        }
+
+        String KAName;//": "PRAVIN NARAYAN CHAUDHARI",
+        String KAHeadQuartor;//": "CHOPADA",
+
+
+    }
     public class GetAttendanceModel {
         String KACode;
 
@@ -1205,11 +1390,11 @@ public class ActivityTravelReportGTV extends AppCompatActivity implements GTVTra
             Message = message;
         }
 
-        public ActivityTravelReportGTV.Result getResult() {
+        public ActivityTravelReportGTVNew.Result getResult() {
             return Result;
         }
 
-        public void setResult(ActivityTravelReportGTV.Result result) {
+        public void setResult(ActivityTravelReportGTVNew.Result result) {
             Result = result;
         }
 

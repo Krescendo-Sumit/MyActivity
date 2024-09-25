@@ -2379,7 +2379,7 @@ public class HarvestDayActivity extends AppCompatActivity implements
                 farmerListPhotoStatus, isSynced,villagecode);
 
         if (fl) {
-            if (CommonUtil.addGTVActivity(context, "15", "Harvest Day", cordinates, pkRetailerMobileNumber+" "+product,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "15", "Harvest Day", cordinates, pkRetailerMobileNumber+" "+product,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             //msclass.showMessage("data saved successfully.");

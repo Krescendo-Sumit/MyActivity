@@ -1528,7 +1528,7 @@ public class FarmerVisitsActivity extends AppCompatActivity implements
                 isSynced,isSamruddhaKisan,villagecode);
 
         if (fl) {
-            if (CommonUtil.addGTVActivity(context, "19", "Farmer Visit", cordinates, farmerName+" "+mobileNumber,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "19", "Farmer Visit", cordinates, farmerName+" "+mobileNumber,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

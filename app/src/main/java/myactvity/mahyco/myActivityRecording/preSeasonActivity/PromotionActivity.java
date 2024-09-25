@@ -1784,7 +1784,7 @@ public class PromotionActivity extends AppCompatActivity implements
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "3", "Promotion", cordinates, programName, "GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "3", "Promotion", cordinates, programName, "GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             uploadData("PromotionData");

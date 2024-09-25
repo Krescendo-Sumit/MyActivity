@@ -1800,7 +1800,7 @@ public class SanmanMelaActivity extends AppCompatActivity implements
 
              if (fl) {
 
-                 if (CommonUtil.addGTVActivity(context, "21", "Sanman Mela", cordinates, farmerNumber+" "+product,"GTV","0")) {
+                 if (CommonUtil.addGTVActivity(context, "21", "Sanman Mela", cordinates, farmerNumber+" "+product,"GTV","0",0.0)) {
                      // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                  }
                 uploadData("SanmanMelaData");

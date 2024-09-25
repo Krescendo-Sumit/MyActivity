@@ -1004,7 +1004,7 @@ public class TestimonialSharingActivity extends AppCompatActivity {
 
         Log.d("FarmerDetail", requestParams.toString());
        // progressBarVisibility();
-        if (CommonUtil.addGTVActivity(context, "28", "Testimonial sharing", cordinates, etName+" "+etMob,"GTV","0")) {
+        if (CommonUtil.addGTVActivity(context, "28", "Testimonial sharing", cordinates, etName+" "+etMob,"GTV","0",0.0)) {
             // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
         }
        new TestimonialApiCall("FarmerDetail", requestParams).execute();

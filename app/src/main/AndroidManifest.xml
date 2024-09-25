@@ -74,6 +74,9 @@
             android:exported="false"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".travelreport.ActivityTravelReportGTVNew"
+            android:exported="false" />
+        <activity
             android:name=".travelreport.ActivityTravelReportGTV"
             android:exported="false" />
         <activity

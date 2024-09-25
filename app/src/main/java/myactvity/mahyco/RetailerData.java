@@ -2635,7 +2635,7 @@ public class RetailerData extends Fragment implements GoogleApiClient.Connection
                     if (fl == true) {
                         try {
 
-                            if (CommonUtil.addGTVActivity(context, "39", "Retailer Tag", cordinate, retailername+" "+newfirm+" "+mobileno,"Market","0")) {
+                            if (CommonUtil.addGTVActivity(context, "39", "Retailer Tag", cordinate, retailername+" "+newfirm+" "+mobileno,"Market","0",0.0)) {
                                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                             }
 

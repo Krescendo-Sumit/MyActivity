@@ -1864,7 +1864,7 @@ public class JeepCampaigningActivity extends AppCompatActivity implements
         }
         else {
 
-            if (CommonUtil.addGTVActivity(context, "5", "Jeep campaigning", cordinates, rtoRegistrationNumber+" "+product,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "5", "Jeep campaigning", cordinates, rtoRegistrationNumber+" "+product,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 
@@ -1882,7 +1882,7 @@ public class JeepCampaigningActivity extends AppCompatActivity implements
                 }
                 else {
 
-                    if (CommonUtil.addGTVActivity(context, "5", "Jeep campaigning\n", cordinates, rtoRegistrationNumber+" "+product,"GTV","0")) {
+                    if (CommonUtil.addGTVActivity(context, "5", "Jeep campaigning\n", cordinates, rtoRegistrationNumber+" "+product,"GTV","0",0.0)) {
                         // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                     }
 

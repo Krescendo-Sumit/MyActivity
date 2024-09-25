@@ -113,6 +113,7 @@ import myactvity.mahyco.newupload.NotificationReceiver;
 import myactvity.mahyco.newupload.SetAlarmActivity;
 import myactvity.mahyco.newupload.UploadDataNew;
 import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
+import myactvity.mahyco.travelreport.ActivityTravelReportGTVNew;
 import myactvity.mahyco.travelreport.ActivityTravelReportTriggered;
 import myactvity.mahyco.travelreport.ShowMapRouteActivity;
 import myactvity.mahyco.utils.homescreen.CheckVersionForUpdate;
@@ -847,7 +848,7 @@ public class UserHome extends AppCompatActivity
                 this.startActivity(intent);*/
                 logProfileEvent();
                 Toast.makeText(getApplicationContext(), "Working Progress", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this.getApplicationContext(), ActivityTravelReportGTV.class);
+                Intent intent = new Intent(this.getApplicationContext(), ActivityTravelReportGTVNew.class);
                 this.startActivity(intent);
             } else if (id == R.id.nav_share) {
                 Intent intent = new Intent(this.getApplicationContext(), ShowMapRouteActivity.class);

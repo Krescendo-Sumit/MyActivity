@@ -1397,7 +1397,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
 
             if (fl) {
 
-                if (CommonUtil.addGTVActivity(context, "8", "Plot Register", cordinates, plotType + "-" + farmerName + " " + product + " " + mobileNumber, "GTV","0")) {
+                if (CommonUtil.addGTVActivity(context, "8", "Plot Register", cordinates, plotType + "-" + farmerName + " " + product + " " + mobileNumber, "GTV","0",0.0)) {
                     // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                 }
 
@@ -1530,7 +1530,7 @@ public class DemoModelRecordActivity extends AppCompatActivity implements
                 "", "");
         if (fl) {
             // Toast.makeText(this, "Data Saved Successfully", Toast.LENGTH_SHORT).show();
-           /* if (CommonUtil.addGTVActivity(context, "8", "Plot Review", cordinates, farmerName + " " + mobileNumber + " " + product, "GTV","0")) {
+           /* if (CommonUtil.addGTVActivity(context, "8", "Plot Review", cordinates, farmerName + " " + mobileNumber + " " + product, "GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }*/
 

@@ -2277,7 +2277,7 @@ public class CropSeminarActivity extends AppCompatActivity implements
 
             if (fl) {
 
-                if (CommonUtil.addGTVActivity(context, "4", "Crop seminar", cordinates, eventVenue+" "+product,"GTV","0")) {
+                if (CommonUtil.addGTVActivity(context, "4", "Crop seminar", cordinates, eventVenue+" "+product,"GTV","0",0.0)) {
                     // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                 }
                 //msclass.showMessage("data saved successfully.");

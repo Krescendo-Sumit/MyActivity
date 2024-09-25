@@ -338,7 +338,7 @@ public class POPDisplayActivity extends AppCompatActivity implements
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "31", "POP display", cordinates, retailerDetails,"Market","0")) {
+            if (CommonUtil.addGTVActivity(context, "31", "POP display", cordinates, retailerDetails,"Market","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

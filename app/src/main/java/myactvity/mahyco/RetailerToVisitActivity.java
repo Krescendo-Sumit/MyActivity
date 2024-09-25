@@ -741,7 +741,7 @@ public class RetailerToVisitActivity extends AppCompatActivity implements Google
                 isSynced);
 
         if (fl) {
-            if (CommonUtil.addGTVActivity(context, "13", "Retailer visit to field", cordinates, farmerName+" "+farmerMobileNumber,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "13", "Retailer visit to field", cordinates, farmerName+" "+farmerMobileNumber,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

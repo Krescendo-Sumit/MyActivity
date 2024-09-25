@@ -2011,7 +2011,7 @@ public class ProjectorMeetingActivity extends AppCompatActivity implements Googl
 
                     if(jsonObject.getBoolean("success")) {
                         JSONObject jsonDetails = jsonObject.getJSONObject("Table");
-                        if (CommonUtil.addGTVActivity(context, "6", "Projector meeting", cordinates, "Meeting Ref. Id : "+jsonDetails.getString("ProjectorMeetingId"),"GTV","0")) {
+                        if (CommonUtil.addGTVActivity(context, "6", "Projector meeting", cordinates, "Meeting Ref. Id : "+jsonDetails.getString("ProjectorMeetingId"),"GTV","0",0.0)) {
                             // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                         }
                         AlertDialog alertDialog = new AlertDialog.Builder(context)

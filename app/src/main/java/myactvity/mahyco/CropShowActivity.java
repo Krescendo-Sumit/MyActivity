@@ -2172,7 +2172,7 @@ public class CropShowActivity extends AppCompatActivity implements
         if (fl) {
 
 
-            if (CommonUtil.addGTVActivity(context, "9", "Crop Show", cordinates, farmerDetails+" "+product,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "9", "Crop Show", cordinates, farmerDetails+" "+product,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             uploadData("CropShowData");

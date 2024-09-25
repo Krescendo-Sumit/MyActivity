@@ -1784,7 +1784,7 @@ Log.i("Pass ","2");
                 urlConnection.setConnectTimeout(10000);
                 urlConnection.setReadTimeout(10000);
                 urlConnection.setRequestProperty("Content-Type", "application/json");
-
+                urlConnection.setRequestProperty("Authorization", "Bearer " + mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
                 Log.i("pass", "3");
                 urlConnection.setRequestProperty("Host", BASE);
                 urlConnection.connect();

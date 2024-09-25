@@ -2549,7 +2549,7 @@ public class ATLWallPaintingActivity extends AppCompatActivity implements Google
                         taggedCordinatesMandiNameEnd + " " + taggedAddressMandiNameEnd, taggedCordinatesMandiNameEnd, finalPopupJson,villagecode);
                 if (fl) {
 
-                    if (CommonUtil.addGTVActivity(context, "24", "Wall painting", cordinates, strMandiName+" "+selectedWallPaintingType,"GTV","0")) {
+                    if (CommonUtil.addGTVActivity(context, "24", "Wall painting", cordinates, strMandiName+" "+selectedWallPaintingType,"GTV","0",0.0)) {
                         // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                     }
 

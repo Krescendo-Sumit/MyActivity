@@ -334,7 +334,7 @@ public class ReviewMeetingActivity extends AppCompatActivity implements GoogleAp
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "40", "Review meeting", cordinates, meetingPlace+" "+meetingPurpose,"Market","0")) {
+            if (CommonUtil.addGTVActivity(context, "40", "Review meeting", cordinates, meetingPlace+" "+meetingPurpose,"Market","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

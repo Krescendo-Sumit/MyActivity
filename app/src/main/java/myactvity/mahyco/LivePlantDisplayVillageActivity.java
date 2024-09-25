@@ -1606,7 +1606,7 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "14", "Live plant display (village)", cordinates, farmerCount + " " + product, "GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "14", "Live plant display (village)", cordinates, farmerCount + " " + product, "GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

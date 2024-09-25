@@ -1023,7 +1023,7 @@ Config config;
                 JSONObject jsonObject = new JSONObject(resultout);
                 if (jsonObject.has("success")) {
 
-                    if (CommonUtil.addGTVActivity(context, "7", "Mahyco Maha kisan", cordinates, etFarmerName.getText()+" "+etMobileNumber.getText(),"GTV","0")) {
+                    if (CommonUtil.addGTVActivity(context, "7", "Mahyco Maha kisan", cordinates, etFarmerName.getText()+" "+etMobileNumber.getText(),"GTV","0",0.0)) {
                         // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                     }
 

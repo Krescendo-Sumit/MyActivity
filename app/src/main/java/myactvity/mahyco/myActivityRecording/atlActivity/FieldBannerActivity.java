@@ -1918,7 +1918,7 @@ public class FieldBannerActivity extends AppCompatActivity implements GoogleApiC
                 fieldBannerImgStatus, isSynced,villagecode);
 
         if (fl) {
-            if (CommonUtil.addGTVActivity(context, "16", "Field banner", cordinates, pkFarmerMobileNumber+" "+product,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "16", "Field banner", cordinates, pkFarmerMobileNumber+" "+product,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             Toast.makeText(context, "SAve to Db", Toast.LENGTH_SHORT).show();

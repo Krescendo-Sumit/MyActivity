@@ -1107,7 +1107,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
                 farmerPhotoStatus, successPhotoName, Imagepath2, successPhotoStatus, isSynced, villagecode);
 
         if (fl) {
-            if (CommonUtil.addGTVActivity(context, "1", "Testimonial Collection", cordinates, farmerName + " - " + farmerMobile, "GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "1", "Testimonial Collection", cordinates, farmerName + " - " + farmerMobile, "GTV","0",0.0)) {
                 Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             uploadData("TestimonialCollectionData");

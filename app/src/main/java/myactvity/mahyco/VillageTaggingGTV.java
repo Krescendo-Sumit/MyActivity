@@ -778,7 +778,7 @@ public class VillageTaggingGTV extends AppCompatActivity implements GoogleApiCli
         InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
         if (true) {
 
-            if (CommonUtil.addGTVActivity(context, "144", "Focus Village Tagging", cordinates, villageCode + " " + villageName, "Market", "0")) {
+            if (CommonUtil.addGTVActivity(context, "144", "Focus Village Tagging", cordinates, villageCode + " " + villageName, "Market", "0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

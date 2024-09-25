@@ -40,4 +40,5 @@ public class RetroConstants {
     public static final String GET_TRAVEL_REPORT_GTV_REPORT_String = "myTravel/getAllGTVUserActivity";
     public static final String GetSystemDistanceGTV = "https://datalens.mahyco.com/api/GoogleMap/distance";
     public static final String SUBMIT_FOCUSVILLAGETAGGING = "focusVillageTag/createFocusVillageTag";
+    public static final String GET_TRAVEL_REPORT_GTV_REPORT_NEW = "https://maapackhousenxg.mahyco.com/api/myTravel/getKAGTVActivityReport";
 }

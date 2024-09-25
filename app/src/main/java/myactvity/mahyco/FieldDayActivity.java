@@ -2769,7 +2769,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "10", "Field day", cordinates, farmerDetails + " " + product, "GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "10", "Field day", cordinates, farmerDetails + " " + product, "GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

@@ -10,6 +10,7 @@ import java.util.List;
 import myactvity.mahyco.TBMWiseMdoList;
 import myactvity.mahyco.newupload.HDPSPaymentDetailAPI;
 import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
+import myactvity.mahyco.travelreport.ActivityTravelReportGTVNew;
 import myactvity.mahyco.travelreport.ActivityTravelReportTriggered;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -107,6 +108,9 @@ public interface Api {
 
     @POST(RetroConstants.GET_TRAVEL_REPORT_GTV_REPORT)
     Call<ActivityTravelReportGTV.Root> GetTravelGTVReport(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.GET_TRAVEL_REPORT_GTV_REPORT_NEW)
+    Call<ActivityTravelReportGTVNew.Root> GetTravelGTVReportNew(@Body JsonObject jsonObject);
 
     @POST(RetroConstants.GET_TRAVEL_REPORT_GTV_REPORT_String)
     Call<String> GetTravelGTVReportString(@Body JsonObject jsonObject);

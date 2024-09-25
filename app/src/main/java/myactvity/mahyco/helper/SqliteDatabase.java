@@ -1167,8 +1167,27 @@ public class SqliteDatabase extends SQLiteOpenHelper {
                     "Remark TEXT,isSynced int, " +
                     "RefrenceId TEXT," +
                     "ActualKM TEXT," +
-                    "DistanceFromPunchKm TEXT)";
+                    "DistanceFromPunchKm TEXT," +
+
+                    "Attendance TEXT," +
+                    "TimeSpend TEXT," +
+                    "Info1 TEXT," +
+                    "Info2 TEXT," +
+                    "Info3 TEXT)";
+
+
+
             db.execSQL(CREATE_GTVTravelActivityData);
+
+
+            if (!checkColumnExist1(db, "GTVTravelActivityData", "Attendance")) {
+                db.execSQL("ALTER TABLE GTVTravelActivityData ADD COLUMN  Attendance TEXT DEFAULT '0'");
+                db.execSQL("ALTER TABLE GTVTravelActivityData ADD COLUMN  TimeSpend TEXT DEFAULT '0'");
+                db.execSQL("ALTER TABLE GTVTravelActivityData ADD COLUMN  Info1 TEXT DEFAULT ''");
+                db.execSQL("ALTER TABLE GTVTravelActivityData ADD COLUMN  Info2 TEXT DEFAULT ''");
+                db.execSQL("ALTER TABLE GTVTravelActivityData ADD COLUMN  Info3 TEXT DEFAULT ''");
+            }
+
 
             Log.i("GTVTravelActivityData", "Table Added");
 
@@ -9245,6 +9264,13 @@ public class SqliteDatabase extends SQLiteOpenHelper {
             initialValues.put("RefrenceId", gtvTravelActivityDataModel.getRefrenceId());
             initialValues.put("ActualKM", gtvTravelActivityDataModel.getActualKM());
             initialValues.put("DistanceFromPunchKm", gtvTravelActivityDataModel.getDistanceFromPunchKm());
+
+            initialValues.put("Attendance", gtvTravelActivityDataModel.getAttendance());
+            initialValues.put("TimeSpend", gtvTravelActivityDataModel.getTimeSpend());
+            initialValues.put("Info1", gtvTravelActivityDataModel.getInfo1());
+            initialValues.put("Info2", gtvTravelActivityDataModel.getInfo2());
+            initialValues.put("Info3", gtvTravelActivityDataModel.getInfo3());
+
             boolean result = db.insert("GTVTravelActivityData", null, initialValues) > 0;
 
             db.close();
@@ -9340,6 +9366,23 @@ public class SqliteDatabase extends SQLiteOpenHelper {
     }
 
     public int checkGtvActivityDoneStatus(String InDate, String gtvtype) {
+
+        int  cnt = 0;
+        SQLiteDatabase db = getWritableDatabase();
+
+        String sql = " select  Count(*)as cnt  from  GTVTravelActivityData where ActivityType='GTV' and GTVType='"+gtvtype+"' and   ActivityDt like '%"+InDate+"%' and ActivityName not in ('Punch In','Punch Out','Focus Village Tagging')";
+        Log.i("Query", sql);
+        Cursor cursor = db.rawQuery(sql, null, null);
+        if (cursor.moveToNext()) {
+            cnt = cursor.getInt(0);
+        } else {
+            cnt=0;
+        }
+        db.close();
+        return cnt;
+    }
+
+    public int getInvalidEntry(String InDate, String gtvtype) {
 
         int  cnt = 0;
         SQLiteDatabase db = getWritableDatabase();

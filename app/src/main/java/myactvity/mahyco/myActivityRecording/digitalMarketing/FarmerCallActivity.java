@@ -1527,7 +1527,7 @@ return object;
 
         Log.d("FarmerData", requestParams.toString());
        // progressBarVisibility();
-        if (CommonUtil.addGTVActivity(context, "26", "Farmer Call", cordinates, etFarmerName.getText()+" "+etFarmerMob.getText(),"GTV","0")) {
+        if (CommonUtil.addGTVActivity(context, "26", "Farmer Call", cordinates, etFarmerName.getText()+" "+etFarmerMob.getText(),"GTV","0",0.0)) {
             // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
         }
        new FarmerApiCall("FarmerData", requestParams).execute();

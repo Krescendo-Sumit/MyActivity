@@ -1830,7 +1830,7 @@ public class UtpadanMohatsavActivity extends AppCompatActivity implements
 
         if (mDatabase.insertUtpadanMohatsav(UserCode, State, District, Taluka, VillageCode, VillageName, Crop, Product, HostFarmerName, FarmerMobile, FarmerArea, FarmerYeild, NumberOfFarmerFelisited, NumberOfFarmer, NumberOfRetailer, LatLong, PhotoName, PhotoString, CreatedDate, Status, VersionName, UplaodStatus, Extra1, Extra2)) {
             Toast.makeText(context, "Data Saved Successfully.", Toast.LENGTH_SHORT).show();
-            if (CommonUtil.addGTVActivity(context, "12", "Utpadan Mohatsav", cordinates, HostFarmerName+" "+product,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "12", "Utpadan Mohatsav", cordinates, HostFarmerName+" "+product,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             String data="";

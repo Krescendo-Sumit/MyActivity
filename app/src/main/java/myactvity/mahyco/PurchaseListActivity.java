@@ -1749,7 +1749,7 @@ public class PurchaseListActivity extends AppCompatActivity implements GoogleApi
 
         if (fl) {
            // msclass.showMessage("data saved successfully.");
-            if (CommonUtil.addGTVActivity(context, "33", "Farmer/Purchase list collection", cordinates, retailerDetail+" "+retailerNumber,"Market","0")) {
+            if (CommonUtil.addGTVActivity(context, "33", "Farmer/Purchase list collection", cordinates, retailerDetail+" "+retailerNumber,"Market","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             uploadData("PurchaseListData");

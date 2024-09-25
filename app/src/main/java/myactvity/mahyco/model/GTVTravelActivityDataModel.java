@@ -165,4 +165,51 @@ public class GTVTravelActivityDataModel {
     }
 
     int isSynced;
+
+
+
+    public double getAttendance() {
+        return Attendance;
+    }
+
+    public void setAttendance(double attendance) {
+        Attendance = attendance;
+    }
+
+    public double getTimeSpend() {
+        return TimeSpend;
+    }
+
+    public void setTimeSpend(double timeSpend) {
+        TimeSpend = timeSpend;
+    }
+
+    public String getInfo1() {
+        return Info1;
+    }
+
+    public void setInfo1(String info1) {
+        Info1 = info1;
+    }
+
+    public String getInfo2() {
+        return Info2;
+    }
+
+    public void setInfo2(String info2) {
+        Info2 = info2;
+    }
+
+    public String getInfo3() {
+        return Info3;
+    }
+
+    public void setInfo3(String info3) {
+        Info3 = info3;
+    }
+    double Attendance;//": 0,
+    double TimeSpend;//": 0,
+    String Info1;//": "string",
+    String Info2;//": "string",
+    String Info3;//": "string"
 }

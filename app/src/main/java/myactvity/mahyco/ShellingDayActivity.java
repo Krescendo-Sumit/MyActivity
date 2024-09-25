@@ -1732,7 +1732,7 @@ public class ShellingDayActivity extends AppCompatActivity implements
 
             if (mDatabase.insertShellingDay(userCode, state, district, taluka, villagecode, finalvillage, cropType,
                     product, farmercount, retailercount, PhotoName, PhotoString, Status, VersionName, LatLong, CreatedDate, "0", "", "")) {
-                if (CommonUtil.addGTVActivity(context, "11", "Shelling Day", cordinates, farmercount + " " + product, "GTV","0")) {
+                if (CommonUtil.addGTVActivity(context, "11", "Shelling Day", cordinates, farmercount + " " + product, "GTV","0",0.0)) {
                     // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                 }
                 //  Toast.makeText(context, "Data Saved Successfully.", Toast.LENGTH_SHORT).show();
