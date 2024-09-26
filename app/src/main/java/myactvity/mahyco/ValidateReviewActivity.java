@@ -131,7 +131,7 @@ public class ValidateReviewActivity extends AppCompatActivity implements GoogleA
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "VALIDATEREVIEW";
     List<GeneralMaster> mList = new ArrayList<>();
-    String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
 
     String userCode, imagePath;
     Config config;

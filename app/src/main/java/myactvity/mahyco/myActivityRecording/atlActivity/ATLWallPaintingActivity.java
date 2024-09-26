@@ -172,8 +172,8 @@ public class ATLWallPaintingActivity extends AppCompatActivity implements Google
     SharedPreferences.Editor loceditor, editor;
     RelativeLayout relPRogress;
     ScrollView container;
-    //String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/atl/villageWallPainting";
+    //String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/villageWallPainting";
     ProgressBar progressBar;
     private Handler handler = new Handler();
     private long mLastClickTime = 0;
@@ -2549,7 +2549,7 @@ public class ATLWallPaintingActivity extends AppCompatActivity implements Google
                         taggedCordinatesMandiNameEnd + " " + taggedAddressMandiNameEnd, taggedCordinatesMandiNameEnd, finalPopupJson,villagecode);
                 if (fl) {
 
-                    if (CommonUtil.addGTVActivity(context, "24", "Wall painting", cordinates, strMandiName+" "+selectedWallPaintingType,"GTV","0")) {
+                    if (CommonUtil.addGTVActivity(context, "24", "Wall painting", cordinates, strMandiName+" "+selectedWallPaintingType,"GTV","0",0.0)) {
                         // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                     }
 

@@ -8,9 +8,9 @@ import org.ksoap2.transport.HttpTransportSE;
 
 public class WebService {
      private static String NAMESPACE = "http://tempuri.org/";
-    private static String URL = "https://cmr.mahyco.com/FormerApp.asmx";
+    private static String URL = "http://10.80.50.153/maatest/FormerApp.asmx";
     private static String SOAP_ACTION = "http://tempuri.org/";
-    private static String MDOurlpath="https://cmr.mahyco.com/Service.asmx?WSDL";
+    private static String MDOurlpath="http://10.80.50.153/maatest/Service.asmx?WSDL";
 
    public WebService() {
     }

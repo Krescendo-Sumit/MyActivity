@@ -166,8 +166,8 @@ public class ATLPosteringActivity extends AppCompatActivity implements GoogleApi
     int calllisner;
     int checkdetailentrydaved=0;
 
-    //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/atl/posteringData";
+    //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/posteringData";
     Prefs mPref;
 
     @Override
@@ -1057,7 +1057,7 @@ public class ATLPosteringActivity extends AppCompatActivity implements GoogleApi
                     taggedCordinatesMandiNameEnd + " " + taggedAddressMandiNameEnd, taggedCordinatesMandiNameEnd, finalPopupJson,villagecode);
             if (fl) {
 
-                if (CommonUtil.addGTVActivity(context, "23", "Postering", cordinates, selectedPosteringType+" Spots-"+numberOfSpots,"GTV","0")) {
+                if (CommonUtil.addGTVActivity(context, "23", "Postering", cordinates, selectedPosteringType+" Spots-"+numberOfSpots,"GTV","0",0.0)) {
                     // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                 }
 

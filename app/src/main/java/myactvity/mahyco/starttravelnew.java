@@ -1381,7 +1381,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     if (fl==true)
                     {
 
-                        if (CommonUtil.addGTVActivity(context, "1000", "Start Travel", cordinate, "By "+vehicletype+" ."+txtlocation.getText().toString()+" "+txtlocation.getText().toString(),"Start",txtkm.getText().toString())) {
+                        if (CommonUtil.addGTVActivity(context, "1000", "Start Travel", cordinate, "By "+vehicletype+" ."+txtlocation.getText().toString()+" "+txtlocation.getText().toString(),"Start",txtkm.getText().toString(),0.0)) {
                             // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                         }
 

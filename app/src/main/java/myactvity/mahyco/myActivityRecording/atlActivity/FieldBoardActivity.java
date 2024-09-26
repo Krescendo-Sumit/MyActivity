@@ -171,8 +171,8 @@ public class FieldBoardActivity extends AppCompatActivity implements GoogleApiCl
     RadioButton radFocusedActivity,radOtherActivity;
     LinearLayout llOtherVillages,llFocussedVillages;
 
-  //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/atl/fieldBoardData";
+  //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/fieldBoardData";
 
     ProgressBar progressBar;
     RelativeLayout relPRogress;
@@ -2244,7 +2244,7 @@ public class FieldBoardActivity extends AppCompatActivity implements GoogleApiCl
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "18", "Field board", cordinates, pkFarmerMobileNumber+" "+product,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "18", "Field board", cordinates, pkFarmerMobileNumber+" "+product,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

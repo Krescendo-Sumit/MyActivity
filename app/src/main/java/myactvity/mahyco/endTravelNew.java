@@ -103,6 +103,7 @@ import myactvity.mahyco.model.CommonUtil;
 import myactvity.mahyco.newupload.UploadDataNew;
 import myactvity.mahyco.retro.RetrofitClient;
 import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
+import myactvity.mahyco.travelreport.ActivityTravelReportGTVNew;
 import myactvity.mahyco.travelreport.ActivityTravelReportTriggered;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -1211,7 +1212,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
             }
 
 
-            if (vehicletype.equals("2") || vehicletype.equals("3")) // Only for company vehicle code validation
+            if (vehicletype.equals("2") || vehicletype.equals("3")|| vehicletype.equals("1")) // Only for company vehicle code validation
             {
 
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -1256,10 +1257,10 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
             } else {
                 txtkm.setText("1");
             }
+
             if (txtkm.getText().length() == 0) {
                 msclass.showMessage("Please enter start reading (km).");
                 return false;
-
             }
             /*if (ivImage.getDrawable() == null) {
                 msclass.showMessage("Please upload vehicle reading photo(km)");
@@ -1361,7 +1362,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                     //dialog.dismiss();
                     if (fl == true) {
                         try {
-                            if (CommonUtil.addGTVActivity(context, "2000", "End Travel", cordinate, "By "+vehicletype+" ."+txtlocation.getText().toString()+" "+txtlocation.getText().toString(),"",""+txtkm.getText().toString())) {
+                            if (CommonUtil.addGTVActivity(context, "2000", "End Travel", cordinate, "By "+vehicletype+" ."+txtlocation.getText().toString()+" "+txtlocation.getText().toString(),"",""+txtkm.getText().toString(),0.0)) {
                                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                             }
                             msclass.showMessage("Tour end data saved successfully");
@@ -1491,18 +1492,17 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
                                         String qq1 = "update mdo_endtravel set Status='1',imgstatus='1' where Status='0'";
 
                                         mDatabase.UpdateStatus(qq1);
-
-
                                         new androidx.appcompat.app.AlertDialog.Builder(context)
                                                 .setMessage(jsonObject.getString("Comment"))
                                                 .setTitle(jsonObject.getString("status"))
+                                                .setCancelable(false)
                                                 .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                                        dialogInterface.dismiss();
-                                                        Intent intent = new Intent(context, ActivityTravelReportGTV.class);
-                                                        startActivity(intent);
 
+                                                        dialogInterface.dismiss();
+                                                        Intent intent = new Intent(context, ActivityTravelReportGTVNew.class);
+                                                        startActivity(intent);
 
                                                     }
                                                 })

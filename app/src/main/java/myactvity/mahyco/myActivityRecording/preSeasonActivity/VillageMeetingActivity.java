@@ -128,8 +128,8 @@ public class VillageMeetingActivity extends AppCompatActivity implements
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
-    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/preseason/villageMeeting";
+    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/villageMeeting";
     String userCode;
     Config config;
     SharedPreferences locdata, pref;
@@ -2044,7 +2044,7 @@ public class VillageMeetingActivity extends AppCompatActivity implements
         if (fl) {
 
 
-            if (CommonUtil.addGTVActivity(context, "2", "Village Meeting", cordinates, product,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "2", "Village Meeting", cordinates, product,"GTV","0",0.0)) {
                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

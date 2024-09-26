@@ -151,8 +151,8 @@ public class HarvestDayActivity extends AppCompatActivity implements
     ImageView ivImage2;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
     List<GeneralMaster> mList = new ArrayList<>();
- //   String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/postSeason/harvestDayData";
+ //   String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/harvestDayData";
     String userCode, imagePath, imagePath2;
     String plotType = "";
     String soilType = "";
@@ -2379,7 +2379,7 @@ public class HarvestDayActivity extends AppCompatActivity implements
                 farmerListPhotoStatus, isSynced,villagecode);
 
         if (fl) {
-            if (CommonUtil.addGTVActivity(context, "15", "Harvest Day", cordinates, pkRetailerMobileNumber+" "+product,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "15", "Harvest Day", cordinates, pkRetailerMobileNumber+" "+product,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             //msclass.showMessage("data saved successfully.");

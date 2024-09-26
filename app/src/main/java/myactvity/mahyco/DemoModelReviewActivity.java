@@ -136,7 +136,7 @@ public class DemoModelReviewActivity extends AppCompatActivity implements Google
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
     List<GeneralMaster> mList = new ArrayList<>();
-    String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
 
     String userCode, imagePath;
     Config config;

@@ -151,8 +151,8 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
     double longi;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
-    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/postSeason/livePlantDisplayVillageData";
+    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/livePlantDisplayVillageData";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -1606,7 +1606,7 @@ public class LivePlantDisplayVillageActivity extends AppCompatActivity implement
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "14", "Live plant display (village)", cordinates, farmerCount + " " + product, "GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "14", "Live plant display (village)", cordinates, farmerCount + " " + product, "GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

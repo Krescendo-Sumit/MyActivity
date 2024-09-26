@@ -119,8 +119,8 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
     ProgressBar progressBar;
     private Handler handler = new Handler();
     Dialog dialog;
-    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/preseason/testimonial";
+    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/testimonial";
     private final static HttpClient mHhttpclient = new DefaultHttpClient();
     Prefs mPref;
     RadioGroup radGroupActivity;
@@ -1107,7 +1107,7 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
                 farmerPhotoStatus, successPhotoName, Imagepath2, successPhotoStatus, isSynced, villagecode);
 
         if (fl) {
-            if (CommonUtil.addGTVActivity(context, "1", "Testimonial Collection", cordinates, farmerName + " - " + farmerMobile, "GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "1", "Testimonial Collection", cordinates, farmerName + " - " + farmerMobile, "GTV","0",0.0)) {
                 Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             uploadData("TestimonialCollectionData");

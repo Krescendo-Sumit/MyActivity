@@ -31,7 +31,7 @@ public class CommonUtil {
         }
     }
 
-    public static boolean addGTVActivity(Context context, String activityid, String activityName, String cordinates, String remark,String activityType,String actualKM) {
+    public static boolean addGTVActivity(Context context, String activityid, String activityName, String cordinates, String remark,String activityType,String actualKM,double attendance) {
         try {
             SharedPreferences sp = context.getSharedPreferences("MyPref", 0);
             String userCode = sp.getString("UserID", null);
@@ -48,9 +48,8 @@ public class CommonUtil {
             String selectedGTV1VillageCode = prefs.getString(AppConstant.GTVSelectedVillageCode, "");
             String selectedGTV1Village = prefs.getString(AppConstant.GTVSelectedVillage, "");
             String spendtime = "";
+            double mins = 0;
             try {
-                double mins = 0;
-
 
                 if (activityType.trim().equals("GTV")) {
                     String lasttime = prefs.getString(AppConstant.LASTGTVACTIVITYTIME, "");
@@ -68,6 +67,10 @@ public class CommonUtil {
                         mins = 0;
                     }
 
+                }
+                else
+                {
+                    mins=0;
                 }
             }catch (Exception e)
             {
@@ -102,10 +105,15 @@ public class CommonUtil {
             else
                 gtvTravelActivityDataModel.setGTVActivityKM("" + CommonUtil.getDistance(lastCordinate, cordinates));// TEXT,
             gtvTravelActivityDataModel.setAppVersion(BuildConfig.VERSION_NAME);// TEXT,
-            gtvTravelActivityDataModel.setRemark(remark+". "+spendtime);
+            gtvTravelActivityDataModel.setRemark(remark);
             gtvTravelActivityDataModel.setIsSynced(0);
 
 
+            gtvTravelActivityDataModel.setAttendance(attendance);
+            gtvTravelActivityDataModel.setTimeSpend(mins);
+            gtvTravelActivityDataModel.setInfo1(spendtime);
+            gtvTravelActivityDataModel.setInfo2("");
+            gtvTravelActivityDataModel.setInfo3("");
 
 
             if (mDatabase.InsertGTVTravelData(gtvTravelActivityDataModel)) {

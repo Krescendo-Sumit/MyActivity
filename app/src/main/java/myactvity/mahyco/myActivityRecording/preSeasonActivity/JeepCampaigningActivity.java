@@ -126,8 +126,8 @@ public class JeepCampaigningActivity extends AppCompatActivity implements
     String cordinatesmsgAddloc = "TAG THE PLOT (2ND ROW INSIDE THE PLOT)* \n";
     String address="", addressEnd="", addressAddloc="";
     public String search = "";
-    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/preseason/jeepCampaigningData";
+    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/jeepCampaigningData";
     String userCode;
     Config config;
     boolean startlocationflag= false;
@@ -1864,7 +1864,7 @@ public class JeepCampaigningActivity extends AppCompatActivity implements
         }
         else {
 
-            if (CommonUtil.addGTVActivity(context, "5", "Jeep campaigning", cordinates, rtoRegistrationNumber+" "+product,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "5", "Jeep campaigning", cordinates, rtoRegistrationNumber+" "+product,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 
@@ -1882,7 +1882,7 @@ public class JeepCampaigningActivity extends AppCompatActivity implements
                 }
                 else {
 
-                    if (CommonUtil.addGTVActivity(context, "5", "Jeep campaigning\n", cordinates, rtoRegistrationNumber+" "+product,"GTV","0")) {
+                    if (CommonUtil.addGTVActivity(context, "5", "Jeep campaigning\n", cordinates, rtoRegistrationNumber+" "+product,"GTV","0",0.0)) {
                         // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                     }
 

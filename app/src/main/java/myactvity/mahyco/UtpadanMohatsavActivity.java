@@ -150,8 +150,8 @@ public class UtpadanMohatsavActivity extends AppCompatActivity implements
 
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
     List<GeneralMaster> mList = new ArrayList<>();
-    //   String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/postSeason/harvestDayData";
+    //   String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/harvestDayData";
     String userCode, imagePath, imagePath2;
     String plotType = "";
     String soilType = "";
@@ -1830,7 +1830,7 @@ public class UtpadanMohatsavActivity extends AppCompatActivity implements
 
         if (mDatabase.insertUtpadanMohatsav(UserCode, State, District, Taluka, VillageCode, VillageName, Crop, Product, HostFarmerName, FarmerMobile, FarmerArea, FarmerYeild, NumberOfFarmerFelisited, NumberOfFarmer, NumberOfRetailer, LatLong, PhotoName, PhotoString, CreatedDate, Status, VersionName, UplaodStatus, Extra1, Extra2)) {
             Toast.makeText(context, "Data Saved Successfully.", Toast.LENGTH_SHORT).show();
-            if (CommonUtil.addGTVActivity(context, "12", "Utpadan Mohatsav", cordinates, HostFarmerName+" "+product,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "12", "Utpadan Mohatsav", cordinates, HostFarmerName+" "+product,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             String data="";

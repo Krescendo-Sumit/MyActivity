@@ -123,8 +123,8 @@ public class VillageMeetingActivityOnline extends AppCompatActivity implements
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
-    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/preseason/villageMeeting";
+    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/villageMeeting";
     String userCode;
     Config config;
     SharedPreferences locdata, pref;

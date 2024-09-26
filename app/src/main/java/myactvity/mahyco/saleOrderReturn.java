@@ -105,7 +105,7 @@ public class saleOrderReturn extends AppCompatActivity {
         context = this;
         cx=new CommonExecution(this);
         SERVER = cx.MDOurlpath;
-        testurl ="https://cmr.mahyco.com/IPM.ashx"; //cx.saleSERVER;
+        testurl ="http://10.80.50.153/maatest/IPM.ashx"; //cx.saleSERVER;
         saleorderurl =cx.saleSERVER;
         dateFormatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
         pd = new ProgressDialog(context);

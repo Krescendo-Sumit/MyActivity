@@ -134,7 +134,7 @@ public class POPDisplayActivity extends AppCompatActivity implements
     ScrollView container;
     private Handler handler = new Handler();
     private long mLastClickTime = 0;
-    String SERVER = "https://packhouse.mahyco.com/api/preseason/popDisplayData";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/popDisplayData";
     Config config;
     SharedPreferences.Editor loceditor, editor;
     SharedPreferences locdata, pref;
@@ -338,7 +338,7 @@ public class POPDisplayActivity extends AppCompatActivity implements
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "31", "POP display", cordinates, retailerDetails,"Market","0")) {
+            if (CommonUtil.addGTVActivity(context, "31", "POP display", cordinates, retailerDetails,"Market","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

@@ -10,6 +10,7 @@ import java.util.List;
 import myactvity.mahyco.TBMWiseMdoList;
 import myactvity.mahyco.newupload.HDPSPaymentDetailAPI;
 import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
+import myactvity.mahyco.travelreport.ActivityTravelReportGTVNew;
 import myactvity.mahyco.travelreport.ActivityTravelReportTriggered;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -33,7 +34,7 @@ public interface Api {
 
 
     @FormUrlEncoded
-    @POST("https://cmr.mahyco.com/MDOHandler.ashx?appName=Myactivity")
+    @POST("http://10.80.50.153/maatest/MDOHandler.ashx?appName=Myactivity")
     Call<String> syncTraveldata(@Field("Type") String mdo_travelData, @Field("encodedData") String objAsBytes, @Field("input1") String imagestring1, @Field("input2") String imagestring2);
 
     @POST(RetroConstants.UplaodShellingDay)
@@ -107,6 +108,9 @@ public interface Api {
 
     @POST(RetroConstants.GET_TRAVEL_REPORT_GTV_REPORT)
     Call<ActivityTravelReportGTV.Root> GetTravelGTVReport(@Body JsonObject jsonObject);
+
+    @POST(RetroConstants.GET_TRAVEL_REPORT_GTV_REPORT_NEW)
+    Call<ActivityTravelReportGTVNew.Root> GetTravelGTVReportNew(@Body JsonObject jsonObject);
 
     @POST(RetroConstants.GET_TRAVEL_REPORT_GTV_REPORT_String)
     Call<String> GetTravelGTVReportString(@Body JsonObject jsonObject);

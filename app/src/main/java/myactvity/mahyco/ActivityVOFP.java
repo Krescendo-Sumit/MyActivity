@@ -125,7 +125,7 @@ public class ActivityVOFP extends AppCompatActivity implements
     String address="";
     EditText etSearchText, etName, etPhone, etAcres, etComment, etOther, etOther1, etOther2, etOtherCompany,etOtherCompany1,etSuggestion, etNotAttend;
 
-    //  String SERVER = "https://packhouse.mahyco.com/api/preseason/sanmanMela";
+    //  String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/sanmanMela";
     String userCode;
     Config config;
     LinearLayout llOtherVillages, llFocussedVillages, llYESReceived, LinearLayout02;
@@ -1161,7 +1161,7 @@ public class ActivityVOFP extends AppCompatActivity implements
      */
     private String searchAPIData(String function, JSONObject obj) {
         String str = etSearchText.getText().toString().replaceAll(" ","%20");
-        String uri = String.format(Locale.ENGLISH, "https://packhouse.mahyco.com/api/generalactivity/getVOFPData?filter=%s",str );
+        String uri = String.format(Locale.ENGLISH, "https://maapackhousenxg.mahyco.com/api/generalactivity/getVOFPData?filter=%s",str );
         Uri searchUri = Uri.parse(uri);
         return HttpUtils.POSTInQuery(searchUri.toString(),mPref.getString(AppConstant.ACCESS_TOKEN_TAG,""));
     }

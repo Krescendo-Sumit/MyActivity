@@ -171,8 +171,8 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
     double longi;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
-    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/postSeason/fieldDayData";
+    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/fieldDayData";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -2769,7 +2769,7 @@ public class FieldDayActivity extends AppCompatActivity implements GoogleApiClie
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "10", "Field day", cordinates, farmerDetails + " " + product, "GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "10", "Field day", cordinates, farmerDetails + " " + product, "GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

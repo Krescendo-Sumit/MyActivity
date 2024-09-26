@@ -160,8 +160,8 @@ public class FieldBannerActivity extends AppCompatActivity implements GoogleApiC
     double longi;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
-    String SERVER = "https://packhouse.mahyco.com/api/atl/fieldBannerData";
-  //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/fieldBannerData";
+  //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -1918,7 +1918,7 @@ public class FieldBannerActivity extends AppCompatActivity implements GoogleApiC
                 fieldBannerImgStatus, isSynced,villagecode);
 
         if (fl) {
-            if (CommonUtil.addGTVActivity(context, "16", "Field banner", cordinates, pkFarmerMobileNumber+" "+product,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "16", "Field banner", cordinates, pkFarmerMobileNumber+" "+product,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             Toast.makeText(context, "SAve to Db", Toast.LENGTH_SHORT).show();

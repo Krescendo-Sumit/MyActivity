@@ -158,8 +158,8 @@ public class PurchaseListActivity extends AppCompatActivity implements GoogleApi
     RelativeLayout relPRogress;
     private long mLastClickTime = 0;
     ScrollView container;
-  //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/postSeason/purchaseListData";
+  //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/purchaseListData";
     private Handler handler = new Handler();
     int farmerCount = 0;
     Prefs mPref;
@@ -1749,7 +1749,7 @@ public class PurchaseListActivity extends AppCompatActivity implements GoogleApi
 
         if (fl) {
            // msclass.showMessage("data saved successfully.");
-            if (CommonUtil.addGTVActivity(context, "33", "Farmer/Purchase list collection", cordinates, retailerDetail+" "+retailerNumber,"Market","0")) {
+            if (CommonUtil.addGTVActivity(context, "33", "Farmer/Purchase list collection", cordinates, retailerDetail+" "+retailerNumber,"Market","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
             uploadData("PurchaseListData");

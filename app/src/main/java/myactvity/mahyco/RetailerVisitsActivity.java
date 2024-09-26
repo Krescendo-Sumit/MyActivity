@@ -131,8 +131,8 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
     int REQUEST_CHECK_SETTINGS = 101;
     double lati;
     double longi;
-    //   String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/generalactivity/retailervisit";
+    //   String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/generalactivity/retailervisit";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -1139,7 +1139,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
 
         if (fl) {
 
-            if (CommonUtil.addGTVActivity(context, "41", "Retailer Visit", cordinates, RetailerDetails,"Market","0")) {
+            if (CommonUtil.addGTVActivity(context, "41", "Retailer Visit", cordinates, RetailerDetails,"Market","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
            /* if (config.NetworkConnection())

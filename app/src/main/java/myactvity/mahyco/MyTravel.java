@@ -11,17 +11,30 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Result;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.location.FusedLocationProviderApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.maps.android.SphericalUtil;
@@ -38,6 +51,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
@@ -120,14 +134,16 @@ import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
 import myactvity.mahyco.travelreport.GTVTravelAPI;
 
 import static android.content.ContentValues.TAG;
+import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
 
-public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListener {
+public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback {
 
     Button btnStarttravel, btnAddActivity, btnAddActivity_new, btnendtravel;
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
-    TextView lblwelcome, myTextProgress,txtsep1,txtsep2;
+    TextView lblwelcome, myTextProgress, txtsep1, txtsep2;
     public Spinner spDist, spTaluka, spVillage, spCropType, spProductName, spMyactvity, spComment;
     private Context context;
     private SqliteDatabase mDatabase;
@@ -161,7 +177,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     Button btnPunchOutGTV2;
     Button btn_sync, btn_sync_traveldata;
     Button btn_clearpunchdata, btn_clearactivitydata;
-    String userCode = "",userRole="";
+    String userCode = "", userRole = "";
     String selectedGTV1Village = "";
     String selectedGTV2Village = "";
     String selectedGTV1VillageCode = "";
@@ -182,8 +198,23 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     List<ActivityModel> activityModels;
     int gtv1SpentHrs = 0;
     int gtv2SpentHrs = 0;
+    TextView tvCordinates;
 
-    LinearLayout llgtv1,llgtv2;
+    LinearLayout llgtv1, llgtv2;
+
+
+    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
+    Location location;
+    private static final long INTERVAL = 1000 * 5;
+    private static final long FASTEST_INTERVAL = 1000 * 20;
+    boolean IsGPSEnabled = false;
+    private LocationRequest locationRequest;
+    private GoogleApiClient googleApiClient;
+    private FusedLocationProviderApi fusedLocationProviderApi = FusedLocationApi;
+    boolean fusedlocationRecieved;
+    boolean GpsEnabled;
+    int REQUEST_CHECK_SETTINGS = 101;
+
 
     // ScrollView container;
     @Override
@@ -206,6 +237,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             myTextProgress = (TextView) findViewById(R.id.myTextProgress);
             txtsep1 = (TextView) findViewById(R.id.txtsep1);
             txtsep2 = (TextView) findViewById(R.id.txtsep2);
+            tvCordinates = (TextView) findViewById(R.id.tvCordinates);
 
             // container = (ScrollView) findViewById(R.id.container);
             spDist = (Spinner) findViewById(R.id.spDist);
@@ -241,8 +273,6 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             isBothGTVVillageSame();
 
 
-
-
             config = new Config(this); //Here the context is passing
             lblwelcome = (TextView) findViewById(R.id.lblwelcome);
             userCode = preferences.getString("UserID", null);
@@ -271,9 +301,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
 
 // Activate OLD screen for TBM as per Old Version .
-           // Toast.makeText(context, ""+userRole, Toast.LENGTH_SHORT).show();
-            if(userRole.trim().equals("0"))
-            {
+            // Toast.makeText(context, ""+userRole, Toast.LENGTH_SHORT).show();
+            if (userRole.trim().equals("0")) {
                 llgtv1.setVisibility(View.VISIBLE);
                 llgtv2.setVisibility(View.VISIBLE);
                 txtsep1.setVisibility(View.VISIBLE);
@@ -283,8 +312,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 btn_sync.setVisibility(View.VISIBLE);
                 btn_sync_traveldata.setVisibility(View.VISIBLE);
                 btnAddActivity.setText("OTHER THAN FOCUS VILLAGE ACTIVITIES");
-            }else
-            {
+            } else {
                 llgtv1.setVisibility(View.GONE);
                 llgtv2.setVisibility(View.GONE);
                 txtsep1.setVisibility(View.GONE);
@@ -300,8 +328,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
             if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
                 btnAddActivity.setEnabled(true);
-            }else
-            {
+            } else {
                 btnAddActivity.setEnabled(false);
             }
 
@@ -345,19 +372,17 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 @Override
                 public void onClick(View v) {
                     if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
-                        if(userRole.trim().equals("0")) {
+                        if (userRole.trim().equals("0")) {
                             addMarketActivityButton();
-                        }else
-                        {
+                        } else {
                             Intent intent = new Intent(MyTravel.this, MyActivityRecordingNew.class);
                             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             context.startActivity(intent);
                         }
-                    }else
-                    {
+                    } else {
                         Toast.makeText(context, "Can't perform market activity.", Toast.LENGTH_SHORT).show();
                     }
-                  
+
 
                 }
             });
@@ -568,8 +593,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 isGtv2ActiveTimeSlot = false;
             }
             // Make both value to be true to activate both GTV start on any time in day
-       /*     isGtv1ActiveTimeSlot = true;
-            isGtv2ActiveTimeSlot = true;*/
+            isGtv1ActiveTimeSlot = true;
+            isGtv2ActiveTimeSlot = true;
         } catch (NumberFormatException e) {
 
         }
@@ -952,27 +977,27 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                         Toast.makeText(context, "Please select focus village.", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    updateLocation();
+                    // updateLocation();delete
                     double distance = 0;
                     String villageCordinates = mDatabase.getFocusVillageLocation(selectedGTV1VillageCode);
-                    int st = 0;
-                    //   Toast.makeText(context, "" + villageCordinates, Toast.LENGTH_SHORT).show();
+                    int st = 1;
+                    Toast.makeText(context, "VILLAGE LOCATION :" + villageCordinates, Toast.LENGTH_SHORT).show();
                     Log.i("Distance ", villageCordinates + " to " + cordinates + " " + distance + " meter");
-                    if (villageCordinates == null || villageCordinates.contains("Data Not Found")) {
+                    if (villageCordinates == null || villageCordinates.trim().equals("") || villageCordinates.contains("Data Not Found")) {
                         showPopupMessage("Please check master data downloaded.");
                         st = 1;
-                    } else if (villageCordinates == null || villageCordinates.trim().equals("null")) {
+                    } else if (villageCordinates == null || villageCordinates.trim().equals("null") || villageCordinates.trim().equals("")) {
                         showPopupMessage("No Geo Tagging found . Please tagged this village before proceed.");
                         st = 1;
                     } else {
                         if (villageCordinates.trim().contains("-")) {
 
                             distance = CommonUtil.getDistance(villageCordinates, cordinates);
-                            //    showPopupMessage(villageCordinates+" to "+cordinates+" "+distance+" meter");
+                               // showPopupMessage(villageCordinates+" to "+cordinates+" "+distance+" meter");
                             if (distance >= 0 && distance <= 3000) {
                                 st = 0;
                             } else {
-                                showPopupMessage("Please punch in from selected village , You are too far from this village. ");
+                                showPopupMessage("Please punch in from selected village , You are too far from this village." + (distance/1000));
                                 st = 1;
                             }
                         } else {
@@ -1043,7 +1068,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                                                     mPref.save(AppConstant.GTVSelectedVillageCode1, selectedGTV1VillageCode);
                                                     mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
                                                     mPref.save(AppConstant.LASTGTVACTIVITYTIME, InTime);
-                                                    if (CommonUtil.addGTVActivity(context, "0", "Punch In", cordinates, "Start Village", "GTV", "0")) {
+                                                    if (CommonUtil.addGTVActivity(context, "0", "Punch In", cordinates, "Start Village", "GTV", "0", 0.0)) {
                                                         //  Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                                                     }
                                                     showSharePreference();
@@ -1093,12 +1118,13 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     }
                     // Toast.makeText(context, "GTV1 Activity", Toast.LENGTH_SHORT).show();
                     int rad = 0;
-                    updateLocation();
+                    // updateLocation();
                     Prefs prefs = Prefs.with(context);
                     String punchInCordinates = prefs.getString(AppConstant.GTVPunchIdCoordinates, "");
                     String vname1 = mPref.getString(AppConstant.GTVSelectedVillage1, "");
                     String vcode1 = mPref.getString(AppConstant.GTVSelectedVillageCode1, "");
-                    String radius = mDatabase.getFocusVillageRadius(vcode1);
+                    //String radius = mDatabase.getFocusVillageRadius(vcode1);
+                    String radius = "5";
                     try {
                         rad = Integer.parseInt(radius) * 1000;
                     } catch (Exception e) {
@@ -1106,19 +1132,20 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     }
                     double d = CommonUtil.getDistance(punchInCordinates, cordinates);
                     Log.i("test", punchInCordinates + "" + cordinates + " Add activity " + d + " " + rad);
+                    Toast.makeText(context, punchInCordinates+" and "+cordinates, Toast.LENGTH_SHORT).show();
                     if (d > 0 && d < rad) {
                         mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
                         addActivityInList(1);// GTV activity 1
                         showActivityDialog(context);
                     } else {
-                        showPopupMessage("You are so far from village , Please perform this activity from near to village.");
+                        showPopupMessage("You are so far from village , Please perform this activity from near to village."+(d /1000));
                     }
                 }
             });
             btnPunchOutGTV1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    updateLocation();
+                    //updateLocation();
                     mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
                         return;
@@ -1172,7 +1199,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                         Toast.makeText(context, "Please select focus village.", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    updateLocation();
+                    //updateLocation();
                     double distance = 0;
                     String villageCordinates = mDatabase.getFocusVillageLocation(selectedGTV2VillageCode);
                     int st = 0;
@@ -1260,7 +1287,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                                                     mPref.save(AppConstant.GTVSelectedVillageCode2, selectedGTV2VillageCode);
                                                     mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
                                                     mPref.save(AppConstant.LASTGTVACTIVITYTIME, InTime);
-                                                    if (CommonUtil.addGTVActivity(context, "0", "Punch In", cordinates, "Start Village", "GTV", "0")) {
+                                                    if (CommonUtil.addGTVActivity(context, "0", "Punch In", cordinates, "Start Village", "GTV", "0", 0.0)) {
                                                     }
                                                     showSharePreference();
                                                     checkGTVStatus(3);
@@ -1299,7 +1326,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 @Override
                 public void onClick(View view) {
                     int rad = 0;
-                    updateLocation();
+                    //updateLocation();
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
                         return;
                     }
@@ -1308,7 +1335,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     String punchInCordinates = prefs.getString(AppConstant.GTVPunchIdCoordinates, "");
                     String vname1 = mPref.getString(AppConstant.GTVSelectedVillage2, "");
                     String vcode1 = mPref.getString(AppConstant.GTVSelectedVillageCode2, "");
-                    String radius = mDatabase.getFocusVillageRadius(vcode1);
+                    // String radius = mDatabase.getFocusVillageRadius(vcode1);
+                    String radius = "5";
                     try {
                         rad = Integer.parseInt(radius) * 1000;
                     } catch (Exception e) {
@@ -1329,7 +1357,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchOutGTV2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    updateLocation();
+                    //updateLocation();
                     mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
                         return;
@@ -1417,25 +1445,35 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     }
 
     void punchOutGTV1() {
-        String message="";
+
+        Prefs prefs = Prefs.with(context);
+        String punchInCordinates = prefs.getString(AppConstant.GTVPunchIdCoordinates, "");
+        double d = CommonUtil.getDistance(punchInCordinates, cordinates);
+        if (d >= 5001) {
+            showPopupMessage("Please punch out from punch in village. You are too far from it."+punchInCordinates +" and " + cordinates +(d/1000));
+            return;
+        }
+
+
+        String message = "";
         Date entrydate = new Date();
-        int gtvactivityCnt=mDatabase.checkGtvActivityDoneStatus(new SimpleDateFormat("yyyy-MM-dd").format(entrydate),"GTV1");
+        int gtvactivityCnt = mDatabase.checkGtvActivityDoneStatus(new SimpleDateFormat("yyyy-MM-dd").format(entrydate), "GTV1");
         double atten = 0.0;
         if (gtv1SpentHrs >= 3) {
             atten = 0.5;
-            if(gtvactivityCnt>0) {
-                message="GTV1 Activity :"+gtvactivityCnt+". ";
+            if (gtvactivityCnt > 0) {
+                message = "GTV1 Activity :" + gtvactivityCnt + ". ";
                 atten = 0.5;
-            }else {
-                message="User Spent 3hrs but No GTV1 activity.";
+            } else {
+                message = "User Spent 3hrs but No GTV1 activity.";
                 atten = 0.0;
             }
-        }else {
-            message="User not spent 3hrs GTV1 Activity :"+gtvactivityCnt+". ";
+        } else {
+            message = "User not spent 3hrs GTV1 Activity :" + gtvactivityCnt + ". ";
             atten = 0.0;
         }
 
-       // CommonUtil.addGTVActivity(context, "888", "Attendance", cordinates, "GTV 1 Time Spent " + gtv1SpentHrs + " hrs " + gtv1Time, "GTV", "" + atten);
+        // CommonUtil.addGTVActivity(context, "888", "Attendance", cordinates, "GTV 1 Time Spent " + gtv1SpentHrs + " hrs " + gtv1Time, "GTV", "" + atten,0.0);
 
 
         final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
@@ -1467,7 +1505,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         if (mDatabase.InsertGTVMaster(gtvMasterDataModel)) {
             mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
 
-            if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village " + selectedGTV1Village+" GTV 1 Time Spent " + gtv1SpentHrs + " hrs " + gtv1Time+" "+message, "GTV", ""+atten)) {
+            if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village " + selectedGTV1Village + " GTV 1 Time Spent " + gtv1SpentHrs + " hrs " + gtv1Time + " " + message, "GTV", "" + atten, 0.0)) {
                 mPref.save(AppConstant.GTVType, "");
                 mPref.save(AppConstant.ACTIVITYTYPE, "");
                 mPref.save(AppConstant.GTVSession, "");
@@ -1486,22 +1524,29 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     }
 
     void punchOutGTV2() {
+        Prefs prefs = Prefs.with(context);
+        String punchInCordinates = prefs.getString(AppConstant.GTVPunchIdCoordinates, "");
+        double d = CommonUtil.getDistance(punchInCordinates, cordinates);
+        if (d >= 5001) {
+            showPopupMessage("Please punch out from punch in village. You are too far from it.");
+            return;
 
-        String message="";
+        }
+        String message = "";
         Date entrydate = new Date();
-        int gtvactivityCnt=mDatabase.checkGtvActivityDoneStatus(new SimpleDateFormat("yyyy-MM-dd").format(entrydate),"GTV2");
+        int gtvactivityCnt = mDatabase.checkGtvActivityDoneStatus(new SimpleDateFormat("yyyy-MM-dd").format(entrydate), "GTV2");
         double atten = 0.0;
         if (gtv2SpentHrs >= 3) {
             atten = 0.5;
-            if(gtvactivityCnt>0) {
-                message="GTV2 Activity :"+gtvactivityCnt+". ";
+            if (gtvactivityCnt > 0) {
+                message = "GTV2 Activity :" + gtvactivityCnt + ". ";
                 atten = 0.5;
-            }else {
-                message="User Spent 3hrs but No GTV2 activity.";
+            } else {
+                message = "User Spent 3hrs but No GTV2 activity.";
                 atten = 0.0;
             }
-        }else {
-            message="User not spent 3hrs GTV2 Activity :"+gtvactivityCnt+". ";
+        } else {
+            message = "User not spent 3hrs GTV2 Activity :" + gtvactivityCnt + ". ";
             atten = 0.0;
         }
 
@@ -1511,7 +1556,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         else
             atten = 0.0;*/
 
-       // CommonUtil.addGTVActivity(context, "888", "Attendance", cordinates, "GTV 2 Time Spent " + gtv2SpentHrs + " hrs " + gtv2Time, "GTV", "" + atten);
+        // CommonUtil.addGTVActivity(context, "888", "Attendance", cordinates, "GTV 2 Time Spent " + gtv2SpentHrs + " hrs " + gtv2Time, "GTV", "" + atten,0.0);
 
 
         final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
@@ -1543,7 +1588,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         if (mDatabase.InsertGTVMaster(gtvMasterDataModel)) {
 
             mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
-            if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village " + selectedGTV2Village+" GTV 2 Time Spent " + gtv2SpentHrs + " hrs " + gtv2Time+" "+message, "GTV", ""+atten)) {
+            if (CommonUtil.addGTVActivity(context, "1111", "Punch Out", cordinates, "Punch Out Village " + selectedGTV2Village + " GTV 2 Time Spent " + gtv2SpentHrs + " hrs " + gtv2Time + " " + message, "GTV", "" + atten, atten)) {
                 mPref.save(AppConstant.GTVType, "");
                 mPref.save(AppConstant.ACTIVITYTYPE, "");
                 mPref.save(AppConstant.GTVSession, "");
@@ -1586,13 +1631,14 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             if (count > 0) {
                 JsonArray jsonArray;
 
-                String searchQuery = "select id,ActivityId,KACode,GTVType,ActivityName,ActivityType,ActivityDt,VillageCode,VillageName,LastCoordinates,Coordinates,GTVActivityKM,AppVersion,Remark,isSynced,RefrenceId,ActualKM,DistanceFromPunchKm from GTVTravelActivityData where isSynced=0";
+                String searchQuery = "select id,ActivityId,KACode,GTVType,ActivityName,ActivityType,ActivityDt,VillageCode,VillageName,LastCoordinates,Coordinates,GTVActivityKM,AppVersion,Remark,isSynced,RefrenceId,ActualKM,DistanceFromPunchKm,Attendance,TimeSpend,Info1,Info2,Info3 from GTVTravelActivityData where isSynced=0";
                 jsonArray = mDatabase.getResultsRetro(searchQuery);
 /*
                 for (int i = 0; i < jsonArray.size(); i++) {
                     JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
                     jsonObject.addProperty("ActivityId","0");
-                }*/
+                }
+*/
                 JsonObject jsonFinal = new JsonObject();
                 jsonFinal.add("gTVUserActivityModels", jsonArray);
                 new GTVTravelAPI(context, this).UploadGTVTravelData(jsonFinal);
@@ -1836,9 +1882,9 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
             ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
-            adapter.addFragment(new starttravel(), "Start Travel");
-            adapter.addFragment(new addtravel(), "Add Activity");
-            adapter.addFragment(new endtravel(), "End Travel");
+            //  adapter.addFragment(new starttravel(), "Start Travel");
+            //   adapter.addFragment(new addtravel(), "Add Activity");
+            //   adapter.addFragment(new endtravel(), "End Travel");
             // adapter.addFragment(new Nutrition(),  getResources().getString(R.string.Nutrition));
             viewPager.setAdapter(adapter);
         } catch (Exception e) {
@@ -2802,7 +2848,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
         try {
             Date date1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(GTVVillage1PUNCHINTIME);
-        Date date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(GTVVillage1PUNCHOUTTIME);
+            Date date2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(GTVVillage1PUNCHOUTTIME);
             long millis = date2.getTime() - date1.getTime();
             int hours = (int) (millis / (1000 * 60 * 60));
             int mins = (int) ((millis / (1000 * 60)) % 60);
@@ -2853,17 +2899,196 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         }
 
     }
-    void disableMarketActivity()
-    {
 
-        if(gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus)
-        {
+    void disableMarketActivity() {
+
+        if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
             btnAddActivity.setEnabled(true);
-        }
-        else
-        {
+        } else {
             btnAddActivity.setEnabled(false);
         }
     }
 
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onResult(@NonNull Result result) {
+
+    }
+
+    @Override
+    public synchronized void onLocationChanged(Location arg0) {
+
+        try {
+            if (arg0 == null) {
+                return;
+            }
+            if (arg0.getLatitude() == 0 && arg0.getLongitude() == 0) {
+                return;
+            }
+            lati = arg0.getLatitude();
+            longi = arg0.getLongitude();
+            Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
+            cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
+            if (address.equals("")) {
+                if (config.NetworkConnection()) {
+                    address = getCompleteAddressString(lati, longi);
+                }
+            }
+            tvCordinates.setText("Current Coordinates : \n" + cordinates);
+            Log.d(TAG, "onlocation" + cordinates);
+
+
+        } catch (Exception e) {
+            Log.d(TAG, "onLocationChanged: " + e.toString());
+            e.printStackTrace();
+            //  }
+        }
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+        try {
+            LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                fusedlocationRecieved = false;
+                if (googleApiClient != null && googleApiClient.isConnected()) {
+                    Log.d(TAG, "Fused api connected: ");
+                    if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                        return;
+                    }
+                    fusedLocationProviderApi.requestLocationUpdates(googleApiClient, locationRequest, (LocationListener) this);
+                }
+
+            } else {
+                LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                        .addLocationRequest(locationRequest);
+                builder.setAlwaysShow(true);
+                PendingResult result =
+                        LocationServices.SettingsApi.checkLocationSettings(
+                                googleApiClient,
+                                builder.build()
+                        );
+
+                result.setResultCallback(this);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "onConnected: " + e.toString());
+        }
+
+
+    }
+
+    private synchronized void startFusedLocationService() {
+        try {
+            LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                IsGPSEnabled = true;
+            } else {
+                IsGPSEnabled = false;
+            }
+            if (IsGPSEnabled) {
+                locationRequest = new LocationRequest();//.create();
+                locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+                locationRequest.setInterval(INTERVAL);
+                locationRequest.setSmallestDisplacement(0f);
+                locationRequest.setFastestInterval(FASTEST_INTERVAL);
+
+                googleApiClient = new GoogleApiClient.Builder(this)
+                        .addApi(LocationServices.API).addConnectionCallbacks(this)
+                        .addOnConnectionFailedListener(this).build();
+                try {
+                    if (googleApiClient != null) {
+                        googleApiClient.connect();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.d(TAG, "startFusedLocationService: " + e.toString());
+                }
+                GpsEnabled = true;
+
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MyTravel.this);
+
+                builder.setTitle("MyActivity");
+                builder.setMessage("Please enable location and Gps");
+
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int which) {
+                        final Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(intent);
+                        dialog.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+
+        }
+    }
+
+    public void stopFusedApi() {
+        try {
+            if (googleApiClient != null && (googleApiClient.isConnected())) {
+                FusedLocationApi.removeLocationUpdates(googleApiClient, (LocationListener) this);
+                googleApiClient.disconnect();
+            }
+        } catch (Exception ex) {
+            FirebaseCrash.report(ex);
+            ex.printStackTrace(); // Ignore error
+
+            // ignore the exception
+        } finally {
+
+            googleApiClient = null;
+            locationRequest = null;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        try {
+
+            startFusedLocationService();
+
+        } catch (Exception ex) {
+            Utility.showAlertDialog("Error", "Funtion name :onresume" + ex.getMessage(), context);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            stopFusedApi();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }

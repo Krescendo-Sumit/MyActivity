@@ -151,8 +151,8 @@ public class RetailerToVisitActivity extends AppCompatActivity implements Google
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
 
-   // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/postSeason/retailerVisitToField";
+   // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/retailerVisitToField";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -741,7 +741,7 @@ public class RetailerToVisitActivity extends AppCompatActivity implements Google
                 isSynced);
 
         if (fl) {
-            if (CommonUtil.addGTVActivity(context, "13", "Retailer visit to field", cordinates, farmerName+" "+farmerMobileNumber,"GTV","0")) {
+            if (CommonUtil.addGTVActivity(context, "13", "Retailer visit to field", cordinates, farmerName+" "+farmerMobileNumber,"GTV","0",0.0)) {
                 // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
             }
 

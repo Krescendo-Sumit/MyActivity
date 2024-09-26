@@ -135,8 +135,8 @@ public class SanmanMelaActivity extends AppCompatActivity implements
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
     List<GeneralMaster> mList = new ArrayList<>();
-    //String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
-    String SERVER = "https://packhouse.mahyco.com/api/preseason/sanmanMela";
+    //String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/sanmanMela";
     String userCode, imagePath, imagePath2;
     String plotType = "";
     String soilType = "";
@@ -1800,7 +1800,7 @@ public class SanmanMelaActivity extends AppCompatActivity implements
 
              if (fl) {
 
-                 if (CommonUtil.addGTVActivity(context, "21", "Sanman Mela", cordinates, farmerNumber+" "+product,"GTV","0")) {
+                 if (CommonUtil.addGTVActivity(context, "21", "Sanman Mela", cordinates, farmerNumber+" "+product,"GTV","0",0.0)) {
                      // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                  }
                 uploadData("SanmanMelaData");
