@@ -53,11 +53,14 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -131,6 +134,7 @@ import myactvity.mahyco.myActivityRecording.preSeasonActivity.TestimonialCollect
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.VillageMeetingActivity;
 import myactvity.mahyco.newupload.UploadDataNew;
 import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
+import myactvity.mahyco.travelreport.ActivityTravelReportGTVNew;
 import myactvity.mahyco.travelreport.GTVTravelAPI;
 
 import static android.content.ContentValues.TAG;
@@ -198,7 +202,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     List<ActivityModel> activityModels;
     int gtv1SpentHrs = 0;
     int gtv2SpentHrs = 0;
-    TextView tvCordinates;
+    TextView tvCordinates, txt_version_lbl;
 
     LinearLayout llgtv1, llgtv2;
 
@@ -214,7 +218,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     boolean fusedlocationRecieved;
     boolean GpsEnabled;
     int REQUEST_CHECK_SETTINGS = 101;
-
+    TextView txt_pending_uploads;
+    LinearLayout ll_pending_uploads;
 
     // ScrollView container;
     @Override
@@ -238,6 +243,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             txtsep1 = (TextView) findViewById(R.id.txtsep1);
             txtsep2 = (TextView) findViewById(R.id.txtsep2);
             tvCordinates = (TextView) findViewById(R.id.tvCordinates);
+            txt_version_lbl = (TextView) findViewById(R.id.txt_version_lbl);
 
             // container = (ScrollView) findViewById(R.id.container);
             spDist = (Spinner) findViewById(R.id.spDist);
@@ -291,6 +297,10 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnStarttravel = (Button) findViewById(R.id.btnStarttravel);
             btnAddActivity = (Button) findViewById(R.id.btnAddActivity);
             btnAddActivity_new = (Button) findViewById(R.id.btnAddActivity_new);
+
+            if (BuildConfig.VERSION_NAME != null)
+                txt_version_lbl.setText("" + BuildConfig.VERSION_NAME);
+
             //  Toast.makeText(context, "User Unit Name : "+preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
 
             // We are hiding Add Activity Button for Veg Users
@@ -307,8 +317,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 llgtv2.setVisibility(View.VISIBLE);
                 txtsep1.setVisibility(View.VISIBLE);
                 txtsep2.setVisibility(View.VISIBLE);
-                btn_clearactivitydata.setVisibility(View.GONE);
-                btn_clearpunchdata.setVisibility(View.GONE);
+                //   btn_clearactivitydata.setVisibility(View.GONE);
+                //  btn_clearpunchdata.setVisibility(View.GONE);
                 btn_sync.setVisibility(View.VISIBLE);
                 btn_sync_traveldata.setVisibility(View.VISIBLE);
                 btnAddActivity.setText("OTHER THAN FOCUS VILLAGE ACTIVITIES");
@@ -320,6 +330,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 btn_clearactivitydata.setVisibility(View.GONE);
                 btn_clearpunchdata.setVisibility(View.GONE);
                 btn_sync.setVisibility(View.GONE);
+                btnAddActivity_new.setVisibility(View.GONE);
                 btn_sync_traveldata.setVisibility(View.GONE);
                 btnAddActivity.setText("Add Activity");
 
@@ -328,8 +339,10 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
             if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
                 btnAddActivity.setEnabled(true);
+                btnAddActivity_new.setEnabled(true);
             } else {
                 btnAddActivity.setEnabled(false);
+                btnAddActivity_new.setEnabled(false);
             }
 
             btnendtravel = (Button) findViewById(R.id.btnendtravel);
@@ -551,6 +564,39 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
         updateLocation();
         GTVButtonClicked();
+
+        Animation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(1500);
+        anim.setStartOffset(20);
+        anim.setRepeatMode(Animation.REVERSE);
+        anim.setRepeatCount(Animation.INFINITE);
+        ll_pending_uploads = findViewById(R.id.ll_pending_uploads);
+        txt_pending_uploads = findViewById(R.id.txt_pending_uploads);
+        txt_pending_uploads.setAnimation(anim);
+       checkGtvUploadCount();
+        txt_pending_uploads.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (config.NetworkConnection()) {
+                    uploadGtvTravelData();
+                } else {
+                    showPopupMessage("Please check internet connection.");
+                }
+            }
+        });
+
+
+    }
+
+     void checkGtvUploadCount() {
+         int cntdata=mDatabase.getUploadCountGTV();
+         if (cntdata > 0) {
+             ll_pending_uploads.setVisibility(View.VISIBLE);
+             txt_pending_uploads.setText(Html.fromHtml("<u>You have " + cntdata + " pending upload GTV activity.</u>"));
+         } else {
+             ll_pending_uploads.setVisibility(View.GONE);
+             txt_pending_uploads.setText(Html.fromHtml("<u>You have " + cntdata + " pending upload GTV activity.</u>"));
+         }
     }
 
     boolean isBothGTVVillageSame() {
@@ -681,6 +727,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 activityModels.add(new ActivityModel(28, "28", "Testimonial Sharing"));
                 activityModels.add(new ActivityModel(29, "29", "Whatapp Group Creation"));
                 activityModels.add(new ActivityModel(30, "30", "Distributor Call"));
+                activityModels.add(new ActivityModel(8, "8", "Plot Management"));
                 activityModels.add(new ActivityModel(18, "18", "Field Board"));
                 activityModels.add(new ActivityModel(16, "16", "Field Banner"));
             }
@@ -993,11 +1040,11 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                         if (villageCordinates.trim().contains("-")) {
 
                             distance = CommonUtil.getDistance(villageCordinates, cordinates);
-                               // showPopupMessage(villageCordinates+" to "+cordinates+" "+distance+" meter");
+                            // showPopupMessage(villageCordinates+" to "+cordinates+" "+distance+" meter");
                             if (distance >= 0 && distance <= 3000) {
                                 st = 0;
                             } else {
-                                showPopupMessage("Please punch in from selected village , You are too far from this village." + (distance/1000));
+                                showPopupMessage("Please punch in from selected village , You are too far from this village." + (distance / 1000));
                                 st = 1;
                             }
                         } else {
@@ -1132,13 +1179,13 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                     }
                     double d = CommonUtil.getDistance(punchInCordinates, cordinates);
                     Log.i("test", punchInCordinates + "" + cordinates + " Add activity " + d + " " + rad);
-                    Toast.makeText(context, punchInCordinates+" and "+cordinates, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, punchInCordinates + " and " + cordinates, Toast.LENGTH_SHORT).show();
                     if (d > 0 && d < rad) {
                         mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
                         addActivityInList(1);// GTV activity 1
                         showActivityDialog(context);
                     } else {
-                        showPopupMessage("You are so far from village , Please perform this activity from near to village."+(d /1000));
+                        showPopupMessage("You are so far from village , Please perform this activity from near to village." + (d / 1000));
                     }
                 }
             });
@@ -1165,7 +1212,6 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                                     dialogInterface.dismiss();
 
                                     if (isGTV1TimeComplete()) {
-
                                         punchOutGTV1();
                                     } else {
                                         new AlertDialog.Builder(context)
@@ -1408,7 +1454,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 public void onClick(View view) {
                     /*uploadGtvMaster();*/
 
-                    Intent intent = new Intent(context, ActivityTravelReportGTV.class);
+                    Intent intent = new Intent(context, ActivityTravelReportGTVNew.class);
                     startActivity(intent);
 
                 }
@@ -1450,7 +1496,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         String punchInCordinates = prefs.getString(AppConstant.GTVPunchIdCoordinates, "");
         double d = CommonUtil.getDistance(punchInCordinates, cordinates);
         if (d >= 5001) {
-            showPopupMessage("Please punch out from punch in village. You are too far from it."+punchInCordinates +" and " + cordinates +(d/1000));
+            showPopupMessage("Please punch out from punch in village. You are too far from it." + punchInCordinates + " and " + cordinates + (d / 1000));
             return;
         }
 
@@ -1458,12 +1504,22 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         String message = "";
         Date entrydate = new Date();
         int gtvactivityCnt = mDatabase.checkGtvActivityDoneStatus(new SimpleDateFormat("yyyy-MM-dd").format(entrydate), "GTV1");
+        int gtvactivity60MinCnt1 = mDatabase.checkGtvActivityDone60MinStatus(new SimpleDateFormat("yyyy-MM-dd").format(entrydate), "GTV1");
+        Toast.makeText(context, "60 min activity : " + gtvactivity60MinCnt1, Toast.LENGTH_SHORT).show();
+
         double atten = 0.0;
         if (gtv1SpentHrs >= 3) {
             atten = 0.5;
             if (gtvactivityCnt > 0) {
-                message = "GTV1 Activity :" + gtvactivityCnt + ". ";
-                atten = 0.5;
+                int gtvactivity60MinCnt = mDatabase.checkGtvActivityDone60MinStatus(new SimpleDateFormat("yyyy-MM-dd").format(entrydate), "GTV1");
+                if (gtvactivity60MinCnt > 0) {
+                    message = "GTV1 Activity :" + gtvactivityCnt + ". 60Min activity:" + gtvactivity60MinCnt;
+                    atten = 0.0;
+
+                } else {
+                    message = "GTV1 Activity :" + gtvactivityCnt + ". 60Min activity:" + gtvactivity60MinCnt;
+                    atten = 0.5;
+                }
             } else {
                 message = "User Spent 3hrs but No GTV1 activity.";
                 atten = 0.0;
@@ -1535,12 +1591,23 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         String message = "";
         Date entrydate = new Date();
         int gtvactivityCnt = mDatabase.checkGtvActivityDoneStatus(new SimpleDateFormat("yyyy-MM-dd").format(entrydate), "GTV2");
+        int gtvactivity60MinCnt1 = mDatabase.checkGtvActivityDone60MinStatus(new SimpleDateFormat("yyyy-MM-dd").format(entrydate), "GTV2");
+        Toast.makeText(context, "60 min activity : " + gtvactivity60MinCnt1, Toast.LENGTH_SHORT).show();
         double atten = 0.0;
         if (gtv2SpentHrs >= 3) {
             atten = 0.5;
             if (gtvactivityCnt > 0) {
-                message = "GTV2 Activity :" + gtvactivityCnt + ". ";
-                atten = 0.5;
+
+                int gtvactivity60MinCnt = mDatabase.checkGtvActivityDone60MinStatus(new SimpleDateFormat("yyyy-MM-dd").format(entrydate), "GTV2");
+                if (gtvactivity60MinCnt > 0) {
+                    message = "GTV2 Activity :" + gtvactivityCnt + ". 60Min activity:" + gtvactivity60MinCnt;
+                    atten = 0.0;
+
+                } else {
+
+                    message = "GTV2 Activity :" + gtvactivityCnt + ". 60Min activity:" + gtvactivity60MinCnt;
+                    atten = 0.5;
+                }
             } else {
                 message = "User Spent 3hrs but No GTV2 activity.";
                 atten = 0.0;
@@ -1902,10 +1969,11 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     @Override
     public void OnGTVTravelDataUpload(String result) {
         try {
-            Toast.makeText(context, "" + result, Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, "" + result, Toast.LENGTH_SHORT).show();
             JSONObject jsonObjectResult = new JSONObject(result.trim());
             if (jsonObjectResult.getBoolean("ResultFlag") && jsonObjectResult.getString("status").toLowerCase().equals("success")) {
                 mDatabase.UpdateStatus("Update GTVTravelActivityData set isSynced=1 where isSynced=0");
+                checkGtvUploadCount();
                 new AlertDialog.Builder(context)
                         .setMessage(jsonObjectResult.getString("Comment"))
                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
@@ -1915,6 +1983,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                             }
                         }).show();
             } else {
+                checkGtvUploadCount();
                 new AlertDialog.Builder(context)
                         .setTitle("Something went wrong")
                         .setMessage(jsonObjectResult.getString("Comment"))
@@ -2904,8 +2973,10 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
         if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
             btnAddActivity.setEnabled(true);
+            btnAddActivity_new.setEnabled(true);
         } else {
             btnAddActivity.setEnabled(false);
+            btnAddActivity_new.setEnabled(false);
         }
     }
 

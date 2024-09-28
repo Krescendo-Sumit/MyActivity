@@ -9201,6 +9201,17 @@ public class SqliteDatabase extends SQLiteOpenHelper {
             return false;
         }
     }
+    public int getUploadCountGTV() {
+        int cnt = 0;
+        SQLiteDatabase db = getWritableDatabase();
+        String sql = "select  count(*) as cnt  from  GTVTravelActivityData where isSynced='0'";
+        Cursor cursor = db.rawQuery(sql, null, null);
+        if (cursor.moveToNext()) {
+            cnt = cursor.getInt(0);
+        }
+        db.close();
+        return cnt;
+    }
 
     public synchronized JsonArray GetGTVMaster(String Query) {
         SQLiteDatabase db = getReadableDatabase();
@@ -9381,6 +9392,24 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         db.close();
         return cnt;
     }
+
+    public int checkGtvActivityDone60MinStatus(String InDate, String gtvtype) {
+
+        int  cnt = 0;
+        SQLiteDatabase db = getWritableDatabase();
+
+        String sql = " select  Count(*)as cnt  from  GTVTravelActivityData where ActivityType='GTV' and GTVType='"+gtvtype+"' and   ActivityDt like '%"+InDate+"%' and ActivityName not in ('Punch In','Punch Out','Focus Village Tagging') and TimeSpend>60";
+        Log.i("Query", sql);
+        Cursor cursor = db.rawQuery(sql, null, null);
+        if (cursor.moveToNext()) {
+            cnt = cursor.getInt(0);
+        } else {
+            cnt=0;
+        }
+        db.close();
+        return cnt;
+    }
+
 
     public int getInvalidEntry(String InDate, String gtvtype) {
 

@@ -778,9 +778,6 @@ public class VillageTaggingGTV extends AppCompatActivity implements GoogleApiCli
         InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
         if (true) {
 
-            if (CommonUtil.addGTVActivity(context, "144", "Focus Village Tagging", cordinates, villageCode + " " + villageName, "Market", "0",0.0)) {
-                // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
-            }
 
             JsonObject jsonObject = new JsonObject();
 
@@ -839,7 +836,12 @@ public class VillageTaggingGTV extends AppCompatActivity implements GoogleApiCli
                         try {
                             JSONObject object = new JSONObject(response.body().toString());
                             if (object.getString("status").trim().toLowerCase().equals("success")) {
+
+                                if (CommonUtil.addGTVActivity(context, "144", "Focus Village Tagging", cordinates, villageCode + " " + villageName, "Market", "0",0.0)) {
+                                    // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
+                                }
                                 new AlertDialog.Builder(context).setMessage("Village Co-ordinates Tagged Successfully.")
+                                        .setCancelable(false)
                                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                             @Override
                                             public void onClick(DialogInterface dialogInterface, int i) {
