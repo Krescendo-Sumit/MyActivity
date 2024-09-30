@@ -126,8 +126,8 @@ public class JeepCampaigningActivity extends AppCompatActivity implements
     String cordinatesmsgAddloc = "TAG THE PLOT (2ND ROW INSIDE THE PLOT)* \n";
     String address="", addressEnd="", addressAddloc="";
     public String search = "";
-    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/jeepCampaigningData";
+    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/preseason/jeepCampaigningData";
     String userCode;
     Config config;
     boolean startlocationflag= false;

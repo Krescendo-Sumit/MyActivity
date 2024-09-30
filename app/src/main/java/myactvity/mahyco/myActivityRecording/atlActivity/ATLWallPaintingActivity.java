@@ -172,8 +172,8 @@ public class ATLWallPaintingActivity extends AppCompatActivity implements Google
     SharedPreferences.Editor loceditor, editor;
     RelativeLayout relPRogress;
     ScrollView container;
-    //String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/villageWallPainting";
+    //String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/atl/villageWallPainting";
     ProgressBar progressBar;
     private Handler handler = new Handler();
     private long mLastClickTime = 0;

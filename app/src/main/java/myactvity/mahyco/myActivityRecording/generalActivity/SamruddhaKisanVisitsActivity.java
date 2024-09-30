@@ -131,8 +131,8 @@ public class SamruddhaKisanVisitsActivity extends AppCompatActivity implements
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
     List<GeneralMaster> mList = new ArrayList<>();
-   // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-   String SERVER = "https://maapackhousenxg.mahyco.com/api/generalactivity/samruddhakisanvisit";
+   // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+   String SERVER = "https://packhouse.mahyco.com/api/generalactivity/samruddhakisanvisit";
 
     String userCode;
     String plotType = "";

@@ -317,8 +317,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 llgtv2.setVisibility(View.VISIBLE);
                 txtsep1.setVisibility(View.VISIBLE);
                 txtsep2.setVisibility(View.VISIBLE);
-                //   btn_clearactivitydata.setVisibility(View.GONE);
-                //  btn_clearpunchdata.setVisibility(View.GONE);
+                btn_clearactivitydata.setVisibility(View.GONE);
+                btn_clearpunchdata.setVisibility(View.GONE);
                 btn_sync.setVisibility(View.VISIBLE);
                 btn_sync_traveldata.setVisibility(View.VISIBLE);
                 btnAddActivity.setText("OTHER THAN FOCUS VILLAGE ACTIVITIES");
@@ -639,8 +639,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 isGtv2ActiveTimeSlot = false;
             }
             // Make both value to be true to activate both GTV start on any time in day
-            isGtv1ActiveTimeSlot = true;
-            isGtv2ActiveTimeSlot = true;
+            /*isGtv1ActiveTimeSlot = true;
+            isGtv2ActiveTimeSlot = true;*/
         } catch (NumberFormatException e) {
 
         }
@@ -1328,7 +1328,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                                                     mPref.save(AppConstant.GTVPastCoordinates, cordinates);
                                                     mPref.save(AppConstant.GTVSelectedVillage, selectedGTV2Village);
                                                     mPref.save(AppConstant.GTVSelectedVillageCode, selectedGTV2VillageCode);
-                                                    mPref.save(AppConstant.GTVPunchIdCoordinates, cordinates);
+                                                    mPref.save(AppConstant.GTVPunchIdCoordinates, mDatabase.getFocusVillageLocation(selectedGTV2VillageCode));
                                                     mPref.save(AppConstant.GTVSelectedVillage2, selectedGTV2Village);
                                                     mPref.save(AppConstant.GTVSelectedVillageCode2, selectedGTV2VillageCode);
                                                     mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");

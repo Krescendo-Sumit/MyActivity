@@ -88,7 +88,7 @@ public class saleOrderReturnApproved extends AppCompatActivity {
         cx=new CommonExecution(context);
         MDOurlpath =cx.saleSERVER;
 
-        testurl ="http://10.80.50.153/maatest/IPM.ashx"; //cx.saleSERVER;
+        testurl ="https://cmr.mahyco.com/IPM.ashx"; //cx.saleSERVER;
         pd = new ProgressDialog(context);
         config = new Config(this); //Here the context is passing
         lv = (ListView) findViewById(R.id.list_view);

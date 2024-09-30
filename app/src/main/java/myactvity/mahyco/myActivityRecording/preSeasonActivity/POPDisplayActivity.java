@@ -134,7 +134,7 @@ public class POPDisplayActivity extends AppCompatActivity implements
     ScrollView container;
     private Handler handler = new Handler();
     private long mLastClickTime = 0;
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/popDisplayData";
+    String SERVER = "https://packhouse.mahyco.com/api/preseason/popDisplayData";
     Config config;
     SharedPreferences.Editor loceditor, editor;
     SharedPreferences locdata, pref;

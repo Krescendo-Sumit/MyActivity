@@ -174,9 +174,10 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
 
     void getSystemDistance() {
         try {
-
-            int endTravelCount = mDatabase.getActivityDoneCount("End Travel", InTime);
-            int systemDistanceCount = mDatabase.getActivityDoneCount("System Distance", InTime);
+            Date entrydate = new Date();
+            String InTime1 = new SimpleDateFormat("yyyy-MM-dd").format(entrydate);
+            int endTravelCount = mDatabase.getActivityDoneCount("End Travel", InTime1);
+            int systemDistanceCount = mDatabase.getActivityDoneCount("System Distance", InTime1);
             Toast.makeText(context, systemDistanceCount + " and " + endTravelCount, Toast.LENGTH_SHORT).show();
 
 
@@ -1481,7 +1482,7 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
     public void OnDistanceRetrive(String result) {
         Toast.makeText(context, "Get Location " + result, Toast.LENGTH_SHORT).show();
         if (CommonUtil.addGTVActivity(context, "5555", "System Distance", "0-0", "System Punch Out", "GTV", "" + result,0.0)) {
-
+            uploadGtvTravelData();
         }
     }
 }

@@ -5104,7 +5104,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
         int count = cursor.getCount();
         if (count > 0) {
             try {
-                String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+                String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
 
                 str = new UploadDemoModelRegisterData(UploadBatchCodeData).execute(SERVER).get();
 
@@ -5185,7 +5185,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
 
                 try {
                     jsonArray = mDatabase.getResults(searchQuery);
-                    String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+                    String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
 
 
                     for (int i = 0; i < jsonArray.length(); i++) {
@@ -5323,7 +5323,7 @@ public class UploadData extends AppCompatActivity implements ShellingDayAndUtpad
         String searchQuery = "select  *  from DemoReviewData where  isSynced ='0'";
 
         Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
-        String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+        String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
 
         int count = cursor.getCount();
         JSONArray jsonArray = new JSONArray();

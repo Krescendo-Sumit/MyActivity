@@ -182,7 +182,7 @@ public class Innovation extends AppCompatActivity implements LocationListener,
     private FusedLocationProviderClient fusedLocationClient;
     double lati;
     double longi;
-    String cordinates;
+   // String cordinates;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -386,7 +386,7 @@ public class Innovation extends AppCompatActivity implements LocationListener,
                     lati = location.getLatitude();
                     longi = location.getLongitude();
                     cordinate = String.valueOf(lati) + "-" + String.valueOf(longi);
-                    Log.i("Coordinates", cordinates);
+                    Log.i("Coordinates", cordinate);
                     address = getCompleteAddressString(lati, longi);
                    // Toast.makeText(context, "Location Latitude : " + location.getLatitude() + " Longitude :" + location.getLongitude() + " Hello :" + address, Toast.LENGTH_SHORT).show();
                     //  edGeoTagging.setText(location.getLatitude() + "," + location.getLongitude());

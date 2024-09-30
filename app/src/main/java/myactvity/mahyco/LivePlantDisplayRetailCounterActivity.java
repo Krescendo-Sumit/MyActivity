@@ -145,8 +145,8 @@ public class LivePlantDisplayRetailCounterActivity extends AppCompatActivity imp
     double longi;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
     String focusedVillage;
-   // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/livePlantDisplayRetailerData";
+   // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/postSeason/livePlantDisplayRetailerData";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;

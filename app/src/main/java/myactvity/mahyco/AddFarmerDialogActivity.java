@@ -77,7 +77,7 @@ public final class AddFarmerDialogActivity extends Dialog {
 
     SharedPreferences locdata, pref;
     ProgressDialog dialog;
-    String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
+    String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
     SharedPreferences.Editor loceditor, editor;
     ArrayList<AddFarmerListModel> mList = new ArrayList<>();
 

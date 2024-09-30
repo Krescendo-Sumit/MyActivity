@@ -135,8 +135,8 @@ public class SanmanMelaActivity extends AppCompatActivity implements
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
     List<GeneralMaster> mList = new ArrayList<>();
-    //String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/preseason/sanmanMela";
+    //String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/preseason/sanmanMela";
     String userCode, imagePath, imagePath2;
     String plotType = "";
     String soilType = "";

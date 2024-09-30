@@ -152,8 +152,8 @@ public class CropShowActivityOnline extends AppCompatActivity implements
     ImageView ivImage, ivImageFarmerListPhoto, ivImageRetailerListPhoto;
     private static final String IMAGE_DIRECTORY_NAME = "DEMOMODELPHOTO";
     List<GeneralMaster> mList = new ArrayList<>();
-    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/cropShowData";
+    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/postSeason/cropShowData";
 
     String userCode, imagePath;
     String focusedVillage = "",village;

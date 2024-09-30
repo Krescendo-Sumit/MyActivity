@@ -158,8 +158,8 @@ public class PurchaseListActivity extends AppCompatActivity implements GoogleApi
     RelativeLayout relPRogress;
     private long mLastClickTime = 0;
     ScrollView container;
-  //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/purchaseListData";
+  //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/postSeason/purchaseListData";
     private Handler handler = new Handler();
     int farmerCount = 0;
     Prefs mPref;

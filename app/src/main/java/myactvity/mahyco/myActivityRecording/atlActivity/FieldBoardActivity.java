@@ -171,8 +171,8 @@ public class FieldBoardActivity extends AppCompatActivity implements GoogleApiCl
     RadioButton radFocusedActivity,radOtherActivity;
     LinearLayout llOtherVillages,llFocussedVillages;
 
-  //  String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/atl/fieldBoardData";
+  //  String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/atl/fieldBoardData";
 
     ProgressBar progressBar;
     RelativeLayout relPRogress;

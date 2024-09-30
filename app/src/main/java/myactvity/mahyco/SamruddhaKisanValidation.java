@@ -113,10 +113,10 @@ public class SamruddhaKisanValidation extends AppCompatActivity implements Googl
     RadioButton radFocusedActivity, radOtherActivity;
     private Handler handler = new Handler();
     Prefs mPref;
-    String BaseUrl = "https://maapackhousenxg.mahyco.com/api/generalactivity/";
+    String BaseUrl = "https://packhouse.mahyco.com/api/generalactivity/";
     String GET_MDO_BY_TBM_URL = BaseUrl + "getMdoByTbm";
     String GET_REGION_TBM_URL = BaseUrl + "getRegionTbm";
-    String BASE = "maapackhousenxg.mahyco.com";
+    String BASE = "packhouse.mahyco.com";
     String SERVER = BaseUrl + "getSamruddhaKisanValidationData";
     // String SERVER = "http://10.80.50.153/MAAPackHouseTest/api/generalactivity/getSamruddhaKisanValidationData";
 

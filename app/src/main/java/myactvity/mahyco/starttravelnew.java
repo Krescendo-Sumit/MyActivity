@@ -2,6 +2,7 @@ package myactvity.mahyco;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.ContentValues;
@@ -18,13 +19,16 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.provider.Settings;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,11 +36,16 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -71,6 +80,12 @@ import com.vansuita.pickimage.dialog.PickImageDialog;
 import com.vansuita.pickimage.listeners.IPickResult;
 
 
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -82,6 +97,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -108,19 +124,19 @@ import static com.google.android.gms.location.LocationServices.FusedLocationApi;
 
 
 public class starttravelnew extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener,LocationListener, ResultCallback,
-        IPickResult,View.OnClickListener
+        GoogleApiClient.OnConnectionFailedListener, LocationListener, ResultCallback,
+        IPickResult, View.OnClickListener
 
         //  implements LocationListener
 {
-    
-    public SearchableSpinner spvehicletype,spDist, spState,spTaluka, spCropType, spProductName, spMyactvity,spComment; //spTehsil
-    public Button btnstUpdate,btnTakephoto;
+
+    public SearchableSpinner spvehicletype, spDist, spState, spTaluka, spCropType, spProductName, spMyactvity, spComment; //spTehsil
+    public Button btnstUpdate, btnTakephoto;
     private String state;
-    EditText txtkm,txtlocation;
+    EditText txtkm, txtlocation;
     private Bitmap bitmap;
 
-    private String dist,taluka,village,Imagepath1;
+    private String dist, taluka, village, Imagepath1;
     private SqliteDatabase mDatabase;
     public Messageclass msclass;
     SharedPreferences pref, locdata;
@@ -134,8 +150,8 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
     ImageView ivImage;
     private static final String IMAGE_DIRECTORY_NAME = "VISITPHOTO";
     SharedPreferences preferences;
-    public   static String cordinate="";
-    public static String address="" ;
+    public static String cordinate = "";
+    public static String address = "";
     Config confing;
     CommonExecution cx;
     String usercode;
@@ -153,11 +169,11 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
     private FusedLocationProviderApi fusedLocationProviderApi = FusedLocationApi;
     boolean fusedlocationRecieved;
     boolean GpsEnabled;
-    int REQUEST_CHECK_SETTINGS=101;
+    int REQUEST_CHECK_SETTINGS = 101;
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
-    private  Uri imageUri = null;
-    private   String queryImageUrl = "";
-    private String Imagename="";
+    private Uri imageUri = null;
+    private String queryImageUrl = "";
+    private String Imagename = "";
     PostsDatabaseHelper databaseHelper;
     ProgressDialog progressDialog;
 
@@ -175,67 +191,79 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
         // Get singleton instance of database
         //databaseHelper = PostsDatabaseHelper.getInstance(this);
 
-        context=this;
-        progressDialog=new ProgressDialog(context);
+        context = this;
+        progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Please wait...");
-        confing=new Config(context);
-        cx=new CommonExecution(context);
+        confing = new Config(context);
+        cx = new CommonExecution(context);
         initUI();
         if (checkPlayServices()) {
             // startFusedLocationService();
-        }
-        else
-        {
+        } else {
             msclass.showMessage("This device google play services not supported for Devices location");
         }
+        if (confing.NetworkConnection()) {
+            try {
+                String IME = msclass.getDeviceIMEI();
+                SharedPreferences sp = getApplicationContext().getSharedPreferences("MyPref", 0);
+                String userCode = sp.getString("UserID", null);
+                userCode = userCode.replace(" ", "%20");
+                IME = IME.replace(" ", "%20");
 
+                new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode=" + userCode);
+                //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco");
+            } catch (Exception e) {
+                Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+
+        }
 
 
     }
 
-    private void initUI()
-    {
+    private void initUI() {
 
-       
+
         preferences = this.getSharedPreferences("MyPref", 0);
         editor = preferences.edit();
         // dialog = new ProgressDialog(this);
         // dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        TextView lblwelcome=(TextView)findViewById(R.id.lblwelcome);
-        lblwelcome.setText(" NAME: "+preferences.getString("Displayname",null));
-        spDist = (SearchableSpinner)findViewById(R.id.spDist);
-        spTaluka= (SearchableSpinner)findViewById(R.id.spTaluka);
-        spState= (SearchableSpinner)findViewById(R.id.spState);
-        spvehicletype= (SearchableSpinner)findViewById(R.id.spvehicletype);
+        TextView lblwelcome = (TextView) findViewById(R.id.lblwelcome);
+        lblwelcome.setText(" NAME: " + preferences.getString("Displayname", null));
+        spDist = (SearchableSpinner) findViewById(R.id.spDist);
+        spTaluka = (SearchableSpinner) findViewById(R.id.spTaluka);
+        spState = (SearchableSpinner) findViewById(R.id.spState);
+        spvehicletype = (SearchableSpinner) findViewById(R.id.spvehicletype);
         // spTehsil = (Spinner) parentHolder.findViewB\yId(R.id.spTehsil);
-        btnstUpdate=(Button)findViewById(R.id.btnstUpdate);
-        btnTakephoto=(Button)findViewById(R.id.btnTakephoto);
-        ivImage=(ImageView) findViewById(R.id.ivImage);
-        txtkm=(EditText) findViewById(R.id.txtkm);
-        chktag=(CheckBox) findViewById(R.id.chktag);
-        txtlocation=(EditText) findViewById(R.id.txtlocation);
-        TextView lbltime=(TextView)findViewById(R.id.lbltime);
-        Utility.setRegularFont(lblwelcome,context);
-        Utility.setRegularFont(lbltime,context);
-        Utility.setRegularFont(btnTakephoto,context);
-        Utility.setRegularFont(btnstUpdate,context);
-        Utility.setRegularFont(txtkm,context);
-        Utility.setRegularFont(chktag,context);
-        Utility.setRegularFont(txtlocation,context);
+        btnstUpdate = (Button) findViewById(R.id.btnstUpdate);
+        btnTakephoto = (Button) findViewById(R.id.btnTakephoto);
+        ivImage = (ImageView) findViewById(R.id.ivImage);
+        txtkm = (EditText) findViewById(R.id.txtkm);
+        chktag = (CheckBox) findViewById(R.id.chktag);
+        txtlocation = (EditText) findViewById(R.id.txtlocation);
+        TextView lbltime = (TextView) findViewById(R.id.lbltime);
+        Utility.setRegularFont(lblwelcome, context);
+        Utility.setRegularFont(lbltime, context);
+        Utility.setRegularFont(btnTakephoto, context);
+        Utility.setRegularFont(btnstUpdate, context);
+        Utility.setRegularFont(txtkm, context);
+        Utility.setRegularFont(chktag, context);
+        Utility.setRegularFont(txtlocation, context);
 
-        Utility.setRegularFont(chktag,context);
+        Utility.setRegularFont(chktag, context);
         Date entrydate = new Date();
         // String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
-        String  InTime = new SimpleDateFormat("dd-MM-yyyy").format(entrydate);
+        String InTime = new SimpleDateFormat("dd-MM-yyyy").format(entrydate);
 
-        lbltime.setText("START TOUR FOR THE DAY - "+InTime);
+        lbltime.setText("START TOUR FOR THE DAY - " + InTime);
         pref = this.getSharedPreferences("MyPref", 0); // 0 - for private mode
         editor = pref.edit();
-        usercode= pref.getString("UserID", null);
+        usercode = pref.getString("UserID", null);
 
-      //  Toast.makeText(context, ""+preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
-        if(preferences.getString("unit", null).contains("VCBU")) {
-         //   spvehicletype.setEnabled(false);
+        //  Toast.makeText(context, ""+preferences.getString("unit", null), Toast.LENGTH_SHORT).show();
+        if (preferences.getString("unit", null).contains("VCBU")) {
+            //   spvehicletype.setEnabled(false);
             chktag.setChecked(true);
 
         }
@@ -249,7 +277,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
-                    state= URLEncoder.encode(gm.Code().trim(), "UTF-8");
+                    state = URLEncoder.encode(gm.Code().trim(), "UTF-8");
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
@@ -257,6 +285,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                 BindDist(state);
                 // Toast.makeText(MobileVerify.this, "Country ID: "+gm.Code()+",  Country Name : "+gm.Desc(), Toast.LENGTH_SHORT).show();
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
                 //  Toast.makeText(MobileVerify.this,"gngvnv", Toast.LENGTH_LONG).show();
@@ -272,8 +301,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     e.printStackTrace();
                 }
                 check2 = check2 + 1;
-                if (check2 > 1)
-                {
+                if (check2 > 1) {
 
                     BindTaluka(dist);
 
@@ -292,13 +320,12 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 GeneralMaster gm = (GeneralMaster) parent.getSelectedItem();
                 try {
-                    taluka =gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
+                    taluka = gm.Code().trim();// URLEncoder.encode(gm.Code().trim(), "UTF-8");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 check3 = check3 + 1;
-                if (check3 > 1)
-                {
+                if (check3 > 1) {
 
                     // BindVillage(taluka);
 
@@ -316,19 +343,18 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
         btnstUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(confing.NetworkConnection())
-                saveStarttravel();
-               else
-               {
-                   new androidx.appcompat.app.AlertDialog.Builder(context)
-                           .setMessage("Please check internet connection.")
-                           .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
-                               @Override
-                               public void onClick(DialogInterface dialogInterface, int i) {
-                                   dialogInterface.dismiss();
-                               }
-                           }).show();
-               }
+                if (confing.NetworkConnection())
+                    saveStarttravel();
+                else {
+                    new androidx.appcompat.app.AlertDialog.Builder(context)
+                            .setMessage("Please check internet connection.")
+                            .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            }).show();
+                }
 
             }
         });
@@ -374,8 +400,9 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             }
         });*/
         // setupCameraIntentHelper();
-       
+
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -388,8 +415,8 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                 break;
         }
     }
-    private void imagetaken()
-    {
+
+    private void imagetaken() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -421,14 +448,13 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             } else {
                 Toast.makeText(this, "Picker intent not found", Toast.LENGTH_SHORT).show();
             }
-        }
-        catch (Exception ex)
-        {
-            Log.d(TAG, "selectImage(): "+ex.toString());
+        } catch (Exception ex) {
+            Log.d(TAG, "selectImage(): " + ex.toString());
         }
     }
+
     private boolean checkPlayServices() {
-        boolean flag=false;
+        boolean flag = false;
         try {
             int resultCode = GooglePlayServicesUtil
                     .isGooglePlayServicesAvailable(this);
@@ -442,22 +468,19 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                             .show();
                     finish();
                 }
-                flag=false;
+                flag = false;
+            } else {
+                flag = true;
             }
-            else
-            {
-                flag=true;
-            }
-        }
-        catch (Exception ex)
-        {
-            flag=false;
+        } catch (Exception ex) {
+            flag = false;
         }
         return flag;
     }
+
     @Override
     public void onPickResult(PickResult r) {
-       // msclass.showMessage("show");
+        // msclass.showMessage("show");
         if (r.getError() == null) {
             ivImage.setImageBitmap(r.getBitmap());
             if (ivImage.getDrawable() != null) {
@@ -474,10 +497,10 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             AppConstant.queryImageUrl = pathImage;
             AppConstant.imageUri = Uri.fromFile(new File(AppConstant.queryImageUrl));
             AppConstant.Imagename = this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
-            FileUtilImage.compressImageFile(AppConstant.queryImageUrl, AppConstant.imageUri,this
-                   , AppConstant.Imagename);
+            FileUtilImage.compressImageFile(AppConstant.queryImageUrl, AppConstant.imageUri, this
+                    , AppConstant.Imagename);
             // need to set commpress image path
-            Imagename=AppConstant.Imagename;
+            Imagename = AppConstant.Imagename;
             Imagepath1 = FileUtilImage.savefilepath;// photoFile.getAbsolutePath();  old ssave
             //roundedImageView.setImageBitmap(myBitmap);
             ////
@@ -494,6 +517,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
     public void onConnectionFailed(ConnectionResult arg0) {
 
     }
+
     @Override
     public void onConnected(Bundle arg0) {
         try {
@@ -512,7 +536,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                         // for ActivityCompat#requestPermissions for more details.
                         return;
                     }
-                    fusedLocationProviderApi.requestLocationUpdates(googleApiClient, locationRequest,  this);
+                    fusedLocationProviderApi.requestLocationUpdates(googleApiClient, locationRequest, this);
                 }
 
             } else {
@@ -530,7 +554,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d(TAG, "onConnected: "+e.toString());
+            Log.d(TAG, "onConnected: " + e.toString());
         }
 
 
@@ -540,6 +564,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
     public void onConnectionSuspended(int arg0) {
 
     }
+
     @Override
     public synchronized void onLocationChanged(Location arg0) {
 
@@ -553,29 +578,30 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             }
             double lati = arg0.getLatitude();
             double longi = arg0.getLongitude();
-            location=arg0;
-            Log.d(TAG, "onLocationChanged: "+String.valueOf(longi));
-            cordinate = String.valueOf(lati)+"-"+String.valueOf(longi);
-           if(address.equals("")) {
-               if (confing.NetworkConnection()) {
-                   address = getCompleteAddressString(lati, longi);
-               }
-           }
-               //accuracy = String.valueOf(arg0.getAccuracy());
-          //  Toast.makeText(context, cordinate+"S", Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "onlocation"+cordinate);
+            location = arg0;
+            Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
+            cordinate = String.valueOf(lati) + "-" + String.valueOf(longi);
+            if (address.equals("")) {
+                if (confing.NetworkConnection()) {
+                    address = getCompleteAddressString(lati, longi);
+                }
+            }
+            //accuracy = String.valueOf(arg0.getAccuracy());
+            //  Toast.makeText(context, cordinate+"S", Toast.LENGTH_SHORT).show();
+            Log.d(TAG, "onlocation" + cordinate);
             // locationInsertTime = arg0.getTime();
             //LocationBearing = arg0.getBearing();
             //LocationSpeed = arg0.getSpeed();
             //  fusedlocationRecieved = true;
 
         } catch (Exception e) {
-            Log.d(TAG, "onLocationChanged: "+e.toString());
+            Log.d(TAG, "onLocationChanged: " + e.toString());
             e.printStackTrace();
             //  }
         }
 
     }
+
     private synchronized void startFusedLocationService() {
         /* cancelNotification(NOTIFICATION_ID_REALTIME);*/
         try {
@@ -602,7 +628,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Log.d(TAG, "startFusedLocationService: "+e.toString());
+                    Log.d(TAG, "startFusedLocationService: " + e.toString());
                 }
                 GpsEnabled = true;
 
@@ -619,9 +645,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                 result.setResultCallback(this);
             }
             Log.d(TAG, "startFusedLocationService: ");
-        }
-        catch (Exception  ex)
-        {
+        } catch (Exception ex) {
             //msclass.showMessage("Please on device GPS location.\n startFusedLocationService"+ex.getMessage());
             // msclass.showMessage("GPS is not enable,Please on GPS\n startFusedLocationService");
             Toast.makeText(this, "Enable gps in High Accuracy only.", Toast.LENGTH_LONG).show();
@@ -630,6 +654,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             startActivity(intent);
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
 
     public void onResult(@NonNull Result result) {
@@ -650,8 +675,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
 
                         status.startResolutionForResult(this, REQUEST_CHECK_SETTINGS);
 
-                    } catch (IntentSender.SendIntentException e)
-                    {
+                    } catch (IntentSender.SendIntentException e) {
 
                     }
                     break;
@@ -660,13 +684,12 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     // Location settings are unavailable so not possible to show any dialog now
                     break;
             }
-        }
-        catch(Exception ex)
-        {
-            Toast.makeText(this, "Func-onResult"+ex.toString(), Toast.LENGTH_LONG).show();
+        } catch (Exception ex) {
+            Toast.makeText(this, "Func-onResult" + ex.toString(), Toast.LENGTH_LONG).show();
 
         }
     }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public int getLocationMode() {
         int val = 0;
@@ -679,9 +702,10 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
         return val;
 
     }
+
     public void stopFusedApi() {
         try {
-            if (googleApiClient != null && (googleApiClient.isConnected() )) {
+            if (googleApiClient != null && (googleApiClient.isConnected())) {
                 FusedLocationApi.removeLocationUpdates(googleApiClient, this);
                 googleApiClient.disconnect();
             }
@@ -696,6 +720,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             locationRequest = null;
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -708,13 +733,12 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             startFusedLocationService();
             // updateLocationUI();
             // }
-        }
-        catch(Exception ex)
-        {
-            msclass.showMessage("Funtion name :onresume"+ex.getMessage());
+        } catch (Exception ex) {
+            msclass.showMessage("Funtion name :onresume" + ex.getMessage());
         }
 
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -723,44 +747,41 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             stopFusedApi();
             ivImage.setImageURI(null);
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void intialbinddata()
-    {
+    public void intialbinddata() {
         spvehicletype.setAdapter(null);
         List<GeneralMaster> gm = new ArrayList<GeneralMaster>();
-        gm.add(new GeneralMaster("0","SELECT VEHICLE TYPE"));
-        gm.add(new GeneralMaster("1","COMPANY VEHICLE"));
-        gm.add(new GeneralMaster("2","PERSONAL VEHICLE(4 wheeler)"));
-        gm.add(new GeneralMaster("3","PERSONAL VEHICLE(2 wheeler)"));
-        gm.add(new GeneralMaster("4","PUBLIC VEHICLE"));
-        gm.add(new GeneralMaster("5","OTHER"));
+        gm.add(new GeneralMaster("0", "SELECT VEHICLE TYPE"));
+        gm.add(new GeneralMaster("1", "COMPANY VEHICLE"));
+        gm.add(new GeneralMaster("2", "PERSONAL VEHICLE(4 wheeler)"));
+        gm.add(new GeneralMaster("3", "PERSONAL VEHICLE(2 wheeler)"));
+        gm.add(new GeneralMaster("4", "PUBLIC VEHICLE"));
+        gm.add(new GeneralMaster("5", "OTHER"));
         ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
-                (this.context,android.R.layout.simple_spinner_dropdown_item, gm);
+                (this.context, android.R.layout.simple_spinner_dropdown_item, gm);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spvehicletype.setAdapter(adapter);
-
 
 
         try {
             check = 0;
             check2 = 0;
-            check3 = 0; check4 = 0;
+            check3 = 0;
+            check4 = 0;
 
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            Date d=new Date();
-            String strdate=dateFormat.format(d);
+            Date d = new Date();
+            String strdate = dateFormat.format(d);
 
             JSONObject object = new JSONObject();
             object.put("Table1", mDatabase.getResults("select  * from mdo_starttravel  " +
-                    "where strftime( '%Y-%m-%d', startdate)='"+strdate+"' and upper(mdocode)='"+usercode.toUpperCase()+"'"));
+                    "where strftime( '%Y-%m-%d', startdate)='" + strdate + "' and upper(mdocode)='" + usercode.toUpperCase() + "'"));
             JSONArray jArray = object.getJSONArray("Table1");//new JSONArray(result);
-            if(jArray.length()>0) {
+            if (jArray.length() > 0) {
 
                 btnstUpdate.setVisibility(View.INVISIBLE);
                 chktag.setChecked(true);
@@ -776,30 +797,28 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                 //03-03-2021
                 BindDist("");
                 spDist.setSelection(confing.getIndex(spDist, jObject.getString("dist").toString()));
-                BindTaluka(jObject.getString("dist").toString()) ;
-                int dd=confing.getIndex(spTaluka,jObject.getString("taluka").toString());
+                BindTaluka(jObject.getString("dist").toString());
+                int dd = confing.getIndex(spTaluka, jObject.getString("taluka").toString());
                 spTaluka.setSelection(confing.getIndex(spTaluka, jObject.getString("taluka").toString()));
                 // BindVillage(jObject.getString("taluka").toString());
                 // spTehsil.setSelection(confing.getIndex(spTehsil, jObject.getString("village").toString()));               txtkm.setText(jObject.getString("txtkm").toString());
-                Imagepath1=jObject.getString("imgpath");
+                Imagepath1 = jObject.getString("imgpath");
                 //cx.bindimage(ivImage,jObject.getString("imgpath"));
                 txtlocation.setText(jObject.getString("place").toString());
                 txtkm.setText(jObject.getString("txtkm").toString());
 
 
-
             }
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             // msclass.showMessage(ex.getMessage());
             // Toast.makeText(context, ex.getMessage(), Toast.LENGTH_SHORT).show();
-            Log.d(TAG, "intialbinddata: "+ex.toString());
+            Log.d(TAG, "intialbinddata: " + ex.toString());
             ex.printStackTrace();
 
         }
     }
+
     /* Capture Image function for 4.4.4 and lower. Not tested for Android Version 3 and 2 */
     private void captureImage2() {
 
@@ -816,14 +835,13 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     startActivityForResult(cameraIntent, REQUEST_CAMERA);
                 }
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             msclass.showMessage(ex.getMessage());
         }
     }
-    private void captureImage()
-    {
+
+    private void captureImage() {
 
         try {
 
@@ -834,7 +852,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                 if (takePictureIntent.resolveActivity(context.getPackageManager()) != null) {
                     // Create the File where the photo should go
                     try {
-                        if (imageselect==1) {
+                        if (imageselect == 1) {
                             photoFile = createImageFile();
                             //displayMessage(getBaseContext(),photoFile.getAbsolutePath());
                             // Log.i("Mayank",photoFile.getAbsolutePath());
@@ -847,8 +865,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                                             photoFile);
                                     takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
                                     startActivityForResult(takePictureIntent, REQUEST_CAMERA);
-                                }
-                                catch (ActivityNotFoundException e) {
+                                } catch (ActivityNotFoundException e) {
                                     // display error state to the user
                                 }
                             }
@@ -866,17 +883,16 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     //displayMessage(getBaseContext(),"Nullll");
                 }
             }
-        }
-
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
             // dialog.dismiss();
         }
     }
+
     private File createImageFile4() //  throws IOException
-    {    File mediaFile=null;
+    {
+        File mediaFile = null;
         try {
             // External sdcard location
             File mediaStorageDir = new File(
@@ -893,17 +909,16 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     Locale.getDefault()).format(new Date());
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + "IMG_" + timeStamp + ".jpg");
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             msclass.showMessage(ex.getMessage());
         }
         return mediaFile;
     }
-    private File createImageFile()
-    {
+
+    private File createImageFile() {
         // Create an image file name
-        File image=null;
+        File image = null;
         try {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             String imageFileName = "JPEG_" + timeStamp + "_";
@@ -914,9 +929,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     storageDir      /* directory */
             );
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
             msclass.showMessage(ex.toString());
         }
@@ -924,8 +937,8 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
         // mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
-    private void cameraIntent()
-    {
+
+    private void cameraIntent() {
 
         try {
             String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
@@ -938,22 +951,19 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             intentPicture.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
             this.startActivityForResult(intentPicture, REQUEST_CAMERA);
 
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             msclass.showMessage(ex.getMessage());
         }
 
 
-
     }
 
-    private void galleryIntent()
-    {
+    private void galleryIntent() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);//
-        startActivityForResult(Intent.createChooser(intent, "Select File"),SELECT_FILE);
+        startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
 
     private void onCaptureImageResult(Intent data) {
@@ -968,7 +978,6 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
 
                     try {
                         if (photoFile != null) {
-
 
 
                             new Thread(new Runnable() {
@@ -1037,15 +1046,15 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                                     uri);
                             ivImage.setImageBitmap(captureBmp);*/
                             Date entrydate = new Date();
-                            String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
+                            String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
 
                             imageUri = Uri.fromFile(new File(queryImageUrl));
-                            Imagename=this.getClass().getSimpleName()+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
+                            Imagename = this.getClass().getSimpleName() + pref.getString("UserID", null) + String.valueOf(entrydate.getTime());
 
                             //  ivImage.setImageBitmap(myBitmap);
 
                             FileUtilImage.compressImageFile(queryImageUrl, imageUri,
-                                    this,Imagename);
+                                    this, Imagename);
                             // need to set commpress image path
                             Imagepath1 = FileUtilImage.savefilepath;// photoFile.getAbsolutePath();  old ssave
 
@@ -1090,22 +1099,21 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                             .load(queryImageUrl)
                             .into(ivImage);*/
                     //**************
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
                     //msclass.showMessage(e.toString());
-                    Log.d(TAG, "onCaptureImageResult: "+e.toString());
+                    Log.d(TAG, "onCaptureImageResult: " + e.toString());
                     e.printStackTrace();
                 }
                 //end
             }
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             msclass.showMessage(e.toString());
             e.printStackTrace();
         }
 
     }
+
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Raw height and width of image
@@ -1128,10 +1136,11 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
 
         return inSampleSize;
     }
+
     private void onSelectFromGalleryResult(Intent data) {
 
 
-        Bitmap bm=null;
+        Bitmap bm = null;
         if (data != null) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(context.getApplicationContext().getContentResolver(), data.getData());
@@ -1140,11 +1149,12 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             }
         }
 
-        if (imageselect==1) {
+        if (imageselect == 1) {
             ivImage.setImageBitmap(bm);
         }
 
     }
+
     //@Override
     public void onLocationChanged2(Location location) {
         // Assign the new location
@@ -1157,14 +1167,12 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             if (location != null) {
                 //  msclass.showMessage("Latitude : " + location.getLatitude() + "\nLongitude : " + location.getLongitude());
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             msclass.showMessage(ex.getMessage());
         }
 
     }
-
 
 
     private String getCompleteAddressString(double LATITUDE, double LONGITUDE) {
@@ -1192,10 +1200,8 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
         return strAdd;
     }
 
-    public void saveStarttravel()
-    {
-        try
-        {
+    public void saveStarttravel() {
+        try {
             if (turnGPSOn() == false) {
                 Toast.makeText(this, "GPS is not enabled,Please on GPS", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -1217,8 +1223,8 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                         //village = vt.Code().trim();//URLEncoder.encode(vt.Code().trim(), "UTF-8");
 
                         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-                        Date d=new Date();
-                        String strdate=dateFormat.format(d);
+                        Date d = new Date();
+                        String strdate = dateFormat.format(d);
                         //if (mDatabase.getrowcount("select * from couponMaster where entryDate ='"+strdate+"'") > 0) {
                         Savedata("", state, dist, taluka, village);
                         // }
@@ -1227,15 +1233,13 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                             //    msclass.showMessage("Coupon product list not available ,Please download master data");
 
                         }
-                    }
-                    catch (Exception ex) {
+                    } catch (Exception ex) {
                         ex.printStackTrace();
                         msclass.showMessage(ex.getMessage());
                     }
                 }
             }
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             msclass.showMessage(ex.getMessage());
 
@@ -1244,13 +1248,12 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
 
     }
 
-    private boolean validation()
-    {
+    private boolean validation() {
         try {
             boolean flag = true;
 
             GeneralMaster sv = (GeneralMaster) spvehicletype.getSelectedItem();
-            String vehicletype =sv.Code().toString();
+            String vehicletype = sv.Code().toString();
             if (sv.Code().equals("0")) {
                 msclass.showMessage("Please select vehicle type");
                 return false;
@@ -1281,7 +1284,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             }
 
 
-            if(vehicletype.equals("1")||vehicletype.equals("2")||vehicletype.equals("3")) // Only for company vehicle code validation
+            if (vehicletype.equals("1") || vehicletype.equals("2") || vehicletype.equals("3")) // Only for company vehicle code validation
             {
                 if (ivImage.getDrawable() == null) {
                     msclass.showMessage("Please upload vehicle reading photo(km)");
@@ -1294,8 +1297,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
 
                 }
 
-            }else
-            {
+            } else {
                 txtkm.setText("0");
             }
             if (txtkm.getText().length() == 0) {
@@ -1313,39 +1315,34 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
 
             }
 
-            if(chktag.isChecked()==false)
-            {
+            if (chktag.isChecked() == false) {
                 msclass.showMessage("Please check geo tag.");
                 return false;
 
             }
-            if(cordinate.trim().length()==0)
-            {
+            if (cordinate.trim().length() == 0) {
                 msclass.showMessage(" GPS Location not found ,please check GPS location setting .");
                 return false;
-               // return true;
+                // return true;
             }
 
 
-        }catch (Exception ex)
-        {
-            msclass.showMessage("validation Function"+ex.getMessage());
+        } catch (Exception ex) {
+            msclass.showMessage("validation Function" + ex.getMessage());
             ex.printStackTrace();
             // dialog.dismiss();
         }
         return true;
     }
 
-    private  void Savedata(final String myactvity, String state, String dist, String taluka, String village)
-    {
-        try
-        {
+    private void Savedata(final String myactvity, String state, String dist, String taluka, String village) {
+        try {
             Date entrydate = new Date();
-            final String  InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
+            final String InTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(entrydate);
 
             final String Tempimagepath1;
             // Imagename="STravel"+pref.getString("UserID", null)+String.valueOf(entrydate.getTime()) ;
-            Tempimagepath1=Imagepath1;
+            Tempimagepath1 = Imagepath1;
 
             AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
             // Setting Dialog Title
@@ -1357,43 +1354,48 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                 public void onClick(DialogInterface dialog, int which) {
                     // Do do my action here
 
-                    String crop="";
-                    String product="";
+                    String crop = "";
+                    String product = "";
                     // mDatabase.deleterecord("delete from TagData where strftime( '%Y-%m-%d', INTime)<>'"+strdate+"' and Status='1' ");
 
 
                     String vehicletype = "";
-                    if(spvehicletype.getSelectedItem()!=null){
+                    if (spvehicletype.getSelectedItem() != null) {
                         vehicletype = spvehicletype.getSelectedItem().toString();
                     }
-                    if(BuildConfig.VERSION_NAME!=null)
-                      address+="|VN-"+BuildConfig.VERSION_NAME+"|VC-"+BuildConfig.VERSION_CODE;
+
+
+                    if (BuildConfig.VERSION_NAME != null)
+                        address += "|VN-" + BuildConfig.VERSION_NAME + "|VC-" + BuildConfig.VERSION_CODE;
                     // String vehicletype=spvehicletype.getSelectedItem().toString();
-                    String villagename="";//spTehsil.getSelectedItem().toString();
+                    String villagename = "";//spTehsil.getSelectedItem().toString();
 
                     boolean fl = mDatabase.InsertTravelTime(pref.getString("UserID", null),
-                            cordinate, address, InTime,spDist.getSelectedItem().toString().trim(),
+                            cordinate, address, InTime, spDist.getSelectedItem().toString().trim(),
                             spTaluka.getSelectedItem().toString().trim(),
                             villagename,
-                            Imagename,Tempimagepath1,txtkm.getText().toString(),
-                            txtlocation.getText().toString(),vehicletype);
+                            Imagename, Tempimagepath1, txtkm.getText().toString(),
+                            txtlocation.getText().toString(), vehicletype);
 
-                    if (fl==true)
-                    {
+                    if (fl == true) {
 
-                        if (CommonUtil.addGTVActivity(context, "1000", "Start Travel", cordinate, "By "+vehicletype+" ."+txtlocation.getText().toString()+" "+txtlocation.getText().toString(),"Start",txtkm.getText().toString(),0.0)) {
+                        if (CommonUtil.addGTVActivity(context, "1000", "Start Travel", cordinate, "By " + vehicletype + " ." + txtlocation.getText().toString() + " " + txtlocation.getText().toString(), "Start", txtkm.getText().toString(), 0.0)) {
                             // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                         }
 
+                      /*  GeneralMaster sv = (GeneralMaster) spvehicletype.getSelectedItem();
+                        String vehicleCode = sv.Code().toString().trim();
+                        if (vehicleCode.equals("4") || vehicleCode.equals("5")) {
+                            if (CommonUtil.addGTVActivity(context, "5555", "System Distance", "0-0", "User has selected public or other type", "GTV", "0",0.0)) {
 
-
+                            }
+                        }*/
                         msclass.showMessage("data saved successfully");
                         txtkm.setText("");
                         txtlocation.setText("");
                         btnstUpdate.setVisibility(View.INVISIBLE);
 
-                        if(Config.isInternetConnected(context))
-                        {
+                        if (Config.isInternetConnected(context)) {
                             uploadStarTravel();
                            /* new androidx.appcompat.app.AlertDialog.Builder(context)
                                     .setTitle("Upload Start Travel")
@@ -1413,10 +1415,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                                     }).show();*/
                         }
 
-
-                    }
-                    else
-                    {
+                    } else {
                         msclass.showMessage("Please check entry data.");
                     }
 
@@ -1444,19 +1443,19 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             positiveButton.setLayoutParams(positiveButtonLL);
             //end
 
-        }
-        catch (Exception ex)
-        {   ex.printStackTrace();
-            msclass.showMessage( "" + ex.getMessage());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            msclass.showMessage("" + ex.getMessage());
             msclass.showMessage(ex.getMessage());
         }
     }
+
     void uploadStarTravel() {
-        try{
+        try {
             String searchQuery12 = "select  *  from  mdo_starttravel where Status='0'";
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
             int count = cursor.getCount();
-            if(count>0) {
+            if (count > 0) {
                 JsonArray jsonArray;
 
                 String searchQuery = "select _id,mdocode,coordinate,startaddress,startdate,dist,taluka,village,imgname||'.jpg' as imgname,imgpath as imgpath1,Status,txtkm,place,imgstatus,vehicletype,datetime() as entrydate,replace(date('now'),'-','') as sdate from mdo_starttravel where Status='0'";
@@ -1467,24 +1466,23 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     Log.i("Image path", jsonObject.get("imgpath1").toString().replace("\"", ""));
                     jsonObject.addProperty("imgpath", mDatabase.getImageDatadetail(jsonObject.get("imgpath1").toString().replace("\"", "")));
                     jsonObject.addProperty("GTVType", "NA");
-                            jsonObject.addProperty("GTVSession", "NA");
-                            jsonObject.addProperty("Remark", "");
-                            jsonObject.addProperty("ParentId", 0);
+                    jsonObject.addProperty("GTVSession", "NA");
+                    jsonObject.addProperty("Remark", "");
+                    jsonObject.addProperty("ParentId", 0);
                 }
                 JsonObject jsonFinal = new JsonObject();
                 jsonFinal.add("starttravelModels", jsonArray);
                 uploadStartTravel(jsonFinal);
                 Log.i("Strat Travel ", jsonArray.toString());
 
-            }else
-            {
+            } else {
                 Toast.makeText(context, "No Data for upload.", Toast.LENGTH_SHORT).show();
             }
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
 
         }
     }
+
     void uploadStartTravel(JsonObject jsonObject) {
 
         try {
@@ -1503,11 +1501,11 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     if (response.body() != null) {
                         String result = response.body();
                         try {
-                            try{
-                                JSONObject jsonObject=new JSONObject(result);
-                                if(jsonObject.getBoolean("ResultFlag")) {
+                            try {
+                                JSONObject jsonObject = new JSONObject(result);
+                                if (jsonObject.getBoolean("ResultFlag")) {
                                     if (jsonObject.getString("status").toLowerCase().contains("success")) {
-                                        String qq1="update mdo_starttravel set Status='1',imgstatus='1' where Status='0'";
+                                        String qq1 = "update mdo_starttravel set Status='1',imgstatus='1' where Status='0'";
 
                                         mDatabase.UpdateStatus(qq1);
 
@@ -1535,13 +1533,11 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                                                 })
                                                 .show();
                                     }
-                                }else
-                                {
+                                } else {
 
                                 }
 
-                            }catch (Exception e)
-                            {
+                            } catch (Exception e) {
                                 new androidx.appcompat.app.AlertDialog.Builder(context)
                                         .setMessage("Something went wrong.")
                                         .setTitle("Exception")
@@ -1574,20 +1570,18 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
 
     }
 
-    private boolean turnGPSOn(){
-        boolean flag=false;
+    private boolean turnGPSOn() {
+        boolean flag = false;
         //boolean flag=true;
         try {
-            LocationManager locationManager=null;
+            LocationManager locationManager = null;
             try {
                 locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
                 // locationManager = (LocationManager) context.getSystemService();
                 // locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
-            }
-            catch(SecurityException e) {
+            } catch (SecurityException e) {
                 e.printStackTrace();
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 msclass.showMessage(ex.getMessage());
             }
@@ -1595,26 +1589,23 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                     .isProviderEnabled(LocationManager.GPS_PROVIDER);
             boolean isGPSEnabled = locationManager
                     .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-            if(!isGPSEnabled)// && !isGPSEnabled1)
+            if (!isGPSEnabled)// && !isGPSEnabled1)
             {
 
-                flag=false;
+                flag = false;
 
-            }
-            else
-            {
-                flag=true;
+            } else {
+                flag = true;
             }
 
-        }
-        catch (Exception ex) {
+        } catch (Exception ex) {
             ex.printStackTrace();
             msclass.showMessage(ex.getMessage());
         }
-        return  flag;
+        return flag;
     }
-    public void  BindState()
-    {
+
+    public void BindState() {
 
         try {
             spState.setAdapter(null);
@@ -1639,14 +1630,12 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spState.setAdapter(adapter);
 
-            }catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
 
             }
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
 
@@ -1654,8 +1643,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
 
     }
 
-    public void  BindDist(String state)
-    {
+    public void BindDist(String state) {
         try {
             spDist.setAdapter(null);
             // dialog.setMessage("Loading....");
@@ -1664,7 +1652,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             try {
                 List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
                 String searchQuery = "SELECT distinct district,district_code  FROM VillageLevelMaster" +
-                        " where state_code='"+state+"' order by district asc  ";
+                        " where state_code='" + state + "' order by district asc  ";
 
                 // String searchQuery = "SELECT distinct district,district_code  FROM VillageLevelMaster order by district asc  ";
                 Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery, null);
@@ -1690,9 +1678,7 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                 // dialog.dismiss();
             }
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
             // dialog.dismiss();
@@ -1700,8 +1686,8 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
 
 
     }
-    public void  BindTaluka(String dist)
-    {
+
+    public void BindTaluka(String dist) {
         try {
             spTaluka.setAdapter(null);
             //.setMessage("Loading....");
@@ -1737,26 +1723,24 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
                 msclass.showMessage(ex.getMessage());
                 ex.printStackTrace();
             }
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
             // dialog.dismiss();
         }
 
     }
-    public void  BindVillage(String taluka)
-    {
+
+    public void BindVillage(String taluka) {
         // spTehsil.setAdapter(null);
 
 
-        String str= null;
+        String str = null;
         try {
             // dialog.setMessage("Loading....");
             // dialog.show();
             //str = cx.new getVillage(taluka).execute().get();
-            String searchQuery="";
+            String searchQuery = "";
             List<GeneralMaster> Croplist = new ArrayList<GeneralMaster>();
             Cursor cursor;
             searchQuery = "SELECT distinct village,village_code " +
@@ -1778,15 +1762,13 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
             Croplist.add(new GeneralMaster("OTHER",
                     "OTHER"));
             ArrayAdapter<GeneralMaster> adapter = new ArrayAdapter<GeneralMaster>
-                    (this,android.R.layout.simple_spinner_dropdown_item, Croplist);
+                    (this, android.R.layout.simple_spinner_dropdown_item, Croplist);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
             // spTehsil.setAdapter(adapter);
             // dialog.dismiss();
 
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             msclass.showMessage(ex.getMessage());
             ex.printStackTrace();
             // dialog.dismiss();
@@ -1795,6 +1777,115 @@ public class starttravelnew extends AppCompatActivity implements GoogleApiClient
 
         // dialog.dismiss();
 
+    }
+
+    private class CheckVersion extends AsyncTask<String, Void, Void> {
+
+        private final HttpClient Client = new DefaultHttpClient();
+        private String Content;
+        private String Error = null;
+        private ProgressDialog Dialog = new ProgressDialog(context);
+
+
+        protected void onPreExecute() {
+            // NOTE: You can call UI Element here.
+            // Toast.makeText(context, "Entered", Toast.LENGTH_SHORT).show();
+
+            //UI Element
+            //   uiUpdate.setText("Output : ");
+            //  Dialog.setMessage("Please Wait..");
+            // Dialog.show();
+            //pb.setVisibility(View.VISIBLE);
+        }
+
+        // Call after onPreExecute method
+        protected Void doInBackground(String... urls) {
+            try {
+
+                Log.d("Url", urls[0]);
+                Log.d("Url", urls[0]);
+                // Call long running operations here (perform background computation)
+                // NOTE: Don't call UI Element here.
+
+                // Server url call by GET method
+                HttpPost httpget = new HttpPost(urls[0]);
+                //     httpget.setHeader("Authorization", "Bearer " + mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
+                ResponseHandler<String> responseHandler = new BasicResponseHandler();
+                Content = Client.execute(httpget, responseHandler);
+
+            } catch (ClientProtocolException e) {
+                Error = e.getMessage();
+                cancel(true);
+            } catch (IOException e) {
+                Error = e.getMessage();
+                cancel(true);
+            }
+
+            return null;
+        }
+
+        protected void onPostExecute(Void unused) {
+            // NOTE: You can call UI Element here.
+
+            // Close progress dialog
+            //Dialog.dismiss();
+
+            if (Error != null) {
+
+                //  uiUpdate.setText("Output : "+Error);
+
+            } else {
+                //pb.setVisibility(View.GONE);
+                //   uiUpdate.setText("Output : "+Content);
+                // loadFromServer(Content.toString().trim());
+                Log.i("Details123", "" + Content);
+                //   Toast.makeText(getApplicationContext(), ""+Content, Toast.LENGTH_SHORT).show();
+
+                try {
+
+                    JSONObject jsonVersionDetails = new JSONObject(Content.trim());
+                    String vcode = BuildConfig.VERSION_NAME;
+                   if (jsonVersionDetails.getBoolean("success")) {
+
+                        if (!(vcode.trim().equals(jsonVersionDetails.getString("AppVersion").trim()))) {
+                            showUpdateDialog();
+                        }
+
+                    } else  //  Coming False from the Version API
+                    {
+                        Toast.makeText(context, "" + jsonVersionDetails.getString("message"), Toast.LENGTH_SHORT).show();
+                    }
+
+                } catch (Exception e) {
+                    Log.i("Error is ", e.getMessage());
+                }
+            }
+        }
+
+    }
+
+    private void showUpdateDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("A new update is available.");
+        builder.setPositiveButton("Update", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
+                        ("https://play.google.com/store/apps/details?id=myactvity.mahyco")));
+                dialog.dismiss();
+            }
+        });
+
+        /*builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //background.start();
+            }
+        });*/
+
+        // builder.setCancelable(false); //Update 17 Jan. 2022
+        builder.show();
+        //dialog1 = builder.show();
     }
 
 

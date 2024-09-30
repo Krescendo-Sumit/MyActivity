@@ -139,7 +139,7 @@ public class VillageTaggingGTV extends AppCompatActivity implements GoogleApiCli
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     Location location;
     private static final long INTERVAL = 1000 * 5;
-    private static final long FASTEST_INTERVAL = 1000 * 20;
+    private static final long FASTEST_INTERVAL = 1000 * 8;
     boolean IsGPSEnabled = false;
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;
@@ -151,8 +151,8 @@ public class VillageTaggingGTV extends AppCompatActivity implements GoogleApiCli
     double longi;
     private int REQUEST_CAMERA = 0, SELECT_FILE = 1;
 
-    // String SERVER = "http://10.80.50.153/maatest/MDOHandler.ashx";
-    String SERVER = "https://maapackhousenxg.mahyco.com/api/postSeason/livePlantDisplayVillageData";
+    // String SERVER = "https://cmr.mahyco.com/MDOHandler.ashx";
+    String SERVER = "https://packhouse.mahyco.com/api/postSeason/livePlantDisplayVillageData";
     ProgressBar progressBar;
     RelativeLayout relPRogress;
     ScrollView container;
@@ -266,10 +266,22 @@ public class VillageTaggingGTV extends AppCompatActivity implements GoogleApiCli
             }
         });
 
-
+        mLastClickTime = SystemClock.elapsedRealtime();
         onSubmitBtnClicked();
     }
 
+    void showMessage(String message)
+    {
+        new AlertDialog.Builder(context)
+                .setMessage(message)
+                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                })
+                .show();
+    }
 
     /**
      * <P>//Method is used to do API related work on submit button clicked</P>
@@ -281,7 +293,10 @@ public class VillageTaggingGTV extends AppCompatActivity implements GoogleApiCli
             public void onClick(View v) {
                 if (config.NetworkConnection()) {
                     if (validation()) {
-                        if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
+                        if (SystemClock.elapsedRealtime() - mLastClickTime < 60000) {
+                            long time=SystemClock.elapsedRealtime() - mLastClickTime;
+                            int seconds = (int)((time / 1000) % 60);
+                            showMessage("Wait for "+(60-seconds)+" seconds, We are finding proper location.");
                             return;
                         }
                         mLastClickTime = SystemClock.elapsedRealtime();

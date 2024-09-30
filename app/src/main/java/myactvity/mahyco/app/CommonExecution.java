@@ -44,7 +44,7 @@ public class CommonExecution {
         dialog = new ProgressDialog( this.context);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         Urlpath="https://farm.mahyco.com/TestHandler.ashx";
-        MDOurlpath="http://10.80.50.153/maatest/MDOHandler.ashx";
+        MDOurlpath="https://cmr.mahyco.com/MDOHandler.ashx";
         saleSERVER = "https://farm.mahyco.com/SaleOrder_new.ashx"; // Upldate Link as material conditonal values
 
     }
@@ -594,7 +594,7 @@ public class CommonExecution {
         try
         {
             HttpClient httpClient=new DefaultHttpClient();
-            HttpPost httpPost=new HttpPost("http://10.80.50.153/maatest/FormerApp.asmx/MDOVerify_user?username=1&sapcode=2&password=1");
+            HttpPost httpPost=new HttpPost("https://cmr.mahyco.com/FormerApp.asmx/MDOVerify_user?username=1&sapcode=2&password=1");
 
             List<NameValuePair> list=new ArrayList<NameValuePair>();
             list.add(new BasicNameValuePair("from", ""));
