@@ -136,8 +136,8 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
             } else {
                 try {
                     txtTotalKM.setText("");
-               /*     InTime = "24/09/2024";
-                    userCode="MH248";*/
+/*                    InTime = "30/09/2024";
+                    userCode="ap2062";*/
                     JsonObject jsonObject = new JsonObject();
                     jsonObject.addProperty("FilterValue", userCode + "," + InTime);
                     jsonObject.addProperty("FilterOption", "GetTravelReport");
@@ -336,7 +336,6 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
                         try {
                             if (root.Status) {
                                 try {
-                                    Toast.makeText(ActivityTravelReportGTVNew.this, "" + root.getResult().gTV2ActivityModels.size(), Toast.LENGTH_SHORT).show();
                                     tbl.removeAllViews();
                                     if (root.Result.kAActivityModel != null) {
                                         String KANAME="";
@@ -469,6 +468,16 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
                                             .show();
                                     PrepareReport();
                                 }
+                            }else
+                            {
+                                 new AlertDialog.Builder(context)
+                                         .setMessage(""+root.Message)
+                                         .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                             @Override
+                                             public void onClick(DialogInterface dialogInterface, int i) {
+                                                 dialogInterface.dismiss();
+                                             }
+                                         }).show();
                             }
                         } catch (NullPointerException e) {
                             PrepareReport();
@@ -477,6 +486,15 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
                             PrepareReport();
                             Toast.makeText(context, "Error is " + e.getMessage(), Toast.LENGTH_LONG).show();
                         }
+                    }else {
+                        new AlertDialog.Builder(context)
+                                .setMessage("Something Went Wrong.")
+                                .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        dialogInterface.dismiss();
+                                    }
+                                }).show();
                     }
                 }
 

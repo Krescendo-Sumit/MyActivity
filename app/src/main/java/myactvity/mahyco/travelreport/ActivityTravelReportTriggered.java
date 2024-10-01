@@ -9,6 +9,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Html;
@@ -25,6 +26,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
@@ -37,12 +39,14 @@ import java.util.Locale;
 
 import myactvity.mahyco.R;
 import myactvity.mahyco.TBMWiseMdoList;
+import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 import myactvity.mahyco.retro.RetrofitClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ActivityTravelReportTriggered extends AppCompatActivity {
+public class ActivityTravelReportTriggered extends AppCompatActivity implements GTVTravelAPI.GTVListener {
     ProgressDialog progressDialog;
     Context context;
     NotificationAdapter adapter1;
@@ -53,18 +57,21 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
     EditText et_remark;
     RadioGroup rgStatus;
     TextView txtTotalKM;
-
+    SqliteDatabase mDatabase;
+    TextView txt_date;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_travel_report_triggered);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         context = ActivityTravelReportTriggered.this;
+        mDatabase = SqliteDatabase.getInstance(this);
         progressDialog = new ProgressDialog(context);
         progressDialog.setMessage("Please Wait...");
         progressDialog.setCanceledOnTouchOutside(false);
         rc_kalist = (RecyclerView) findViewById(R.id.rc_kalist);
         txtTotalKM = (TextView) findViewById(R.id.txtTotalKM);
+        txt_date = (TextView) findViewById(R.id.txt_date);
         mManager = new LinearLayoutManager(context);
         progressDialog = new ProgressDialog(context);
 
@@ -76,9 +83,12 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
         btnSubmit = findViewById(R.id.btnSubmit);
 
         //   mManager.setReverseLayout(true);
-        setTitle("Verify Summary Report");
+        setTitle("GTV Travel Report");
         Date entrydate = new Date();
-        final String InTime = new SimpleDateFormat("yyyy-MM-dd").format(entrydate);
+
+        txt_date.setText(""+new SimpleDateFormat("dd-MM-yyyy").format(entrydate));
+
+        String InTime = new SimpleDateFormat("yyyy-MM-dd").format(entrydate);
 
         SharedPreferences sp = context.getSharedPreferences("MyPref", 0);
         String userCode = sp.getString("UserID", null);
@@ -86,6 +96,7 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
         rc_kalist.setLayoutManager(mManager);
         try {
             txtTotalKM.setText("");
+
             JsonObject jsonObject = new JsonObject();
             jsonObject.addProperty("FilterValue", userCode+","+InTime);
             jsonObject.addProperty("FilterOption", "GetTravelReport");
@@ -100,6 +111,7 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
                 submitData();
             }
         });
+        getSystemDistance();
     }
 
     private void submitData() {
@@ -244,6 +256,24 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
         }
 
 
+    }
+
+    @Override
+    public void OnGTVMasterUpload(String result) {
+
+    }
+
+    @Override
+    public void OnGTVTravelDataUpload(String result) {
+
+    }
+
+    @Override
+    public void OnDistanceRetrive(String result) {
+        Toast.makeText(context, "Get Location " + result, Toast.LENGTH_SHORT).show();
+        if (CommonUtil.addGTVActivity(context, "5555", "System Distance", "0-0", "System Punch Out", "GTV", "" + result,0.0)) {
+
+        }
     }
 
     public class MyTravelModel {
@@ -443,7 +473,17 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
                 holder.txt_message.setText(ResultModel.getActivityName());
                 else
                     holder.txt_message.setText(Html.fromHtml("<b>"+ResultModel.getGTVType()+"</b> - "+ResultModel.getActivityName()));
-                holder.txt_date.setText(ResultModel.getStartDt());
+
+                String stDate=ResultModel.getStartDt().trim();
+                if(stDate.contains("T")) {
+                    String ss[] = stDate.split("T");
+                    holder.txt_date.setText(" "+ss[1]);
+                }else
+                {
+                    holder.txt_date.setText(" "+stDate);
+                }
+                
+
                 holder.txt_dtvtype.setTextColor(Color.BLUE);
                 holder.txt_dtvtype.setText(Html.fromHtml("<b style='color:RED;'>"+ResultModel.getActivityType()+"</b>"));
 
@@ -472,5 +512,57 @@ public class ActivityTravelReportTriggered extends AppCompatActivity {
 
 
     }
+
+
+    void getSystemDistance() {
+        try {
+            Date entrydate = new Date();
+            String InTime = new SimpleDateFormat("yyyy-MM-dd").format(entrydate);
+            int endTravelCount = mDatabase.getActivityDoneCount("End Travel", InTime);
+            int systemDistanceCount = mDatabase.getActivityDoneCount("System Distance", InTime);
+            Toast.makeText(context, systemDistanceCount + " and " + endTravelCount, Toast.LENGTH_SHORT).show();
+
+
+            if (endTravelCount > 0 && systemDistanceCount == 0) {
+                Toast.makeText(context, "Calling Distance API", Toast.LENGTH_SHORT).show();
+                String curdate = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+                String searchQuery12 = "select  Coordinates  from  GTVTravelActivityData where ActivityName!='System Distance' and  ActivityName!='Focus Village Tagging'  and ActivityDt like '%" + curdate + "%'";
+                Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
+                int count = cursor.getCount();
+                if (count > 0) {
+                    JsonArray jsonArray;
+
+                    String searchQuery = "select  Coordinates  from  GTVTravelActivityData where ActivityName!='System Distance' and  ActivityName!='Focus Village Tagging' and ActivityDt like '%" + curdate + "%'";
+                    jsonArray = mDatabase.getResultsRetro(searchQuery);
+
+                    for (int i = 0; i < jsonArray.size(); i++) {
+                        JsonObject jsonObject = jsonArray.get(i).getAsJsonObject();
+                        String co = jsonObject.get("Coordinates").toString().trim();
+
+                        Log.i("Data is ", co);
+                        co = co.replace("\"", "");
+                        String cosp[] = co.split("-");
+
+                        if (cosp.length > 1) {
+                            jsonObject.addProperty("lat", Double.parseDouble(cosp[0]));
+                            jsonObject.addProperty("lng", Double.parseDouble(cosp[1]));
+
+                        }
+
+                    }
+                    new GTVTravelAPI(context, this).GetSystemDistance(jsonArray);
+                    //  Log.i("GTV  Travel Data ", jsonFinal.toString());
+
+                } else {
+                    Toast.makeText(context, "No Data for upload.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+
+        } catch (Exception e) {
+
+        }
+    }
+
 
 }

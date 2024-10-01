@@ -31,14 +31,11 @@ import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.LocationSettingsRequest;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.crash.FirebaseCrash;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import com.google.maps.android.SphericalUtil;
-import com.mahyco.customercomplaint.ccfactivities.ccftechnical.CCFTMtrlQuality;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
@@ -108,7 +105,6 @@ import myactvity.mahyco.helper.SqliteDatabase;
 import myactvity.mahyco.model.ActivityModel;
 import myactvity.mahyco.model.CommonUtil;
 import myactvity.mahyco.model.GTVMasterDataModel;
-import myactvity.mahyco.model.GTVTravelActivityDataModel;
 import myactvity.mahyco.myActivityRecording.atlActivity.ATLExhibitionActivity;
 import myactvity.mahyco.myActivityRecording.atlActivity.ATLPosteringActivity;
 import myactvity.mahyco.myActivityRecording.atlActivity.ATLWallPaintingActivity;
@@ -133,8 +129,7 @@ import myactvity.mahyco.myActivityRecording.preSeasonActivity.SanmanMelaActivity
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.TestimonialCollectionActivity;
 import myactvity.mahyco.myActivityRecording.preSeasonActivity.VillageMeetingActivity;
 import myactvity.mahyco.newupload.UploadDataNew;
-import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
-import myactvity.mahyco.travelreport.ActivityTravelReportGTVNew;
+import myactvity.mahyco.travelreport.ActivityTravelReportTriggered;
 import myactvity.mahyco.travelreport.GTVTravelAPI;
 
 import static android.content.ContentValues.TAG;
@@ -1454,7 +1449,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 public void onClick(View view) {
                     /*uploadGtvMaster();*/
 
-                    Intent intent = new Intent(context, ActivityTravelReportGTVNew.class);
+                 //   Intent intent = new Intent(context, ActivityTravelReportGTVNew.class);
+                    Intent intent = new Intent(context, ActivityTravelReportTriggered.class);
                     startActivity(intent);
 
                 }

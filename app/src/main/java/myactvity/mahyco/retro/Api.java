@@ -5,8 +5,6 @@ import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
-import java.util.List;
-
 import myactvity.mahyco.TBMWiseMdoList;
 import myactvity.mahyco.newupload.HDPSPaymentDetailAPI;
 import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
@@ -130,4 +128,5 @@ public interface Api {
 
     @POST(RetroConstants.GetSystemDistanceGTV)
     Call<String> GetSystemDistanceGTV(@Body JsonArray jsonObject);
+
 }
