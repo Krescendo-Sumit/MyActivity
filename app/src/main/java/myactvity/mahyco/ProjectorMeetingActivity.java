@@ -146,7 +146,7 @@ public class ProjectorMeetingActivity extends AppCompatActivity implements Googl
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     Location location;
     private static final long INTERVAL = 1000 * 5;
-    private static final long FASTEST_INTERVAL = 1000 * 20;
+    private static final long FASTEST_INTERVAL = 1000 * 10;
     boolean IsGPSEnabled = false;
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;

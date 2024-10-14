@@ -205,7 +205,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 1000;
     Location location;
     private static final long INTERVAL = 1000 * 5;
-    private static final long FASTEST_INTERVAL = 1000 * 20;
+    private static final long FASTEST_INTERVAL = 1000 * 10;
     boolean IsGPSEnabled = false;
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;
@@ -259,6 +259,12 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btn_clearactivitydata = (Button) findViewById(R.id.btn_clearactivitydata);
             llgtv1 = (LinearLayout) findViewById(R.id.llgtv1);
             llgtv2 = (LinearLayout) findViewById(R.id.llgtv2);
+            btnStarttravel = (Button) findViewById(R.id.btnStarttravel);
+            btnAddActivity = (Button) findViewById(R.id.btnAddActivity);
+            btnAddActivity_new = (Button) findViewById(R.id.btnAddActivity_new);
+            config = new Config(this); //Here the context is passing
+            lblwelcome = (TextView) findViewById(R.id.lblwelcome);
+
 
 
             activityModels = new ArrayList<>();
@@ -274,8 +280,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             isBothGTVVillageSame();
 
 
-            config = new Config(this); //Here the context is passing
-            lblwelcome = (TextView) findViewById(R.id.lblwelcome);
+
             userCode = preferences.getString("UserID", null);
             userRole = preferences.getString("RoleID", null);
 
@@ -289,9 +294,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             setupTabIcons();
             // we are checking Time slot for GTV Tab Activation
             msclass = new Messageclass(this);
-            btnStarttravel = (Button) findViewById(R.id.btnStarttravel);
-            btnAddActivity = (Button) findViewById(R.id.btnAddActivity);
-            btnAddActivity_new = (Button) findViewById(R.id.btnAddActivity_new);
+
 
             if (BuildConfig.VERSION_NAME != null)
                 txt_version_lbl.setText("" + BuildConfig.VERSION_NAME);
@@ -307,6 +310,18 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
 // Activate OLD screen for TBM as per Old Version .
             // Toast.makeText(context, ""+userRole, Toast.LENGTH_SHORT).show();
+
+            SharedPreferences sp = getApplicationContext().getSharedPreferences("MyPref", 0);
+            String userCode = sp.getString("UserID", null);
+            Toast.makeText(context, ""+userCode, Toast.LENGTH_SHORT).show();
+            if(userCode!=null)
+            {
+                if(userCode.substring(0,4).trim().equals("9700"))
+                {
+                    Toast.makeText(context, "EAE Login", Toast.LENGTH_SHORT).show();
+                    userRole="0";
+                }
+            }
             if (userRole.trim().equals("0")) {
                 llgtv1.setVisibility(View.VISIBLE);
                 llgtv2.setVisibility(View.VISIBLE);
@@ -344,7 +359,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnStarttravel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON,"");
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
                     Date d = new Date();
                     String strdate = dateFormat.format(d);
@@ -379,6 +394,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivity.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON,"GTV2");
                     if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
                         if (userRole.trim().equals("0")) {
                             addMarketActivityButton();
@@ -397,6 +413,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivity_new.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON,"GTV1");
                     addMarketActivityButton();
 
                 }
@@ -404,7 +421,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnendtravel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON,"");
                     if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
 
                         try {
@@ -634,7 +651,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 isGtv2ActiveTimeSlot = false;
             }
             // Make both value to be true to activate both GTV start on any time in day
-            /*isGtv1ActiveTimeSlot = true;
+          /*  isGtv1ActiveTimeSlot = true;
             isGtv2ActiveTimeSlot = true;*/
         } catch (NumberFormatException e) {
 
@@ -1012,6 +1029,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchInGTV1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON,"");
                     if (!isTourStareted()) {
                         return;
                     }
@@ -1155,6 +1173,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivityGtv1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON,"");
                     if (!isTourStareted()) {
                         return;
                     }
@@ -1187,6 +1206,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchOutGTV1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON,"");
                     //updateLocation();
                     mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
@@ -1233,6 +1253,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchInGTV2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON,"");
                     if (!isTourStareted()) {
                         return;
                     }
@@ -1366,6 +1387,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivityGtv2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON,"");
                     int rad = 0;
                     //updateLocation();
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
@@ -1398,6 +1420,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchOutGTV2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON,"");
                     //updateLocation();
                     mPref.save(AppConstant.GTVSELECTEDBUTTON, "GTV");
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
@@ -1923,9 +1946,9 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
     private void setupTabIcons() {
         try {
-            tabLayout.getTabAt(0).setIcon(tabIcons[0]);
+            /*tabLayout.getTabAt(0).setIcon(tabIcons[0]);
             tabLayout.getTabAt(1).setIcon(tabIcons[1]);
-            tabLayout.getTabAt(2).setIcon(tabIcons[2]);
+            tabLayout.getTabAt(2).setIcon(tabIcons[2]);*/
             // TextView title = (TextView)(tabLayout.getChildAt(0));
             //title.setTextSize(10);
             // title.setTextSize(...);
@@ -2815,6 +2838,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
     public void checkGTVStatus(int typeid) {
         try {
+            Toast.makeText(context, ""+typeid, Toast.LENGTH_SHORT).show();
             String dd = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
             int snt = 0;
             gtv1InStatus = mDatabase.getGtvStatus("GTV1", "IN", dd);
@@ -2835,23 +2859,35 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivityGtv2.setEnabled(false);*/
 
             if (typeid == 5) {
+                Log.i("Pass","1");
                 btnPunchOutGTV1.setEnabled(false);
+                Log.i("Pass","2");
                 btnPunchOutGTV2.setEnabled(false);
+                Log.i("Pass","3");
                 btnPunchInGTV1.setEnabled(true);
+                Log.i("Pass","4");
                 btnPunchInGTV2.setEnabled(true);
+                Log.i("Pass","5");
                 btnAddActivityGtv1.setEnabled(false);
+                Log.i("Pass","6");
                 btnAddActivityGtv2.setEnabled(false);
             }
             if (typeid == 0) {
 
                 typeid = Integer.parseInt(mPref.getString(AppConstant.GTVActiveActivity, "0"));
-
+                Log.i("Pass","0");
                 btnPunchOutGTV1.setEnabled(false);
+                Log.i("Pass","1");
                 btnPunchOutGTV2.setEnabled(false);
+                Log.i("Pass","2");
                 btnPunchInGTV1.setEnabled(true);
+                Log.i("Pass","3");
                 btnPunchInGTV2.setEnabled(false);
+                Log.i("Pass","4");
                 btnAddActivityGtv1.setEnabled(false);
+                Log.i("Pass","5");
                 btnAddActivityGtv2.setEnabled(false);
+                Log.i("Pass","6");
             }
             if (typeid == 1) {
                 btnPunchOutGTV1.setEnabled(true);
@@ -2890,7 +2926,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             mPref.save(AppConstant.GTVActiveActivity, "" + typeid);
             disableMarketActivity();
         } catch (Exception e) {
-            Log.d("Test", e.getMessage());
+            Log.d("Test 12345", e.getMessage());
         }
     }
 

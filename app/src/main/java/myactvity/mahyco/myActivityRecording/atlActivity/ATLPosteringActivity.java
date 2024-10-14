@@ -150,7 +150,7 @@ public class ATLPosteringActivity extends AppCompatActivity implements GoogleApi
 
     Location location;
     private static final long INTERVAL = 1000 * 5;
-    private static final long FASTEST_INTERVAL = 1000 * 20;
+    private static final long FASTEST_INTERVAL = 1000 * 10;
     int imageselect;
     File photoFile = null;
     public String Imagepath1 = "";

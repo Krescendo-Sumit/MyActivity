@@ -144,7 +144,7 @@ public class PurchaseListActivity extends AppCompatActivity implements GoogleApi
     double longi;
     Location location;
     private static final long INTERVAL = 1000 * 5;
-    private static final long FASTEST_INTERVAL = 1000 * 20;
+    private static final long FASTEST_INTERVAL = 1000 * 10;
     boolean fusedlocationRecieved;
     private FusedLocationProviderApi fusedLocationProviderApi = FusedLocationApi;
     private static final String TAG = "PurchaseListActivity";

@@ -220,7 +220,7 @@ public class UserHome extends AppCompatActivity
                 //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode=" + userCode + "&IMEICode=" + IME + "");
                 userCode = "";
                 IME = "";
-             //   checkVersionForUpdateApi.checkVersion("myactvity.mahyco", userCode, IME);
+                checkVersionForUpdateApi.checkVersion("myactvity.mahyco", userCode, IME);
                 //  new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco&userCode="+userCode+"&IMEICode="+IME+"");
                 //   new CheckVersion().execute("https://feedbackapi.mahyco.com/api/Feedback/getAppFeedbackStatus?packageName=myactvity.mahyco");
             } catch (Exception e) {
@@ -848,15 +848,23 @@ public class UserHome extends AppCompatActivity
                 this.startActivity(intent);*/
                 logProfileEvent();
                 Toast.makeText(getApplicationContext(), "Working Progress", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(this.getApplicationContext(), ActivityTravelReportGTVNew.class);
-                this.startActivity(intent);
+         /*       Intent intent = new Intent(this.getApplicationContext(), ActivityTravelReportGTVNew.class);
+                this.startActivity(intent);*/
             } else if (id == R.id.nav_share) {
-                Intent intent = new Intent(this.getApplicationContext(), ShowMapRouteActivity.class);
-                this.startActivity(intent);
+              /*  Intent intent = new Intent(this.getApplicationContext(), ShowMapRouteActivity.class);
+                this.startActivity(intent);*/
                 // Intent i = new Intent(UserHome.this, AndroidDatabaseManager.class);
                 //startActivity(i);
                 logAboutAppEvent();
                 Toast.makeText(getApplicationContext(), "Working Progress", Toast.LENGTH_SHORT).show();
+
+            } else if (id == R.id.nav_report) {
+                Intent intent = new Intent(this.getApplicationContext(), ActivityTravelReportGTVNew.class);
+                this.startActivity(intent);
+                // Intent i = new Intent(UserHome.this, AndroidDatabaseManager.class);
+                //startActivity(i);
+               // logAboutAppEvent();
+               // Toast.makeText(getApplicationContext(), "Working Progress", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -1235,6 +1243,8 @@ public class UserHome extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        Prefs prefs=Prefs.with(context);
+        prefs.save(AppConstant.GTVSELECTEDMARKETBUTTON,"HomeScreen");
         if (mDatabase.getUploadCount() > 0) {
             ll_pending_uploads.setVisibility(View.VISIBLE);
             txt_pending_uploads.setText(Html.fromHtml("<u>You have " + mDatabase.getUploadCount()+" pending upload activity.</u>"));

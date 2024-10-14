@@ -112,7 +112,7 @@ public class CommonUtil {
             gtvTravelActivityDataModel.setAttendance(attendance);
             gtvTravelActivityDataModel.setTimeSpend(mins);
             gtvTravelActivityDataModel.setInfo1(spendtime);
-            gtvTravelActivityDataModel.setInfo2("");
+            gtvTravelActivityDataModel.setInfo2(""+prefs.getString(AppConstant.GTVSELECTEDMARKETBUTTON,""));
             gtvTravelActivityDataModel.setInfo3("");
 
 

@@ -109,7 +109,7 @@ public class ActivityVOFP extends AppCompatActivity implements
     private static final String TAG = "VOFP";
     private static final String IMAGE_DIRECTORY_NAME = "PHOTO";
     private static final long INTERVAL = 1000 * 5;
-    private static final long FASTEST_INTERVAL = 1000 * 20;
+    private static final long FASTEST_INTERVAL = 1000 * 10;
     public Messageclass msclass;
     public SqliteDatabase mDatabase;
     public String Imagepath1 = "";

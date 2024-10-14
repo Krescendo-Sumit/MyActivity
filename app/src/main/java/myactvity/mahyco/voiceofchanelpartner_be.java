@@ -130,7 +130,7 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
 
     Location location;
     private static final long INTERVAL = 1000 * 5;
-    private static final long FASTEST_INTERVAL = 1000 * 20;
+    private static final long FASTEST_INTERVAL = 1000 * 10;
     boolean IsGPSEnabled = false;
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;
@@ -493,7 +493,6 @@ public class voiceofchanelpartner_be extends AppCompatActivity implements
                     etName.setText("");
                     etPhone.setText("");
                     etWhatup.setText("");
-                    Toast.makeText(context, "hii", Toast.LENGTH_SHORT).show();
                     if (spFarmerSearch.getSelectedItem().toString().toLowerCase().contains("retailer not found") )
                     {
                         android.app.AlertDialog.Builder alertDialog = new android.app.AlertDialog.Builder(voiceofchanelpartner_be.this);

@@ -1176,7 +1176,6 @@ public class SqliteDatabase extends SQLiteOpenHelper {
                     "Info3 TEXT)";
 
 
-
             db.execSQL(CREATE_GTVTravelActivityData);
 
 
@@ -6829,7 +6828,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
 
     }
 
-    public boolean insertFocussedVillageTaggedDtls(String vil_code,String vil_desc,String taluka,String KACode,String ActivityDt,String VillageCode,String VillageName,String TagCoordinates,String TagAddr,String KARadius,String AdminRadius,String AppVersion,String Remark,String ExtraParam1,String ExtraParam2,String Status) {
+    public boolean insertFocussedVillageTaggedDtls(String vil_code, String vil_desc, String taluka, String KACode, String ActivityDt, String VillageCode, String VillageName, String TagCoordinates, String TagAddr, String KARadius, String AdminRadius, String AppVersion, String Remark, String ExtraParam1, String ExtraParam2, String Status) {
 
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -6857,7 +6856,8 @@ public class SqliteDatabase extends SQLiteOpenHelper {
 
 
     }
-    public boolean updateFocussedVillageTaggedDtls(String vil_code,String vil_desc,String taluka,String KACode,String ActivityDt,String VillageCode,String VillageName,String TagCoordinates,String TagAddr,String KARadius,String AdminRadius,String AppVersion,String Remark,String ExtraParam1,String ExtraParam2,String Status) {
+
+    public boolean updateFocussedVillageTaggedDtls(String vil_code, String vil_desc, String taluka, String KACode, String ActivityDt, String VillageCode, String VillageName, String TagCoordinates, String TagAddr, String KARadius, String AdminRadius, String AppVersion, String Remark, String ExtraParam1, String ExtraParam2, String Status) {
 
         SQLiteDatabase db = getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -6879,7 +6879,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         contentValues.put("Status", Status);
 
 
-        db.update("FocusVillageGeoTagDtls",contentValues,"vil_code=?",new String[]{vil_code});
+        db.update("FocusVillageGeoTagDtls", contentValues, "vil_code=?", new String[]{vil_code});
         //db.close();
         return true;
 
@@ -9201,6 +9201,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
             return false;
         }
     }
+
     public int getUploadCountGTV() {
         int cnt = 0;
         SQLiteDatabase db = getWritableDatabase();
@@ -9318,6 +9319,8 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(sql, null, null);
         if (cursor.moveToNext()) {
             cnt = cursor.getInt(0);
+            if (cnt > 0)
+                cnt = 1;
         } else {
             cnt = 0;
         }
@@ -9378,16 +9381,16 @@ public class SqliteDatabase extends SQLiteOpenHelper {
 
     public int checkGtvActivityDoneStatus(String InDate, String gtvtype) {
 
-        int  cnt = 0;
+        int cnt = 0;
         SQLiteDatabase db = getWritableDatabase();
 
-        String sql = " select  Count(*)as cnt  from  GTVTravelActivityData where ActivityType='GTV' and GTVType='"+gtvtype+"' and   ActivityDt like '%"+InDate+"%' and ActivityName not in ('Punch In','Punch Out','Focus Village Tagging')";
+        String sql = " select  Count(*)as cnt  from  GTVTravelActivityData where ActivityType='GTV' and GTVType='" + gtvtype + "' and   ActivityDt like '%" + InDate + "%' and ActivityName not in ('Punch In','Punch Out','Focus Village Tagging')";
         Log.i("Query", sql);
         Cursor cursor = db.rawQuery(sql, null, null);
         if (cursor.moveToNext()) {
             cnt = cursor.getInt(0);
         } else {
-            cnt=0;
+            cnt = 0;
         }
         db.close();
         return cnt;
@@ -9395,16 +9398,16 @@ public class SqliteDatabase extends SQLiteOpenHelper {
 
     public int checkGtvActivityDone60MinStatus(String InDate, String gtvtype) {
 
-        int  cnt = 0;
+        int cnt = 0;
         SQLiteDatabase db = getWritableDatabase();
 
-        String sql = " select  Count(*)as cnt  from  GTVTravelActivityData where ActivityType='GTV' and GTVType='"+gtvtype+"' and   ActivityDt like '%"+InDate+"%' and ActivityName not in ('Punch In','Punch Out','Focus Village Tagging') and TimeSpend>60";
+        String sql = " select  Count(*)as cnt  from  GTVTravelActivityData where ActivityType='GTV' and GTVType='" + gtvtype + "' and   ActivityDt like '%" + InDate + "%' and ActivityName not in ('Punch In','Punch Out','Focus Village Tagging') and TimeSpend>60";
         Log.i("Query", sql);
         Cursor cursor = db.rawQuery(sql, null, null);
         if (cursor.moveToNext()) {
             cnt = cursor.getInt(0);
         } else {
-            cnt=0;
+            cnt = 0;
         }
         db.close();
         return cnt;
@@ -9413,16 +9416,16 @@ public class SqliteDatabase extends SQLiteOpenHelper {
 
     public int getInvalidEntry(String InDate, String gtvtype) {
 
-        int  cnt = 0;
+        int cnt = 0;
         SQLiteDatabase db = getWritableDatabase();
 
-        String sql = " select  Count(*)as cnt  from  GTVTravelActivityData where ActivityType='GTV' and GTVType='"+gtvtype+"' and   ActivityDt like '%"+InDate+"%' and ActivityName not in ('Punch In','Punch Out','Focus Village Tagging')";
+        String sql = " select  Count(*)as cnt  from  GTVTravelActivityData where ActivityType='GTV' and GTVType='" + gtvtype + "' and   ActivityDt like '%" + InDate + "%' and ActivityName not in ('Punch In','Punch Out','Focus Village Tagging')";
         Log.i("Query", sql);
         Cursor cursor = db.rawQuery(sql, null, null);
         if (cursor.moveToNext()) {
             cnt = cursor.getInt(0);
         } else {
-            cnt=0;
+            cnt = 0;
         }
         db.close();
         return cnt;
@@ -9435,10 +9438,9 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         String sql = "select ifnull(TagCoordinates,'NA')as TagCoordinates from FocusVillageGeoTagDtls where vil_code='" + villageCode + "' limit 1";
         Log.i("Query", sql);
         Cursor cursor = db.rawQuery(sql, null, null);
-        if(cursor.getCount()==0) {
+        if (cursor.getCount() == 0) {
             data = "Focus Village Data Not Found.";
-        }else
-        {
+        } else {
             if (cursor.moveToNext()) {
                 data = cursor.getString(0);
             }
@@ -9446,6 +9448,7 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         db.close();
         return data;
     }
+
     public String getFocusVillageRadius(String villageCode) {
         String data = "";
         SQLiteDatabase db = getWritableDatabase();
@@ -9453,10 +9456,9 @@ public class SqliteDatabase extends SQLiteOpenHelper {
         String sql = "select ifnull(AdminRadius,'0')as AdminRadius from FocusVillageGeoTagDtls where vil_code='" + villageCode + "' limit 1";
         Log.i("Query", sql);
         Cursor cursor = db.rawQuery(sql, null, null);
-        if(cursor.getCount()==0) {
+        if (cursor.getCount() == 0) {
             data = "Focus Village Data Not Found.";
-        }else
-        {
+        } else {
             if (cursor.moveToNext()) {
                 data = cursor.getString(0);
             }

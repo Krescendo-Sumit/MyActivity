@@ -137,7 +137,7 @@ public class starttravel extends Fragment implements GoogleApiClient.ConnectionC
     //Rohit given
     Location location;
     private static final long INTERVAL = 1000 * 5;
-    private static final long FASTEST_INTERVAL = 1000 * 20;
+    private static final long FASTEST_INTERVAL = 1000 * 10;
     boolean IsGPSEnabled = false;
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;

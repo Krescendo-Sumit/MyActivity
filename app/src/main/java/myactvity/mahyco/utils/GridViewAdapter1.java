@@ -261,6 +261,27 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             }
 
                             if (ActivityName[position].toString() == "VillageTaggingGTV") {
+
+
+                                intent = new Intent(context.getApplicationContext(), VillageTaggingGTV.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                context.startActivity(intent);
+                            }
+                            if (ActivityName[position].toString() == "VillageTaggingGTVEAE") {
+
+                                String user=pref.getString("UserID", null);
+                                if(user!=null)
+                                {
+                                    if(user.substring(0,4).trim().equals("9700"))
+                                    {
+
+                                    }else
+                                    {
+                                        Toast.makeText(context, "No Permission!", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                }
+
                                 intent = new Intent(context.getApplicationContext(), VillageTaggingGTV.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
@@ -480,22 +501,24 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             }
                             if (ActivityName[position].contains("websales")) {
 
-
                                 intent = new Intent(context.getApplicationContext(), SalesWebData.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
+
                             }
 
                             if (ActivityName[position].contains("VCP")) {
-                                Toast.makeText(context, "Not Active", Toast.LENGTH_SHORT).show();
-
-//                                intent= new Intent(context.getApplicationContext(), voiceofchanelpartner_be.class);
-//                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                                context.startActivity(intent);
+                              //  Toast.makeText(context, "Not Active", Toast.LENGTH_SHORT).show();
+                                if (pref.getString("unit", null).trim().contains("VCBU")) {
+                                    Toast.makeText(context, "No permission", Toast.LENGTH_SHORT).show();
+                                }else {
+                                    intent = new Intent(context.getApplicationContext(), voiceofchanelpartner_be.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    context.startActivity(intent);
+                                }
                             }
 
                             if (ActivityName[position].contains("HDPSCouponDashboardActivity")) {
-
 
                                 intent = new Intent(context.getApplicationContext(), HDPSCouponDashboardActivity.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

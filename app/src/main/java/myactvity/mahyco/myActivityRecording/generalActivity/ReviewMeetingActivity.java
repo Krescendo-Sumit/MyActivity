@@ -77,7 +77,7 @@ public class ReviewMeetingActivity extends AppCompatActivity implements GoogleAp
     private FusedLocationProviderApi fusedLocationProviderApi = FusedLocationApi;
     boolean fusedlocationRecieved;
     private static final long INTERVAL = 1000 * 5;
-    private static final long FASTEST_INTERVAL = 1000 * 20;
+    private static final long FASTEST_INTERVAL = 1000 * 10;
     boolean IsGPSEnabled = false;
     boolean GpsEnabled;
     double lati;

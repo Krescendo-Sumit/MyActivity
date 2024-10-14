@@ -92,11 +92,11 @@
             android:layout_height="wrap_content"
 
             android:layout_marginLeft="20dp"
-            android:text="Pending Upload : 4"
+            android:text="Pending Upload : -"
             android:textAllCaps="true"
-            android:textStyle="bold"
             android:textColor="#3F51B5"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <LinearLayout

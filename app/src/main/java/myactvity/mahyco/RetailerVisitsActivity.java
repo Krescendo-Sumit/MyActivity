@@ -121,7 +121,7 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
     private TextInputLayout tiOtherVillage;
     Location location;
     private static final long INTERVAL = 1000 * 5;
-    private static final long FASTEST_INTERVAL = 1000 * 20;
+    private static final long FASTEST_INTERVAL = 1000 * 8;
     boolean IsGPSEnabled = false;
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;
@@ -139,9 +139,6 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
     private Handler handler = new Handler();
     List<GeneralMaster> retailerList;
     Prefs mPref;
-
-
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

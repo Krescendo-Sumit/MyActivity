@@ -149,7 +149,7 @@ public class ATLWallPaintingActivity extends AppCompatActivity implements Google
     boolean startlocationflag=false; // Check alredy started roadside  wallpainting ;
     Location location;
     private static final long INTERVAL = 1000 * 5;
-    private static final long FASTEST_INTERVAL = 1000 * 20;
+    private static final long FASTEST_INTERVAL = 1000 * 10;
     TextView tvAddress, tvCordinates, tvAddressStartLocation, tvAddressEndLocation;
     TextView tvAddressOnActivity, tvCordinatesOnActivity, tvAddLocCordinatesPopup, tvAddlocAddressPopup;
     EditText etWidhtInFt;

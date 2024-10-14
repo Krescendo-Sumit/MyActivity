@@ -146,7 +146,7 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
     //Rohit given
     Location location;
     private static final long INTERVAL = 1000 * 5;
-    private static final long FASTEST_INTERVAL = 1000 * 20;
+    private static final long FASTEST_INTERVAL = 1000 * 10;
     boolean IsGPSEnabled = false;
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;
@@ -785,7 +785,24 @@ public class endTravelNew extends AppCompatActivity implements GoogleApiClient.C
 
                 btnstUpdate.setVisibility(View.INVISIBLE);
                 chktag.setChecked(true);
-                msclass.showMessage("Tour ended.");
+                //msclass.showMessage("Tour ended.");
+
+                new androidx.appcompat.app.AlertDialog.Builder(context)
+                        .setMessage("Tour ended. Do you want to see report?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(context, ActivityTravelReportGTVNew.class);
+                                startActivity(intent);
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.dismiss();
+                            }
+                        }).show();
+
                 JSONObject jObject = jArray.getJSONObject(0);
            /* for(int i=0; i <jArray.length(); i++) {
                 lblcomp1.setText(jObject.getString("compname").toString());

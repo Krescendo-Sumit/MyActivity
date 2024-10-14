@@ -10,6 +10,12 @@
                 android:id="@+id/nav_Profile"
                 android:icon="@drawable/profile"
                 android:title="@string/profile" />
+
+            <item
+                android:id="@+id/nav_report"
+                android:icon="@drawable/ic_baseline_search_24"
+                android:title="GTV Report" />
+
             <item
                 android:id="@+id/nav_Logout"
                 android:icon="@drawable/logout"

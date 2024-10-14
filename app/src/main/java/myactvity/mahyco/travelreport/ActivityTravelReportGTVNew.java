@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import myactvity.mahyco.BuildConfig;
 import myactvity.mahyco.R;
 import myactvity.mahyco.helper.SqliteDatabase;
 import myactvity.mahyco.model.CommonUtil;
@@ -51,6 +52,7 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
     EditText et_remark;
     RadioGroup rgStatus;
     TextView txtTotalKM;
+    TextView txt_retryagain;
     TableLayout tbl;
     TextView txtScreenTitle, txt_heading;
     SqliteDatabase mDatabase;
@@ -76,6 +78,7 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
     String GTVVillage2Activities = "-";
     String GTV1Market1Activities = "-";
     String GTV2Market1Activities = "-";
+    TextView txt_version;
 
 
     @Override
@@ -86,6 +89,7 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
         context = ActivityTravelReportGTVNew.this;
         mDatabase = SqliteDatabase.getInstance(this);
         tbl = findViewById(R.id.tbl_details);
+        txt_version = findViewById(R.id.txt_version);
         webView = findViewById(R.id.web);
         webView.clearCache(true);
         WebSettings settings = webView.getSettings();
@@ -97,6 +101,7 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
         progressDialog.setCanceledOnTouchOutside(false);
 
         txtTotalKM = (TextView) findViewById(R.id.txtTotalKM);
+        txt_retryagain = (TextView) findViewById(R.id.txt_retryagain);
         txtScreenTitle = (TextView) findViewById(R.id.txt_heading);
 
         progressDialog = new ProgressDialog(context);
@@ -120,6 +125,44 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
         userCode = sp.getString("UserID", null);
         userCode = userCode.replace(" ", "%20");
         PrepareReport();
+        tryforupload();
+        try{
+            txt_version.setText(""+ BuildConfig.VERSION_NAME);
+        }catch (Exception e)
+        {
+
+        }
+
+        txt_retryagain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getSystemDistance();
+                tryforupload();
+            }
+        });
+
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                submitData();
+            }
+        });
+
+        btnMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ShowMapRouteActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Calling API to get System Distance
+        getSystemDistance();
+
+
+    }
+
+    public void tryforupload() {
         try {
             String searchQuery12 = "select  *  from  GTVTravelActivityData where isSynced='0'";
             Cursor cursor = mDatabase.getReadableDatabase().rawQuery(searchQuery12, null);
@@ -149,27 +192,6 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
         } catch (Exception e) {
 
         }
-
-
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                submitData();
-            }
-        });
-
-        btnMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, ShowMapRouteActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        // Calling API to get System Distance
-        getSystemDistance();
-
-
     }
 
     void getSystemDistance() {
@@ -204,7 +226,6 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
                         if (cosp.length > 1) {
                             jsonObject.addProperty("lat", Double.parseDouble(cosp[0]));
                             jsonObject.addProperty("lng", Double.parseDouble(cosp[1]));
-
                         }
 
                     }
@@ -413,7 +434,7 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
 
 
 
-                                    if (root.getResult().gTV1ActivityModels != null || root.getResult().gTV1ActivityModels.size() == 0) {
+                                    if (root.getResult().gTV1ActivityModels != null) {
                                         GTVVillage1Activities = "";
                                         for (int i = 0; i < root.getResult().gTV1ActivityModels.size(); i++) {
                                             GTV1ActivityModel activityModel = root.getResult().gTV1ActivityModels.get(i);
@@ -429,7 +450,7 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
                                     } else {
                                         GTVVillage1Activities = "No Activity Found.";
                                     }
-                                    if (root.getResult().gTV2ActivityModels != null || root.getResult().gTV2ActivityModels.size() == 0) {
+                                    if (root.getResult().gTV2ActivityModels != null) {
                                         GTVVillage2Activities = "";
                                         for (int i = 0; i < root.getResult().gTV2ActivityModels.size(); i++) {
                                             GTV2ActivityModel activityModel = root.getResult().gTV2ActivityModels.get(i);
@@ -457,7 +478,7 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
 
                                 } catch (Exception e) {
                                     new AlertDialog.Builder(context)
-                                            .setMessage("Something went wrong." + e.getMessage())
+                                            .setMessage("Something went wrong.1234" + e.getMessage())
                                             .setTitle("Exception")
                                             .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                                                 @Override
