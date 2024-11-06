@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -79,7 +80,7 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
     String GTV1Market1Activities = "-";
     String GTV2Market1Activities = "-";
     TextView txt_version;
-
+    long mLastClickTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +137,11 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
         txt_retryagain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
+                    return;
+                }
+                mLastClickTime = SystemClock.elapsedRealtime();
+
                 getSystemDistance();
                 tryforupload();
             }
@@ -173,6 +179,10 @@ public class ActivityTravelReportGTVNew extends AppCompatActivity implements GTV
                         .setPositiveButton("Upload", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
+                                    return;
+                                }
+                                mLastClickTime = SystemClock.elapsedRealtime();
                                 uploadGtvTravelData();
                             }
                         }).show();

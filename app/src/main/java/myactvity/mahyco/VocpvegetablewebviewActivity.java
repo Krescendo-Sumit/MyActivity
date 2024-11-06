@@ -489,7 +489,7 @@ public class VocpvegetablewebviewActivity extends AppCompatActivity implements L
                 Log.d("Get Ency and Descpt ", "************ UPDATE API JSON OBJECT : " + obj);
                 Prefs mPref = Prefs.with(context);
                 Log.d("Get Ency and Descpt ", "************ UPDATE API JSON OBJECT ACCESS_TOKEN_TAG : " + mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
-                result = HttpUtils.POSTJSON("https://dt.mahyco.com/api/survey/getRedirectURL", jsonObject, mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
+                result = HttpUtils.POSTJSON("https://vos.mahyco.com/api/survey/getRedirectURL", jsonObject, mPref.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
                 Log.d("Get Ency and Descpt ", "************ UPDATE API RESPONSE : " + result);
                 return result;
             } catch (Exception e) {

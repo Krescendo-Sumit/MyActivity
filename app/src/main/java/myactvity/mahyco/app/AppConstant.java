@@ -34,4 +34,5 @@ public class AppConstant {
     public static String GTVSelectedVillage2="GTV2Name";
     public static String GTVSelectedVillageCode2="GTV2Code";
     public static String GTVSELECTEDBUTTON="GTVSELECTEDBUTTON";
+    public static String GTVCurrentCoOrdinates="SelectedCurrentCoOrdinates";
 }

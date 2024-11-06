@@ -181,7 +181,7 @@ public class UploadDataNew extends AppCompatActivity implements NewUploadListene
         lblGeneral = (TextView) findViewById(R.id.lblGeneral);
         lblretailerandkisanClub = (TextView) findViewById(R.id.lblretailerandkisanClub);
         radGrpRetailer = (RadioGroup) findViewById(R.id.radGrpRetailer);
-        if (pref.getString("unit", null).contains("VCBU")) {
+        if (pref.getString("unit", null).contains("VCBU")) { //
             lblretailerandkisanClub.setVisibility(View.VISIBLE);
             radGrpRetailer.setVisibility(View.VISIBLE);
             btnUploadRetailerdata.setVisibility(View.VISIBLE);

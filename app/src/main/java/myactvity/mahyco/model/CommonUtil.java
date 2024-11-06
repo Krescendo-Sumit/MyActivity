@@ -2,6 +2,7 @@ package myactvity.mahyco.model;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -111,11 +112,17 @@ public class CommonUtil {
 
             gtvTravelActivityDataModel.setAttendance(attendance);
             gtvTravelActivityDataModel.setTimeSpend(mins);
-            gtvTravelActivityDataModel.setInfo1(spendtime);
+            gtvTravelActivityDataModel.setInfo1(spendtime+"~AutoTime:"+isTimeAutomatic(context));
             gtvTravelActivityDataModel.setInfo2(""+prefs.getString(AppConstant.GTVSELECTEDMARKETBUTTON,""));
-            gtvTravelActivityDataModel.setInfo3("");
-
-
+            String gtvCordinates="";
+            try {
+                gtvCordinates = prefs.getString(AppConstant.GTVCurrentCoOrdinates, "" + cordinates);
+                gtvTravelActivityDataModel.setInfo3("" + gtvCordinates);
+            }catch (Exception exception)
+            {
+                gtvTravelActivityDataModel.setInfo3("");
+            }
+            gtvTravelActivityDataModel.setInfo3("" + gtvCordinates);
             if (mDatabase.InsertGTVTravelData(gtvTravelActivityDataModel)) {
                 prefs.save(AppConstant.LASTGTVACTIVITYTIME, InTime);
                 Toast.makeText(context, activityType+" activity tagged.", Toast.LENGTH_SHORT).show();
@@ -127,6 +134,15 @@ public class CommonUtil {
         } catch (Exception e) {
             Log.i("Exception in add", e.getMessage());
             return false;
+        }
+    }
+
+    public static boolean isTimeAutomatic(Context c) {
+        try {
+            boolean a = Settings.Global.getInt(c.getContentResolver(), Settings.Global.AUTO_TIME) == 1;
+            return a;
+        } catch (Exception e) {
+            return true;
         }
     }
 

@@ -1089,7 +1089,7 @@ public class DownloadMasterdata extends AppCompatActivity implements MasterDataD
                 JSONObject table = new JSONObject();
                 table.put("userId", userCode);
                 jsonObject.put("Table",table);
-                String result = HttpUtils.POSTJSON(Constants.HDPS_DOWNLOAD_MASTER_API, jsonObject, "");
+                String result = HttpUtils.POSTJSON(Constants.HDPS_DOWNLOAD_MASTER_API, jsonObject, "Bearer " + sp.getString(AppConstant.ACCESS_TOKEN_TAG, ""));
                 Log.d("HDPS", "DOWNLOAD URL : " + Constants.HDPS_DOWNLOAD_MASTER_API);
                 Log.d("HDPS", "DOWNLOAD JSON OBJECT : " + jsonObject);
                 Log.d("HDPS", "DOWNLOAD USER CODE : " + userCode);
