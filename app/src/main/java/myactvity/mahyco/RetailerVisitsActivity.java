@@ -361,7 +361,10 @@ public class RetailerVisitsActivity extends AppCompatActivity implements GoogleA
                         @SuppressLint("ClickableViewAccessibility")
                         public void onClick(DialogInterface dialog1, int which) {
                             dialog1.dismiss();
-
+                            if(!CommonUtil.validateAutoTimeAndDevAccount(context))
+                            {
+                                return;
+                            }
 
                             relPRogress.setVisibility(View.VISIBLE);
                             relPRogress.setOnTouchListener(new View.OnTouchListener() {

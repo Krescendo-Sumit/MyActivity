@@ -204,6 +204,12 @@ public class CallValidation extends AppCompatActivity {
             public void onClick(View view) {
 
                 if (validation()) {
+
+                    if(!CommonUtil.validateAutoTimeAndDevAccount(context))
+                    {
+                        return;
+                    }
+
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
                         return;
                     }

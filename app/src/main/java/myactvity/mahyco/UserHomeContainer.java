@@ -191,7 +191,7 @@ public  class UserHomeContainer  extends Fragment {
                                 "UPLOAD DATA", "DOWNLOAD MASTER DATA",//"MY ACTIVITY RECORDING",
                                 "MY TRAVEL & ACTIVITY RECORDING", "TRADE MAPPING & TAGGING "
                                 , "SALES ORDER",/* "MFDC",*/ "DAS",
-                                "REPORT", "POG", "IPMF", "VCP", "HDPS\\NEW PRODUCT", "SAMRUDDHA KISAN VALIDATION", "CFF", "Focus Village Tagging","VoCP","VOFP"
+                                "REPORT", "POG", "IPMF", "VCP", "HDPS\\NEW PRODUCT", "SAMRUDDHA KISAN VALIDATION", "CFF", "Focus Village Tagging","VoCP","VOFP","Customer Tagging"
                                 //"BOOKING AGAINST COUPON"
                                 //"SAMRUDDHA KISAN REGISTRATION","JUMBO FIELD / INNOVATION DAY"//,"Voice Of Customer","POG",
                                 //"Retailer Survey" //"Kisan Club (MAGiK)"
@@ -208,7 +208,7 @@ public  class UserHomeContainer  extends Fragment {
                                 , "saleorder.png",/*"discount.png",*/ "voiceofcustomer.png"
                                 //,"user.png","innovation.png"//," ,"pog.png",voiceofcustomer.png"
                                 , "report.png"//, "field.png"//,"field.png"
-                                , "pog.png", "ipmf.png", "vcp.png", "discount.png", "field.png", "ccf.png", "field.png","actvity.png","actvity.png"
+                                , "pog.png", "ipmf.png", "vcp.png", "discount.png", "field.png", "ccf.png", "field.png","actvity.png","actvity.png","user.png"
                         };
 //               ,"leave.png"
                         ActivityName = new String[]{//"Myactivity"//,"FIELD VISITS(Demo/Model/Jumbo/Farmer Feild)"
@@ -217,7 +217,7 @@ public  class UserHomeContainer  extends Fragment {
                                 "SalesOrder",/* "COUPON",*/"DAS",
                                 "Report"//,,"POG",
                                 //,"Username","Innovation"
-                                , "POG", "IPMF", "VCP", "HDPSCouponDashboardActivity", "samruddhakisanvalidation", "CCF", "VillageTaggingGTVEAE","VEGVOCP","VEGVOCP1"//,"websales"//,"VoiceOfCustomer",
+                                , "POG", "IPMF", "VCP", "HDPSCouponDashboardActivity", "samruddhakisanvalidation", "CCF", "VillageTaggingGTVEAE","VEGVOCP","VEGVOCP1","CustomerTaggingGTVEAE"//,"websales"//,"VoiceOfCustomer",
                                 //"Retailer Survey","Kisan Club (MAGiK)",
                                 //"BE-Survey",
                                 //, "VCF","samruddhakisanvalidation"
@@ -257,7 +257,7 @@ public  class UserHomeContainer  extends Fragment {
                                 "UPLOAD DATA", "DOWNLOAD MASTER DATA",//"MY ACTIVITY RECORDING",
                                 "MY TRAVEL & ACTIVITY RECORDING", "TRADE MAPPING & TAGGING "
                                 , "SALES ORDER",/* "MFDC",*/ "DAS",
-                                "REPORT", "POG", "IPMF", "VCP", "HDPS\\NEW PRODUCT", "SAMRUDDHA KISAN VALIDATION", "CFF", "Focus Village Tagging"
+                                "REPORT", "POG", "IPMF", "VCP", "HDPS\\NEW PRODUCT", "SAMRUDDHA KISAN VALIDATION", "CFF", "Focus Village Tagging","Customer Tagging"
                                 //"BOOKING AGAINST COUPON"
                                 //"SAMRUDDHA KISAN REGISTRATION","JUMBO FIELD / INNOVATION DAY"//,"Voice Of Customer","POG",
                                 //"Retailer Survey" //"Kisan Club (MAGiK)"
@@ -274,7 +274,7 @@ public  class UserHomeContainer  extends Fragment {
                                 , "saleorder.png",/*"discount.png",*/ "voiceofcustomer.png"
                                 //,"user.png","innovation.png"//," ,"pog.png",voiceofcustomer.png"
                                 , "report.png"//, "field.png"//,"field.png"
-                                , "pog.png", "ipmf.png", "vcp.png", "discount.png", "field.png", "ccf.png", "field.png"
+                                , "pog.png", "ipmf.png", "vcp.png", "discount.png", "field.png", "ccf.png", "field.png","user.png"
                         };
 //               ,"leave.png"
                         ActivityName = new String[]{//"Myactivity"//,"FIELD VISITS(Demo/Model/Jumbo/Farmer Feild)"
@@ -283,7 +283,7 @@ public  class UserHomeContainer  extends Fragment {
                                 "SalesOrder",/* "COUPON",*/"DAS",
                                 "Report"//,,"POG",
                                 //,"Username","Innovation"
-                                , "POG", "IPMF", "VCP", "HDPSCouponDashboardActivity", "samruddhakisanvalidation", "CCF", "VillageTaggingGTVEAE"//,"websales"//,"VoiceOfCustomer",
+                                , "POG", "IPMF", "VCP", "HDPSCouponDashboardActivity", "samruddhakisanvalidation", "CCF", "VillageTaggingGTVEAE","CustomerTaggingGTVEAE"//,"websales"//,"VoiceOfCustomer",
                                 //"Retailer Survey","Kisan Club (MAGiK)",
                                 //"BE-Survey",
                                 //, "VCF","samruddhakisanvalidation"

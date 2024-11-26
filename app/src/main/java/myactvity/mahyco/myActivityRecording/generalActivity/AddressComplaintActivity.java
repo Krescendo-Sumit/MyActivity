@@ -42,7 +42,10 @@ public class AddressComplaintActivity extends AppCompatActivity {
         btnAddressComplaint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(!CommonUtil.validateAutoTimeAndDevAccount(AddressComplaintActivity.this))
+                {
+                    return;
+                }
                 if (CommonUtil.addGTVActivity(AddressComplaintActivity.this, "20", "Addressing Complaint", cordinates, "Click to Redirect","GTV","0",0.0)) {
                     // Toast.makeText(context, "Good Going", Toast.LENGTH_SHORT).show();
                 }

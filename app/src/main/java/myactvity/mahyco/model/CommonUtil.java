@@ -1,10 +1,13 @@
 package myactvity.mahyco.model;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.maps.android.SphericalUtil;
@@ -32,16 +35,16 @@ public class CommonUtil {
         }
     }
 
-    public static boolean addGTVActivity(Context context, String activityid, String activityName, String cordinates, String remark,String activityType,String actualKM,double attendance) {
+    public static boolean addGTVActivity(Context context, String activityid, String activityName, String cordinates, String remark, String activityType, String actualKM, double attendance) {
         try {
             SharedPreferences sp = context.getSharedPreferences("MyPref", 0);
             String userCode = sp.getString("UserID", null);
             userCode = userCode.replace(" ", "%20");
             Prefs prefs = Prefs.with(context);
             String punchInCordinates = prefs.getString(AppConstant.GTVPunchIdCoordinates, "");
-            activityType=prefs.getString(AppConstant.GTVSELECTEDBUTTON,"Market");
+            activityType = prefs.getString(AppConstant.GTVSELECTEDBUTTON, "Market");
             String selectedGtvtype = prefs.getString(AppConstant.GTVType, "");
-           // String selectedActivityType = prefs.getString(AppConstant.ACTIVITYTYPE, "");
+            // String selectedActivityType = prefs.getString(AppConstant.ACTIVITYTYPE, "");
             String selectedActivityType = activityType;
 
             Date entrydate = new Date();
@@ -68,13 +71,10 @@ public class CommonUtil {
                         mins = 0;
                     }
 
+                } else {
+                    mins = 0;
                 }
-                else
-                {
-                    mins=0;
-                }
-            }catch (Exception e)
-            {
+            } catch (Exception e) {
 
             }
             SqliteDatabase mDatabase = SqliteDatabase.getInstance(context);
@@ -94,14 +94,13 @@ public class CommonUtil {
             gtvTravelActivityDataModel.setRefrenceId("0");// TEXT,
             gtvTravelActivityDataModel.setActualKM(actualKM);// TEXT,
 
-            if(punchInCordinates.trim().equals("")||punchInCordinates.trim().equals("0-0"))
-            {
+            if (punchInCordinates.trim().equals("") || punchInCordinates.trim().equals("0-0")) {
                 gtvTravelActivityDataModel.setDistanceFromPunchKm("0");// TEXT,
-            }else {
+            } else {
                 gtvTravelActivityDataModel.setDistanceFromPunchKm("" + CommonUtil.getDistance(punchInCordinates, cordinates));// TEXT,
             }
 
-            if (lastCordinate.trim().equals("0-0")||cordinates.trim().equals("0-0"))
+            if (lastCordinate.trim().equals("0-0") || cordinates.trim().equals("0-0"))
                 gtvTravelActivityDataModel.setGTVActivityKM("0");// TEXT,
             else
                 gtvTravelActivityDataModel.setGTVActivityKM("" + CommonUtil.getDistance(lastCordinate, cordinates));// TEXT,
@@ -112,20 +111,19 @@ public class CommonUtil {
 
             gtvTravelActivityDataModel.setAttendance(attendance);
             gtvTravelActivityDataModel.setTimeSpend(mins);
-            gtvTravelActivityDataModel.setInfo1(spendtime+"~AutoTime:"+isTimeAutomatic(context));
-            gtvTravelActivityDataModel.setInfo2(""+prefs.getString(AppConstant.GTVSELECTEDMARKETBUTTON,""));
-            String gtvCordinates="";
+            gtvTravelActivityDataModel.setInfo1(spendtime + "~AutoTime:" + isTimeAutomatic(context));
+            gtvTravelActivityDataModel.setInfo2("" + prefs.getString(AppConstant.GTVSELECTEDMARKETBUTTON, ""));
+            String gtvCordinates = "";
             try {
                 gtvCordinates = prefs.getString(AppConstant.GTVCurrentCoOrdinates, "" + cordinates);
                 gtvTravelActivityDataModel.setInfo3("" + gtvCordinates);
-            }catch (Exception exception)
-            {
+            } catch (Exception exception) {
                 gtvTravelActivityDataModel.setInfo3("");
             }
             gtvTravelActivityDataModel.setInfo3("" + gtvCordinates);
             if (mDatabase.InsertGTVTravelData(gtvTravelActivityDataModel)) {
                 prefs.save(AppConstant.LASTGTVACTIVITYTIME, InTime);
-                Toast.makeText(context, activityType+" activity tagged.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, activityType + " activity tagged.", Toast.LENGTH_SHORT).show();
                 return true;
             } else {
                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
@@ -143,6 +141,40 @@ public class CommonUtil {
             return a;
         } catch (Exception e) {
             return true;
+        }
+    }
+
+    public static boolean validateAutoTimeAndDevAccount(Context c) {
+        try {
+
+            if(!isTimeAutomatic(c)) {
+             showMessage(c,"Please enable auto time setting.");
+                return false;
+            }
+            else
+                return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static void showMessage(Context context,String message)
+    {
+        try{
+
+            new AlertDialog.Builder(context)
+                    .setMessage(""+message)
+                    .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+
+        }catch (Exception e)
+        {
+
         }
     }
 

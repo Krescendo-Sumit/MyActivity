@@ -428,6 +428,10 @@ public class RetailerData extends Fragment implements GoogleApiClient.Connection
             public void onClick(View v) {
 
                 try {
+                    if(!CommonUtil.validateAutoTimeAndDevAccount(context))
+                    {
+                        return;
+                    }
                     saveStarttravel();
                 } catch (Exception ex) {
 

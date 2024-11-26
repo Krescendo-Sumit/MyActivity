@@ -38,6 +38,7 @@ import myactvity.mahyco.ActivityKisanClub;
 import myactvity.mahyco.ActivityRetailerSurvey;
 import myactvity.mahyco.ActivityVOFP;
 import myactvity.mahyco.BCFCallTBM;
+import myactvity.mahyco.CustomerTaggingGTV;
 import myactvity.mahyco.DemoModelVisit;
 import myactvity.mahyco.DownloadMasterdata;
 import myactvity.mahyco.FirebaseAnalyticsHelper;
@@ -269,14 +270,11 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             }
                             if (ActivityName[position].toString() == "VillageTaggingGTVEAE") {
 
-                                String user=pref.getString("UserID", null);
-                                if(user!=null)
-                                {
-                                    if(user.substring(0,4).trim().equals("9700"))
-                                    {
+                                String user = pref.getString("UserID", null);
+                                if (user != null) {
+                                    if (user.substring(0, 4).trim().equals("9700")) {
 
-                                    }else
-                                    {
+                                    } else {
                                         Toast.makeText(context, "No Permission!", Toast.LENGTH_SHORT).show();
                                         return;
                                     }
@@ -286,6 +284,13 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 context.startActivity(intent);
                             }
+                            if (ActivityName[position].toString() == "CustomerTaggingGTVEAE") {
+
+                                intent = new Intent(context.getApplicationContext(), CustomerTaggingGTV.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                context.startActivity(intent);
+                            }
+
                             if (ActivityName[position].toString() == "RetailerTag") {
                                 intent = new Intent(context.getApplicationContext(), RetailerandDistributorTag.class);
                                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -508,10 +513,10 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
                             }
 
                             if (ActivityName[position].contains("VCP")) {
-                              //  Toast.makeText(context, "Not Active", Toast.LENGTH_SHORT).show();
+                                //  Toast.makeText(context, "Not Active", Toast.LENGTH_SHORT).show();
                                 if (pref.getString("unit", null).trim().contains("VCBU")) {
                                     Toast.makeText(context, "No permission", Toast.LENGTH_SHORT).show();
-                                }else {
+                                } else {
                                     intent = new Intent(context.getApplicationContext(), voiceofchanelpartner_be.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     context.startActivity(intent);
@@ -625,7 +630,8 @@ public class GridViewAdapter1 extends RecyclerView.Adapter<GridViewAdapter1.View
     public boolean isTimeAutomatic(Context c) {
         try {
             boolean a = Settings.Global.getInt(c.getContentResolver(), Settings.Global.AUTO_TIME) == 1;
-            return a;
+            //return a;
+            return true;
         } catch (Exception e) {
             return true;
         }

@@ -836,6 +836,11 @@ public class TestimonialSharingActivity extends AppCompatActivity {
 
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            if(!CommonUtil.validateAutoTimeAndDevAccount(context))
+                            {
+                                return;
+                            }
+
                             relPRogress.setVisibility(View.VISIBLE);
                             myTextProgress.setText("Uploading Data");
                             relPRogress.setOnTouchListener(new View.OnTouchListener() {

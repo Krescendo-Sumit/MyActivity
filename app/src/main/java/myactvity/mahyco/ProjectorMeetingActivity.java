@@ -499,7 +499,10 @@ public class ProjectorMeetingActivity extends AppCompatActivity implements Googl
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
 
-
+                            if(!CommonUtil.validateAutoTimeAndDevAccount(context))
+                            {
+                                return;
+                            }
 //                            relPRogress.setVisibility(View.VISIBLE);
 //                            relPRogress.setOnTouchListener(new View.OnTouchListener() {
 //                                @Override

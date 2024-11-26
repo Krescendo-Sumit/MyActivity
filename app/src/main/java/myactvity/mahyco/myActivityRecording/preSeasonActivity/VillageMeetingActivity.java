@@ -475,6 +475,13 @@ public class VillageMeetingActivity extends AppCompatActivity implements
 
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+
+
+                            if(!CommonUtil.validateAutoTimeAndDevAccount(context))
+                            {
+                                return;
+                            }
+
                             relPRogress.setVisibility(View.VISIBLE);
                             relPRogress.setOnTouchListener(new View.OnTouchListener() {
                                 @Override

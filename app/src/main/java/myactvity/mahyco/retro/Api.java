@@ -5,6 +5,9 @@ import com.google.gson.JsonObject;
 
 import org.json.JSONObject;
 
+import java.util.List;
+
+import myactvity.mahyco.CustomerTaggingGTV;
 import myactvity.mahyco.TBMWiseMdoList;
 import myactvity.mahyco.newupload.HDPSPaymentDetailAPI;
 import myactvity.mahyco.travelreport.ActivityTravelReportGTV;
@@ -119,6 +122,9 @@ public interface Api {
     @POST(RetroConstants.SUBMIT_FOCUSVILLAGETAGGING)
     Call<String> submitFocusVillageData(@Body JsonObject jsonObject);
 
+
+
+
     @POST(RetroConstants.GETVERSIONDETAILS)
     Call<String> getAppVersion(@Query("packageName") String packageName, @Query("userCode") String userCode, @Query("IMEICode") String IMEICode);
 
@@ -128,5 +134,9 @@ public interface Api {
 
     @POST(RetroConstants.GetSystemDistanceGTV)
     Call<String> GetSystemDistanceGTV(@Body JsonArray jsonObject);
+    @POST(RetroConstants.GetCustomerForTagging)
+    Call<List<CustomerTaggingGTV.RootModel>> GetCustomerForTagging(@Body JsonObject jsonObject);
+    @POST(RetroConstants.SUBMIT_CUSTOMERTAGGING)
+    Call<String> submitCustomerTaggingData(@Body JsonObject jsonObject);
 
 }

@@ -269,6 +269,7 @@ public class ShellingDayActivity extends AppCompatActivity implements
             msclass.showMessage("This device google play services not supported for Devices location");
         }
 
+
         radGroupActivity.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -484,6 +485,14 @@ public class ShellingDayActivity extends AppCompatActivity implements
 
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+
+
+                            if(!CommonUtil.validateAutoTimeAndDevAccount(context))
+                            {
+                                return;
+                            }
+
+
 //                         //   relPRogress.setVisibility(View.VISIBLE);
 //                            relPRogress.setOnTouchListener(new View.OnTouchListener() {
 //                                @Override
@@ -523,6 +532,8 @@ public class ShellingDayActivity extends AppCompatActivity implements
 
 
     private void dowork() {
+
+
         //    progressBar.setIndeterminate(true);
         new Thread(new Runnable() {
             public void run() {

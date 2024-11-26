@@ -79,6 +79,7 @@ import myactvity.mahyco.helper.FileUtilImage;
 import myactvity.mahyco.helper.Messageclass;
 import myactvity.mahyco.helper.SearchableSpinner;
 import myactvity.mahyco.helper.SqliteDatabase;
+import myactvity.mahyco.model.CommonUtil;
 
 /**
  * Created by Akash Namdev on 2019-08-22.
@@ -943,7 +944,10 @@ public class TrolleyPaintingActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
 
-
+                            if(!CommonUtil.validateAutoTimeAndDevAccount(context))
+                            {
+                                return;
+                            }
                             relPRogress.setVisibility(View.VISIBLE);
                             relPRogress.setOnTouchListener(new View.OnTouchListener() {
                                 @Override

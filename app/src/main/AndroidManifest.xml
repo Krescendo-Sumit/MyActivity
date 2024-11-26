@@ -63,6 +63,11 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".CustomerTaggingGTV"
+            android:exported="false"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
             android:name=".VillageTaggingGTV"
             android:exported="false"
             android:theme="@style/AppTheme.NoActionBar"/>

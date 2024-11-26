@@ -243,7 +243,10 @@ public class Innovation extends AppCompatActivity implements LocationListener,
             public void onClick(View v) {
 
                 try {
-
+                    if(!CommonUtil.validateAutoTimeAndDevAccount(context))
+                    {
+                        return;
+                    }
                     updateLocation();
                     if (validation() == true) {
                         // LoginRequest();

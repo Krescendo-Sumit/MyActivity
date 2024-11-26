@@ -370,6 +370,10 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
             @Override
             public void onClick(View v) {
                 if (validation()) {
+
+
+
+
                     if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
                         return;
                     }
@@ -383,6 +387,13 @@ public class TestimonialCollectionActivity extends AppCompatActivity implements
 
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+
+                            if(!CommonUtil.validateAutoTimeAndDevAccount(context))
+                            {
+                                return;
+                            }
+
+
                             relPRogress.setVisibility(View.VISIBLE);
                             relPRogress.setOnTouchListener(new View.OnTouchListener() {
                                 @Override

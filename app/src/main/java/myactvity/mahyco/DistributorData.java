@@ -344,7 +344,10 @@ public class DistributorData extends Fragment implements GoogleApiClient.Connect
         btnsave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(!CommonUtil.validateAutoTimeAndDevAccount(context))
+                {
+                    return;
+                }
                 saveStarttravel();
 
             }
