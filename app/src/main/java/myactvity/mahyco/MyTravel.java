@@ -184,6 +184,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
     String selectedGtvtype = "";
     String selectedGtvSession = "";
     long mLastClickTime = 0;
+    long mLastClickTime_new = 0;
     int gtv1InStatus = 0;
     int gtv1OutStatus = 0;
     int gtv2InStatus = 0;
@@ -224,6 +225,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
         getSupportActionBar().hide(); //<< this
         context = this;
         mPref = Prefs.with(context);
+        mLastClickTime_new = SystemClock.elapsedRealtime();
         try {
             cx = new CommonExecution(this);
             dialog = new ProgressDialog(this);
@@ -355,6 +357,12 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnStarttravel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    if (!isValidateButton()) {
+                        return;
+                    }
+                    mLastClickTime_new = SystemClock.elapsedRealtime();
+
                     mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON, "");
                     mPref.save(AppConstant.GTVCurrentCoOrdinates, "" + cordinates);
                     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -391,6 +399,11 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivity.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (!isValidateButton()) {
+                        return;
+                    }
+                    mLastClickTime_new = SystemClock.elapsedRealtime();
+
                     mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON, "GTV2");
                     if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
                         if (userRole.trim().equals("0")) {
@@ -410,6 +423,11 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivity_new.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (!isValidateButton()) {
+                        return;
+                    }
+                    mLastClickTime_new = SystemClock.elapsedRealtime();
+
                     mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON, "GTV1");
                     addMarketActivityButton();
 
@@ -418,6 +436,12 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnendtravel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
+                    if (!isValidateButton()) {
+                        return;
+                    }
+                    mLastClickTime_new = SystemClock.elapsedRealtime();
+
                     mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON, "");
                     mPref.save(AppConstant.GTVCurrentCoOrdinates, "" + cordinates);
                     if (gtv1InStatus == gtv1OutStatus && gtv2InStatus == gtv2OutStatus) {
@@ -574,7 +598,7 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
 
         updateLocation();
         GTVButtonClicked();
-
+        CommonUtil.checkDeveloperMode(context);
         Animation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(1500);
         anim.setStartOffset(20);
@@ -598,6 +622,43 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 }
             }
         });
+
+
+    }
+
+    boolean isValidateButton() {
+
+        try {
+            if(CommonUtil.checkDeveloperMode(context))
+            {
+                Toast.makeText(context, "Please disable developer option.", Toast.LENGTH_SHORT).show();
+            }
+            if(cordinates==null)
+            {
+                showPopupMessage("Please wait for location.");
+                return false;
+            }else if(cordinates.trim().equals(""))
+            {
+                showPopupMessage("Please wait for location.");
+                return false;
+            }
+            if(!CommonUtil.validateAutoTimeAndDevAccount(context))
+            {
+                return false;
+            }
+            int duration=25000;
+            if (SystemClock.elapsedRealtime() - mLastClickTime_new < duration) {
+                long time=SystemClock.elapsedRealtime() - mLastClickTime_new;
+                int seconds = (int)((time / 1000) % 60);
+                showPopupMessage("Finding your location . Please wait for "+((duration/1000)-seconds) +" seconds.\n\nCurrent coordinates : "+cordinates);
+                return false;
+            } else {
+
+                return true;
+            }
+        } catch (Exception e) {
+            return false;
+        }
 
 
     }
@@ -772,6 +833,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                         redirectToSelectedActivity(activityModel.getCode());
                     else
                         Toast.makeText(context, "Activity not found.", Toast.LENGTH_SHORT).show();
+
+                    dialog_activity_list.dismiss();
                 }
             });
             btn_close.setOnClickListener(new View.OnClickListener() {
@@ -1032,6 +1095,12 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchInGTV1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    if (!isValidateButton()) {
+                        return;
+                    }
+                    mLastClickTime_new = SystemClock.elapsedRealtime();
+
                     mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON, "");
                     mPref.save(AppConstant.GTVCurrentCoOrdinates, "" + cordinates);
                     if (!isTourStareted()) {
@@ -1176,6 +1245,11 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivityGtv1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!isValidateButton()) {
+                        return;
+                    }
+                    mLastClickTime_new = SystemClock.elapsedRealtime();
+
                     mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON, "");
                     mPref.save(AppConstant.GTVCurrentCoOrdinates, "" + cordinates);
                     if (!isTourStareted()) {
@@ -1211,6 +1285,11 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchOutGTV1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!isValidateButton()) {
+                        return;
+                    }
+                    mLastClickTime_new = SystemClock.elapsedRealtime();
+
                     mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON, "");
                     mPref.save(AppConstant.GTVCurrentCoOrdinates, "" + cordinates);
                     //updateLocation();
@@ -1259,6 +1338,11 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchInGTV2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!isValidateButton()) {
+                        return;
+                    }
+                    mLastClickTime_new = SystemClock.elapsedRealtime();
+
                     mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON, "");
                     mPref.save(AppConstant.GTVCurrentCoOrdinates, "" + cordinates);
                     if (!isTourStareted()) {
@@ -1396,6 +1480,11 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnAddActivityGtv2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    if (!isValidateButton()) {
+                        return;
+                    }
+                    mLastClickTime_new = SystemClock.elapsedRealtime();
+
                     mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON, "");
                     mPref.save(AppConstant.GTVCurrentCoOrdinates, "" + cordinates);
                     int rad = 0;
@@ -1430,6 +1519,12 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             btnPunchOutGTV2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    if (!isValidateButton()) {
+                        return;
+                    }
+                    mLastClickTime_new = SystemClock.elapsedRealtime();
+
                     mPref.save(AppConstant.GTVSELECTEDMARKETBUTTON, "");
                     mPref.save(AppConstant.GTVCurrentCoOrdinates, "" + cordinates);
                     //updateLocation();
@@ -1696,19 +1791,45 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
             Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
-
+int cnt=0;
     void showPopupMessage(String s) {
         try {
+            final ProgressBar progressBar = new ProgressBar(this,null,android.R.attr.progressBarStyleLarge);
+            progressBar.setMax(10);
+             cnt=0;
 
-            new AlertDialog.Builder(context)
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT);
+            progressBar.setLayoutParams(lp);
+
+
+            AlertDialog.Builder ab=new AlertDialog.Builder(context)
                     .setMessage(s)
+                    //.setView(progressBar)
                     .setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             dialogInterface.dismiss();
                         }
-                    })
-                    .show();
+                    });
+                    ab.show();
+
+      /*      final Handler handler = new Handler();
+
+            Runnable run = new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(context, "Hiiii", Toast.LENGTH_SHORT).show();
+                    cnt++;
+                    ab.setMessage("Please Wait for "+cnt +" seconds");
+                    Log.i("MyActivityTAG",cnt+"");
+                    if (cnt<10)
+                      handler.postDelayed(this, 1000);
+                }
+            };
+            handler.post(run);
+*/
 
         } catch (Exception e) {
 

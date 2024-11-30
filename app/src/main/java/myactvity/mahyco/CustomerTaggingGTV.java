@@ -293,7 +293,8 @@ public class CustomerTaggingGTV extends AppCompatActivity implements GoogleApiCl
         try {
             arraylist_customer = null;
             JsonObject jsonObject = new JsonObject();
-            jsonObject.addProperty("FilterValue", "97261781");
+
+            jsonObject.addProperty("FilterValue", userCode);
             jsonObject.addProperty("FilterOption", "GetByTBMCode");
             getCustomerList(jsonObject);
         } catch (Exception w) {
@@ -340,12 +341,12 @@ public class CustomerTaggingGTV extends AppCompatActivity implements GoogleApiCl
             public void onClick(View v) {
                 if (config.NetworkConnection()) {
                     if (validation()) {
-                      /*  if (SystemClock.elapsedRealtime() - mLastClickTime < 60000) {
+                       if (SystemClock.elapsedRealtime() - mLastClickTime < 60000) {
                             long time = SystemClock.elapsedRealtime() - mLastClickTime;
                             int seconds = (int) ((time / 1000) % 60);
                             showMessage("Wait for " + (60 - seconds) + " seconds, We are finding proper location.");
                             return;
-                        }*/
+                        }
                         mLastClickTime = SystemClock.elapsedRealtime();
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(CustomerTaggingGTV.this);
@@ -772,7 +773,7 @@ public class CustomerTaggingGTV extends AppCompatActivity implements GoogleApiCl
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             return;
         }
-
+        mPref.save(AppConstant.GTVCurrentCoOrdinates, "" + cordinates);
         Log.d("Location Data savetoDB", cordinates);
 
         String isSynced = "0";

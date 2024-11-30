@@ -111,7 +111,7 @@ public class CommonUtil {
 
             gtvTravelActivityDataModel.setAttendance(attendance);
             gtvTravelActivityDataModel.setTimeSpend(mins);
-            gtvTravelActivityDataModel.setInfo1(spendtime + "~AutoTime:" + isTimeAutomatic(context));
+            gtvTravelActivityDataModel.setInfo1(spendtime + "~AutoTime:" + isTimeAutomatic(context)+"~Dev:"+checkDeveloperMode(context));
             gtvTravelActivityDataModel.setInfo2("" + prefs.getString(AppConstant.GTVSELECTEDMARKETBUTTON, ""));
             String gtvCordinates = "";
             try {
@@ -148,7 +148,7 @@ public class CommonUtil {
         try {
 
             if(!isTimeAutomatic(c)) {
-             showMessage(c,"Please enable auto time setting.");
+             showMessage(c,"Please enable auto date/time setting.");
                 return false;
             }
             else
@@ -157,6 +157,23 @@ public class CommonUtil {
             return false;
         }
     }
+    public static boolean checkDeveloperMode(Context c) {
+        try {
+            int adb = Settings.Secure.getInt(c.getContentResolver(),
+                    Settings.Global.DEVELOPMENT_SETTINGS_ENABLED , 0);
+            if(adb==1) {
+                showMessage(c,"For Security, Please disable developer mode or developer options from setting.");
+                return true;
+            }
+            else
+                return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+
+
 
     public static void showMessage(Context context,String message)
     {

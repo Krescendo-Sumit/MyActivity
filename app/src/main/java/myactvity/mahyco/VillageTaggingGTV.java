@@ -783,7 +783,7 @@ public class VillageTaggingGTV extends AppCompatActivity implements GoogleApiCli
             getWindow().clearFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE);
             return;
         }
-
+        mPref.save(AppConstant.GTVCurrentCoOrdinates, "" + cordinates);
         Log.d("Location Data savetoDB", cordinates);
 
         String isSynced = "0";

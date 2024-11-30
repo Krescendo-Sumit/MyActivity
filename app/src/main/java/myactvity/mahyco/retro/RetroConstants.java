@@ -38,9 +38,10 @@ public class RetroConstants {
     public static final String UplaodGTVTRavelData = "myTravel/createGTVUserActivity";
     public static final String GET_TRAVEL_REPORT_GTV_REPORT = "myTravel/getGTVKAWiseActivityReport";
     public static final String GET_TRAVEL_REPORT_GTV_REPORT_String = "myTravel/getAllGTVUserActivity";
-    public static final String GetSystemDistanceGTV = "https://datalens.mahyco.com/api/GoogleMap/distance";
+    //public static final String GetSystemDistanceGTV = "https://datalens.mahyco.com/api/GoogleMap/distance";
+    public static final String GetSystemDistanceGTV = "https://mytravel.mahyco.com/api/GoogleMap/distance";
     public static final String SUBMIT_FOCUSVILLAGETAGGING = "focusVillageTag/createFocusVillageTag";
     public static final String GET_TRAVEL_REPORT_GTV_REPORT_NEW = "https://packhouse.mahyco.com/api/myTravel/getKAGTVActivityReport";
-    public static final String GetCustomerForTagging="https://maapackhousenxg.mahyco.com/api/distributorTag/getDistributorTag";
-    public static final String SUBMIT_CUSTOMERTAGGING="https://maapackhousenxg.mahyco.com/api/distributorTag/createDistributorTag";
+    public static final String GetCustomerForTagging="https://packhouse.mahyco.com/api/distributorTag/getDistributorTag";
+    public static final String SUBMIT_CUSTOMERTAGGING="https://packhouse.mahyco.com/api/distributorTag/createDistributorTag";
 }
