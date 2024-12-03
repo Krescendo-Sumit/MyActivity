@@ -714,8 +714,8 @@ public class MyTravel extends AppCompatActivity implements GTVTravelAPI.GTVListe
                 isGtv2ActiveTimeSlot = false;
             }
             // Make both value to be true to activate both GTV start on any time in day
-            isGtv1ActiveTimeSlot = true;
-            isGtv2ActiveTimeSlot = true;
+          /*  isGtv1ActiveTimeSlot = true;
+            isGtv2ActiveTimeSlot = true;*/
         } catch (NumberFormatException e) {
 
         }

@@ -104,6 +104,8 @@ public class CommonUtil {
                 gtvTravelActivityDataModel.setGTVActivityKM("0");// TEXT,
             else
                 gtvTravelActivityDataModel.setGTVActivityKM("" + CommonUtil.getDistance(lastCordinate, cordinates));// TEXT,
+
+
             gtvTravelActivityDataModel.setAppVersion(BuildConfig.VERSION_NAME);// TEXT,
             gtvTravelActivityDataModel.setRemark(remark);
             gtvTravelActivityDataModel.setIsSynced(0);

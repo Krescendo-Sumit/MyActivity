@@ -229,6 +229,7 @@ public class FarmerVisitsActivity extends AppCompatActivity implements
         userCode = pref.getString("UserID", null);
         msclass = new Messageclass(this);
         dateFormatter = new SimpleDateFormat("dd-MM-yyyy", Locale.US);
+        mLastClickTime = SystemClock.elapsedRealtime();
         bindState();
         bindFocussedVillage();
         bindComments();
@@ -425,8 +426,15 @@ public class FarmerVisitsActivity extends AppCompatActivity implements
 
             @Override
             public void onClick(View v) {
+
                 if (validation()) {
-                    if (SystemClock.elapsedRealtime() - mLastClickTime < 8000) {
+                    if (SystemClock.elapsedRealtime() - mLastClickTime < 20000) {
+
+
+                        long time=SystemClock.elapsedRealtime() - mLastClickTime;
+                        int seconds = (int)((time / 1000) % 60);
+                        Utility.showAlertDialog("Info", "Please Wait "+(20-seconds)+" Seconds.We finding your location.", context);
+
                         return;
                     }
                     mLastClickTime = SystemClock.elapsedRealtime();
@@ -440,10 +448,7 @@ public class FarmerVisitsActivity extends AppCompatActivity implements
 
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
-                            if(!CommonUtil.validateAutoTimeAndDevAccount(context))
-                            {
-                                return;
-                            }
+
                             if(!CommonUtil.validateAutoTimeAndDevAccount(context))
                             {
                                 return;
@@ -1298,7 +1303,7 @@ public class FarmerVisitsActivity extends AppCompatActivity implements
             lati = arg0.getLatitude();
             longi = arg0.getLongitude();
             location = arg0;
-            Log.d(TAG, "onLocationChanged: " + String.valueOf(longi));
+            Log.d(TAG, "onLocationChanged:A " + String.valueOf(longi));
             cordinates = String.valueOf(lati) + "-" + String.valueOf(longi);
             if(address.equals("")) {
                 if (config.NetworkConnection()) {
